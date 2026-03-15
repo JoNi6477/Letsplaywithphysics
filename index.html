@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Let's Play With Physics — JEE Mains Coaching</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: #0a0e1a;
+      color: #e8eaf0;
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 40px;
+      background: rgba(10,14,26,0.97);
+      border-bottom: 1px solid rgba(100,180,255,0.12);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .nav-logo { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; color: #fff; }
+    .nav-logo span { color: #44aaff; }
+    .nav-links { display: flex; gap: 28px; }
+    .nav-links a { color: #a0aac0; font-size: 14px; text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: #44aaff; }
+    .nav-cta { background: #44aaff; color: #0a0e1a; font-size: 13px; font-weight: 700; padding: 8px 20px; border-radius: 20px; text-decoration: none; }
+
+    /* HERO */
+    .hero {
+      min-height: 90vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 60px 24px 40px;
+      position: relative; overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, rgba(44,120,255,0.13) 0%, transparent 70%);
+    }
+    .hero-orbit {
+      position: absolute; width: 500px; height: 500px;
+      border: 1px dashed rgba(100,180,255,0.1); border-radius: 50%;
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+      animation: spin 30s linear infinite;
+    }
+    .hero-orbit2 {
+      position: absolute; width: 320px; height: 320px;
+      border: 1px dashed rgba(100,180,255,0.08); border-radius: 50%;
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+      animation: spin 18s linear infinite reverse;
+    }
+    @keyframes spin { from { transform: translate(-50%,-50%) rotate(0deg); } to { transform: translate(-50%,-50%) rotate(360deg); } }
+
+    .hero-badge {
+      background: rgba(44,120,255,0.15); border: 1px solid rgba(44,120,255,0.3);
+      color: #7ab8ff; font-size: 12px; font-weight: 500; padding: 6px 16px;
+      border-radius: 20px; margin-bottom: 24px; display: inline-block; position: relative;
+    }
+    .hero h1 {
+      font-family: 'Syne', sans-serif; font-size: clamp(36px, 6vw, 70px);
+      font-weight: 800; line-height: 1.1; margin-bottom: 20px; position: relative;
+    }
+    .hero h1 .accent { color: #44aaff; }
+    .hero h1 .accent2 { color: #f7c948; }
+    .hero p { font-size: 17px; color: #8090b0; max-width: 520px; line-height: 1.7; margin-bottom: 36px; position: relative; }
+    .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; position: relative; }
+    .btn-primary {
+      background: #44aaff; color: #0a0e1a; font-weight: 700;
+      padding: 14px 32px; border-radius: 30px; text-decoration: none;
+      font-size: 15px; transition: transform 0.2s;
+    }
+    .btn-primary:hover { transform: scale(1.04); }
+    .btn-outline {
+      border: 1px solid rgba(100,180,255,0.3); color: #7ab8ff;
+      padding: 14px 32px; border-radius: 30px; text-decoration: none;
+      font-size: 15px; transition: background 0.2s;
+    }
+    .btn-outline:hover { background: rgba(100,180,255,0.08); }
+    .hero-stats { display: flex; gap: 40px; margin-top: 60px; position: relative; flex-wrap: wrap; justify-content: center; }
+    .stat { text-align: center; }
+    .stat-num { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; color: #fff; }
+    .stat-label { font-size: 12px; color: #5a6a85; margin-top: 2px; }
+
+    /* SECTIONS */
+    .section { padding: 72px 40px; max-width: 1100px; margin: 0 auto; }
+    .section-tag { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #44aaff; margin-bottom: 12px; }
+    .section-title { font-family: 'Syne', sans-serif; font-size: clamp(26px, 4vw, 40px); font-weight: 800; margin-bottom: 14px; }
+    .section-sub { font-size: 16px; color: #6070a0; max-width: 500px; line-height: 1.7; margin-bottom: 48px; }
+    .divider { border: none; border-top: 1px solid rgba(100,180,255,0.07); margin: 0 40px; }
+
+    /* FEATURES */
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+    .feat-card {
+      background: rgba(255,255,255,0.03); border: 1px solid rgba(100,180,255,0.1);
+      border-radius: 16px; padding: 28px 24px; transition: border-color 0.2s, background 0.2s;
+    }
+    .feat-card:hover { border-color: rgba(100,180,255,0.3); background: rgba(44,120,255,0.06); }
+    .feat-icon { font-size: 28px; margin-bottom: 16px; }
+    .feat-title { font-weight: 700; font-size: 15px; margin-bottom: 8px; }
+    .feat-desc { font-size: 13px; color: #5a6a85; line-height: 1.6; }
+
+    /* BATCHES */
+    .batches-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+    .batch-card { border-radius: 18px; padding: 28px 24px; }
+    .batch-card.free { background: rgba(26,255,160,0.07); border: 1px solid rgba(26,255,160,0.2); }
+    .batch-card.paid { background: rgba(247,201,72,0.07); border: 1px solid rgba(247,201,72,0.25); }
+    .batch-badge { font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 20px; display: inline-block; margin-bottom: 16px; }
+    .batch-card.free .batch-badge { background: rgba(26,255,160,0.15); color: #1affa0; }
+    .batch-card.paid .batch-badge { background: rgba(247,201,72,0.15); color: #f7c948; }
+    .batch-name { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; margin-bottom: 8px; }
+    .batch-price { font-size: 28px; font-weight: 700; margin-bottom: 16px; }
+    .batch-card.free .batch-price { color: #1affa0; }
+    .batch-card.paid .batch-price { color: #f7c948; }
+    .batch-features { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .batch-features li { font-size: 13px; color: #8090b0; display: flex; align-items: center; gap: 8px; }
+    .batch-features li::before { content: '✓'; font-weight: 700; color: #44aaff; }
+    .batch-cta { display: inline-block; margin-top: 24px; font-size: 13px; font-weight: 700; padding: 10px 22px; border-radius: 20px; text-decoration: none; }
+    .batch-card.free .batch-cta { background: rgba(26,255,160,0.15); color: #1affa0; }
+    .batch-card.paid .batch-cta { background: rgba(247,201,72,0.15); color: #f7c948; }
+
+    /* TOPICS */
+    .topics-row { display: flex; flex-wrap: wrap; gap: 10px; }
+    .topic-pill {
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(100,180,255,0.12);
+      color: #8090b0; font-size: 13px; padding: 8px 16px; border-radius: 20px;
+      transition: all 0.2s; cursor: default;
+    }
+    .topic-pill:hover { background: rgba(44,120,255,0.1); border-color: rgba(100,180,255,0.3); color: #c0d4f0; }
+
+    /* TESTIMONIALS */
+    .testi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; }
+    .testi-card {
+      background: rgba(255,255,255,0.03); border: 1px solid rgba(100,180,255,0.1);
+      border-radius: 16px; padding: 24px;
+    }
+    .stars { color: #f7c948; font-size: 13px; margin-bottom: 10px; }
+    .testi-text { font-size: 14px; color: #8090b0; line-height: 1.7; margin-bottom: 16px; font-style: italic; }
+    .testi-name { font-size: 13px; font-weight: 700; color: #c0d0f0; }
+    .testi-detail { font-size: 12px; color: #4a5a75; }
+
+    /* CONTACT */
+    .contact-box {
+      background: rgba(44,120,255,0.07); border: 1px solid rgba(44,120,255,0.2);
+      border-radius: 24px; padding: 48px 40px; text-align: center;
+    }
+    .contact-box h2 { font-family: 'Syne', sans-serif; font-size: 32px; font-weight: 800; margin-bottom: 12px; }
+    .contact-box p { color: #6070a0; margin-bottom: 28px; font-size: 15px; }
+    .contact-form { display: flex; gap: 12px; max-width: 480px; margin: 0 auto; flex-wrap: wrap; justify-content: center; }
+    .contact-form input {
+      flex: 1; min-width: 180px;
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(100,180,255,0.15);
+      color: #e8eaf0; padding: 12px 18px; border-radius: 12px; font-size: 14px;
+      outline: none; font-family: inherit;
+    }
+    .contact-form input::placeholder { color: #3a4a65; }
+    .contact-form input:focus { border-color: rgba(100,180,255,0.4); }
+    .contact-form button {
+      background: #44aaff; color: #0a0e1a; border: none;
+      font-weight: 700; padding: 12px 24px; border-radius: 12px;
+      cursor: pointer; font-size: 14px; font-family: inherit;
+    }
+    .contact-form button:hover { background: #66bbff; }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid rgba(100,180,255,0.07);
+      padding: 28px 40px;
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
+    }
+    .footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 15px; color: #fff; }
+    .footer-logo span { color: #44aaff; }
+    .footer-copy { font-size: 12px; color: #3a4a65; }
+
+    /* MOBILE */
+    @media (max-width: 600px) {
+      nav { padding: 14px 18px; }
+      .nav-links { display: none; }
+      .section { padding: 48px 18px; }
+      .divider { margin: 0 18px; }
+      footer { padding: 20px 18px; }
+      .contact-box { padding: 32px 18px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">Let's <span>Play</span> With Physics</div>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#batches">Batches</a>
+      <a href="#topics">Syllabus</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <a href="#contact" class="nav-cta">Enroll Now</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-orbit"></div>
+    <div class="hero-orbit2"></div>
+    <div class="hero-badge">🚀 JEE Mains 2025–26 Batches Open</div>
+    <h1>Physics is not hard —<br>it's a <span class="accent">game</span> you<br>haven't <span class="accent2">played</span> yet.</h1>
+    <p>Expert JEE Mains Physics coaching from an IIT institute teacher. Build concepts. Crack problems. Score big.</p>
+    <div class="hero-btns">
+      <a href="#contact" class="btn-primary">Join Free Batch →</a>
+      <a href="#topics" class="btn-outline">View Syllabus</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-num">200+</div><div class="stat-label">Students guided</div></div>
+      <div class="stat"><div class="stat-num">95%</div><div class="stat-label">Cleared JEE Mains</div></div>
+      <div class="stat"><div class="stat-num">3+</div><div class="stat-label">Years of batches</div></div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- FEATURES -->
+  <div class="section" id="features">
+    <div class="section-tag">What you get</div>
+    <div class="section-title">Everything you need<br>to conquer Physics</div>
+    <div class="section-sub">Structured content, rigorous tests, and personal guidance — all in one place.</div>
+    <div class="features-grid">
+      <div class="feat-card">
+        <div class="feat-icon">📄</div>
+        <div class="feat-title">Study Materials</div>
+        <div class="feat-desc">Chapter-wise notes, formula sheets, and solved examples — all downloadable.</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">📝</div>
+        <div class="feat-title">Test Papers</div>
+        <div class="feat-desc">Weekly MCQ + Fill-in-the-blank tests designed at JEE Mains difficulty.</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">📢</div>
+        <div class="feat-title">Announcements</div>
+        <div class="feat-desc">Stay updated on test schedules, result dates, and batch activities.</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">🎯</div>
+        <div class="feat-title">Personal Guidance</div>
+        <div class="feat-desc">Direct access to your teacher for doubt-clearing and strategy sessions.</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- BATCHES -->
+  <div class="section" id="batches">
+    <div class="section-tag">Batches</div>
+    <div class="section-title">Choose your batch</div>
+    <div class="section-sub">Two tracks — one for college students, one for serious JEE aspirants.</div>
+    <div class="batches-grid">
+      <div class="batch-card free">
+        <span class="batch-badge">FREE</span>
+        <div class="batch-name">College Batch</div>
+        <div class="batch-price">₹0 / month</div>
+        <ul class="batch-features">
+          <li>Full study material access</li>
+          <li>Weekly test papers</li>
+          <li>Announcements & updates</li>
+          <li>For my college students only</li>
+        </ul>
+        <a href="#contact" class="batch-cta">Join Free →</a>
+      </div>
+      <div class="batch-card paid">
+        <span class="batch-badge">PREMIUM</span>
+        <div class="batch-name">JEE Aspirant Batch</div>
+        <div class="batch-price">₹499 / month</div>
+        <ul class="batch-features">
+          <li>Everything in Free batch</li>
+          <li>Personal doubt sessions</li>
+          <li>Performance tracking</li>
+          <li>Open to all students</li>
+        </ul>
+        <a href="#contact" class="batch-cta">Enroll Now →</a>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- TOPICS -->
+  <div class="section" id="topics">
+    <div class="section-tag">Syllabus</div>
+    <div class="section-title">Topics we cover</div>
+    <div class="section-sub">Complete JEE Mains Physics syllabus, chapter by chapter.</div>
+    <div class="topics-row">
+      <span class="topic-pill">Kinematics</span>
+      <span class="topic-pill">Laws of Motion</span>
+      <span class="topic-pill">Work, Energy & Power</span>
+      <span class="topic-pill">Circular Motion</span>
+      <span class="topic-pill">Gravitation</span>
+      <span class="topic-pill">Rotational Motion</span>
+      <span class="topic-pill">Thermodynamics</span>
+      <span class="topic-pill">Waves & Oscillations</span>
+      <span class="topic-pill">Electrostatics</span>
+      <span class="topic-pill">Current Electricity</span>
+      <span class="topic-pill">Magnetism</span>
+      <span class="topic-pill">Electromagnetic Induction</span>
+      <span class="topic-pill">Optics</span>
+      <span class="topic-pill">Modern Physics</span>
+      <span class="topic-pill">Semiconductors</span>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- TESTIMONIALS -->
+  <div class="section">
+    <div class="section-tag">Student Reviews</div>
+    <div class="section-title">What students say</div>
+    <div class="testi-grid">
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <div class="testi-text">"The way Physics is explained here made everything click. Scored 85/100 in Physics in JEE Mains!"</div>
+        <div class="testi-name">Rahul K.</div>
+        <div class="testi-detail">JEE Mains 2024</div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <div class="testi-text">"The test papers are exactly JEE level. Weekly tests kept me sharp throughout the year."</div>
+        <div class="testi-name">Priya S.</div>
+        <div class="testi-detail">JEE Mains 2024</div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <div class="testi-text">"Formula sheets and concept notes are gold. I still refer to them during revision."</div>
+        <div class="testi-name">Aditya M.</div>
+        <div class="testi-detail">JEE Mains 2025</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- CONTACT -->
+  <div class="section" id="contact">
+    <div class="contact-box">
+      <h2>Ready to start playing? 🎮</h2>
+      <p>Enter your details and we'll send you the batch joining link.</p>
+      <div class="contact-form">
+        <input type="text" placeholder="Your name">
+        <input type="text" placeholder="Phone / Email">
+        <button onclick="alert('Thank you! We will contact you soon.')">Join Now</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Let's <span>Play</span> With Physics</div>
+    <div class="footer-copy">© 2025 · Hyderabad · JEE Mains Physics Coaching</div>
+  </footer>
+
+</body>
+</html>
