@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><meta name="author" content="Akshay Kumar">
-<meta property="og:site_name" content="Let's Play With Physics">
-<meta name="application-name" content="Let's Play With Physics">
+<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Akshay Kumar">
+  <meta property="og:site_name" content="Let's Play With Physics">
+  <meta name="application-name" content="Let's Play With Physics">
   <title>Let's Play With Physics — JEE Mains Coaching by Akshay Kumar</title>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Space Grotesk', sans-serif; background: #0a0e1a; color: #e8eaf0; overflow-x: hidden; }
     nav { display: flex; align-items: center; justify-content: space-between; padding: 18px 40px; background: rgba(10,14,26,0.97); border-bottom: 1px solid rgba(100,180,255,0.12); position: sticky; top: 0; z-index: 100; }
-    .nav-logo { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; color: #fff; }
+    .nav-logo { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; color: #fff; text-decoration: none; }
     .nav-logo span { color: #44aaff; }
     .nav-links { display: flex; gap: 28px; }
     .nav-links a { color: #a0aac0; font-size: 14px; text-decoration: none; transition: color 0.2s; }
@@ -49,7 +50,7 @@
     .section-sub { font-size: 16px; color: #6070a0; max-width: 500px; line-height: 1.7; margin-bottom: 48px; }
     .divider { border: none; border-top: 1px solid rgba(100,180,255,0.07); margin: 0 40px; }
     .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
-    .feat-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(100,180,255,0.1); border-radius: 16px; padding: 28px 24px; transition: border-color 0.2s, background 0.2s; }
+    .feat-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(100,180,255,0.1); border-radius: 16px; padding: 28px 24px; transition: border-color 0.2s, background 0.2s; text-decoration: none; color: inherit; display: block; }
     .feat-card:hover { border-color: rgba(100,180,255,0.3); background: rgba(44,120,255,0.06); }
     .feat-icon { font-size: 28px; margin-bottom: 16px; }
     .feat-title { font-weight: 700; font-size: 15px; margin-bottom: 8px; }
@@ -103,7 +104,7 @@
 <body>
 
   <nav>
-    <div class="nav-logo">Let's <span>Play</span> With Physics</div>
+    <a href="index.html" class="nav-logo">Let's <span>Play</span> With Physics</a>
     <div class="nav-links">
       <a href="#about">About</a>
       <a href="#features">Features</a>
@@ -160,10 +161,32 @@
     <div class="section-title">Everything you need<br>to conquer Physics</div>
     <div class="section-sub">Structured content, rigorous tests, and personal guidance — all in one place.</div>
     <div class="features-grid">
-      <div class="feat-card"><div class="feat-icon">📄</div><div class="feat-title">Study Material</div><div class="feat-desc">Chapter-wise notes, formula sheets, and solved examples — all downloadable.</div></div>
-      <div class="feat-card"><div class="feat-icon">📝</div><div class="feat-title">Test Papers</div><div class="feat-desc">Weekly MCQ + Fill-in-the-blank tests designed at JEE Mains difficulty.</div></div>
-      <div class="feat-card"><div class="feat-icon">📢</div><div class="feat-title">Announcements</div><div class="feat-desc">Stay updated on test schedules, result dates, and batch activities.</div></div>
-      <div class="feat-card"><div class="feat-icon">🎯</div><div class="feat-title">Personal Guidance</div><div class="feat-desc">Direct access to Akshay sir for doubt-clearing and exam strategy.</div></div>
+
+      <!-- Study Materials — clicks to materials page -->
+      <a href="material.html" class="feat-card">
+        <div class="feat-icon">📄</div>
+        <div class="feat-title">Study Materials</div>
+        <div class="feat-desc">Chapter-wise notes, formula sheets, and solved examples — all downloadable.</div>
+      </a>
+
+      <div class="feat-card">
+        <div class="feat-icon">📝</div>
+        <div class="feat-title">Test Papers</div>
+        <div class="feat-desc">Weekly MCQ + Fill-in-the-blank tests designed at JEE Mains difficulty.</div>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-icon">📢</div>
+        <div class="feat-title">Announcements</div>
+        <div class="feat-desc">Stay updated on test schedules, result dates, and batch activities.</div>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-icon">🎯</div>
+        <div class="feat-title">Personal Guidance</div>
+        <div class="feat-desc">Direct access to Akshay sir for doubt-clearing and exam strategy.</div>
+      </div>
+
     </div>
   </div>
 
