@@ -6,13 +6,11 @@
   <meta name="author" content="Akshay Kumar">
   <meta property="og:site_name" content="Let's Play With Physics">
   <meta name="application-name" content="Let's Play With Physics">
-  <title>Let's Play With Physics \u2014 JEE Mains Coaching by Akshay Kumar</title>
+  <title>Let's Play With Physics — JEE Mains Coaching by Akshay Kumar</title>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Space Grotesk', sans-serif; background: #0a0e1a; color: #e8eaf0; overflow-x: hidden; }
-
-    /* NAV */
     nav { display: flex; align-items: center; justify-content: space-between; padding: 18px 40px; background: rgba(10,14,26,0.97); border-bottom: 1px solid rgba(100,180,255,0.12); position: sticky; top: 0; z-index: 100; }
     .nav-logo { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; color: #fff; text-decoration: none; }
     .nav-logo span { color: #44aaff; }
@@ -20,23 +18,6 @@
     .nav-links a { color: #a0aac0; font-size: 14px; text-decoration: none; transition: color 0.2s; }
     .nav-links a:hover { color: #44aaff; }
     .nav-cta { background: #44aaff; color: #0a0e1a; font-size: 13px; font-weight: 700; padding: 8px 20px; border-radius: 20px; text-decoration: none; }
-
-    /* HAMBURGER */
-    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; }
-    .hamburger span { display: block; width: 24px; height: 2px; background: #e8eaf0; border-radius: 2px; transition: all 0.3s; }
-    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-    .hamburger.open span:nth-child(2) { opacity: 0; }
-    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-    /* MOBILE MENU */
-    .mobile-menu { display: none; flex-direction: column; background: rgba(10,14,26,0.99); border-bottom: 1px solid rgba(100,180,255,0.12); padding: 0 18px; max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.3s ease; }
-    .mobile-menu.open { max-height: 400px; padding: 16px 18px 20px; }
-    .mobile-menu a { color: #a0aac0; font-size: 15px; text-decoration: none; padding: 12px 0; border-bottom: 1px solid rgba(100,180,255,0.07); transition: color 0.2s; }
-    .mobile-menu a:last-child { border-bottom: none; }
-    .mobile-menu a:hover { color: #44aaff; }
-    .mobile-menu .mob-cta { margin-top: 14px; background: #44aaff; color: #0a0e1a; font-weight: 700; padding: 12px 20px; border-radius: 20px; text-align: center; border-bottom: none !important; }
-
-    /* HERO */
     .hero { min-height: 90vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 60px 24px 40px; position: relative; overflow: hidden; }
     .hero-bg { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 80% 60% at 50% 30%, rgba(44,120,255,0.13) 0%, transparent 70%); }
     .hero-orbit { position: absolute; width: 500px; height: 500px; border: 1px dashed rgba(100,180,255,0.1); border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%); animation: spin 30s linear infinite; }
@@ -56,8 +37,6 @@
     .stat { text-align: center; }
     .stat-num { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; color: #fff; }
     .stat-label { font-size: 12px; color: #5a6a85; margin-top: 2px; }
-
-    /* SECTIONS */
     .teacher-card { background: rgba(44,120,255,0.07); border: 1px solid rgba(44,120,255,0.2); border-radius: 20px; padding: 32px 36px; display: flex; align-items: center; gap: 28px; flex-wrap: wrap; }
     .teacher-avatar { width: 72px; height: 72px; border-radius: 50%; background: rgba(44,120,255,0.2); border: 2px solid rgba(44,120,255,0.4); display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 800; color: #44aaff; flex-shrink: 0; }
     .teacher-info { flex: 1; }
@@ -89,8 +68,206 @@
     .batch-card.paid .batch-price { color: #f7c948; }
     .batch-features { list-style: none; display: flex; flex-direction: column; gap: 8px; }
     .batch-features li { font-size: 13px; color: #8090b0; display: flex; align-items: center; gap: 8px; }
-    .batch-features li::before { content: '\u2713'; font-weight: 700; color: #44aaff; }
+    .batch-features li::before { content: '✓'; font-weight: 700; color: #44aaff; }
     .batch-cta { display: inline-block; margin-top: 24px; font-size: 13px; font-weight: 700; padding: 10px 22px; border-radius: 20px; text-decoration: none; }
     .batch-card.free .batch-cta { background: rgba(26,255,160,0.15); color: #1affa0; }
     .batch-card.paid .batch-cta { background: rgba(247,201,72,0.15); color: #f7c948; }
-    .topics-row { display: flex; flex
+    .topics-row { display: flex; flex-wrap: wrap; gap: 10px; }
+    .topic-pill { background: rgba(255,255,255,0.04); border: 1px solid rgba(100,180,255,0.12); color: #8090b0; font-size: 13px; padding: 8px 16px; border-radius: 20px; transition: all 0.2s; cursor: default; }
+    .topic-pill:hover { background: rgba(44,120,255,0.1); border-color: rgba(100,180,255,0.3); color: #c0d4f0; }
+    .contact-box { background: rgba(44,120,255,0.07); border: 1px solid rgba(44,120,255,0.2); border-radius: 24px; padding: 48px 40px; text-align: center; }
+    .contact-box h2 { font-family: 'Syne', sans-serif; font-size: 32px; font-weight: 800; margin-bottom: 12px; }
+    .contact-box p { color: #6070a0; margin-bottom: 8px; font-size: 15px; }
+    .contact-email { color: #44aaff; font-size: 16px; font-weight: 600; margin-bottom: 28px; display: block; text-decoration: none; }
+    .contact-email:hover { text-decoration: underline; }
+    .contact-form { display: flex; gap: 12px; max-width: 480px; margin: 0 auto; flex-wrap: wrap; justify-content: center; }
+    .contact-form input { flex: 1; min-width: 180px; background: rgba(255,255,255,0.06); border: 1px solid rgba(100,180,255,0.15); color: #e8eaf0; padding: 12px 18px; border-radius: 12px; font-size: 14px; outline: none; font-family: inherit; }
+    .contact-form input::placeholder { color: #3a4a65; }
+    .contact-form input:focus { border-color: rgba(100,180,255,0.4); }
+    .contact-form button { background: #44aaff; color: #0a0e1a; border: none; font-weight: 700; padding: 12px 24px; border-radius: 12px; cursor: pointer; font-size: 14px; font-family: inherit; }
+    .contact-form button:hover { background: #66bbff; }
+    footer { border-top: 1px solid rgba(100,180,255,0.07); padding: 28px 40px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 15px; color: #fff; }
+    .footer-logo span { color: #44aaff; }
+    .footer-copy { font-size: 12px; color: #3a4a65; }
+    @media (max-width: 600px) {
+      nav { padding: 14px 18px; }
+      .nav-links { display: none; }
+      .section { padding: 48px 18px; }
+      .divider { margin: 0 18px; }
+      footer { padding: 20px 18px; }
+      .contact-box { padding: 32px 18px; }
+      .teacher-card { padding: 24px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">Let's <span>Play</span> With Physics</a>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#features">Features</a>
+      <a href="#batches">Batches</a>
+      <a href="#topics">Syllabus</a>
+      <a href="material.html">Materials</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <a href="#contact" class="nav-cta">Enroll Now</a>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-orbit"></div>
+    <div class="hero-orbit2"></div>
+    <div class="hero-badge">🚀 First Batch Now Open — Limited Seats!</div>
+    <h1>Physics is not hard —<br>it's a <span class="accent">game</span> you<br>haven't <span class="accent2">played</span> yet.</h1>
+    <p>Expert JEE Mains Physics coaching by Akshay Kumar — M.Sc. Physics, University of Hyderabad. Build concepts. Crack problems. Score big.</p>
+    <div class="hero-btns">
+      <a href="#contact" class="btn-primary">Join Free Batch →</a>
+      <a href="#topics" class="btn-outline">View Syllabus</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-num">1st</div><div class="stat-label">Batch opening</div></div>
+      <div class="stat"><div class="stat-num">M.Sc.</div><div class="stat-label">Physics graduate</div></div>
+      <div class="stat"><div class="stat-num">IIT</div><div class="stat-label">Coaching institute</div></div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <div class="section" id="about">
+    <div class="section-tag">Your Teacher</div>
+    <div class="section-title">Meet Akshay Kumar</div>
+    <div class="teacher-card">
+      <div class="teacher-avatar">AK</div>
+      <div class="teacher-info">
+        <div class="teacher-name">Akshay Kumar</div>
+        <div class="teacher-desc">Physics teacher at a leading IIT coaching institute in Hyderabad. Completed Masters in Physics from the prestigious University of Hyderabad (Central University). Passionate about making Physics intuitive, fun, and exam-ready for every JEE Mains aspirant.</div>
+        <div class="teacher-tags">
+          <span class="teacher-tag">M.Sc. Physics</span>
+          <span class="teacher-tag">University of Hyderabad</span>
+          <span class="teacher-tag">IIT Coaching</span>
+          <span class="teacher-tag">Hyderabad</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section" id="features">
+    <div class="section-tag">What you get</div>
+    <div class="section-title">Everything you need<br>to conquer Physics</div>
+    <div class="section-sub">Structured content, rigorous tests, and personal guidance — all in one place.</div>
+    <div class="features-grid">
+
+      <!-- Study Materials — clicks to materials page -->
+      <a href="material.html" class="feat-card">
+        <div class="feat-icon">📄</div>
+        <div class="feat-title">Study Materials</div>
+        <div class="feat-desc">Chapter-wise notes, formula sheets, and solved examples — all downloadable.</div>
+      </a>
+
+      <div class="feat-card">
+        <div class="feat-icon">📝</div>
+        <div class="feat-title">Test Papers</div>
+        <div class="feat-desc">Weekly MCQ + Fill-in-the-blank tests designed at JEE Mains difficulty.</div>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-icon">📢</div>
+        <div class="feat-title">Announcements</div>
+        <div class="feat-desc">Stay updated on test schedules, result dates, and batch activities.</div>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-icon">🎯</div>
+        <div class="feat-title">Personal Guidance</div>
+        <div class="feat-desc">Direct access to Akshay sir for doubt-clearing and exam strategy.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section" id="batches">
+    <div class="section-tag">Batches</div>
+    <div class="section-title">Choose your batch</div>
+    <div class="section-sub">Two tracks — one for college students, one for serious JEE aspirants.</div>
+    <div class="batches-grid">
+      <div class="batch-card free">
+        <span class="batch-badge">FREE</span>
+        <div class="batch-name">College Batch</div>
+        <div class="batch-price">₹0 / month</div>
+        <ul class="batch-features">
+          <li>Full study material access</li>
+          <li>Weekly test papers</li>
+          <li>Announcements & updates</li>
+          <li>For college students only</li>
+        </ul>
+        <a href="#contact" class="batch-cta">Join Free →</a>
+      </div>
+      <div class="batch-card paid">
+        <span class="batch-badge">PREMIUM</span>
+        <div class="batch-name">JEE Aspirant Batch</div>
+        <div class="batch-price">₹499 / month</div>
+        <ul class="batch-features">
+          <li>Everything in Free batch</li>
+          <li>Personal doubt sessions</li>
+          <li>Performance tracking</li>
+          <li>Open to all students</li>
+        </ul>
+        <a href="#contact" class="batch-cta">Enroll Now →</a>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section" id="topics">
+    <div class="section-tag">Syllabus</div>
+    <div class="section-title">Topics we cover</div>
+    <div class="section-sub">Complete JEE Mains Physics syllabus, chapter by chapter.</div>
+    <div class="topics-row">
+      <span class="topic-pill">Kinematics</span>
+      <span class="topic-pill">Laws of Motion</span>
+      <span class="topic-pill">Work, Energy & Power</span>
+      <span class="topic-pill">Circular Motion</span>
+      <span class="topic-pill">Gravitation</span>
+      <span class="topic-pill">Rotational Motion</span>
+      <span class="topic-pill">Thermodynamics</span>
+      <span class="topic-pill">Waves & Oscillations</span>
+      <span class="topic-pill">Electrostatics</span>
+      <span class="topic-pill">Current Electricity</span>
+      <span class="topic-pill">Magnetism</span>
+      <span class="topic-pill">Electromagnetic Induction</span>
+      <span class="topic-pill">Optics</span>
+      <span class="topic-pill">Modern Physics</span>
+      <span class="topic-pill">Semiconductors</span>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section" id="contact">
+    <div class="contact-box">
+      <h2>Ready to start playing? 🎮</h2>
+      <p>Reach out directly to Akshay sir to join a batch:</p>
+      <a href="mailto:konadaakshay@gmail.com" class="contact-email">konadaakshay@gmail.com</a>
+      <div class="contact-form">
+        <input type="text" placeholder="Your name">
+        <input type="text" placeholder="Your phone number">
+        <button onclick="window.location.href='mailto:konadaakshay@gmail.com?subject=Batch Enrollment Enquiry'">Send Enquiry</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-logo">Let's <span>Play</span> With Physics</div>
+    <div class="footer-copy">© 2025 · Akshay Kumar · University of Hyderabad · Hyderabad</div>
+  </footer>
+
+</body>
+</html>
