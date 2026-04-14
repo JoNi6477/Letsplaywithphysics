@@ -12,7 +12,6 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Space Grotesk', sans-serif; background: #0a0e1a; color: #e8eaf0; overflow-x: hidden; }
 
-    /* NAV */
     nav { display: flex; align-items: center; justify-content: space-between; padding: 18px 40px; background: rgba(10,14,26,0.97); border-bottom: 1px solid rgba(100,180,255,0.12); position: sticky; top: 0; z-index: 100; }
     .nav-logo { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; color: #fff; text-decoration: none; }
     .nav-logo span { color: #44aaff; }
@@ -21,22 +20,19 @@
     .nav-links a:hover { color: #44aaff; }
     .nav-cta { background: #44aaff; color: #0a0e1a; font-size: 13px; font-weight: 700; padding: 8px 20px; border-radius: 20px; text-decoration: none; }
 
-    /* HAMBURGER */
     .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; }
     .hamburger span { display: block; width: 24px; height: 2px; background: #e8eaf0; border-radius: 2px; transition: all 0.3s; }
     .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
     .hamburger.open span:nth-child(2) { opacity: 0; }
     .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-    /* MOBILE MENU */
-    .mobile-menu { display: none; flex-direction: column; background: rgba(10,14,26,0.99); border-bottom: 1px solid rgba(100,180,255,0.12); padding: 0 18px; max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.3s ease; }
-    .mobile-menu.open { max-height: 400px; padding: 16px 18px 20px; }
-    .mobile-menu a { color: #a0aac0; font-size: 15px; text-decoration: none; padding: 12px 0; border-bottom: 1px solid rgba(100,180,255,0.07); transition: color 0.2s; }
+    .mobile-menu { display: none; flex-direction: column; background: rgba(10,14,26,0.99); border-bottom: 1px solid rgba(100,180,255,0.12); max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.3s ease; padding: 0 18px; }
+    .mobile-menu.open { max-height: 500px; padding: 16px 18px 20px; }
+    .mobile-menu a { color: #a0aac0; font-size: 15px; text-decoration: none; padding: 12px 0; border-bottom: 1px solid rgba(100,180,255,0.07); transition: color 0.2s; display: block; }
     .mobile-menu a:last-child { border-bottom: none; }
     .mobile-menu a:hover { color: #44aaff; }
     .mobile-menu .mob-cta { margin-top: 14px; background: #44aaff; color: #0a0e1a; font-weight: 700; padding: 12px 20px; border-radius: 20px; text-align: center; border-bottom: none !important; }
 
-    /* HERO */
     .hero { min-height: 90vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 60px 24px 40px; position: relative; overflow: hidden; }
     .hero-bg { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 80% 60% at 50% 30%, rgba(44,120,255,0.13) 0%, transparent 70%); }
     .hero-orbit { position: absolute; width: 500px; height: 500px; border: 1px dashed rgba(100,180,255,0.1); border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%); animation: spin 30s linear infinite; }
@@ -57,7 +53,6 @@
     .stat-num { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; color: #fff; }
     .stat-label { font-size: 12px; color: #5a6a85; margin-top: 2px; }
 
-    /* SECTIONS */
     .teacher-card { background: rgba(44,120,255,0.07); border: 1px solid rgba(44,120,255,0.2); border-radius: 20px; padding: 32px 36px; display: flex; align-items: center; gap: 28px; flex-wrap: wrap; }
     .teacher-avatar { width: 72px; height: 72px; border-radius: 50%; background: rgba(44,120,255,0.2); border: 2px solid rgba(44,120,255,0.4); display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 800; color: #44aaff; flex-shrink: 0; }
     .teacher-info { flex: 1; }
@@ -89,7 +84,8 @@
     .batch-card.paid .batch-price { color: #f7c948; }
     .batch-features { list-style: none; display: flex; flex-direction: column; gap: 8px; }
     .batch-features li { font-size: 13px; color: #8090b0; display: flex; align-items: center; gap: 8px; }
-    .batch-features li::before { content: '✓'; font-weight: 700; color: #44aaff; }
+    .batch-features li::before { content: 'checkmark'; font-weight: 700; color: #44aaff; }
+    .batch-features li::before { content: '\2713'; }
     .batch-cta { display: inline-block; margin-top: 24px; font-size: 13px; font-weight: 700; padding: 10px 22px; border-radius: 20px; text-decoration: none; }
     .batch-card.free .batch-cta { background: rgba(26,255,160,0.15); color: #1affa0; }
     .batch-card.paid .batch-cta { background: rgba(247,201,72,0.15); color: #f7c948; }
@@ -135,7 +131,7 @@
       <a href="#features">Features</a>
       <a href="#batches">Batches</a>
       <a href="#topics">Syllabus</a>
-      <a href="materials.html">Materials</a>
+      <a href="material.html">Materials</a>
       <a href="mocktest.html">Mock Test</a>
       <a href="#contact">Contact</a>
     </div>
@@ -147,16 +143,15 @@
     </button>
   </nav>
 
-  <!-- MOBILE MENU -->
   <div class="mobile-menu" id="mobile-menu">
     <a href="#about" onclick="closeMenu()">About</a>
     <a href="#features" onclick="closeMenu()">Features</a>
     <a href="#batches" onclick="closeMenu()">Batches</a>
     <a href="#topics" onclick="closeMenu()">Syllabus</a>
-    <a href="materials.html" onclick="closeMenu()">Materials</a>
+    <a href="material.html" onclick="closeMenu()">Materials</a>
     <a href="mocktest.html" onclick="closeMenu()">Mock Test</a>
     <a href="#contact" onclick="closeMenu()">Contact</a>
-    <a href="#contact" class="mob-cta" onclick="closeMenu()">Enroll Now →</a>
+    <a href="#contact" class="mob-cta" onclick="closeMenu()">Enroll Now</a>
   </div>
 
   <section class="hero">
@@ -167,7 +162,7 @@
     <h1>Physics is not hard —<br>it's a <span class="accent">game</span> you<br>haven't <span class="accent2">played</span> yet.</h1>
     <p>Expert JEE Mains Physics coaching by Akshay Kumar — M.Sc. Physics, University of Hyderabad. Build concepts. Crack problems. Score big.</p>
     <div class="hero-btns">
-      <a href="#contact" class="btn-primary">Join Free Batch →</a>
+      <a href="#contact" class="btn-primary">Join Free Batch</a>
       <a href="#topics" class="btn-outline">View Syllabus</a>
     </div>
     <div class="hero-stats">
@@ -204,16 +199,16 @@
     <div class="section-title">Everything you need<br>to conquer Physics</div>
     <div class="section-sub">Structured content, rigorous tests, and personal guidance — all in one place.</div>
     <div class="features-grid">
-      <a href="materials.html" class="feat-card">
+      <a href="material.html" class="feat-card">
         <div class="feat-icon">📄</div>
         <div class="feat-title">Study Materials</div>
         <div class="feat-desc">Chapter-wise notes, formula sheets, and solved examples — all downloadable.</div>
       </a>
-      <div class="feat-card">
+      <a href="mocktest.html" class="feat-card">
         <div class="feat-icon">📝</div>
-        <div class="feat-title">Test Papers</div>
-        <div class="feat-desc">Weekly MCQ + Fill-in-the-blank tests designed at JEE Mains difficulty.</div>
-      </div>
+        <div class="feat-title">Mock Tests</div>
+        <div class="feat-desc">NEET and JEE Mains mock tests with timer and +4/-1 marking.</div>
+      </a>
       <div class="feat-card">
         <div class="feat-icon">📢</div>
         <div class="feat-title">Announcements</div>
@@ -237,26 +232,26 @@
       <div class="batch-card free">
         <span class="batch-badge">FREE</span>
         <div class="batch-name">College Batch</div>
-        <div class="batch-price">₹0 / month</div>
+        <div class="batch-price">&#8377;0 / month</div>
         <ul class="batch-features">
           <li>Full study material access</li>
           <li>Weekly test papers</li>
-          <li>Announcements & updates</li>
+          <li>Announcements &amp; updates</li>
           <li>For college students only</li>
         </ul>
-        <a href="#contact" class="batch-cta">Join Free →</a>
+        <a href="#contact" class="batch-cta">Join Free</a>
       </div>
       <div class="batch-card paid">
         <span class="batch-badge">PREMIUM</span>
         <div class="batch-name">JEE Aspirant Batch</div>
-        <div class="batch-price">₹499 / month</div>
+        <div class="batch-price">&#8377;499 / month</div>
         <ul class="batch-features">
           <li>Everything in Free batch</li>
           <li>Personal doubt sessions</li>
           <li>Performance tracking</li>
           <li>Open to all students</li>
         </ul>
-        <a href="#contact" class="batch-cta">Enroll Now →</a>
+        <a href="#contact" class="batch-cta">Enroll Now</a>
       </div>
     </div>
   </div>
@@ -270,12 +265,12 @@
     <div class="topics-row">
       <span class="topic-pill">Kinematics</span>
       <span class="topic-pill">Laws of Motion</span>
-      <span class="topic-pill">Work, Energy & Power</span>
+      <span class="topic-pill">Work, Energy &amp; Power</span>
       <span class="topic-pill">Circular Motion</span>
       <span class="topic-pill">Gravitation</span>
       <span class="topic-pill">Rotational Motion</span>
       <span class="topic-pill">Thermodynamics</span>
-      <span class="topic-pill">Waves & Oscillations</span>
+      <span class="topic-pill">Waves &amp; Oscillations</span>
       <span class="topic-pill">Electrostatics</span>
       <span class="topic-pill">Current Electricity</span>
       <span class="topic-pill">Magnetism</span>
@@ -292,7 +287,7 @@
     <div class="contact-box">
       <h2>Ready to start playing? 🎮</h2>
       <p>Reach out directly to Akshay sir to join a batch:</p>
-      <a href="/cdn-cgi/l/email-protection#1e7571707f7a7f7f756d767f675e79737f7772307d7173" class="contact-email"><span class="__cf_email__" data-cfemail="167d7978777277777d657e776f56717b777f7a3875797b">[email&#160;protected]</span></a>
+      <a href="mailto:konadaakshay@gmail.com" class="contact-email">konadaakshay@gmail.com</a>
       <div class="contact-form">
         <input type="text" placeholder="Your name">
         <input type="text" placeholder="Your phone number">
@@ -303,11 +298,19 @@
 
   <footer>
     <div class="footer-logo">Let's <span>Play</span> With Physics</div>
-    <div class="footer-copy">© 2025 · Akshay Kumar · University of Hyderabad · Hyderabad</div>
+    <div class="footer-copy">&#169; 2025 &middot; Akshay Kumar &middot; University of Hyderabad &middot; Hyderabad</div>
   </footer>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  <script>
     function toggleMenu() {
-      const menu = document.getElementById('mobile-menu');
-      const btn = document.getElementById('hamburger');
-      menu.classList.toggle('ope
+      document.getElementById('mobile-menu').classList.toggle('open');
+      document.getElementById('hamburger').classList.toggle('open');
+    }
+    function closeMenu() {
+      document.getElementById('mobile-menu').classList.remove('open');
+      document.getElementById('hamburger').classList.remove('open');
+    }
+  </script>
+
+</body>
+</html>
