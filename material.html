@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Study Materials — Let's Play With Physics</title>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
   <style>
@@ -44,7 +44,6 @@
     .mat-card-badge { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; flex-shrink: 0; }
     .badge-formula { background: rgba(44,120,255,0.15); color: #44aaff; }
     .badge-notes { background: rgba(160,100,255,0.15); color: #b07aff; }
-    .badge-pyq { background: rgba(247,201,72,0.15); color: #f7c948; }
     .badge-coming { background: rgba(100,180,255,0.1); color: #5a7090; }
     .new-badge { background: rgba(26,255,160,0.15); color: #1affa0; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; margin-left: 8px; vertical-align: middle; }
     .mat-card-title { font-weight: 700; font-size: 15px; line-height: 1.4; }
@@ -61,6 +60,8 @@
     .footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 15px; color: #fff; }
     .footer-logo span { color: #44aaff; }
     .footer-copy { font-size: 12px; color: #3a4a65; }
+    .section-hidden { display: none; }
+    .sub-hidden { display: none; }
     @media (max-width: 600px) {
       nav { padding: 14px 18px; }
       .nav-links { display: none; }
@@ -91,18 +92,16 @@
     <p>Formula sheets, notes and previous year questions — handpicked by Akshay Sir for NEET and JEE Mains preparation.</p>
   </div>
 
-  <!-- TOP LEVEL TABS -->
   <div class="top-tabs">
-    <button class="top-tab active" onclick="showSection('formula', this)">📄 Formula Sheets</button>
-    <button class="top-tab" onclick="showSection('pyq', this)">📋 PYQs</button>
-    <button class="top-tab" onclick="showSection('notes', this)">📘 Notes</button>
+    <button class="top-tab active" data-section="formula">📄 Formula Sheets</button>
+    <button class="top-tab" data-section="pyq">📋 PYQs</button>
+    <button class="top-tab" data-section="notes">📘 Notes</button>
   </div>
 
-  <!-- ===== FORMULA SHEETS SECTION ===== -->
   <div class="section-wrapper" id="section-formula">
     <div class="sub-tabs">
-      <button class="sub-tab active" onclick="showSubSection('formula', 'neet', this)">🟢 NEET</button>
-      <button class="sub-tab" onclick="showSubSection('formula', 'jee', this)">🟡 JEE Mains</button>
+      <button class="sub-tab active" data-section="formula" data-sub="neet">🟢 NEET</button>
+      <button class="sub-tab" data-section="formula" data-sub="jee">🟡 JEE Mains</button>
     </div>
 
     <div class="sub-section" id="formula-neet">
@@ -121,7 +120,7 @@
           <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 NEET</span></div>
           <div class="mat-card-footer">
             <span class="mat-card-size">By Akshay Sir</span>
-            <a class="btn-download" href="Electrostatics formula sheet .pdf" target="_blank">⬇ Download</a>
+            <a class="btn-download" href="Electrostatics-formula-sheet.pdf" target="_blank">⬇ Download</a>
           </div>
         </div>
 
@@ -133,7 +132,7 @@
           <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 NEET</span></div>
           <div class="mat-card-footer">
             <span class="mat-card-size">By Akshay Sir</span>
-            <a class="btn-download" href="AC formula sheet.pdf" target="_blank">⬇ Download</a>
+            <a class="btn-download" href="AC-formula-sheet.pdf" target="_blank">⬇ Download</a>
           </div>
         </div>
 
@@ -145,7 +144,7 @@
           <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 NEET</span></div>
           <div class="mat-card-footer">
             <span class="mat-card-size">By Akshay Sir</span>
-            <a class="btn-download" href="Modern physics formula sheet .pdf" target="_blank">⬇ Download</a>
+            <a class="btn-download" href="Modern-physics-formula-sheet.pdf" target="_blank">⬇ Download</a>
           </div>
         </div>
 
@@ -157,7 +156,7 @@
           <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 NEET</span></div>
           <div class="mat-card-footer">
             <span class="mat-card-size">By Akshay Sir</span>
-            <a class="btn-download" href="Moving charges and magnetism formula sheet .pdf" target="_blank">⬇ Download</a>
+            <a class="btn-download" href="Moving-charges-and-magnetism-formula-sheet.pdf" target="_blank">⬇ Download</a>
           </div>
         </div>
 
@@ -169,7 +168,7 @@
           <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 NEET</span></div>
           <div class="mat-card-footer">
             <span class="mat-card-size">By Akshay Sir</span>
-            <a class="btn-download" href="Gravitation formula sheet .pdf" target="_blank">⬇ Download</a>
+            <a class="btn-download" href="Gravitation-formula-sheet.pdf" target="_blank">⬇ Download</a>
           </div>
         </div>
 
@@ -181,7 +180,7 @@
           <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 NEET</span></div>
           <div class="mat-card-footer">
             <span class="mat-card-size">By Akshay Sir</span>
-            <a class="btn-download" href="Thermodynamics and ktg formula sheet.pdf" target="_blank">⬇ Download</a>
+            <a class="btn-download" href="Thermodynamics-and-KTG-formula-sheet.pdf" target="_blank">⬇ Download</a>
           </div>
         </div>
 
@@ -197,7 +196,7 @@
       </div>
     </div>
 
-    <div class="sub-section" id="formula-jee" style="display:none;">
+    <div class="sub-section sub-hidden" id="formula-jee">
       <div class="sub-section-header">
         <span class="sub-section-label">JEE Mains</span>
         <span class="sub-section-tag tag-jee">JEE Mains</span>
@@ -227,11 +226,10 @@
     </div>
   </div>
 
-  <!-- ===== PYQs SECTION ===== -->
-  <div class="section-wrapper" id="section-pyq" style="display:none;">
+  <div class="section-wrapper section-hidden" id="section-pyq">
     <div class="sub-tabs">
-      <button class="sub-tab active" onclick="showSubSection('pyq', 'neet', this)">🟢 NEET</button>
-      <button class="sub-tab" onclick="showSubSection('pyq', 'jee', this)">🟡 JEE Mains</button>
+      <button class="sub-tab active" data-section="pyq" data-sub="neet">🟢 NEET</button>
+      <button class="sub-tab" data-section="pyq" data-sub="jee">🟡 JEE Mains</button>
     </div>
 
     <div class="sub-section" id="pyq-neet">
@@ -263,7 +261,7 @@
       </div>
     </div>
 
-    <div class="sub-section" id="pyq-jee" style="display:none;">
+    <div class="sub-section sub-hidden" id="pyq-jee">
       <div class="sub-section-header">
         <span class="sub-section-label">JEE Mains</span>
         <span class="sub-section-tag tag-jee">JEE Mains</span>
@@ -293,15 +291,13 @@
     </div>
   </div>
 
-  <!-- ===== NOTES SECTION ===== -->
-  <div class="section-wrapper" id="section-notes" style="display:none;">
+  <div class="section-wrapper section-hidden" id="section-notes">
     <div class="sub-section">
       <div class="sub-section-header">
         <span class="sub-section-label">Notes</span>
         <span class="sub-section-count">1 file available</span>
       </div>
       <div class="cards-grid">
-
         <div class="mat-card">
           <div class="mat-card-top">
             <div class="mat-card-title">Waves — Notes <span class="new-badge">NEW</span></div>
@@ -331,33 +327,58 @@
           <div class="mat-card-meta"><span>📄 PDF</span></div>
           <div class="mat-card-footer"><span class="mat-card-size">—</span><a class="btn-download disabled">Coming Soon</a></div>
         </div>
-
       </div>
     </div>
   </div>
 
   <footer>
     <div class="footer-logo">Let's <span>Play</span> With Physics</div>
-    <div class="footer-copy">© 2025 · Akshay Kumar · University of Hyderabad · Hyderabad</div>
+    <div class="footer-copy">© 2026 · Akshay Kumar · University of Hyderabad · Hyderabad</div>
   </footer>
 
   <script>
-    function showSection(type, btn) {
-      document.querySelectorAll('.top-tab').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      document.getElementById('section-formula').style.display = type === 'formula' ? '' : 'none';
-      document.getElementById('section-pyq').style.display = type === 'pyq' ? '' : 'none';
-      document.getElementById('section-notes').style.display = type === 'notes' ? '' : 'none';
+    const topTabs = document.querySelectorAll('.top-tab');
+    const sections = {
+      formula: document.getElementById('section-formula'),
+      pyq: document.getElementById('section-pyq'),
+      notes: document.getElementById('section-notes')
+    };
+
+    function setActiveSection(type) {
+      Object.values(sections).forEach(section => section.classList.add('section-hidden'));
+      sections[type].classList.remove('section-hidden');
+
+      topTabs.forEach(tab => tab.classList.toggle('active', tab.dataset.section === type));
+
+      const activeSubTabs = sections[type].querySelectorAll('.sub-tab');
+      if (activeSubTabs.length) {
+        const firstSub = activeSubTabs[0].dataset.sub;
+        setActiveSubSection(type, firstSub);
+      }
     }
 
-    function showSubSection(section, sub, btn) {
-      const parent = document.getElementById('section-' + section);
-      parent.querySelectorAll('.sub-tab').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      document.getElementById(section + '-neet').style.display = sub === 'neet' ? '' : 'none';
-      document.getElementById(section + '-jee').style.display = sub === 'jee' ? '' : 'none';
+    function setActiveSubSection(section, sub) {
+      const parent = sections[section];
+      parent.querySelectorAll('.sub-tab').forEach(tab => {
+        tab.classList.toggle('active', tab.dataset.sub === sub);
+      });
+
+      const neet = document.getElementById(section + '-neet');
+      const jee = document.getElementById(section + '-jee');
+
+      if (neet) neet.classList.toggle('sub-hidden', sub !== 'neet');
+      if (jee) jee.classList.toggle('sub-hidden', sub !== 'jee');
     }
+
+    topTabs.forEach(tab => {
+      tab.addEventListener('click', () => setActiveSection(tab.dataset.section));
+    });
+
+    document.querySelectorAll('.sub-tab').forEach(tab => {
+      tab.addEventListener('click', () => setActiveSubSection(tab.dataset.section, tab.dataset.sub));
+    });
+
+    setActiveSection('formula');
   </script>
-
 </body>
 </html>
