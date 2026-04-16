@@ -1,428 +1,363 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Study Materials — Let's Play With Physics</title>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Space Grotesk', sans-serif; background: #0a0e1a; color: #e8eaf0; overflow-x: hidden; }
-    nav { display: flex; align-items: center; justify-content: space-between; padding: 18px 40px; background: rgba(10,14,26,0.97); border-bottom: 1px solid rgba(100,180,255,0.12); position: sticky; top: 0; z-index: 100; }
-    .nav-logo { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; color: #fff; text-decoration: none; }
-    .nav-logo span { color: #44aaff; }
-    .nav-links { display: flex; gap: 28px; }
-    .nav-links a { color: #a0aac0; font-size: 14px; text-decoration: none; transition: color 0.2s; }
-    .nav-links a:hover, .nav-links a.active { color: #44aaff; }
-    .nav-cta { background: #44aaff; color: #0a0e1a; font-size: 13px; font-weight: 700; padding: 8px 20px; border-radius: 20px; text-decoration: none; }
-    .page-header { padding: 60px 40px 40px; max-width: 1100px; margin: 0 auto; }
-    .breadcrumb { font-size: 13px; color: #4a5a75; margin-bottom: 16px; }
-    .breadcrumb a { color: #44aaff; text-decoration: none; }
-    .page-header h1 { font-family: 'Syne', sans-serif; font-size: clamp(28px, 5vw, 52px); font-weight: 800; margin-bottom: 12px; }
-    .page-header p { font-size: 16px; color: #6070a0; max-width: 520px; line-height: 1.7; }
-    .top-tabs { display: flex; gap: 12px; flex-wrap: wrap; padding: 0 40px; max-width: 1100px; margin: 0 auto 40px; }
-    .top-tab { background: rgba(255,255,255,0.04); border: 1px solid rgba(100,180,255,0.12); color: #8090b0; font-size: 15px; font-weight: 700; padding: 12px 28px; border-radius: 12px; cursor: pointer; transition: all 0.2s; font-family: inherit; display: flex; align-items: center; gap: 8px; }
-    .top-tab:hover { background: rgba(44,120,255,0.1); border-color: rgba(44,120,255,0.3); color: #7ab8ff; }
-    .top-tab.active { background: rgba(44,120,255,0.18); border-color: rgba(44,120,255,0.5); color: #44aaff; }
-    .section-wrapper { max-width: 1100px; margin: 0 auto; padding: 0 40px 60px; }
-    .sub-tabs { display: flex; gap: 8px; margin-bottom: 32px; }
-    .sub-tab { background: rgba(255,255,255,0.03); border: 1px solid rgba(100,180,255,0.1); color: #6070a0; font-size: 13px; font-weight: 600; padding: 7px 20px; border-radius: 20px; cursor: pointer; transition: all 0.2s; font-family: inherit; }
-    .sub-tab:hover { color: #a0b8d8; border-color: rgba(100,180,255,0.2); }
-    .sub-tab.active { background: rgba(44,120,255,0.12); border-color: rgba(44,120,255,0.35); color: #44aaff; }
-    .sub-section { margin-bottom: 48px; }
-    .sub-section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(100,180,255,0.08); }
-    .sub-section-label { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; color: #c0d0e8; }
-    .sub-section-tag { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 10px; }
-    .tag-neet { background: rgba(26,255,160,0.12); color: #1affa0; }
-    .tag-jee { background: rgba(247,201,72,0.12); color: #f7c948; }
-    .sub-section-count { font-size: 12px; color: #4a5a75; margin-left: auto; }
-    .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
-    .mat-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(100,180,255,0.1); border-radius: 16px; padding: 22px 20px; transition: border-color 0.2s, background 0.2s; display: flex; flex-direction: column; gap: 12px; }
-    .mat-card:hover { border-color: rgba(100,180,255,0.25); background: rgba(44,120,255,0.04); }
-    .mat-card.coming { border-style: dashed; border-color: rgba(100,180,255,0.08); opacity: 0.6; }
-    .mat-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
-    .mat-card-badge { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; flex-shrink: 0; }
-    .badge-formula { background: rgba(44,120,255,0.15); color: #44aaff; }
-    .badge-notes { background: rgba(160,100,255,0.15); color: #b07aff; }
-    .badge-pyq { background: rgba(247,201,72,0.15); color: #f7c948; }
-    .badge-coming { background: rgba(100,180,255,0.1); color: #5a7090; }
-    .new-badge { background: rgba(26,255,160,0.15); color: #1affa0; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; margin-left: 8px; vertical-align: middle; }
-    .mat-card-title { font-weight: 700; font-size: 15px; line-height: 1.4; }
-    .mat-card-meta { font-size: 12px; color: #4a5a75; display: flex; gap: 12px; }
-    .mat-card-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 4px; }
-    .mat-card-size { font-size: 12px; color: #3a4a65; }
-    .btn-download { background: rgba(44,120,255,0.12); border: 1px solid rgba(44,120,255,0.2); color: #44aaff; font-size: 12px; font-weight: 700; padding: 7px 16px; border-radius: 10px; text-decoration: none; transition: all 0.2s; display: inline-block; }
-    .btn-download:hover { background: rgba(44,120,255,0.25); }
-    .btn-download.disabled { background: rgba(255,255,255,0.03); border-color: rgba(100,180,255,0.06); color: #3a4a65; cursor: not-allowed; pointer-events: none; }
-    .upload-notice { background: rgba(44,120,255,0.06); border: 1px dashed rgba(44,120,255,0.2); border-radius: 16px; padding: 24px; text-align: center; margin-top: 16px; }
-    .upload-notice p { font-size: 14px; color: #4a5a75; line-height: 1.7; }
-    .upload-notice a { color: #44aaff; text-decoration: none; }
-    footer { border-top: 1px solid rgba(100,180,255,0.07); padding: 28px 40px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
-    .footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 15px; color: #fff; }
-    .footer-logo span { color: #44aaff; }
-    .footer-copy { font-size: 12px; color: #3a4a65; }
-    @media (max-width: 600px) {
-      nav { padding: 14px 18px; }
-      .nav-links { display: none; }
-      .page-header { padding: 40px 18px 28px; }
-      .top-tabs { padding: 0 18px; }
-      .section-wrapper { padding: 0 18px 40px; }
-      footer { padding: 20px 18px; }
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Study Materials — Let's Play With Physics</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Space Grotesk', sans-serif; background: #0a0e1a; color: #e8eaf0; overflow-x: hidden; }
+    nav { display: flex; align-items: center; justify-content: space-between; padding: 18px 40px; background: rgba(10,14,26,0.97); border-bottom: 1px solid rgba(100,180,255,0.12); position: sticky; top: 0; z-index: 100; }
+    .nav-logo { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; color: #fff; text-decoration: none; }
+    .nav-logo span { color: #44aaff; }
+    .nav-links { display: flex; gap: 28px; }
+    .nav-links a { color: #a0aac0; font-size: 14px; text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: #44aaff; }
+    .nav-cta { background: #44aaff; color: #0a0e1a; font-size: 13px; font-weight: 700; padding: 8px 20px; border-radius: 20px; text-decoration: none; }
+    .page-header { padding: 60px 40px 40px; max-width: 1100px; margin: 0 auto; }
+    .breadcrumb { font-size: 13px; color: #4a5a75; margin-bottom: 16px; }
+    .breadcrumb a { color: #44aaff; text-decoration: none; }
+    .page-header h1 { font-family: 'Syne', sans-serif; font-size: clamp(28px, 5vw, 52px); font-weight: 800; margin-bottom: 12px; }
+    .page-header p { font-size: 16px; color: #6070a0; max-width: 520px; line-height: 1.7; }
+    .top-tabs { display: flex; gap: 12px; flex-wrap: wrap; padding: 0 40px; max-width: 1100px; margin: 0 auto 40px; }
+    .top-tab { background: rgba(255,255,255,0.04); border: 1px solid rgba(100,180,255,0.12); color: #8090b0; font-size: 15px; font-weight: 700; padding: 12px 28px; border-radius: 12px; cursor: pointer; transition: all 0.2s; font-family: inherit; display: flex; align-items: center; gap: 8px; }
+    .top-tab:hover { background: rgba(44,120,255,0.1); border-color: rgba(44,120,255,0.3); color: #7ab8ff; }
+    .top-tab.active { background: rgba(44,120,255,0.18); border-color: rgba(44,120,255,0.5); color: #44aaff; }
+    .section-wrapper { max-width: 1100px; margin: 0 auto; padding: 0 40px 60px; }
+    .sub-tabs { display: flex; gap: 8px; margin-bottom: 32px; }
+    .sub-tab { background: rgba(255,255,255,0.03); border: 1px solid rgba(100,180,255,0.1); color: #6070a0; font-size: 13px; font-weight: 600; padding: 7px 20px; border-radius: 20px; cursor: pointer; transition: all 0.2s; font-family: inherit; }
+    .sub-tab:hover { color: #a0b8d8; border-color: rgba(100,180,255,0.2); }
+    .sub-tab.active { background: rgba(44,120,255,0.12); border-color: rgba(44,120,255,0.35); color: #44aaff; }
+    .sub-section { margin-bottom: 48px; }
+    .sub-section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(100,180,255,0.08); }
+    .sub-section-label { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; color: #c0d0e8; }
+    .sub-section-tag { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 10px; }
+    .tag-neet { background: rgba(26,255,160,0.12); color: #1affa0; }
+    .tag-jee { background: rgba(247,201,72,0.12); color: #f7c948; }
+    .sub-section-count { font-size: 12px; color: #4a5a75; margin-left: auto; }
+    .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+    .mat-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(100,180,255,0.1); border-radius: 16px; padding: 22px 20px; transition: border-color 0.2s, background 0.2s; display: flex; flex-direction: column; gap: 12px; }
+    .mat-card:hover { border-color: rgba(100,180,255,0.25); background: rgba(44,120,255,0.04); }
+    .mat-card.coming { border-style: dashed; border-color: rgba(100,180,255,0.08); opacity: 0.6; }
+    .mat-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+    .mat-card-badge { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; flex-shrink: 0; }
+    .badge-formula { background: rgba(44,120,255,0.15); color: #44aaff; }
+    .badge-notes { background: rgba(160,100,255,0.15); color: #b07aff; }
+    .badge-pyq { background: rgba(247,201,72,0.15); color: #f7c948; }
+    .badge-coming { background: rgba(100,180,255,0.1); color: #5a7090; }
+    .new-badge { background: rgba(26,255,160,0.15); color: #1affa0; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; margin-left: 8px; vertical-align: middle; }
+    .mat-card-title { font-weight: 700; font-size: 15px; line-height: 1.4; }
+    .mat-card-meta { font-size: 12px; color: #4a5a75; display: flex; gap: 12px; }
+    .mat-card-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 4px; }
+    .mat-card-size { font-size: 12px; color: #3a4a65; }
+    .btn-download { background: rgba(44,120,255,0.12); border: 1px solid rgba(44,120,255,0.2); color: #44aaff; font-size: 12px; font-weight: 700; padding: 7px 16px; border-radius: 10px; text-decoration: none; transition: all 0.2s; display: inline-block; }
+    .btn-download:hover { background: rgba(44,120,255,0.25); }
+    .btn-download.disabled { background: rgba(255,255,255,0.03); border-color: rgba(100,180,255,0.06); color: #3a4a65; cursor: not-allowed; pointer-events: none; }
+    .upload-notice { background: rgba(44,120,255,0.06); border: 1px dashed rgba(44,120,255,0.2); border-radius: 16px; padding: 24px; text-align: center; margin-top: 16px; }
+    .upload-notice p { font-size: 14px; color: #4a5a75; line-height: 1.7; }
+    .upload-notice a { color: #44aaff; text-decoration: none; }
+    footer { border-top: 1px solid rgba(100,180,255,0.07); padding: 28px 40px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 15px; color: #fff; }
+    .footer-logo span { color: #44aaff; }
+    .footer-copy { font-size: 12px; color: #3a4a65; }
+    @media (max-width: 600px) {
+      nav { padding: 14px 18px; }
+      .nav-links { display: none; }
+      .page-header { padding: 40px 18px 28px; }
+      .top-tabs { padding: 0 18px; }
+      .section-wrapper { padding: 0 18px 40px; }
+      footer { padding: 20px 18px; }
+    }
+  </style>
 </head>
 <body>
 
-  <nav>
-    <a href="index.html" class="nav-logo">Let's <span>Play</span> With Physics</a>
-    <div class="nav-links">
-      <a href="index.html#about">About</a>
-      <a href="index.html#batches">Batches</a>
-      <a href="material.html" class="active">Material</a>
-      <a href="index.html#topics">Syllabus</a>
-      <a href="index.html#contact">Contact</a>
-    </div>
-    <a href="index.html#contact" class="nav-cta">Enroll Now</a>
-  </nav>
+  <nav>
+    <a href="index.html" class="nav-logo">Let's <span>Play</span> With Physics</a>
+    <div class="nav-links">
+      <a href="index.html#about">About</a>
+      <a href="index.html#batches">Batches</a>
+      <a href="materials.html" class="active">Materials</a>
+      <a href="index.html#topics">Syllabus</a>
+      <a href="index.html#contact">Contact</a>
+    </div>
+    <a href="index.html#contact" class="nav-cta">Enroll Now</a>
+  </nav>
 
-  <div class="page-header">
-    <div class="breadcrumb"><a href="index.html">Home</a> › Study Material</div>
-    <h1>📚 Study Material</h1>
-    <p>Formula sheets, notes and previous year questions — handpicked by Akshay Sir for NEET and JEE Mains preparation.</p>
-  </div>
+  <div class="page-header">
+    <div class="breadcrumb"><a href="index.html">Home</a> › Study Materials</div>
+    <h1>📚 Study Materials</h1>
+    <p>Formula sheets, notes and previous year questions — handpicked by Akshay Sir for NEET and JEE Mains preparation.</p>
+  </div>
 
-  <!-- TOP LEVEL TABS -->
-  <div class="top-tabs">
-    <button class="top-tab active" onclick="showSection('formula', this)">📄 Formula Sheets</button>
-    <button class="top-tab" onclick="showSection('pyq', this)">📋 PYQs</button>
-    <button class="top-tab" onclick="showSection('notes', this)">📘 Notes</button>
-  </div>
+  <!-- TOP LEVEL TABS -->
+  <div class="top-tabs">
+    <button class="top-tab active" onclick="showSection('formula', this)">📄 Formula Sheets</button>
+    <button class="top-tab" onclick="showSection('pyq', this)">📋 PYQs</button>
+    <button class="top-tab" onclick="showSection('notes', this)">📘 Notes</button>
+  </div>
 
-  <!-- ===== FORMULA SHEETS SECTION ===== -->
-  <div class="section-wrapper" id="section-formula">
-    <div class="sub-tabs">
-      <button class="sub-tab active" onclick="showSubSection('formula', 'neet', this)">🟢 NEET</button>
-      <button class="sub-tab" onclick="showSubSection('formula', 'jee', this)">🟡 JEE Mains</button>
-    </div>
+  <!-- ===== FORMULA SHEETS SECTION ===== -->
+  <div class="section-wrapper" id="section-formula">
+    <div class="sub-tabs">
+      <button class="sub-tab active" onclick="showSubSection('formula', 'neet', this)">🟢 NEET</button>
+      <button class="sub-tab" onclick="showSubSection('formula', 'jee', this)">🟡 JEE Mains</button>
+    </div>
 
-    <div class="sub-section" id="formula-neet">
-      <div class="sub-section-header">
-        <span class="sub-section-label">NEET</span>
-        <span class="sub-section-tag tag-neet">NEET</span>
-        <span class="sub-section-count">6 files available</span>
-      </div>
-      <div class="cards-grid">
+    <div class="sub-section" id="formula-neet">
+      <div class="sub-section-header">
+        <span class="sub-section-label">NEET</span>
+        <span class="sub-section-tag tag-neet">NEET</span>
+        <span class="sub-section-count">6 files available</span>
+      </div>
+      <div class="cards-grid">
 
-         <div class="mat-card">
-          <div class="mat-card-top">
-            <div class="mat-card-title">Kinematics — Formula Sheet</div>
-            <span class="mat-card-badge badge-formula">Formula</span>
-          </div>
-          <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 NEET</span></div>
-          <div class="mat-card-footer">
-            <span class="mat-card-size">By Akshay Sir</span>
-            <a class="btn-download" href="Kinematics formula sheet.pdf" target="_blank">⬇ Download</a>
-          </div>
-        </div>
+        <div class="mat-card">
+          <div class="mat-card-top">
+            <div class="mat-card-title">Electrostatics — Formula Sheet</div>
+            <span class="mat-card-badge badge-formula">Formula</span>
+          </div>
+          <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 NEET</span></div>
+          <div class="mat-card-footer">
+            <span class="mat-card-size">By Akshay Sir</span>
+            <a class="btn-download" href="Electrostatics formula sheet .pdf" target="_blank">⬇ Download</a>
+          </div>
+        </div>
 
-       <div class="mat-card">
-          <div class="mat-card-top">
-            <div class="mat-card-title">Newton laws of motion — Formula Sheet</div>
-            <span class="mat-card-badge badge-formula">Formula</span>
-          </div>
-          <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 NEET</span></div>
-          <div class="mat-card-footer">
-            <span class="mat-card-size">By Akshay Sir</span>
-            <a class="btn-download" href="Newton laws of motion formula sheet.pdf" target="_blank">⬇ Download</a>
-          </div>
-        </div>
+        <div class="mat-card">
+          <div class="mat-card-top">
+            <div class="mat-card-title">AC — Formula Sheet</div>
+            <span class="mat-card-badge badge-formula">Formula</span>
+          </div>
+          <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 NEET</span></div>
+          <div class="mat-card-footer">
+            <span class="mat-card-size">By Akshay Sir</span>
+            <a class="btn-download" href="AC formula sheet.pdf" target="_blank">⬇ Download</a>
+          </div>
+        </div>
 
-      <div class="mat-card">
-          <div class="mat-card-top">
-            <div class="mat-card-title">system of particles and rotational motion — Formula Sheet</div>
-            <span class="mat-card-badge badge-formula">Formula</span>
-          </div>
-          <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 NEET</span></div>
-          <div class="mat-card-footer">
-            <span class="mat-card-size">By Akshay Sir</span>
-            <a class="btn-download" href="system of particles and rotational motion formula sheet.pdf" target="_blank">⬇ Download</a>
-          </div>
-        </div>
+        <div class="mat-card">
+          <div class="mat-card-top">
+            <div class="mat-card-title">Modern Physics — Formula Sheet</div>
+            <span class="mat-card-badge badge-formula">Formula</span>
+          </div>
+          <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 NEET</span></div>
+          <div class="mat-card-footer">
+            <span class="mat-card-size">By Akshay Sir</span>
+            <a class="btn-download" href="Modern physics formula sheet .pdf" target="_blank">⬇ Download</a>
+          </div>
+        </div>
 
-         <div class="mat-card">
-          <div class="mat-card-top">
-            <div class="mat-card-title">Gravitation — Formula Sheet</div>
-            <span class="mat-card-badge badge-formula">Formula</span>
-          </div>
-          <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 NEET</span></div>
-          <div class="mat-card-footer">
-            <span class="mat-card-size">By Akshay Sir</span>
-            <a class="btn-download" href="Gravitation formula sheet .pdf" target="_blank">⬇ Download</a>
-          </div>
-        </div>
+        <div class="mat-card">
+          <div class="mat-card-top">
+            <div class="mat-card-title">Moving Charges & Magnetism — Formula Sheet</div>
+            <span class="mat-card-badge badge-formula">Formula</span>
+          </div>
+          <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 NEET</span></div>
+          <div class="mat-card-footer">
+            <span class="mat-card-size">By Akshay Sir</span>
+            <a class="btn-download" href="Moving charges and magnetism formula sheet .pdf" target="_blank">⬇ Download</a>
+          </div>
+        </div>
 
-        <div class="mat-card">
-          <div class="mat-card-top">
-            <div class="mat-card-title">Thermodynamics & KTG — Formula Sheet</div>
-            <span class="mat-card-badge badge-formula">Formula</span>
-          </div>
-          <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 NEET</span></div>
-          <div class="mat-card-footer">
-            <span class="mat-card-size">By Akshay Sir</span>
-            <a class="btn-download" href="Thermodynamics and ktg formula sheet.pdf" target="_blank">⬇ Download</a>
-          </div>
-        </div>
+        <div class="mat-card">
+          <div class="mat-card-top">
+            <div class="mat-card-title">Gravitation — Formula Sheet</div>
+            <span class="mat-card-badge badge-formula">Formula</span>
+          </div>
+          <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 NEET</span></div>
+          <div class="mat-card-footer">
+            <span class="mat-card-size">By Akshay Sir</span>
+            <a class="btn-download" href="Gravitation formula sheet .pdf" target="_blank">⬇ Download</a>
+          </div>
+        </div>
 
-        <div class="mat-card">
-          <div class="mat-card-top">
-            <div class="mat-card-title">Wave optics — Formula Sheet</div>
-            <span class="mat-card-badge badge-formula">Formula</span>
-          </div>
-          <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 NEET</span></div>
-          <div class="mat-card-footer">
-            <span class="mat-card-size">By Akshay Sir</span>
-            <a class="btn-download" href="Wave_optics_formula_sheet (1).pdf" target="_blank">⬇ Download</a>
-          </div>
-        </div>
-        
-        <div class="mat-card">
-          <div class="mat-card-top">
-            <div class="mat-card-title">Ray optics — Formula Sheet</div>
-            <span class="mat-card-badge badge-formula">Formula</span>
-          </div>
-          <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 NEET</span></div>
-          <div class="mat-card-footer">
-            <span class="mat-card-size">By Akshay Sir</span>
-            <a class="btn-download" href="Ray optics formula sheet.pdf" target="_blank">⬇ Download</a>
-          </div>
-        </div>
+        <div class="mat-card">
+          <div class="mat-card-top">
+            <div class="mat-card-title">Thermodynamics & KTG — Formula Sheet</div>
+            <span class="mat-card-badge badge-formula">Formula</span>
+          </div>
+          <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 NEET</span></div>
+          <div class="mat-card-footer">
+            <span class="mat-card-size">By Akshay Sir</span>
+            <a class="btn-download" href="Thermodynamics and ktg formula sheet.pdf" target="_blank">⬇ Download</a>
+          </div>
+        </div>
 
+        <div class="mat-card coming">
+          <div class="mat-card-top">
+            <div class="mat-card-title">Kinematics — Formula Sheet</div>
+            <span class="mat-card-badge badge-coming">Soon</span>
+          </div>
+          <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 NEET</span></div>
+          <div class="mat-card-footer"><span class="mat-card-size">—</span><a class="btn-download disabled">Coming Soon</a></div>
+        </div>
 
-        
-        <div class="mat-card">
-          <div class="mat-card-top">
-            <div class="mat-card-title">Electrostatics — Formula Sheet</div>
-            <span class="mat-card-badge badge-formula">Formula</span>
-          </div>
-          <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 NEET</span></div>
-          <div class="mat-card-footer">
-            <span class="mat-card-size">By Akshay Sir</span>
-            <a class="btn-download" href="Electrostatics formula sheet .pdf" target="_blank">⬇ Download</a>
-          </div>
-        </div>
+      </div>
+    </div>
 
-        
+    <div class="sub-section" id="formula-jee" style="display:none;">
+      <div class="sub-section-header">
+        <span class="sub-section-label">JEE Mains</span>
+        <span class="sub-section-tag tag-jee">JEE Mains</span>
+        <span class="sub-section-count">Coming soon</span>
+      </div>
+      <div class="cards-grid">
+        <div class="mat-card coming">
+          <div class="mat-card-top">
+            <div class="mat-card-title">Kinematics — Formula Sheet</div>
+            <span class="mat-card-badge badge-coming">Soon</span>
+          </div>
+          <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 JEE Mains</span></div>
+          <div class="mat-card-footer"><span class="mat-card-size">—</span><a class="btn-download disabled">Coming Soon</a></div>
+        </div>
+        <div class="mat-card coming">
+          <div class="mat-card-top">
+            <div class="mat-card-title">Electrostatics — Formula Sheet</div>
+            <span class="mat-card-badge badge-coming">Soon</span>
+          </div>
+          <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 JEE Mains</span></div>
+          <div class="mat-card-footer"><span class="mat-card-size">—</span><a class="btn-download disabled">Coming Soon</a></div>
+        </div>
+      </div>
+      <div class="upload-notice">
+        <p>JEE Mains formula sheets coming soon! To get notified: <a href="mailto:konadaakshay@gmail.com">konadaakshay@gmail.com</a></p>
+      </div>
+    </div>
+  </div>
 
-        
+  <!-- ===== PYQs SECTION ===== -->
+  <div class="section-wrapper" id="section-pyq" style="display:none;">
+    <div class="sub-tabs">
+      <button class="sub-tab active" onclick="showSubSection('pyq', 'neet', this)">🟢 NEET</button>
+      <button class="sub-tab" onclick="showSubSection('pyq', 'jee', this)">🟡 JEE Mains</button>
+    </div>
 
-       
-        
-        
-        <div class="mat-card">
-          <div class="mat-card-top">
-            <div class="mat-card-title">AC — Formula Sheet</div>
-            <span class="mat-card-badge badge-formula">Formula</span>
-          </div>
-          <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 NEET</span></div>
-          <div class="mat-card-footer">
-            <span class="mat-card-size">By Akshay Sir</span>
-            <a class="btn-download" href="AC formula sheet.pdf" target="_blank">⬇ Download</a>
-          </div>
-        </div>
+    <div class="sub-section" id="pyq-neet">
+      <div class="sub-section-header">
+        <span class="sub-section-label">NEET</span>
+        <span class="sub-section-tag tag-neet">NEET</span>
+        <span class="sub-section-count">Coming soon</span>
+      </div>
+      <div class="cards-grid">
+        <div class="mat-card coming">
+          <div class="mat-card-top">
+            <div class="mat-card-title">Kinematics — PYQ 2020–2024</div>
+            <span class="mat-card-badge badge-coming">Soon</span>
+          </div>
+          <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 NEET</span></div>
+          <div class="mat-card-footer"><span class="mat-card-size">—</span><a class="btn-download disabled">Coming Soon</a></div>
+        </div>
+        <div class="mat-card coming">
+          <div class="mat-card-top">
+            <div class="mat-card-title">Waves — PYQ 2020–2024</div>
+            <span class="mat-card-badge badge-coming">Soon</span>
+          </div>
+          <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 NEET</span></div>
+          <div class="mat-card-footer"><span class="mat-card-size">—</span><a class="btn-download disabled">Coming Soon</a></div>
+        </div>
+      </div>
+      <div class="upload-notice">
+        <p>NEET PYQ PDFs coming soon! To get notified: <a href="mailto:konadaakshay@gmail.com">konadaakshay@gmail.com</a></p>
+      </div>
+    </div>
 
-        <div class="mat-card">
-          <div class="mat-card-top">
-            <div class="mat-card-title">Modern Physics — Formula Sheet</div>
-            <span class="mat-card-badge badge-formula">Formula</span>
-          </div>
-          <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 NEET</span></div>
-          <div class="mat-card-footer">
-            <span class="mat-card-size">By Akshay Sir</span>
-            <a class="btn-download" href="Modern physics formula sheet .pdf" target="_blank">⬇ Download</a>
-          </div>
-        </div>
+    <div class="sub-section" id="pyq-jee" style="display:none;">
+      <div class="sub-section-header">
+        <span class="sub-section-label">JEE Mains</span>
+        <span class="sub-section-tag tag-jee">JEE Mains</span>
+        <span class="sub-section-count">Coming soon</span>
+      </div>
+      <div class="cards-grid">
+        <div class="mat-card coming">
+          <div class="mat-card-top">
+            <div class="mat-card-title">Kinematics — PYQ 2020–2024</div>
+            <span class="mat-card-badge badge-coming">Soon</span>
+          </div>
+          <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 JEE Mains</span></div>
+          <div class="mat-card-footer"><span class="mat-card-size">—</span><a class="btn-download disabled">Coming Soon</a></div>
+        </div>
+        <div class="mat-card coming">
+          <div class="mat-card-top">
+            <div class="mat-card-title">Waves — PYQ 2020–2024</div>
+            <span class="mat-card-badge badge-coming">Soon</span>
+          </div>
+          <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 JEE Mains</span></div>
+          <div class="mat-card-footer"><span class="mat-card-size">—</span><a class="btn-download disabled">Coming Soon</a></div>
+        </div>
+      </div>
+      <div class="upload-notice">
+        <p>JEE Mains PYQ PDFs coming soon! To get notified: <a href="mailto:konadaakshay@gmail.com">konadaakshay@gmail.com</a></p>
+      </div>
+    </div>
+  </div>
 
-        <div class="mat-card">
-          <div class="mat-card-top">
-            <div class="mat-card-title">Moving Charges & Magnetism — Formula Sheet</div>
-            <span class="mat-card-badge badge-formula">Formula</span>
-          </div>
-          <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 NEET</span></div>
-          <div class="mat-card-footer">
-            <span class="mat-card-size">By Akshay Sir</span>
-            <a class="btn-download" href="Moving charges and magnetism formula sheet .pdf" target="_blank">⬇ Download</a>
-          </div>
-        </div>
+  <!-- ===== NOTES SECTION ===== -->
+  <div class="section-wrapper" id="section-notes" style="display:none;">
+    <div class="sub-section">
+      <div class="sub-section-header">
+        <span class="sub-section-label">Notes</span>
+        <span class="sub-section-count">1 file available</span>
+      </div>
+      <div class="cards-grid">
 
-      
-        
-       
+        <div class="mat-card">
+          <div class="mat-card-top">
+            <div class="mat-card-title">Waves — Notes <span class="new-badge">NEW</span></div>
+            <span class="mat-card-badge badge-notes">Notes</span>
+          </div>
+          <div class="mat-card-meta"><span>📄 PDF</span></div>
+          <div class="mat-card-footer">
+            <span class="mat-card-size">By Akshay Sir</span>
+            <a class="btn-download" href="Waves.pdf" target="_blank">⬇ Download</a>
+          </div>
+        </div>
 
-       
+        <div class="mat-card coming">
+          <div class="mat-card-top">
+            <div class="mat-card-title">Kinematics — Notes</div>
+            <span class="mat-card-badge badge-coming">Soon</span>
+          </div>
+          <div class="mat-card-meta"><span>📄 PDF</span></div>
+          <div class="mat-card-footer"><span class="mat-card-size">—</span><a class="btn-download disabled">Coming Soon</a></div>
+        </div>
 
-     
+        <div class="mat-card coming">
+          <div class="mat-card-top">
+            <div class="mat-card-title">Electrostatics — Notes</div>
+            <span class="mat-card-badge badge-coming">Soon</span>
+          </div>
+          <div class="mat-card-meta"><span>📄 PDF</span></div>
+          <div class="mat-card-footer"><span class="mat-card-size">—</span><a class="btn-download disabled">Coming Soon</a></div>
+        </div>
 
-    <div class="sub-section" id="formula-jee" style="display:none;">
-      <div class="sub-section-header">
-        <span class="sub-section-label">JEE Mains</span>
-        <span class="sub-section-tag tag-jee">JEE Mains</span>
-        <span class="sub-section-count">Coming soon</span>
-      </div>
-      <div class="cards-grid">
-        <div class="mat-card coming">
-          <div class="mat-card-top">
-            <div class="mat-card-title">Kinematics — Formula Sheet</div>
-            <span class="mat-card-badge badge-coming">Soon</span>
-          </div>
-          <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 JEE Mains</span></div>
-          <div class="mat-card-footer"><span class="mat-card-size">—</span><a class="btn-download disabled">Coming Soon</a></div>
-        </div>
-        <div class="mat-card coming">
-          <div class="mat-card-top">
-            <div class="mat-card-title">Electrostatics — Formula Sheet</div>
-            <span class="mat-card-badge badge-coming">Soon</span>
-          </div>
-          <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 JEE Mains</span></div>
-          <div class="mat-card-footer"><span class="mat-card-size">—</span><a class="btn-download disabled">Coming Soon</a></div>
-        </div>
-      </div>
-      <div class="upload-notice">
-        <p>JEE Mains formula sheets coming soon! To get notified: <a href="mailto:konadaakshay@gmail.com">konadaakshay@gmail.com</a></p>
-      </div>
-    </div>
-  </div>
+      </div>
+    </div>
+  </div>
 
-  <!-- ===== PYQs SECTION ===== -->
-  <div class="section-wrapper" id="section-pyq" style="display:none;">
-    <div class="sub-tabs">
-      <button class="sub-tab active" onclick="showSubSection('pyq', 'neet', this)">🟢 NEET</button>
-      <button class="sub-tab" onclick="showSubSection('pyq', 'jee', this)">🟡 JEE Mains</button>
-    </div>
+  <footer>
+    <div class="footer-logo">Let's <span>Play</span> With Physics</div>
+    <div class="footer-copy">© 2025 · Akshay Kumar · University of Hyderabad · Hyderabad</div>
+  </footer>
 
-    <div class="sub-section" id="pyq-neet">
-      <div class="sub-section-header">
-        <span class="sub-section-label">NEET</span>
-        <span class="sub-section-tag tag-neet">NEET</span>
-        <span class="sub-section-count">Coming soon</span>
-      </div>
-      <div class="cards-grid">
-        <div class="mat-card coming">
-          <div class="mat-card-top">
-            <div class="mat-card-title">Kinematics — PYQ 2020–2024</div>
-            <span class="mat-card-badge badge-coming">Soon</span>
-          </div>
-          <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 NEET</span></div>
-          <div class="mat-card-footer"><span class="mat-card-size">—</span><a class="btn-download disabled">Coming Soon</a></div>
-        </div>
-        <div class="mat-card coming">
-          <div class="mat-card-top">
-            <div class="mat-card-title">Waves — PYQ 2020–2024</div>
-            <span class="mat-card-badge badge-coming">Soon</span>
-          </div>
-          <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 NEET</span></div>
-          <div class="mat-card-footer"><span class="mat-card-size">—</span><a class="btn-download disabled">Coming Soon</a></div>
-        </div>
-      </div>
-      <div class="upload-notice">
-        <p>NEET PYQ PDFs coming soon! To get notified: <a href="mailto:konadaakshay@gmail.com">konadaakshay@gmail.com</a></p>
-      </div>
-    </div>
+  <script>
+    function showSection(type, btn) {
+      document.querySelectorAll('.top-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('section-formula').style.display = type === 'formula' ? '' : 'none';
+      document.getElementById('section-pyq').style.display = type === 'pyq' ? '' : 'none';
+      document.getElementById('section-notes').style.display = type === 'notes' ? '' : 'none';
+    }
 
-    <div class="sub-section" id="pyq-jee" style="display:none;">
-      <div class="sub-section-header">
-        <span class="sub-section-label">JEE Mains</span>
-        <span class="sub-section-tag tag-jee">JEE Mains</span>
-        <span class="sub-section-count">Coming soon</span>
-      </div>
-      <div class="cards-grid">
-        <div class="mat-card coming">
-          <div class="mat-card-top">
-            <div class="mat-card-title">Kinematics — PYQ 2020–2024</div>
-            <span class="mat-card-badge badge-coming">Soon</span>
-          </div>
-          <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 JEE Mains</span></div>
-          <div class="mat-card-footer"><span class="mat-card-size">—</span><a class="btn-download disabled">Coming Soon</a></div>
-        </div>
-        <div class="mat-card coming">
-          <div class="mat-card-top">
-            <div class="mat-card-title">Waves — PYQ 2020–2024</div>
-            <span class="mat-card-badge badge-coming">Soon</span>
-          </div>
-          <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 JEE Mains</span></div>
-          <div class="mat-card-footer"><span class="mat-card-size">—</span><a class="btn-download disabled">Coming Soon</a></div>
-        </div>
-      </div>
-      <div class="upload-notice">
-        <p>JEE Mains PYQ PDFs coming soon! To get notified: <a href="mailto:konadaakshay@gmail.com">konadaakshay@gmail.com</a></p>
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== NOTES SECTION ===== -->
-  <div class="section-wrapper" id="section-notes" style="display:none;">
-    <div class="sub-section">
-      <div class="sub-section-header">
-        <span class="sub-section-label">Notes</span>
-        <span class="sub-section-count">1 file available</span>
-      </div>
-      <div class="cards-grid">
-
-        <div class="mat-card">
-          <div class="mat-card-top">
-            <div class="mat-card-title">Waves — Notes <span class="new-badge">NEW</span></div>
-            <span class="mat-card-badge badge-notes">Notes</span>
-          </div>
-          <div class="mat-card-meta"><span>📄 PDF</span></div>
-          <div class="mat-card-footer">
-            <span class="mat-card-size">By Akshay Sir</span>
-            <a class="btn-download" href="Waves.pdf" target="_blank">⬇ Download</a>
-          </div>
-        </div>
-
-        <div class="mat-card coming">
-          <div class="mat-card-top">
-            <div class="mat-card-title">Kinematics — Notes</div>
-            <span class="mat-card-badge badge-coming">Soon</span>
-          </div>
-          <div class="mat-card-meta"><span>📄 PDF</span></div>
-          <div class="mat-card-footer"><span class="mat-card-size">—</span><a class="btn-download disabled">Coming Soon</a></div>
-        </div>
-
-        <div class="mat-card coming">
-          <div class="mat-card-top">
-            <div class="mat-card-title">Electrostatics — Notes</div>
-            <span class="mat-card-badge badge-coming">Soon</span>
-          </div>
-          <div class="mat-card-meta"><span>📄 PDF</span></div>
-          <div class="mat-card-footer"><span class="mat-card-size">—</span><a class="btn-download disabled">Coming Soon</a></div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-  <footer>
-    <div class="footer-logo">Let's <span>Play</span> With Physics</div>
-    <div class="footer-copy">© 2025 · Akshay Kumar · University of Hyderabad · Hyderabad</div>
-  </footer>
-
-  <script>
-    function showSection(type, btn) {
-      document.querySelectorAll('.top-tab').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      document.getElementById('section-formula').style.display = type === 'formula' ? '' : 'none';
-      document.getElementById('section-pyq').style.display = type === 'pyq' ? '' : 'none';
-      document.getElementById('section-notes').style.display = type === 'notes' ? '' : 'none';
-    }
-
-    function showSubSection(section, sub, btn) {
-      const parent = document.getElementById('section-' + section);
-      parent.querySelectorAll('.sub-tab').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      document.getElementById(section + '-neet').style.display = sub === 'neet' ? '' : 'none';
-      document.getElementById(section + '-jee').style.display = sub === 'jee' ? '' : 'none';
-    }
-  </script>
+    function showSubSection(section, sub, btn) {
+      const parent = document.getElementById('section-' + section);
+      parent.querySelectorAll('.sub-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(section + '-neet').style.display = sub === 'neet' ? '' : 'none';
+      document.getElementById(section + '-jee').style.display = sub === 'jee' ? '' : 'none';
+    }
+  </script>
 
 </body>
 </html>
