@@ -35,6 +35,14 @@
     .sub-section-tag { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 10px; }
     .tag-neet { background: rgba(26,255,160,0.12); color: #1affa0; }
     .tag-jee { background: rgba(247,201,72,0.12); color: #f7c948; }
+    .tag-eapcet { background: rgba(160, 100, 255, 0.12); color: #b07aff; }
+    
+    /* This makes the EAPCET tab turn purple when you click it */
+    .sub-tab-eapcet.active { 
+      background: rgba(160, 100, 255, 0.12); 
+      border-color: rgba(160, 100, 255, 0.35); 
+      color: #b07aff; 
+    }
     .sub-section-count { font-size: 12px; color: #4a5a75; margin-left: auto; }
     .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
     .mat-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(100,180,255,0.1); border-radius: 16px; padding: 22px 20px; transition: border-color 0.2s, background 0.2s; display: flex; flex-direction: column; gap: 12px; }
@@ -292,6 +300,32 @@
     </div>
   </div>
 
+<div class="sub-tabs">
+      <button class="sub-tab active" onclick="showSubSection('formula', 'neet', this)">🟢 NEET</button>
+      <button class="sub-tab" onclick="showSubSection('formula', 'jee', this)">🟡 JEE Mains</button>
+      <button class="sub-tab sub-tab-eapcet" onclick="showSubSection('formula', 'eapcet', this)">🟣 EAPCET</button>
+    </div>
+
+<div class="sub-section" id="formula-eapcet" style="display:none;">
+      <div class="sub-section-header">
+        <span class="sub-section-label">EAPCET</span>
+        <span class="sub-section-tag tag-eapcet">EAPCET</span>
+        <span class="sub-section-count">Coming soon</span>
+      </div>
+      <div class="cards-grid">
+        <div class="mat-card coming">
+          <div class="mat-card-top">
+            <div class="mat-card-title">Physics Full Syllabus — Formula Sheet</div>
+            <span class="mat-card-badge badge-coming">Soon</span>
+          </div>
+          <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 EAPCET</span></div>
+          <div class="mat-card-footer"><span class="mat-card-size">—</span><a class="btn-download disabled">Coming Soon</a></div>
+        </div>
+      </div>
+    </div>
+
+
+      
   <!-- ===== PYQs SECTION ===== -->
   <div class="section-wrapper" id="section-pyq" style="display:none;">
     <div class="sub-tabs">
@@ -415,12 +449,19 @@
       document.getElementById('section-notes').style.display = type === 'notes' ? '' : 'none';
     }
 
-    function showSubSection(section, sub, btn) {
+  function showSubSection(section, sub, btn) {
       const parent = document.getElementById('section-' + section);
       parent.querySelectorAll('.sub-tab').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
+      
+      // Update these lines to handle all three
       document.getElementById(section + '-neet').style.display = sub === 'neet' ? '' : 'none';
       document.getElementById(section + '-jee').style.display = sub === 'jee' ? '' : 'none';
+      
+      // This line ensures the EAPCET section shows up when clicked
+      if(document.getElementById(section + '-eapcet')) {
+          document.getElementById(section + '-eapcet').style.display = sub === 'eapcet' ? '' : 'none';
+      }
     }
   </script>
 
