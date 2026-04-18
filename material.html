@@ -25,11 +25,13 @@
     .top-tab:hover { background: rgba(44,120,255,0.1); border-color: rgba(44,120,255,0.3); color: #7ab8ff; }
     .top-tab.active { background: rgba(44,120,255,0.18); border-color: rgba(44,120,255,0.5); color: #44aaff; }
     .section-wrapper { max-width: 1100px; margin: 0 auto; padding: 0 40px 60px; }
+    .section-hidden { display: none; }
     .sub-tabs { display: flex; gap: 8px; margin-bottom: 32px; }
     .sub-tab { background: rgba(255,255,255,0.03); border: 1px solid rgba(100,180,255,0.1); color: #6070a0; font-size: 13px; font-weight: 600; padding: 7px 20px; border-radius: 20px; cursor: pointer; transition: all 0.2s; font-family: inherit; }
     .sub-tab:hover { color: #a0b8d8; border-color: rgba(100,180,255,0.2); }
     .sub-tab.active { background: rgba(44,120,255,0.12); border-color: rgba(44,120,255,0.35); color: #44aaff; }
     .sub-section { margin-bottom: 48px; }
+    .sub-hidden { display: none; }
     .sub-section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(100,180,255,0.08); }
     .sub-section-label { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; color: #c0d0e8; }
     .sub-section-tag { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 10px; }
@@ -60,8 +62,6 @@
     .footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 15px; color: #fff; }
     .footer-logo span { color: #44aaff; }
     .footer-copy { font-size: 12px; color: #3a4a65; }
-    .section-hidden { display: none; }
-    .sub-hidden { display: none; }
     @media (max-width: 600px) {
       nav { padding: 14px 18px; }
       .nav-links { display: none; }
@@ -79,8 +79,9 @@
     <div class="nav-links">
       <a href="index.html#about">About</a>
       <a href="index.html#batches">Batches</a>
-      <a href="materials.html" class="active">Materials</a>
+      <a href="material.html" class="active">Materials</a>
       <a href="index.html#topics">Syllabus</a>
+      <a href="mocktest.html">Mock Test</a>
       <a href="index.html#contact">Contact</a>
     </div>
     <a href="index.html#contact" class="nav-cta">Enroll Now</a>
@@ -98,91 +99,43 @@
     <button class="top-tab" data-section="notes">📘 Notes</button>
   </div>
 
+  <!-- ===== FORMULA SHEETS ===== -->
   <div class="section-wrapper" id="section-formula">
     <div class="sub-tabs">
       <button class="sub-tab active" data-section="formula" data-sub="neet">🟢 NEET</button>
       <button class="sub-tab" data-section="formula" data-sub="jee">🟡 JEE Mains</button>
     </div>
 
+    <!-- NEET Formula -->
     <div class="sub-section" id="formula-neet">
       <div class="sub-section-header">
         <span class="sub-section-label">NEET</span>
         <span class="sub-section-tag tag-neet">NEET</span>
-        <span class="sub-section-count">6 files available</span>
+        <span class="sub-section-count">10 files available</span>
       </div>
       <div class="cards-grid">
 
         <div class="mat-card">
           <div class="mat-card-top">
-            <div class="mat-card-title">Electrostatics — Formula Sheet</div>
+            <div class="mat-card-title">Kinematics — Formula Sheet</div>
             <span class="mat-card-badge badge-formula">Formula</span>
           </div>
           <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 NEET</span></div>
           <div class="mat-card-footer">
             <span class="mat-card-size">By Akshay Sir</span>
-            <a class="btn-download" href="Electrostatics formula sheet .pdf" target="_blank">⬇ Download</a>
-          </div>
-        </div>
-
- 
-        <div class="mat-card">
-          <div class="mat-card-top">
-            <div class="mat-card-title">Ray optics — Formula Sheet</div>
-            <span class="mat-card-badge badge-formula">Formula</span>
-          </div>
-          <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 NEET</span></div>
-          <div class="mat-card-footer">
-            <span class="mat-card-size">By Akshay Sir</span>
-            <a class="btn-download" href="Ray optics formula sheet.pdf" target="_blank">⬇ Download</a>
-          </div>
-        </div>
-
-
-        <div class="mat-card">
-          <div class="mat-card-top">
-            <div class="mat-card-title">Wave optics — Formula Sheet</div>
-            <span class="mat-card-badge badge-formula">Formula</span>
-          </div>
-          <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 NEET</span></div>
-          <div class="mat-card-footer">
-            <span class="mat-card-size">By Akshay Sir</span>
-            <a class="btn-download" href="Wave_optics_formula_sheet(1).pdf" target="_blank">⬇ Download</a>
-          </div>
-        </div>
-        
-        <div class="mat-card">
-          <div class="mat-card-top">
-            <div class="mat-card-title">AC — Formula Sheet</div>
-            <span class="mat-card-badge badge-formula">Formula</span>
-          </div>
-          <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 NEET</span></div>
-          <div class="mat-card-footer">
-            <span class="mat-card-size">By Akshay Sir</span>
-            <a class="btn-download" href="AC formula sheet.pdf" target="_blank">⬇ Download</a>
+            <a class="btn-download" href="Kinematics formula sheet.pdf" target="_blank">⬇ Download</a>
           </div>
         </div>
 
         <div class="mat-card">
           <div class="mat-card-top">
-            <div class="mat-card-title">Modern Physics — Formula Sheet</div>
+            <div class="mat-card-title">Newton's Laws of Motion — Formula Sheet</div>
             <span class="mat-card-badge badge-formula">Formula</span>
           </div>
           <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 NEET</span></div>
           <div class="mat-card-footer">
             <span class="mat-card-size">By Akshay Sir</span>
-            <a class="btn-download" href="Modern physics formula sheet.pdf" target="_blank">⬇ Download</a>
-          </div>
-        </div>
-
-        <div class="mat-card">
-          <div class="mat-card-top">
-            <div class="mat-card-title">Moving Charges & Magnetism — Formula Sheet</div>
-            <span class="mat-card-badge badge-formula">Formula</span>
-          </div>
-          <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 NEET</span></div>
-          <div class="mat-card-footer">
-            <span class="mat-card-size">By Akshay Sir</span>
-            <a class="btn-download" href="Moving charges and magnetism formula sheet.pdf" target="_blank">⬇ Download</a>
+            <a class="btn-download" href="Newton laws of motion formula sheet.pdf" target="_blank">⬇ Download</a>
           </div>
         </div>
 
@@ -198,22 +151,9 @@
           </div>
         </div>
 
-<div class="mat-card">
-          <div class="mat-card-top">
-            <div class="mat-card-title">Newton laws of motion— Formula Sheet</div>
-            <span class="mat-card-badge badge-formula">Formula</span>
-          </div>
-          <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 NEET</span></div>
-          <div class="mat-card-footer">
-            <span class="mat-card-size">By Akshay Sir</span>
-            <a class="btn-download" href="Newton laws of motion formula sheet.pdf" target="_blank">⬇ Download</a>
-          </div>
-</div>
-
-        
         <div class="mat-card">
           <div class="mat-card-top">
-            <div class="mat-card-title">Thermodynamics & KTG — Formula Sheet</div>
+            <div class="mat-card-title">Thermodynamics &amp; KTG — Formula Sheet</div>
             <span class="mat-card-badge badge-formula">Formula</span>
           </div>
           <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 NEET</span></div>
@@ -223,20 +163,82 @@
           </div>
         </div>
 
-      
-
         <div class="mat-card">
           <div class="mat-card-top">
-            <div class="mat-card-title">Kinematics Formula Sheet</div>
+            <div class="mat-card-title">Electrostatics — Formula Sheet</div>
             <span class="mat-card-badge badge-formula">Formula</span>
           </div>
           <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 NEET</span></div>
           <div class="mat-card-footer">
             <span class="mat-card-size">By Akshay Sir</span>
-            <a class="btn-download" href="Kinematics formula sheet.pdf" target="_blank">⬇ Download</a>
+            <a class="btn-download" href="Electrostatics formula sheet .pdf" target="_blank">⬇ Download</a>
           </div>
         </div>
 
+        <div class="mat-card">
+          <div class="mat-card-top">
+            <div class="mat-card-title">Moving Charges &amp; Magnetism — Formula Sheet</div>
+            <span class="mat-card-badge badge-formula">Formula</span>
+          </div>
+          <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 NEET</span></div>
+          <div class="mat-card-footer">
+            <span class="mat-card-size">By Akshay Sir</span>
+            <a class="btn-download" href="Moving charges and magnetism formula sheet.pdf" target="_blank">⬇ Download</a>
+          </div>
+        </div>
+
+        <div class="mat-card">
+          <div class="mat-card-top">
+            <div class="mat-card-title">AC — Formula Sheet</div>
+            <span class="mat-card-badge badge-formula">Formula</span>
+          </div>
+          <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 NEET</span></div>
+          <div class="mat-card-footer">
+            <span class="mat-card-size">By Akshay Sir</span>
+            <a class="btn-download" href="AC formula sheet.pdf" target="_blank">⬇ Download</a>
+          </div>
+        </div>
+
+        <div class="mat-card">
+          <div class="mat-card-top">
+            <div class="mat-card-title">Ray Optics — Formula Sheet</div>
+            <span class="mat-card-badge badge-formula">Formula</span>
+          </div>
+          <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 NEET</span></div>
+          <div class="mat-card-footer">
+            <span class="mat-card-size">By Akshay Sir</span>
+            <a class="btn-download" href="Ray optics formula sheet.pdf" target="_blank">⬇ Download</a>
+          </div>
+        </div>
+
+        <div class="mat-card">
+          <div class="mat-card-top">
+            <div class="mat-card-title">Wave Optics — Formula Sheet</div>
+            <span class="mat-card-badge badge-formula">Formula</span>
+          </div>
+          <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 NEET</span></div>
+          <div class="mat-card-footer">
+            <span class="mat-card-size">By Akshay Sir</span>
+            <a class="btn-download" href="Wave_optics_formula_sheet(1).pdf" target="_blank">⬇ Download</a>
+          </div>
+        </div>
+
+        <div class="mat-card">
+          <div class="mat-card-top">
+            <div class="mat-card-title">Modern Physics — Formula Sheet</div>
+            <span class="mat-card-badge badge-formula">Formula</span>
+          </div>
+          <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 NEET</span></div>
+          <div class="mat-card-footer">
+            <span class="mat-card-size">By Akshay Sir</span>
+            <a class="btn-download" href="Modern physics formula sheet.pdf" target="_blank">⬇ Download</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- JEE Mains Formula -->
     <div class="sub-section sub-hidden" id="formula-jee">
       <div class="sub-section-header">
         <span class="sub-section-label">JEE Mains</span>
@@ -267,6 +269,7 @@
     </div>
   </div>
 
+  <!-- ===== PYQs ===== -->
   <div class="section-wrapper section-hidden" id="section-pyq">
     <div class="sub-tabs">
       <button class="sub-tab active" data-section="pyq" data-sub="neet">🟢 NEET</button>
@@ -332,6 +335,7 @@
     </div>
   </div>
 
+  <!-- ===== NOTES ===== -->
   <div class="section-wrapper section-hidden" id="section-notes">
     <div class="sub-section">
       <div class="sub-section-header">
@@ -339,6 +343,7 @@
         <span class="sub-section-count">1 file available</span>
       </div>
       <div class="cards-grid">
+
         <div class="mat-card">
           <div class="mat-card-top">
             <div class="mat-card-title">Waves — Notes <span class="new-badge">NEW</span></div>
@@ -368,6 +373,7 @@
           <div class="mat-card-meta"><span>📄 PDF</span></div>
           <div class="mat-card-footer"><span class="mat-card-size">—</span><a class="btn-download disabled">Coming Soon</a></div>
         </div>
+
       </div>
     </div>
   </div>
@@ -386,16 +392,11 @@
     };
 
     function setActiveSection(type) {
-      Object.values(sections).forEach(section => section.classList.add('section-hidden'));
+      Object.values(sections).forEach(s => s.classList.add('section-hidden'));
       sections[type].classList.remove('section-hidden');
-
       topTabs.forEach(tab => tab.classList.toggle('active', tab.dataset.section === type));
-
-      const activeSubTabs = sections[type].querySelectorAll('.sub-tab');
-      if (activeSubTabs.length) {
-        const firstSub = activeSubTabs[0].dataset.sub;
-        setActiveSubSection(type, firstSub);
-      }
+      const firstSubTab = sections[type].querySelector('.sub-tab');
+      if (firstSubTab) setActiveSubSection(type, firstSubTab.dataset.sub);
     }
 
     function setActiveSubSection(section, sub) {
@@ -403,10 +404,8 @@
       parent.querySelectorAll('.sub-tab').forEach(tab => {
         tab.classList.toggle('active', tab.dataset.sub === sub);
       });
-
       const neet = document.getElementById(section + '-neet');
       const jee = document.getElementById(section + '-jee');
-
       if (neet) neet.classList.toggle('sub-hidden', sub !== 'neet');
       if (jee) jee.classList.toggle('sub-hidden', sub !== 'jee');
     }
