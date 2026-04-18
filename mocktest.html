@@ -411,6 +411,419 @@
       block.classList.add('answered');
       block.querySelectorAll('.option').forEach((opt, j) => {
         opt.classList.toggle('selected', j === optIndex);
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mock Test — Let's Play With Physics</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Space Grotesk', sans-serif; background: #0a0e1a; color: #e8eaf0; overflow-x: hidden; }
+    nav { display: flex; align-items: center; justify-content: space-between; padding: 18px 40px; background: rgba(10,14,26,0.97); border-bottom: 1px solid rgba(100,180,255,0.12); position: sticky; top: 0; z-index: 100; }
+    .nav-logo { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; color: #fff; text-decoration: none; }
+    .nav-logo span { color: #44aaff; }
+    .nav-links { display: flex; gap: 28px; }
+    .nav-links a { color: #a0aac0; font-size: 14px; text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: #44aaff; }
+    .nav-cta { background: #44aaff; color: #0a0e1a; font-size: 13px; font-weight: 700; padding: 8px 20px; border-radius: 20px; text-decoration: none; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: #e8eaf0; border-radius: 2px; transition: all 0.3s; }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .mobile-menu { display: none; flex-direction: column; background: rgba(10,14,26,0.99); border-bottom: 1px solid rgba(100,180,255,0.12); padding: 0 18px; max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.3s ease; }
+    .mobile-menu.open { max-height: 400px; padding: 16px 18px 20px; }
+    .mobile-menu a { color: #a0aac0; font-size: 15px; text-decoration: none; padding: 12px 0; border-bottom: 1px solid rgba(100,180,255,0.07); transition: color 0.2s; }
+    .mobile-menu a:last-child { border-bottom: none; }
+    .mobile-menu a:hover { color: #44aaff; }
+    .mobile-menu .mob-cta { margin-top: 14px; background: #44aaff; color: #0a0e1a; font-weight: 700; padding: 12px 20px; border-radius: 20px; text-align: center; border-bottom: none !important; }
+
+    /* PASSWORD SCREEN */
+    #password-screen { min-height: 90vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
+    .lock-box { background: rgba(44,120,255,0.07); border: 1px solid rgba(44,120,255,0.2); border-radius: 24px; padding: 48px 40px; text-align: center; max-width: 420px; width: 100%; }
+    .lock-icon { font-size: 48px; margin-bottom: 20px; }
+    .lock-box h2 { font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 800; margin-bottom: 8px; }
+    .lock-box p { color: #6070a0; font-size: 14px; margin-bottom: 28px; line-height: 1.6; }
+    .lock-box input { width: 100%; background: rgba(255,255,255,0.06); border: 1px solid rgba(100,180,255,0.2); color: #e8eaf0; padding: 14px 18px; border-radius: 12px; font-size: 15px; outline: none; font-family: inherit; margin-bottom: 12px; text-align: center; letter-spacing: 2px; }
+    .lock-box input:focus { border-color: rgba(100,180,255,0.5); }
+    .lock-box button { width: 100%; background: #44aaff; color: #0a0e1a; border: none; font-weight: 700; padding: 14px; border-radius: 12px; cursor: pointer; font-size: 15px; font-family: inherit; transition: background 0.2s; }
+    .lock-box button:hover { background: #66bbff; }
+    .lock-error { color: #ff6060; font-size: 13px; margin-top: 10px; display: none; }
+
+    /* MAIN TEST */
+    #test-screen { display: none; }
+    .test-header { padding: 32px 40px 0; max-width: 1100px; margin: 0 auto; }
+    .breadcrumb { font-size: 13px; color: #4a5a75; margin-bottom: 16px; }
+    .breadcrumb a { color: #44aaff; text-decoration: none; }
+    .test-header h1 { font-family: 'Syne', sans-serif; font-size: clamp(24px, 4vw, 38px); font-weight: 800; margin-bottom: 6px; }
+    .test-header p { font-size: 14px; color: #6070a0; }
+
+    /* TEST TABS */
+    .test-tabs { display: flex; gap: 12px; padding: 24px 40px 0; max-width: 1100px; margin: 0 auto; }
+    .test-tab { background: rgba(255,255,255,0.04); border: 1px solid rgba(100,180,255,0.12); color: #8090b0; font-size: 14px; font-weight: 700; padding: 10px 24px; border-radius: 12px; cursor: pointer; transition: all 0.2s; font-family: inherit; }
+    .test-tab:hover { background: rgba(44,120,255,0.1); color: #7ab8ff; }
+    .test-tab.active { background: rgba(44,120,255,0.18); border-color: rgba(44,120,255,0.5); color: #44aaff; }
+
+    /* TIMER BAR */
+    .timer-bar { display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.03); border: 1px solid rgba(100,180,255,0.1); border-radius: 14px; padding: 14px 24px; margin: 20px 40px 0; max-width: 1020px; margin-left: auto; margin-right: auto; flex-wrap: wrap; gap: 12px; }
+    .timer-info { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; gap: 16px; }
+    .timer-item { text-align: center; }
+    .timer-label { font-size: 11px; color: #4a5a75; margin-bottom: 2px; }
+    .timer-val { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; color: #44aaff; }
+    .timer-val.warning { color: #f7c948; }
+    .timer-val.danger { color: #ff6060; }
+    .score-live { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; }
+    .score-pos { color: #1affa0; }
+    .score-neg { color: #ff6060; }
+    .btn-submit { background: #44aaff; color: #0a0e1a; border: none; font-weight: 700; padding: 10px 24px; border-radius: 10px; cursor: pointer; font-size: 14px; font-family: inherit; transition: background 0.2s; }
+    .btn-submit:hover { background: #66bbff; }
+
+    /* QUESTION PANEL */
+    .test-body { padding: 24px 40px 60px; max-width: 1100px; margin: 0 auto; display: flex; gap: 24px; }
+    .questions-panel { flex: 1; }
+    .question-block { background: rgba(255,255,255,0.03); border: 1px solid rgba(100,180,255,0.1); border-radius: 16px; padding: 24px; margin-bottom: 16px; transition: border-color 0.2s; }
+    .question-block.answered { border-color: rgba(44,120,255,0.35); }
+    .question-num { font-size: 11px; font-weight: 700; color: #4a5a75; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
+    .question-text { font-size: 15px; font-weight: 500; line-height: 1.7; margin-bottom: 18px; }
+    .options { display: flex; flex-direction: column; gap: 10px; }
+    .option { display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,0.02); border: 1px solid rgba(100,180,255,0.08); border-radius: 10px; padding: 12px 16px; cursor: pointer; transition: all 0.2s; }
+    .option:hover { background: rgba(44,120,255,0.08); border-color: rgba(44,120,255,0.25); }
+    .option.selected { background: rgba(44,120,255,0.12); border-color: rgba(44,120,255,0.4); }
+    .option input[type="radio"] { accent-color: #44aaff; width: 16px; height: 16px; flex-shrink: 0; }
+    .option label { font-size: 14px; cursor: pointer; line-height: 1.5; }
+
+    /* QUESTION NAVIGATOR */
+    .navigator { width: 200px; flex-shrink: 0; }
+    .nav-title { font-size: 12px; font-weight: 700; color: #4a5a75; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+    .nav-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 16px; }
+    .nav-btn { width: 32px; height: 32px; border-radius: 8px; border: 1px solid rgba(100,180,255,0.15); background: rgba(255,255,255,0.03); color: #6070a0; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s; font-family: inherit; }
+    .nav-btn:hover { border-color: rgba(100,180,255,0.3); color: #a0c0e0; }
+    .nav-btn.answered { background: rgba(44,120,255,0.2); border-color: rgba(44,120,255,0.4); color: #44aaff; }
+    .nav-legend { font-size: 12px; color: #4a5a75; display: flex; flex-direction: column; gap: 6px; }
+    .legend-item { display: flex; align-items: center; gap: 8px; }
+    .legend-dot { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
+    .legend-dot.answered { background: rgba(44,120,255,0.4); }
+    .legend-dot.unanswered { background: rgba(255,255,255,0.05); border: 1px solid rgba(100,180,255,0.15); }
+
+    /* RESULT SCREEN */
+    #result-screen { display: none; padding: 60px 40px; max-width: 700px; margin: 0 auto; text-align: center; }
+    .result-box { background: rgba(44,120,255,0.07); border: 1px solid rgba(44,120,255,0.2); border-radius: 24px; padding: 48px 40px; }
+    .result-box h2 { font-family: 'Syne', sans-serif; font-size: 32px; font-weight: 800; margin-bottom: 24px; }
+    .result-stats { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 32px; }
+    .result-stat { background: rgba(255,255,255,0.04); border: 1px solid rgba(100,180,255,0.1); border-radius: 14px; padding: 20px 24px; min-width: 120px; }
+    .result-stat-val { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; margin-bottom: 4px; }
+    .result-stat-label { font-size: 12px; color: #4a5a75; }
+    .btn-retry { background: #44aaff; color: #0a0e1a; border: none; font-weight: 700; padding: 14px 32px; border-radius: 20px; cursor: pointer; font-size: 15px; font-family: inherit; margin-top: 8px; }
+
+    footer { border-top: 1px solid rgba(100,180,255,0.07); padding: 28px 40px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 15px; color: #fff; }
+    .footer-logo span { color: #44aaff; }
+    .footer-copy { font-size: 12px; color: #3a4a65; }
+
+    @media (max-width: 600px) {
+      nav { padding: 14px 18px; }
+      .nav-links { display: none; }
+      .nav-cta { display: none; }
+      .hamburger { display: flex; }
+      .mobile-menu { display: flex; }
+      .test-header { padding: 24px 18px 0; }
+      .test-tabs { padding: 16px 18px 0; }
+      .timer-bar { margin: 16px 18px 0; padding: 12px 16px; }
+      .test-body { padding: 16px 18px 40px; flex-direction: column; }
+      .navigator { width: 100%; }
+      .nav-grid { grid-template-columns: repeat(8, 1fr); }
+      footer { padding: 20px 18px; }
+      .lock-box { padding: 32px 20px; }
+      #result-screen { padding: 40px 18px; }
+      .result-box { padding: 32px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">Let's <span>Play</span> With Physics</a>
+    <div class="nav-links">
+      <a href="index.html#about">About</a>
+      <a href="index.html#batches">Batches</a>
+      <a href="material.html">Materials</a>
+      <a href="index.html#contact">Contact</a>
+    </div>
+    <a href="index.html#contact" class="nav-cta">Enroll Now</a>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="index.html#about" onclick="closeMenu()">About</a>
+    <a href="index.html#batches" onclick="closeMenu()">Batches</a>
+    <a href="material.html" onclick="closeMenu()">Materials</a>
+    <a href="index.html#contact" onclick="closeMenu()">Contact</a>
+    <a href="index.html#contact" class="mob-cta" onclick="closeMenu()">Enroll Now →</a>
+  </div>
+
+  <!-- PASSWORD SCREEN -->
+  <div id="password-screen">
+    <div class="lock-box">
+      <div class="lock-icon">🔒</div>
+      <h2>Premium Access Only</h2>
+      <p>This mock test is exclusive to paid batch students. Enter your password to continue.</p>
+      <input type="password" id="pwd-input" placeholder="Enter password" onkeydown="if(event.key==='Enter') checkPassword()">
+      <button onclick="checkPassword()">Unlock Test →</button>
+      <div class="lock-error" id="lock-error">❌ Incorrect password. Please try again.</div>
+      <div style="margin-top: 24px; border-top: 1px solid rgba(100,180,255,0.1); padding-top: 20px;">
+        <p style="font-size: 13px; color: #4a5a75; margin-bottom: 12px;">Don't have a password?</p>
+        <a href="mailto:konadaakshay@gmail.com?subject=Mock Test Access Request&body=Hi Akshay Sir,%0A%0AI would like to get access to the Mock Test on letsplaywithphysics.in.%0A%0APlease let me know the payment details.%0A%0AName: %0APhone: " style="display:inline-block; background: rgba(44,120,255,0.12); border: 1px solid rgba(44,120,255,0.3); color: #44aaff; font-size: 13px; font-weight: 700; padding: 11px 22px; border-radius: 12px; text-decoration: none; transition: background 0.2s;">📧 Pay & Get Access — Email Us</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- TEST SCREEN -->
+  <div id="test-screen">
+    <div class="test-header">
+      <div class="breadcrumb"><a href="index.html">Home</a> › Mock Test</div>
+      <h1>⚡ Mock Test</h1>
+      <p>Attempt all questions. Each correct answer: +4 | Wrong answer: −1 | Unattempted: 0</p>
+    </div>
+
+    <div class="test-tabs">
+      <button class="test-tab active" onclick="switchTest('neet', this)">🟢 NEET (45 Qs)</button>
+      <button class="test-tab" onclick="switchTest('jee', this)">🟡 JEE Mains (25 Qs)</button>
+    </div>
+
+    <!-- TIMER BAR -->
+    <div class="timer-bar">
+      <div class="timer-info">
+        <div class="timer-item">
+          <div class="timer-label">Time Left</div>
+          <div class="timer-val" id="timer-display">60:00</div>
+        </div>
+        <div class="timer-item">
+          <div class="timer-label">Attempted</div>
+          <div class="timer-val" id="attempted-count">0</div>
+        </div>
+        <div class="timer-item">
+          <div class="timer-label">Live Score</div>
+          <div class="score-live"><span class="score-pos" id="live-score">0</span></div>
+        </div>
+      </div>
+      <button class="btn-submit" onclick="submitTest()">Submit Test</button>
+    </div>
+
+    <div class="test-body">
+      <div class="questions-panel" id="questions-panel"></div>
+      <div class="navigator">
+        <div class="nav-title">Question Navigator</div>
+        <div class="nav-grid" id="nav-grid"></div>
+        <div class="nav-legend">
+          <div class="legend-item"><div class="legend-dot answered"></div><span>Answered</span></div>
+          <div class="legend-item"><div class="legend-dot unanswered"></div><span>Not answered</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULT SCREEN -->
+  <div id="result-screen">
+    <div class="result-box">
+      <h2>🎯 Test Completed!</h2>
+      <div class="result-stats">
+        <div class="result-stat">
+          <div class="result-stat-val" id="res-score" style="color:#44aaff;">0</div>
+          <div class="result-stat-label">Final Score</div>
+        </div>
+        <div class="result-stat">
+          <div class="result-stat-val" id="res-correct" style="color:#1affa0;">0</div>
+          <div class="result-stat-label">Correct</div>
+        </div>
+        <div class="result-stat">
+          <div class="result-stat-val" id="res-wrong" style="color:#ff6060;">0</div>
+          <div class="result-stat-label">Wrong</div>
+        </div>
+        <div class="result-stat">
+          <div class="result-stat-val" id="res-skip" style="color:#f7c948;">0</div>
+          <div class="result-stat-label">Skipped</div>
+        </div>
+      </div>
+      <button class="btn-retry" onclick="retryTest()">Try Again</button>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-logo">Let's <span>Play</span> With Physics</div>
+    <div class="footer-copy">© 2025 · Akshay Kumar · University of Hyderabad · Hyderabad</div>
+  </footer>
+
+  <script>
+    // =============================================
+    // ADD YOUR QUESTIONS HERE
+    // Each question: { q: "question text", opts: ["A","B","C","D"], ans: 0 }
+    // ans: 0=A, 1=B, 2=C, 3=D
+    // =============================================
+
+    const neetQuestions = [
+      { q: "In a new system of unit, mass is measured in multiple of x kg, length in multiple of y m and time in multiple of z second. What is the value of 10 J in new system of unit?", opts: ["x²y² / 10z²", "10x²y / z²", "10xy² / z²", "10z² / xy²"], ans: 3 },
+      { q: "The moment of inertia of a solid sphere is 40 kg m² about its diametric axis. The moment of inertia about any tangent to sphere is:", opts: ["100 kg m²", "40 kg m²", "140 kg m²", "60 kg m²"], ans: 2 },
+      { q: "2 kg ice at -20°C is mixed with 5 kg water at 20°C. Then final amount of water in the mixture would be (specific heat of ice = 0.5 cal/g°C, specific heat of water = 1 cal/g°C, Latent heat of fusion for ice = 80 cal/g):", opts: ["6 kg", "5 kg", "4 kg", "2 kg"], ans: 0 },
+      { q: "Match List-I with List-II: Isobaric process → ?, Isothermal process → ?, Adiabatic process → ?, Isochoric process → ? [I: No heat exchange, II: Constant pressure, III: Constant Internal energy, IV: Work done is zero]", opts: ["(A)-(III),(B)-(II),(C)-(I),(D)-(IV)", "(A)-(II),(B)-(III),(C)-(I),(D)-(IV)", "(A)-(II),(B)-(III),(C)-(I),(D)-(I)", "(A)-(IV),(B)-(I),(C)-(II),(D)-(II)"], ans: 1 },
+      { q: "Match List-I (standing waves) with List-II (frequencies): Second harmonic open tube, Fundamental closed tube, First overtone closed tube, Fundamental string fixed both ends [I: v/4l, II: v/2l, III: 3v/4l, IV: v/l, V: 5v/4l]", opts: ["(A)-(IV),(B)-(I),(C)-(III),(D)-(II)", "(A)-(V),(B)-(III),(C)-(I),(D)-(II)", "(A)-(IV),(B)-(II),(C)-(V),(D)-(I)", "(A)-(I),(B)-(II),(C)-(III),(D)-(V)"], ans: 0 },
+      { q: "Position-time graph of a particle of mass 3 kg is given. The impulse at t = 2 s is:", opts: ["+24 kg ms⁻¹", "-24 kg ms⁻¹", "+16 kg ms⁻¹", "-16 kg ms⁻¹"], ans: 0 },
+      { q: "Variation of force with position given as F = 8 - 4x + 6x². This force acts on a body of mass 3 kg and displaces from x = 0 to x = 2 m. Amount of work done is:", opts: ["+8 Joule", "+24 Joule", "16 Joule", "-16 Joule"], ans: 1 },
+      { q: "Assertion (A): Stress is the internal force per unit area of a body. Reason (R): Rubber is more elastic than steel.", opts: ["Both A and R true, R is correct explanation", "Both A and R true, R is not correct explanation", "A is true and R is false", "A is false and R is true"], ans: 2 },
+      { q: "Assertion (A): Two physical quantities may have same dimensions but different units. Reason (R): Dimensionally correct equation is always correct.", opts: ["Both A and R true, R is correct explanation", "Both A and R true, R is not correct explanation", "A is true and R is false", "A is false and R is true"], ans: 2 },
+      { q: "Assertion (A): Molar heat capacity of the gas can have any value from -∞ to +∞. Reason (R): Molar heat capacity of the gas for an isothermal process is ∞.", opts: ["Both A and R true, R is correct explanation", "Both A and R true, R is not correct explanation", "A is true and R is false", "A is false and R is true"], ans: 1 },
+      { q: "When the radius of earth is reduced by 1% without changing the mass, then the acceleration due to gravity will:", opts: ["increase by 2%", "decrease by 1.5%", "increase by 1%", "decrease by 1%"], ans: 0 },
+      { q: "Assertion (A): At the centre of earth, a body has centre of mass, but no centre of gravity. Reason (R): g = 0 at the centre of earth.", opts: ["Both A and R true, R is correct explanation", "Both A and R true, R is not correct explanation", "A is true and R is false", "A is false and R is true"], ans: 0 },
+      { q: "Assertion (A): Frictional forces are conservative forces. Reason (R): Potential energy can be associated with frictional forces.", opts: ["Both A and R true, R is correct explanation", "Both A and R true, R is not correct explanation", "A is true and R is false", "Both A and R are false"], ans: 3 },
+      { q: "Infinite number of bodies, each of mass 1 kg, are situated on x-axis at distances 1m, 2m, 4m, 8m... from origin. The resulting gravitational potential at origin will be:", opts: ["-G", "-2G", "-3G", "-4G"], ans: 0 },
+      { q: "Water is filled in a vessel upto 20 cm height. Bottom is circular with radius 10 cm. Atmospheric pressure = 1.01×10⁵ Pa, density of water = 1000 kg/m³. Force exerted by water on bottom is:", opts: ["1620 N", "2820 N", "3230 N", "4115 N"], ans: 2 },
+      { q: "Match: Longitudinal waves, Transverse waves, Beats, Stationary waves with their correct descriptions [I: perpendicular vibration, II: slightly different frequencies, III: opposite direction superposition, IV: along direction of propagation]", opts: ["(A)-(II),(B)-(III),(C)-(IV),(D)-(I)", "(A)-(IV),(B)-(I),(C)-(II),(D)-(III)", "(A)-(II),(B)-(IV),(C)-(I),(D)-(III)", "(A)-(I),(B)-(II),(C)-(IV),(D)-(III)"], ans: 1 },
+      { q: "Consider a closed organ pipe of length 85 cm. Number of possible natural oscillations below 1250 Hz is (velocity of sound = 340 m/s):", opts: ["8", "11", "10", "6"], ans: 3 },
+      { q: "The ratio of radii of gyration of a circular disc about a tangential axis in its plane and a circular ring of same radius about a tangential axis in its plane is:", opts: ["2:1", "√5:√6", "2:3", "1:√2"], ans: 1 },
+      { q: "On a cold morning, a metal surface feels colder than wood because:", opts: ["Metal has low specific heat", "Metal has high thermal conductivity", "Metal has high specific heat", "Metal has low thermal conductivity"], ans: 1 },
+      { q: "In a pulley-block arrangement, if right block is pulled by 3mg force, acceleration of left block is (frictionless, fixed pulley):", opts: ["4g", "2g/3", "3g/2", "5g/6"], ans: 2 },
+      { q: "In the circuit, potential difference across 4.5 μF capacitor is (3μF and 6μF in parallel, then in series with 4.5μF, 12V source):", opts: ["8/3 volts", "4 volts", "6 volts", "8 volts"], ans: 3 },
+      { q: "A dielectric of constant K is introduced such that half of area of capacitor C is occupied by it. New capacity is:", opts: ["2C", "C/2", "(1+K)C/2", "2C(1+K)"], ans: 2 },
+      { q: "In the given current distribution (4A in, 2A out, 3A out, 5A out), what is the value of I?", opts: ["3 A", "8 A", "2 A", "5 A"], ans: 2 },
+      { q: "Magnet moves towards coil with speed v, induced emf = e. If both magnet and coil recede from each other each with speed v, induced emf will be:", opts: ["e", "2e", "e/2", "4e"], ans: 1 },
+      { q: "For a paramagnetic material, dependence of magnetic susceptibility χ on absolute temperature T is:", opts: ["χ ∝ T", "χ ∝ 1/T²", "χ ∝ 1/T", "Independent"], ans: 2 },
+      { q: "The relative magnetic permeability of ferromagnetic materials is in the order of:", opts: ["10", "100", "1000", "10⁻²"], ans: 2 },
+      { q: "An electron moving around nucleus with angular momentum l has magnetic moment:", opts: ["(e/m)l", "(e/2m)l", "(2e/m)l", "(e/2πm)l"], ans: 1 },
+      { q: "Two identical light waves propagating in same direction have phase difference δ. After superposition, intensity of resulting wave is proportional to:", opts: ["cos δ", "cos(δ/2)", "cos²(δ/2)", "cos²δ"], ans: 2 },
+      { q: "A proton and an α-particle are accelerated through same potential difference. Ratio of their de Broglie wavelengths λp/λα will be:", opts: ["1/√8", "√8", "2", "1"], ans: 1 },
+      { q: "Match List-I (Electric charge, Electric field strength, Permittivity, Electric dipole moment) with List-II (dimensional formulas):", opts: ["A→IV, B→II, C→I, D→III", "A→IV, B→II, C→III, D→I", "A→II, B→I, C→IV, D→III", "A→II, B→II, C→I, D→IV"], ans: 0 },
+      { q: "Statement-I: In unbiased p-n junction, holes diffuse from p-region to n-region. Statement-II: Hole concentration in p-region is more than n-region.", opts: ["Both statements correct", "Statement I correct, II incorrect", "Statement I incorrect, II correct", "Both incorrect"], ans: 0 },
+      { q: "The diagram shows paths of four α-particles of same energy scattered by nucleus. Which are NOT physically possible?", opts: ["3 and 4", "2 and 3", "1 and 4", "4 only"], ans: 3 },
+      { q: "Two coherent sources with intensities I₁ and I₂ interfere. Value of (Imax - Imin)/(Imax + Imin) is:", opts: ["(I₁+I₂)/√(I₁I₂)", "√(I₁I₂)/(I₁+I₂)", "(I₁+I₂)/2√(I₁I₂)", "2√(I₁I₂)/(I₁+I₂)"], ans: 3 },
+      { q: "The current I in the given circuit (4.5V, R₁=3Ω, R₂=6Ω, R₃=6Ω) is:", opts: ["1.87 A", "2.5 A", "0.32 A", "3.2 A"], ans: 0 },
+      { q: "The combination of logic gates shown produces:", opts: ["AND gate", "XOR gate", "NOR gate", "NAND gate"], ans: 3 },
+      { q: "The magnetic lines of force inside a bar magnet:", opts: ["are from N-pole to S-pole", "do not exist", "depend upon area of cross-section", "are from S-pole to N-pole"], ans: 3 },
+      { q: "Two radiations of photon energies 2 eV and 5 eV illuminate a photosensitive surface of work function 1 eV. Ratio of maximum speeds of emitted electrons is:", opts: ["1:4", "1:2", "1:1", "1:5"], ans: 1 },
+      { q: "Energy of hydrogen atom in nth orbit is En. Energy in nth orbit of single ionised helium atom is:", opts: ["En/2", "2En", "4En", "En/4"], ans: 2 },
+      { q: "In AC circuit V = 100sin(100t) volts, I = 100sin(100t + π/3) mA. Power dissipated is:", opts: ["10⁴ watt", "10 watt", "2.5 watt", "5.0 watt"], ans: 2 },
+      { q: "Critical angle for total internal reflection from medium to vacuum is 30°. Velocity of light in medium is:", opts: ["1.5×10⁸ m/s", "2×10⁸ m/s", "3×10⁸ m/s", "0.75×10⁸ m/s"], ans: 0 },
+      { q: "Given aμg = 3/2, aμw = 4/3. If convex lens of focal length 10 cm is placed in water, its focal length in water is:", opts: ["equal to 40 cm", "equal to 20 cm", "equal to 10 cm", "None of these"], ans: 0 },
+      { q: "A uniformly charged infinite wire along y-axis has linear charge density λ₁. A semicircle wire with charge density λ₂ centred at (R,0) is placed. If electric field at (R,0) is zero, ratio λ₁/λ₂ is:", opts: ["λ₁/λ₂ = 1", "λ₂/λ₁ = 2", "λ₂/λ₁ = 1/2", "λ₁/λ₂ = √2"], ans: 0 },
+      { q: "μl, μk and μs represent coefficients of rolling friction, kinetic and static friction. Then:", opts: ["μl = μs = μk", "μr > μk > μs", "μr < μs < μk", "μr < μk < μs"], ans: 3 },
+      { q: "A steel wire of radius 2.0 mm carrying load of 4 kg is hanging from ceiling (g = 3.1π ms⁻²). Tensile stress developed in wire is:", opts: ["6.2×10⁶ Nm⁻²", "5.2×10⁶ Nm⁻²", "3.1×10⁶ Nm⁻²", "4.8×10⁶ Nm⁻²"], ans: 2 },
+      { q: "Three masses on x-axis: 300g at origin, 500g at x=40cm, 400g at x=70cm. Distance of centre of mass from origin is:", opts: ["40 cm", "45 cm", "50 cm", "30 cm"], ans: 0 },
+    ];
+
+    const jeeQuestions = [
+      { q: "A particle moves in a circle of radius r. The displacement after half a circle is:", opts: ["0", "2r", "πr", "r"], ans: 1 },
+      { q: "The dimensional formula of Planck's constant is:", opts: ["[ML²T⁻¹]", "[MLT⁻²]", "[ML²T⁻²]", "[ML³T⁻¹]"], ans: 0 },
+      { q: "Question 3 — Replace with your question", opts: ["Option A", "Option B", "Option C", "Option D"], ans: 0 },
+      { q: "Question 4 — Replace with your question", opts: ["Option A", "Option B", "Option C", "Option D"], ans: 0 },
+      { q: "Question 5 — Replace with your question", opts: ["Option A", "Option B", "Option C", "Option D"], ans: 0 },
+      { q: "Question 6 — Replace with your question", opts: ["Option A", "Option B", "Option C", "Option D"], ans: 0 },
+      { q: "Question 7 — Replace with your question", opts: ["Option A", "Option B", "Option C", "Option D"], ans: 0 },
+      { q: "Question 8 — Replace with your question", opts: ["Option A", "Option B", "Option C", "Option D"], ans: 0 },
+      { q: "Question 9 — Replace with your question", opts: ["Option A", "Option B", "Option C", "Option D"], ans: 0 },
+      { q: "Question 10 — Replace with your question", opts: ["Option A", "Option B", "Option C", "Option D"], ans: 0 },
+      { q: "Question 11 — Replace with your question", opts: ["Option A", "Option B", "Option C", "Option D"], ans: 0 },
+      { q: "Question 12 — Replace with your question", opts: ["Option A", "Option B", "Option C", "Option D"], ans: 0 },
+      { q: "Question 13 — Replace with your question", opts: ["Option A", "Option B", "Option C", "Option D"], ans: 0 },
+      { q: "Question 14 — Replace with your question", opts: ["Option A", "Option B", "Option C", "Option D"], ans: 0 },
+      { q: "Question 15 — Replace with your question", opts: ["Option A", "Option B", "Option C", "Option D"], ans: 0 },
+      { q: "Question 16 — Replace with your question", opts: ["Option A", "Option B", "Option C", "Option D"], ans: 0 },
+      { q: "Question 17 — Replace with your question", opts: ["Option A", "Option B", "Option C", "Option D"], ans: 0 },
+      { q: "Question 18 — Replace with your question", opts: ["Option A", "Option B", "Option C", "Option D"], ans: 0 },
+      { q: "Question 19 — Replace with your question", opts: ["Option A", "Option B", "Option C", "Option D"], ans: 0 },
+      { q: "Question 20 — Replace with your question", opts: ["Option A", "Option B", "Option C", "Option D"], ans: 0 },
+      { q: "Question 21 — Replace with your question", opts: ["Option A", "Option B", "Option C", "Option D"], ans: 0 },
+      { q: "Question 22 — Replace with your question", opts: ["Option A", "Option B", "Option C", "Option D"], ans: 0 },
+      { q: "Question 23 — Replace with your question", opts: ["Option A", "Option B", "Option C", "Option D"], ans: 0 },
+      { q: "Question 24 — Replace with your question", opts: ["Option A", "Option B", "Option C", "Option D"], ans: 0 },
+      { q: "Question 25 — Replace with your question", opts: ["Option A", "Option B", "Option C", "Option D"], ans: 0 },
+    ];
+
+    // =============================================
+    // CORE LOGIC — DO NOT EDIT BELOW THIS LINE
+    // =============================================
+
+    const PASSWORD = "Physics6477";
+    let currentTest = 'neet';
+    let answers = { neet: new Array(45).fill(-1), jee: new Array(25).fill(-1) };
+    let timerInterval = null;
+    let timeLeft = 3600;
+
+    function checkPassword() {
+      const val = document.getElementById('pwd-input').value;
+      if (val === PASSWORD) {
+        document.getElementById('password-screen').style.display = 'none';
+        document.getElementById('test-screen').style.display = 'block';
+        loadTest('neet');
+        startTimer();
+      } else {
+        document.getElementById('lock-error').style.display = 'block';
+      }
+    }
+
+    function startTimer() {
+      clearInterval(timerInterval);
+      timeLeft = 3600;
+      timerInterval = setInterval(() => {
+        timeLeft--;
+        updateTimerDisplay();
+        if (timeLeft <= 0) { clearInterval(timerInterval); submitTest(); }
+      }, 1000);
+    }
+
+    function updateTimerDisplay() {
+      const m = Math.floor(timeLeft / 60);
+      const s = timeLeft % 60;
+      const el = document.getElementById('timer-display');
+      el.textContent = String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+      el.className = 'timer-val' + (timeLeft < 300 ? ' danger' : timeLeft < 600 ? ' warning' : '');
+    }
+
+    function loadTest(type) {
+      currentTest = type;
+      const qs = type === 'neet' ? neetQuestions : jeeQuestions;
+      const ans = answers[type];
+      const panel = document.getElementById('questions-panel');
+      const navGrid = document.getElementById('nav-grid');
+      panel.innerHTML = '';
+      navGrid.innerHTML = '';
+
+      qs.forEach((q, i) => {
+        const block = document.createElement('div');
+        block.className = 'question-block' + (ans[i] !== -1 ? ' answered' : '');
+        block.id = 'qblock-' + i;
+        block.innerHTML = `
+          <div class="question-num">Question ${i+1} of ${qs.length}</div>
+          <div class="question-text">${q.q}</div>
+          <div class="options">
+            ${q.opts.map((opt, j) => `
+              <div class="option ${ans[i] === j ? 'selected' : ''}" onclick="selectOption(${i}, ${j})">
+                <input type="radio" name="q${i}" id="q${i}o${j}" ${ans[i] === j ? 'checked' : ''}>
+                <label for="q${i}o${j}"><strong>${['A','B','C','D'][j]}.</strong> ${opt}</label>
+              </div>
+            `).join('')}
+          </div>`;
+        panel.appendChild(block);
+
+        const nb = document.createElement('button');
+        nb.className = 'nav-btn' + (ans[i] !== -1 ? ' answered' : '');
+        nb.id = 'navbtn-' + i;
+        nb.textContent = i + 1;
+        nb.onclick = () => document.getElementById('qblock-' + i).scrollIntoView({ behavior: 'smooth', block: 'center' });
+        navGrid.appendChild(nb);
+      });
+
+      updateLiveScore();
+    }
+
+    function selectOption(qIndex, optIndex) {
+      answers[currentTest][qIndex] = optIndex;
+      const qs = currentTest === 'neet' ? neetQuestions : jeeQuestions;
+      const block = document.getElementById('qblock-' + qIndex);
+      block.classList.add('answered');
+      block.querySelectorAll('.option').forEach((opt, j) => {
+        opt.classList.toggle('selected', j === optIndex);
         opt.querySelector('input').checked = j === optIndex;
       });
       const nb = document.getElementById('navbtn-' + qIndex);
