@@ -46,6 +46,7 @@
     .mat-card-badge { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; flex-shrink: 0; }
     .badge-formula { background: rgba(44,120,255,0.15); color: #44aaff; }
     .badge-notes { background: rgba(160,100,255,0.15); color: #b07aff; }
+    .badge-practice { background: rgba(247,201,72,0.15); color: #f7c948; }
     .badge-coming { background: rgba(100,180,255,0.1); color: #5a7090; }
     .new-badge { background: rgba(26,255,160,0.15); color: #1affa0; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; margin-left: 8px; vertical-align: middle; }
     .mat-card-title { font-weight: 700; font-size: 15px; line-height: 1.4; }
@@ -75,7 +76,9 @@
 <body>
 
   <nav>
-    <a href="index.html" class="nav-logo">Let's <span>Play</span> With Physics</a>
+    <a href="index.html" class="nav-logo">
+      <img src="logo.png" alt="Let's Play With Physics" style="height: 44px; width: auto; display: block;">
+    </a>
     <div class="nav-links">
       <a href="index.html#about">About</a>
       <a href="index.html#batches">Batches</a>
@@ -90,14 +93,14 @@
   <div class="page-header">
     <div class="breadcrumb"><a href="index.html">Home</a> › Study Materials</div>
     <h1>📚 Study Materials</h1>
-    <p>Formula sheets, notes and previous year questions — handpicked by Akshay Sir for NEET and JEE Mains preparation.</p>
+    <p>Formula sheets, notes, practice questions and PYQs — handpicked by Akshay Sir for NEET and JEE Mains preparation.</p>
   </div>
 
   <div class="top-tabs">
     <button class="top-tab active" data-section="formula">📄 Formula Sheets</button>
     <button class="top-tab" data-section="pyq">📋 PYQs</button>
-    <button class="top-tab" data-section="practice">📋 Practice questions</button>
     <button class="top-tab" data-section="notes">📝 Quick Revision Short Notes</button>
+    <button class="top-tab" data-section="practice">✏️ Practice Questions</button>
   </div>
 
   <!-- ===== FORMULA SHEETS ===== -->
@@ -112,7 +115,7 @@
       <div class="sub-section-header">
         <span class="sub-section-label">NEET</span>
         <span class="sub-section-tag tag-neet">NEET</span>
-        <span class="sub-section-count">10 files available</span>
+        <span class="sub-section-count">11 files available</span>
       </div>
       <div class="cards-grid">
 
@@ -152,10 +155,9 @@
           </div>
         </div>
 
-
-<div class="mat-card">
+        <div class="mat-card">
           <div class="mat-card-top">
-            <div class="mat-card-title">Mechanical properties of matter— Formula Sheet</div>
+            <div class="mat-card-title">Mechanical Properties of Matter — Formula Sheet</div>
             <span class="mat-card-badge badge-formula">Formula</span>
           </div>
           <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 NEET</span></div>
@@ -163,12 +165,8 @@
             <span class="mat-card-size">By Akshay Sir</span>
             <a class="btn-download" href="Mechanical properties of matter formula sheet.pdf" target="_blank">⬇ Download</a>
           </div>
-</div>
+        </div>
 
-
-
-
-        
         <div class="mat-card">
           <div class="mat-card-top">
             <div class="mat-card-title">Thermodynamics &amp; KTG — Formula Sheet</div>
@@ -431,73 +429,7 @@
     </div>
   </div>
 
-
-  <!-- ===== practice questions ===== -->
-  <div class="section-wrapper section-hidden" id="section-practice">
-    <div class="sub-tabs">
-      <button class="sub-tab active" data-section="practice" data-sub="neet">🟢 NEET</button>
-      <button class="sub-tab" data-section="practice" data-sub="jee">🟡 JEE Mains</button>
-    </div>
-
-    <div class="sub-section" id="practice-neet">
-      <div class="sub-section-header">
-        <span class="sub-section-label">NEET</span>
-        <span class="sub-section-tag tag-neet">NEET</span>
-        <span class="sub-section-count">Coming soon</span>
-      </div>
-      <div class="cards-grid">
-        <div class="mat-card coming">
-          <div class="mat-card-top">
-            <div class="mat-card-title">Kinematics</div>
-            <span class="mat-card-badge badge-coming">Soon</span>
-          </div>
-          <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 NEET</span></div>
-          <div class="mat-card-footer"><span class="mat-card-size">—</span><a class="btn-download disabled">Coming Soon</a></div>
-        </div>
-        <div class="mat-card coming">
-          <div class="mat-card-top">
-            <div class="mat-card-title">Waves</div>
-            <span class="mat-card-badge badge-coming">Soon</span>
-          </div>
-          <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 NEET</span></div>
-          <div class="mat-card-footer"><span class="mat-card-size">—</span><a class="btn-download disabled">Coming Soon</a></div>
-        </div>
-      </div>
-      <div class="upload-notice">
-        <p>NEET PYQ PDFs coming soon! To get notified: <a href="mailto:letsplaywithphysics647742@gmail.com">letsplaywithphysics647742@gmail.com</a></p>
-      </div>
-    </div>
-
-    <div class="sub-section sub-hidden" id="practice-jee">
-      <div class="sub-section-header">
-        <span class="sub-section-label">JEE Mains</span>
-        <span class="sub-section-tag tag-jee">JEE Mains</span>
-        <span class="sub-section-count">Coming soon</span>
-      </div>
-      <div class="cards-grid">
-        <div class="mat-card coming">
-          <div class="mat-card-top">
-            <div class="mat-card-title">Kinematics </div>
-            <span class="mat-card-badge badge-coming">Soon</span>
-          </div>
-          <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 JEE Mains</span></div>
-          <div class="mat-card-footer"><span class="mat-card-size">—</span><a class="btn-download disabled">Coming Soon</a></div>
-        </div>
-        <div class="mat-card coming">
-          <div class="mat-card-top">
-            <div class="mat-card-title">Waves</div>
-            <span class="mat-card-badge badge-coming">Soon</span>
-          </div>
-          <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 JEE Mains</span></div>
-          <div class="mat-card-footer"><span class="mat-card-size">—</span><a class="btn-download disabled">Coming Soon</a></div>
-        </div>
-      </div>
-      <div class="upload-notice">
-        <p>JEE Mains practice questions pdf coming soon! To get notified: <a href="mailto:letsplaywithphysics647742@gmail.com">letsplaywithphysics647742@gmail.com</a></p>
-      </div>
-    </div>
-  </div>
-  <!-- ===== NOTES ===== -->
+  <!-- ===== QUICK REVISION SHORT NOTES ===== -->
   <div class="section-wrapper section-hidden" id="section-notes">
     <div class="sub-section">
       <div class="sub-section-header">
@@ -552,6 +484,90 @@
     </div>
   </div>
 
+  <!-- ===== PRACTICE QUESTIONS ===== -->
+  <div class="section-wrapper section-hidden" id="section-practice">
+    <div class="sub-tabs">
+      <button class="sub-tab active" data-section="practice" data-sub="neet">🟢 NEET</button>
+      <button class="sub-tab" data-section="practice" data-sub="jee">🟡 JEE Mains</button>
+    </div>
+
+    <!-- NEET Practice -->
+    <div class="sub-section" id="practice-neet">
+      <div class="sub-section-header">
+        <span class="sub-section-label">NEET</span>
+        <span class="sub-section-tag tag-neet">NEET</span>
+        <span class="sub-section-count">Coming soon</span>
+      </div>
+      <div class="cards-grid">
+        <div class="mat-card coming">
+          <div class="mat-card-top">
+            <div class="mat-card-title">Kinematics — Practice Questions</div>
+            <span class="mat-card-badge badge-coming">Soon</span>
+          </div>
+          <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 NEET</span></div>
+          <div class="mat-card-footer"><span class="mat-card-size">—</span><a class="btn-download disabled">Coming Soon</a></div>
+        </div>
+        <div class="mat-card coming">
+          <div class="mat-card-top">
+            <div class="mat-card-title">Electrostatics — Practice Questions</div>
+            <span class="mat-card-badge badge-coming">Soon</span>
+          </div>
+          <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 NEET</span></div>
+          <div class="mat-card-footer"><span class="mat-card-size">—</span><a class="btn-download disabled">Coming Soon</a></div>
+        </div>
+        <div class="mat-card coming">
+          <div class="mat-card-top">
+            <div class="mat-card-title">Waves — Practice Questions</div>
+            <span class="mat-card-badge badge-coming">Soon</span>
+          </div>
+          <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 NEET</span></div>
+          <div class="mat-card-footer"><span class="mat-card-size">—</span><a class="btn-download disabled">Coming Soon</a></div>
+        </div>
+      </div>
+      <div class="upload-notice">
+        <p>NEET practice question PDFs coming soon! To get notified: <a href="mailto:letsplaywithphysics647742@gmail.com">letsplaywithphysics647742@gmail.com</a></p>
+      </div>
+    </div>
+
+    <!-- JEE Mains Practice -->
+    <div class="sub-section sub-hidden" id="practice-jee">
+      <div class="sub-section-header">
+        <span class="sub-section-label">JEE Mains</span>
+        <span class="sub-section-tag tag-jee">JEE Mains</span>
+        <span class="sub-section-count">Coming soon</span>
+      </div>
+      <div class="cards-grid">
+        <div class="mat-card coming">
+          <div class="mat-card-top">
+            <div class="mat-card-title">Kinematics — Practice Questions</div>
+            <span class="mat-card-badge badge-coming">Soon</span>
+          </div>
+          <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 JEE Mains</span></div>
+          <div class="mat-card-footer"><span class="mat-card-size">—</span><a class="btn-download disabled">Coming Soon</a></div>
+        </div>
+        <div class="mat-card coming">
+          <div class="mat-card-top">
+            <div class="mat-card-title">Electrostatics — Practice Questions</div>
+            <span class="mat-card-badge badge-coming">Soon</span>
+          </div>
+          <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 JEE Mains</span></div>
+          <div class="mat-card-footer"><span class="mat-card-size">—</span><a class="btn-download disabled">Coming Soon</a></div>
+        </div>
+        <div class="mat-card coming">
+          <div class="mat-card-top">
+            <div class="mat-card-title">Waves — Practice Questions</div>
+            <span class="mat-card-badge badge-coming">Soon</span>
+          </div>
+          <div class="mat-card-meta"><span>📄 PDF</span><span>🎯 JEE Mains</span></div>
+          <div class="mat-card-footer"><span class="mat-card-size">—</span><a class="btn-download disabled">Coming Soon</a></div>
+        </div>
+      </div>
+      <div class="upload-notice">
+        <p>JEE Mains practice question PDFs coming soon! To get notified: <a href="mailto:letsplaywithphysics647742@gmail.com">letsplaywithphysics647742@gmail.com</a></p>
+      </div>
+    </div>
+  </div>
+
   <footer>
     <div class="footer-logo">Let's <span>Play</span> With Physics</div>
     <div class="footer-copy">© 2026 · Akshay Kumar · University of Hyderabad · Hyderabad</div>
@@ -562,9 +578,8 @@
     const sections = {
       formula: document.getElementById('section-formula'),
       pyq: document.getElementById('section-pyq'),
-      practice: document.getElementById('section-practice'),
-      notes: document.getElementById('section-notes')
-      
+      notes: document.getElementById('section-notes'),
+      practice: document.getElementById('section-practice')
     };
 
     function setActiveSection(type) {
