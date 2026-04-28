@@ -11,7 +11,6 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Space Grotesk', sans-serif; background: #0a0e1a; color: #e8eaf0; overflow-x: hidden; }
-
     nav { display: flex; align-items: center; justify-content: space-between; padding: 18px 40px; background: rgba(10,14,26,0.97); border-bottom: 1px solid rgba(100,180,255,0.12); position: sticky; top: 0; z-index: 100; }
     .nav-logo { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; color: #fff; text-decoration: none; }
     .nav-logo span { color: #44aaff; }
@@ -19,20 +18,17 @@
     .nav-links a { color: #a0aac0; font-size: 14px; text-decoration: none; transition: color 0.2s; }
     .nav-links a:hover { color: #44aaff; }
     .nav-cta { background: #44aaff; color: #0a0e1a; font-size: 13px; font-weight: 700; padding: 8px 20px; border-radius: 20px; text-decoration: none; }
-
     .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; }
     .hamburger span { display: block; width: 24px; height: 2px; background: #e8eaf0; border-radius: 2px; transition: all 0.3s; }
     .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
     .hamburger.open span:nth-child(2) { opacity: 0; }
     .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
     .mobile-menu { display: none; flex-direction: column; background: rgba(10,14,26,0.99); border-bottom: 1px solid rgba(100,180,255,0.12); max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.3s ease; padding: 0 18px; }
     .mobile-menu.open { max-height: 500px; padding: 16px 18px 20px; }
     .mobile-menu a { color: #a0aac0; font-size: 15px; text-decoration: none; padding: 12px 0; border-bottom: 1px solid rgba(100,180,255,0.07); transition: color 0.2s; display: block; }
     .mobile-menu a:last-child { border-bottom: none; }
     .mobile-menu a:hover { color: #44aaff; }
     .mobile-menu .mob-cta { margin-top: 14px; background: #44aaff; color: #0a0e1a; font-weight: 700; padding: 12px 20px; border-radius: 20px; text-align: center; border-bottom: none !important; }
-
     .hero { min-height: 90vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 60px 24px 40px; position: relative; overflow: hidden; }
     .hero-bg { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 80% 60% at 50% 30%, rgba(44,120,255,0.13) 0%, transparent 70%); }
     .hero-orbit { position: absolute; width: 500px; height: 500px; border: 1px dashed rgba(100,180,255,0.1); border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%); animation: spin 30s linear infinite; }
@@ -52,7 +48,6 @@
     .stat { text-align: center; }
     .stat-num { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; color: #fff; }
     .stat-label { font-size: 12px; color: #5a6a85; margin-top: 2px; }
-
     .teacher-card { background: rgba(44,120,255,0.07); border: 1px solid rgba(44,120,255,0.2); border-radius: 20px; padding: 32px 36px; display: flex; align-items: center; gap: 28px; flex-wrap: wrap; }
     .teacher-avatar { width: 72px; height: 72px; border-radius: 50%; background: rgba(44,120,255,0.2); border: 2px solid rgba(44,120,255,0.4); display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 800; color: #44aaff; flex-shrink: 0; }
     .teacher-info { flex: 1; }
@@ -84,8 +79,7 @@
     .batch-card.paid .batch-price { color: #f7c948; }
     .batch-features { list-style: none; display: flex; flex-direction: column; gap: 8px; }
     .batch-features li { font-size: 13px; color: #8090b0; display: flex; align-items: center; gap: 8px; }
-    .batch-features li::before { content: 'checkmark'; font-weight: 700; color: #44aaff; }
-    .batch-features li::before { content: '\2713'; }
+    .batch-features li::before { content: '\2713'; font-weight: 700; color: #44aaff; }
     .batch-cta { display: inline-block; margin-top: 24px; font-size: 13px; font-weight: 700; padding: 10px 22px; border-radius: 20px; text-decoration: none; }
     .batch-card.free .batch-cta { background: rgba(26,255,160,0.15); color: #1affa0; }
     .batch-card.paid .batch-cta { background: rgba(247,201,72,0.15); color: #f7c948; }
@@ -107,7 +101,6 @@
     .footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 15px; color: #fff; }
     .footer-logo span { color: #44aaff; }
     .footer-copy { font-size: 12px; color: #3a4a65; }
-
     @media (max-width: 600px) {
       nav { padding: 14px 18px; }
       .nav-links { display: none; }
@@ -125,7 +118,9 @@
 <body>
 
   <nav>
-    <a href="index.html" class="nav-logo">Let's <span>Play</span> With Physics</a>
+    <a href="index.html" class="nav-logo">
+      <img src="logo.png" alt="Let's Play With Physics" style="height: 44px; width: auto; display: block;">
+    </a>
     <div class="nav-links">
       <a href="#about">About</a>
       <a href="#features">Features</a>
@@ -137,9 +132,7 @@
     </div>
     <a href="#contact" class="nav-cta">Enroll Now</a>
     <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Toggle menu">
-      <span></span>
-      <span></span>
-      <span></span>
+      <span></span><span></span><span></span>
     </button>
   </nav>
 
@@ -209,11 +202,11 @@
         <div class="feat-title">Mock Tests</div>
         <div class="feat-desc">NEET and JEE Mains mock tests with timer and +4/-1 marking.</div>
       </a>
-      <div class="feat-card">
-        <div class="feat-icon">📢</div>
-        <div class="feat-title">Announcements</div>
-        <div class="feat-desc">Stay updated on test schedules, result dates, and batch activities.</div>
-      </div>
+      <a href="material.html" class="feat-card">
+        <div class="feat-icon">✏️</div>
+        <div class="feat-title">Practice Questions</div>
+        <div class="feat-desc">Chapter-wise practice questions for NEET and JEE Mains preparation.</div>
+      </a>
       <div class="feat-card">
         <div class="feat-icon">🎯</div>
         <div class="feat-title">Personal Guidance</div>
@@ -287,18 +280,18 @@
     <div class="contact-box">
       <h2>Ready to start playing? 🎮</h2>
       <p>Reach out directly to Akshay sir to join a batch:</p>
-      <a href="mailto:konadaakshay@gmail.com" class="contact-email">konadaakshay@gmail.com</a>
+      <a href="mailto:letsplaywithphysics647742@gmail.com" class="contact-email">letsplaywithphysics647742@gmail.com</a>
       <div class="contact-form">
         <input type="text" placeholder="Your name">
         <input type="text" placeholder="Your phone number">
-        <button onclick="window.location.href='mailto:konadaakshay@gmail.com?subject=Batch Enrollment Enquiry'">Send Enquiry</button>
+        <button onclick="window.location.href='mailto:letsplaywithphysics647742@gmail.com?subject=Batch Enrollment Enquiry'">Send Enquiry</button>
       </div>
     </div>
   </div>
 
   <footer>
     <div class="footer-logo">Let's <span>Play</span> With Physics</div>
-    <div class="footer-copy">&#169; 2025 &middot; Akshay Kumar &middot; University of Hyderabad &middot; Hyderabad</div>
+    <div class="footer-copy">&#169; 2026 &middot; Akshay Kumar &middot; University of Hyderabad &middot; Hyderabad</div>
   </footer>
 
   <script>
