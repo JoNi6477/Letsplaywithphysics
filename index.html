@@ -89,8 +89,13 @@
     .contact-box { background: rgba(44,120,255,0.07); border: 1px solid rgba(44,120,255,0.2); border-radius: 24px; padding: 48px 40px; text-align: center; }
     .contact-box h2 { font-family: 'Syne', sans-serif; font-size: 32px; font-weight: 800; margin-bottom: 12px; }
     .contact-box p { color: #6070a0; margin-bottom: 8px; font-size: 15px; }
-    .contact-email { color: #44aaff; font-size: 16px; font-weight: 600; margin-bottom: 28px; display: block; text-decoration: none; }
+    .contact-email { color: #44aaff; font-size: 16px; font-weight: 600; margin-bottom: 16px; display: block; text-decoration: none; }
     .contact-email:hover { text-decoration: underline; }
+    .btn-whatsapp { display: inline-flex; align-items: center; gap: 8px; background: #25d366; color: #fff; font-size: 15px; font-weight: 700; padding: 12px 28px; border-radius: 30px; text-decoration: none; margin-bottom: 28px; transition: background 0.2s; }
+    .btn-whatsapp:hover { background: #1ebe5d; }
+    .contact-divider { display: flex; align-items: center; gap: 12px; max-width: 480px; margin: 0 auto 20px; }
+    .contact-divider::before, .contact-divider::after { content: ''; flex: 1; height: 1px; background: rgba(100,180,255,0.1); }
+    .contact-divider span { font-size: 12px; color: #4a5a75; }
     .contact-form { display: flex; gap: 12px; max-width: 480px; margin: 0 auto; flex-wrap: wrap; justify-content: center; }
     .contact-form input { flex: 1; min-width: 180px; background: rgba(255,255,255,0.06); border: 1px solid rgba(100,180,255,0.15); color: #e8eaf0; padding: 12px 18px; border-radius: 12px; font-size: 14px; outline: none; font-family: inherit; }
     .contact-form input::placeholder { color: #3a4a65; }
@@ -279,8 +284,16 @@
   <div class="section" id="contact">
     <div class="contact-box">
       <h2>Ready to start playing? 🎮</h2>
-      <p>Reach out directly to Akshay sir to join a batch:</p>
+      <p>Reach out directly to Akshay Sir to join a batch:</p>
+
+      <a href="https://wa.me/918639905551?text=Hi%20Akshay%20Sir%2C%20I%20want%20to%20join%20your%20batch%20at%20Let%27s%20Play%20With%20Physics!" class="btn-whatsapp" target="_blank">
+        💬 Chat on WhatsApp
+      </a>
+
+      <div class="contact-divider"><span>or reach via email</span></div>
+
       <a href="mailto:letsplaywithphysics647742@gmail.com" class="contact-email">letsplaywithphysics647742@gmail.com</a>
+
       <div class="contact-form">
         <input type="text" placeholder="Your name">
         <input type="text" placeholder="Your phone number">
