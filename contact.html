@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact – Let's Play With Physics</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0d1b2a;
+    --blue: #1b4f8a;
+    --accent: #e8a020;
+    --light: #f5f8fc;
+    --text: #1a1a2e;
+    --muted: #5a6478;
+    --border: #d0dce8;
+    --green: #25d366;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Sans 3', sans-serif; background: var(--light); color: var(--text); font-size: 16px; line-height: 1.8; }
+
+  header {
+    background: var(--navy); padding: 18px 40px;
+    display: flex; align-items: center;
+  }
+  header .logo-text { font-family: 'Playfair Display', serif; color: #fff; font-size: 1.3rem; }
+  header .logo-text span { color: var(--accent); }
+  header a.home { text-decoration: none; }
+  header .back { margin-left: auto; color: #aac4e0; font-size: 0.85rem; text-decoration: none; border: 1px solid #2a4a6a; padding: 6px 14px; border-radius: 4px; transition: all 0.2s; }
+  header .back:hover { background: #1b4f8a; color: #fff; }
+
+  .hero {
+    background: linear-gradient(135deg, var(--navy) 0%, #0a3060 100%);
+    color: white; padding: 65px 40px 55px;
+    position: relative; overflow: hidden;
+  }
+  .hero::before { content: '✉'; position: absolute; right: 60px; top: 20px; font-size: 130px; opacity: 0.06; color: white; }
+  .hero .badge { display: inline-block; background: var(--accent); color: var(--navy); font-weight: 600; font-size: 0.75rem; padding: 3px 10px; border-radius: 20px; margin-bottom: 16px; letter-spacing: 0.08em; text-transform: uppercase; }
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: 2.4rem; margin-bottom: 10px; }
+  .hero p { color: #aac4e0; max-width: 520px; }
+
+  .container { max-width: 860px; margin: 0 auto; padding: 60px 40px; }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    margin-bottom: 50px;
+  }
+
+  .contact-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 30px 28px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .contact-card .icon {
+    width: 52px; height: 52px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.6rem; margin-bottom: 6px;
+  }
+  .wa-card .icon { background: #e8f9ef; }
+  .email-card .icon { background: #eef4fb; }
+  .location-card .icon { background: #fff3e0; }
+  .website-card .icon { background: #f3eeff; }
+
+  .contact-card h3 { font-family: 'Playfair Display', serif; font-size: 1.15rem; color: var(--navy); }
+  .contact-card p { color: var(--muted); font-size: 0.92rem; margin: 0; }
+  .contact-card a { text-decoration: none; font-weight: 600; }
+  .wa-card a { color: var(--green); }
+  .email-card a { color: var(--blue); }
+  .website-card a { color: var(--blue); }
+
+  .wa-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--green);
+    color: white;
+    padding: 12px 22px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-top: 10px;
+    transition: background 0.2s;
+    width: fit-content;
+  }
+  .wa-btn:hover { background: #1daa54; }
+
+  .faq-section { margin-top: 20px; }
+  .faq-section h2 {
+    font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--navy);
+    margin-bottom: 24px; display: flex; align-items: center; gap: 12px;
+  }
+  .faq-section h2::after { content: ''; flex: 1; height: 2px; background: var(--border); border-radius: 2px; }
+
+  .faq-item {
+    background: white; border: 1px solid var(--border); border-radius: 8px;
+    padding: 20px 24px; margin-bottom: 14px;
+  }
+  .faq-item h3 { font-size: 1rem; font-weight: 600; color: var(--navy); margin-bottom: 6px; }
+  .faq-item p { color: var(--muted); font-size: 0.92rem; margin: 0; }
+
+  .note-box {
+    background: #eef4fb; border: 1px solid #c8daf0; border-left: 4px solid var(--blue);
+    border-radius: 6px; padding: 18px 22px; margin-top: 40px; font-size: 0.92rem; color: var(--muted);
+  }
+  .note-box strong { color: var(--navy); }
+
+  footer { background: var(--navy); color: #6a8aaa; text-align: center; padding: 24px; font-size: 0.85rem; margin-top: 40px; }
+  footer a { color: var(--accent); text-decoration: none; }
+
+  @media (max-width: 640px) {
+    .contact-grid { grid-template-columns: 1fr; }
+    header { padding: 14px 20px; }
+    .container { padding: 40px 20px; }
+    .hero { padding: 50px 20px; }
+    .hero h1 { font-size: 1.9rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="home">
+    <div class="logo-text">Let's Play With <span>Physics</span></div>
+  </a>
+  <a href="index.html" class="back">← Home</a>
+</header>
+
+<div class="hero">
+  <div style="max-width:860px; margin:0 auto;">
+    <div class="badge">Get in Touch</div>
+    <h1>Contact Us</h1>
+    <p>Have a doubt, a question, or want to know more about our materials? We're happy to hear from you.</p>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="contact-grid">
+
+    <div class="contact-card wa-card">
+      <div class="icon">💬</div>
+      <h3>WhatsApp</h3>
+      <p>The fastest way to reach us. Message us for doubts, enrollment queries, or feedback.</p>
+      <p><a href="https://wa.me/916309998779">+91 63099 98779</a></p>
+      <a href="https://wa.me/916309998779?text=Hello%2C%20I%20have%20a%20query%20about%20Let%27s%20Play%20With%20Physics." class="wa-btn" target="_blank">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Chat on WhatsApp
+      </a>
+    </div>
+
+    <div class="contact-card location-card">
+      <div class="icon">📍</div>
+      <h3>Location</h3>
+      <p>Based in Hyderabad, Telangana, India.</p>
+      <p>Serving NEET &amp; JEE aspirants across India through online resources.</p>
+    </div>
+
+    <div class="contact-card website-card">
+      <div class="icon">🌐</div>
+      <h3>Website</h3>
+      <p>You're already here! Explore our materials, formula sheets, and mock tests.</p>
+      <p><a href="https://letsplaywithphysics.in">letsplaywithphysics.in</a></p>
+    </div>
+
+    <div class="contact-card email-card">
+      <div class="icon">⏱️</div>
+      <h3>Response Time</h3>
+      <p>We typically respond to WhatsApp messages within <strong>24 hours</strong> on working days.</p>
+      <p>For urgent doubts, WhatsApp is the best channel.</p>
+    </div>
+
+  </div>
+
+  <div class="faq-section">
+    <h2>Common Queries</h2>
+
+    <div class="faq-item">
+      <h3>How do I access the mock test or protected materials?</h3>
+      <p>Passwords for mock tests and premium materials are shared by the instructor. Contact us on WhatsApp to get access.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Are the formula sheets free to download?</h3>
+      <p>Yes! Most formula sheets and practice questions on our Materials page are free to download and use for personal study.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>I found an error in a question/answer. What should I do?</h3>
+      <p>We appreciate it! Please WhatsApp us with the question number and your observation. We review all feedback carefully.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Can schools or institutes use your materials?</h3>
+      <p>For institutional use or collaboration inquiries, please reach out to us directly on WhatsApp to discuss permissions and terms.</p>
+    </div>
+
+  </div>
+
+  <div class="note-box">
+    <strong>Note:</strong> This website is managed by a single educator. Response times may vary during exam seasons or preparation periods. We appreciate your patience.
+  </div>
+
+</div>
+
+<footer>
+  &copy; 2026 Let's Play With Physics &nbsp;·&nbsp;
+  <a href="privacy-policy.html">Privacy Policy</a> &nbsp;·&nbsp;
+  <a href="terms.html">Terms &amp; Conditions</a> &nbsp;·&nbsp;
+  <a href="about.html">About</a>
+</footer>
+
+</body>
+</html>
