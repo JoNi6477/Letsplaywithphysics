@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About – Let's Play With Physics</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0d1b2a;
+    --blue: #1b4f8a;
+    --accent: #e8a020;
+    --light: #f5f8fc;
+    --text: #1a1a2e;
+    --muted: #5a6478;
+    --border: #d0dce8;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Sans 3', sans-serif; background: var(--light); color: var(--text); font-size: 16px; line-height: 1.8; }
+
+  header {
+    background: var(--navy);
+    padding: 18px 40px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  header .logo-text {
+    font-family: 'Playfair Display', serif;
+    color: #fff;
+    font-size: 1.3rem;
+  }
+  header .logo-text span { color: var(--accent); }
+  header a.home { text-decoration: none; }
+  header .back { margin-left: auto; color: #aac4e0; font-size: 0.85rem; text-decoration: none; border: 1px solid #2a4a6a; padding: 6px 14px; border-radius: 4px; transition: all 0.2s; }
+  header .back:hover { background: #1b4f8a; color: #fff; }
+
+  .hero {
+    background: linear-gradient(135deg, var(--navy) 0%, #1b4070 100%);
+    color: white;
+    padding: 70px 40px 60px;
+    position: relative; overflow: hidden;
+  }
+  .hero::after {
+    content: 'E=mc²';
+    position: absolute; right: 50px; bottom: 10px;
+    font-size: 80px; opacity: 0.05; font-family: serif; color: white; letter-spacing: 2px;
+  }
+  .hero .badge { display: inline-block; background: var(--accent); color: var(--navy); font-weight: 600; font-size: 0.75rem; padding: 3px 10px; border-radius: 20px; margin-bottom: 16px; letter-spacing: 0.08em; text-transform: uppercase; }
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: 2.6rem; margin-bottom: 12px; }
+  .hero p { color: #aac4e0; max-width: 580px; font-size: 1.05rem; }
+
+  .container { max-width: 860px; margin: 0 auto; padding: 60px 40px; }
+
+  .profile-card {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 36px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 36px;
+    margin-bottom: 50px;
+    align-items: start;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.05);
+  }
+  .avatar {
+    width: 100px; height: 100px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--blue), var(--navy));
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 2.4rem; color: white; flex-shrink: 0;
+    border: 4px solid var(--accent);
+  }
+  .profile-info h2 { font-family: 'Playfair Display', serif; font-size: 1.7rem; color: var(--navy); margin-bottom: 4px; }
+  .profile-info .title { color: var(--blue); font-weight: 600; font-size: 0.95rem; margin-bottom: 14px; letter-spacing: 0.03em; }
+  .profile-info p { color: var(--muted); font-size: 0.95rem; margin-bottom: 10px; }
+
+  .credentials {
+    display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px;
+  }
+  .cred-tag {
+    background: #eef4fb; color: var(--blue);
+    border: 1px solid #c8daf0;
+    border-radius: 20px; padding: 5px 14px;
+    font-size: 0.82rem; font-weight: 600;
+  }
+
+  section { margin-bottom: 44px; }
+  section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--navy);
+    margin-bottom: 18px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  section h2::after {
+    content: '';
+    flex: 1;
+    height: 2px;
+    background: var(--border);
+    border-radius: 2px;
+  }
+
+  p { margin-bottom: 14px; }
+  ul { padding-left: 22px; margin-bottom: 14px; }
+  li { margin: 7px 0; }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 18px;
+    margin-top: 10px;
+  }
+  .feature-box {
+    background: white;
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--blue);
+    border-radius: 6px;
+    padding: 20px 18px;
+  }
+  .feature-box .icon { font-size: 1.6rem; margin-bottom: 10px; }
+  .feature-box h3 { font-size: 0.95rem; font-weight: 600; color: var(--navy); margin-bottom: 6px; }
+  .feature-box p { font-size: 0.85rem; color: var(--muted); margin: 0; }
+
+  .mission-box {
+    background: linear-gradient(135deg, var(--navy), var(--blue));
+    color: white;
+    border-radius: 10px;
+    padding: 36px 40px;
+    position: relative; overflow: hidden;
+  }
+  .mission-box::before {
+    content: '∮∇·E dV';
+    position: absolute; right: 30px; top: 20px;
+    font-size: 40px; opacity: 0.08; font-family: serif; color: white;
+  }
+  .mission-box h2 { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--accent); margin-bottom: 14px; }
+  .mission-box p { color: #cce0f5; line-height: 1.8; }
+
+  footer {
+    background: var(--navy);
+    color: #6a8aaa;
+    text-align: center;
+    padding: 24px;
+    font-size: 0.85rem;
+    margin-top: 40px;
+  }
+  footer a { color: var(--accent); text-decoration: none; }
+
+  @media (max-width: 600px) {
+    .profile-card { grid-template-columns: 1fr; }
+    .avatar { margin: 0 auto; }
+    .profile-info { text-align: center; }
+    .credentials { justify-content: center; }
+    header { padding: 14px 20px; }
+    .container { padding: 40px 20px; }
+    .hero { padding: 50px 20px; }
+    .hero h1 { font-size: 1.9rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="home">
+    <div class="logo-text">Let's Play With <span>Physics</span></div>
+  </a>
+  <a href="index.html" class="back">← Home</a>
+</header>
+
+<div class="hero">
+  <div class="badge">About Us</div>
+  <h1>Physics, Taught with Passion.</h1>
+  <p>A platform built by a physicist and educator, for students who want to truly understand — not just memorise.</p>
+</div>
+
+<div class="container">
+
+  <div class="profile-card">
+    <div class="avatar">AK</div>
+    <div class="profile-info">
+      <h2>Akshay Kumar</h2>
+      <div class="title">Founder · Physics Educator · M.Sc. Physics</div>
+      <p>Physics faculty at an IIT coaching institute in Hyderabad, with a Master's degree in Physics from the University of Hyderabad. With years of experience teaching NEET and JEE aspirants, Akshay brings a Socratic, inquiry-first approach to every concept — encouraging students to question, derive, and discover rather than simply memorise.</p>
+      <div class="credentials">
+        <span class="cred-tag">M.Sc. Physics — University of Hyderabad</span>
+        <span class="cred-tag">IIT Coaching Faculty, Hyderabad</span>
+        <span class="cred-tag">NEET &amp; JEE Specialist</span>
+      </div>
+    </div>
+  </div>
+
+  <section>
+    <h2>About This Platform</h2>
+    <p><strong>Let's Play With Physics</strong> (letsplaywithphysics.in) is an independent physics education resource created to bridge the gap between rote exam preparation and genuine conceptual understanding.</p>
+    <p>The platform serves students preparing for <strong>NEET</strong> and <strong>JEE Mains/Advanced</strong> examinations across India, providing free and premium resources including formula sheets, practice question banks, and timed mock tests.</p>
+  </section>
+
+  <section>
+    <h2>What We Offer</h2>
+    <div class="features-grid">
+      <div class="feature-box">
+        <div class="icon">📄</div>
+        <h3>Formula Sheets</h3>
+        <p>Topic-wise concise reference sheets covering all chapters for NEET &amp; JEE.</p>
+      </div>
+      <div class="feature-box">
+        <div class="icon">📝</div>
+        <h3>Practice Questions</h3>
+        <p>Curated question banks with NEET PYQs and JEE-level problems, topic-wise.</p>
+      </div>
+      <div class="feature-box">
+        <div class="icon">⏱️</div>
+        <h3>Mock Tests</h3>
+        <p>Timed online tests with +4/−1 marking, covering NEET (45Q) and JEE (25Q) patterns.</p>
+      </div>
+      <div class="feature-box">
+        <div class="icon">📐</div>
+        <h3>Concept Depth</h3>
+        <p>Explanations that go beyond the textbook, built for real understanding.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="mission-box">
+    <h2>Our Mission</h2>
+    <p>Physics is not a collection of formulas to memorise — it is a way of thinking. Our mission is to make every student comfortable with asking <em>"why?"</em> and following the answer wherever it leads. We believe the best exam preparation and the deepest conceptual understanding are the same thing — not opposites.</p>
+  </div>
+
+</div>
+
+<footer>
+  &copy; 2026 Let's Play With Physics &nbsp;·&nbsp; Hyderabad, India &nbsp;·&nbsp;
+  <a href="privacy-policy.html">Privacy Policy</a> &nbsp;·&nbsp;
+  <a href="terms.html">Terms &amp; Conditions</a> &nbsp;·&nbsp;
+  <a href="contact.html">Contact</a>
+</footer>
+
+</body>
+</html>
