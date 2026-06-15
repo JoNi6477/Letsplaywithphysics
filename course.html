@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,7 +31,23 @@
     .mobile-menu a:last-child { border-bottom: none; }
     .mobile-menu a:hover { color: #44aaff; }
     .mobile-menu .mob-cta { margin-top: 14px; background: #44aaff; color: #0a0e1a; font-weight: 700; padding: 12px 20px; border-radius: 20px; text-align: center; border-bottom: none !important; }
-    
+
+    /* ── COMING SOON ANNOUNCEMENT BANNER ── */
+    .cs-banner {
+      background: linear-gradient(90deg, rgba(247,201,72,0.12) 0%, rgba(44,120,255,0.12) 100%);
+      border-bottom: 1px solid rgba(247,201,72,0.25);
+      padding: 14px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      text-align: center;
+    }
+    .cs-banner-icon { font-size: 20px; animation: pulse-icon 2s ease-in-out infinite; }
+    @keyframes pulse-icon { 0%,100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+    .cs-banner-text { font-size: 14px; color: #e8eaf0; font-weight: 500; }
+    .cs-banner-text strong { color: #f7c948; }
+
     .hero { min-height: 70vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 60px 24px 40px; position: relative; overflow: hidden; }
     .hero-bg { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 80% 60% at 50% 30%, rgba(44,120,255,0.13) 0%, transparent 70%); }
     .hero-orbit { position: absolute; width: 500px; height: 500px; border: 1px dashed rgba(100,180,255,0.1); border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%); animation: spin 30s linear infinite; }
@@ -41,7 +58,77 @@
     .hero h1 .accent { color: #44aaff; }
     .hero h1 .accent2 { color: #f7c948; }
     .hero p { font-size: 17px; color: #8090b0; max-width: 540px; line-height: 1.7; margin-bottom: 36px; position: relative; }
-    
+
+    /* ── COUNTDOWN TIMER (in hero) ── */
+    .hero-cs-box {
+      position: relative;
+      background: rgba(247,201,72,0.07);
+      border: 1px solid rgba(247,201,72,0.22);
+      border-radius: 18px;
+      padding: 24px 36px;
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+    }
+    .hero-cs-label { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #f7c948; margin-bottom: 16px; }
+    .countdown { display: flex; justify-content: center; gap: 20px; }
+    .count-block { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+    .count-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 36px;
+      font-weight: 800;
+      color: #fff;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      width: 70px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .count-label { font-size: 11px; color: #6070a0; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+    .hero-cs-note { font-size: 13px; color: #6070a0; margin-top: 18px; }
+
+    /* ── NOTIFY ME FORM ── */
+    .notify-section {
+      padding: 56px 40px;
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .notify-section .section-tag { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #44aaff; margin-bottom: 12px; }
+    .notify-section h2 { font-family: 'Syne', sans-serif; font-size: clamp(22px, 3vw, 30px); font-weight: 800; margin-bottom: 12px; }
+    .notify-section p { font-size: 14px; color: #6070a0; margin-bottom: 28px; line-height: 1.7; }
+    .notify-form { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+    .notify-form input {
+      flex: 1; min-width: 220px;
+      padding: 13px 18px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(100,180,255,0.18);
+      color: #e8eaf0;
+      border-radius: 12px;
+      font-size: 14px;
+      font-family: inherit;
+      transition: border-color 0.2s;
+    }
+    .notify-form input::placeholder { color: #3a4a65; }
+    .notify-form input:focus { outline: none; border-color: rgba(100,180,255,0.45); background: rgba(255,255,255,0.08); }
+    .notify-form button {
+      background: #44aaff;
+      color: #0a0e1a;
+      font-weight: 700;
+      padding: 13px 26px;
+      border-radius: 12px;
+      border: none;
+      font-size: 14px;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.15s;
+      font-family: inherit;
+    }
+    .notify-form button:hover { opacity: 0.88; transform: translateY(-1px); }
+    .notify-success { display: none; background: rgba(44,255,130,0.1); border: 1px solid rgba(44,255,130,0.25); color: #44ffaa; padding: 14px 20px; border-radius: 12px; font-size: 14px; margin-top: 16px; }
+
     .section { padding: 72px 40px; max-width: 1100px; margin: 0 auto; }
     .section-tag { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #44aaff; margin-bottom: 12px; }
     .section-title { font-family: 'Syne', sans-serif; font-size: clamp(26px, 4vw, 40px); font-weight: 800; margin-bottom: 14px; }
@@ -49,48 +136,69 @@
     .divider { border: none; border-top: 1px solid rgba(100,180,255,0.07); margin: 0 40px; }
     
     .courses-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
-    .course-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(100,180,255,0.1); border-radius: 18px; overflow: hidden; transition: border-color 0.2s, background 0.2s, transform 0.2s; }
-    .course-card:hover { border-color: rgba(100,180,255,0.3); background: rgba(44,120,255,0.08); transform: translateY(-4px); }
-    
+
+    /* ── COURSE CARD ── */
+    .course-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(100,180,255,0.1);
+      border-radius: 18px;
+      overflow: hidden;
+      transition: border-color 0.2s, background 0.2s, transform 0.2s;
+      position: relative;
+    }
+    /* Dim entire card */
+    .course-card .card-inner { opacity: 0.55; pointer-events: none; }
+
+    /* Coming Soon overlay ribbon */
+    .cs-ribbon {
+      position: absolute;
+      top: 16px;
+      right: -30px;
+      background: linear-gradient(90deg, #f7c948, #ffad33);
+      color: #1a1200;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 6px 44px;
+      transform: rotate(35deg);
+      box-shadow: 0 2px 10px rgba(247,201,72,0.4);
+      z-index: 5;
+    }
+
+    /* Coming Soon badge on card */
+    .cs-card-badge {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: rgba(10,14,26,0.88);
+      backdrop-filter: blur(6px);
+      border-top: 1px solid rgba(247,201,72,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px;
+      z-index: 4;
+    }
+    .cs-card-badge span { font-size: 13px; font-weight: 700; color: #f7c948; letter-spacing: 0.5px; }
+    .cs-dot { width: 8px; height: 8px; background: #f7c948; border-radius: 50%; animation: blink 1.4s ease-in-out infinite; }
+    @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.2; } }
+
     .course-header { padding: 32px 28px 20px; border-bottom: 1px solid rgba(100,180,255,0.08); }
     .course-emoji { font-size: 32px; margin-bottom: 12px; display: block; }
     .course-title { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; margin-bottom: 8px; }
     .course-desc { font-size: 14px; color: #6070a0; line-height: 1.6; }
-    
-    .course-body { padding: 24px 28px; }
+    .course-body { padding: 24px 28px 80px; }
     .course-meta { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; }
     .course-videos { background: rgba(44,120,255,0.12); border: 1px solid rgba(44,120,255,0.2); color: #7ab8ff; font-size: 12px; padding: 6px 12px; border-radius: 20px; }
     .course-duration { background: rgba(247,201,72,0.12); border: 1px solid rgba(247,201,72,0.2); color: #f7c948; font-size: 12px; padding: 6px 12px; border-radius: 20px; }
-    
     .course-features { list-style: none; margin-bottom: 24px; }
     .course-features li { font-size: 13px; color: #8090b0; display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
     .course-features li::before { content: '\2713'; font-weight: 700; color: #44aaff; }
-    
     .course-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 20px; border-top: 1px solid rgba(100,180,255,0.08); }
     .course-price { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 800; color: #44aaff; }
-    
-    .btn-primary { background: #44aaff; color: #0a0e1a; font-weight: 700; padding: 12px 24px; border-radius: 12px; text-decoration: none; font-size: 13px; transition: opacity 0.2s; border: none; cursor: pointer; }
-    .btn-primary:hover { opacity: 0.9; }
-    
-    .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.7); }
-    .modal-content { background: #0a0e1a; margin: 5% auto; padding: 40px; border-radius: 20px; width: 90%; max-width: 500px; border: 1px solid rgba(100,180,255,0.2); }
-    .close { color: #a0aac0; float: right; font-size: 28px; font-weight: bold; cursor: pointer; transition: color 0.2s; }
-    .close:hover { color: #44aaff; }
-    .modal h2 { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 800; margin-bottom: 24px; }
-    
-    .form-group { margin-bottom: 20px; }
-    .form-group label { display: block; margin-bottom: 8px; color: #e8eaf0; font-weight: 500; font-size: 14px; }
-    .form-group input { width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.05); border: 1px solid rgba(100,180,255,0.15); color: #e8eaf0; border-radius: 12px; font-size: 14px; font-family: inherit; }
-    .form-group input::placeholder { color: #3a4a65; }
-    .form-group input:focus { outline: none; border-color: rgba(100,180,255,0.4); background: rgba(255,255,255,0.08); }
-    
-    .course-info { background: rgba(44,120,255,0.08); border: 1px solid rgba(44,120,255,0.2); padding: 16px; border-radius: 12px; margin-bottom: 24px; }
-    .course-info strong { display: block; margin-bottom: 4px; color: #e8eaf0; font-weight: 700; }
-    .course-info p { color: #6070a0; font-size: 13px; }
-    
-    .payment-btn { width: 100%; background: #44aaff; color: #0a0e1a; padding: 14px; border: none; border-radius: 12px; font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 8px; transition: opacity 0.2s; }
-    .payment-btn:hover { opacity: 0.9; }
-    
+    .btn-disabled { background: rgba(100,180,255,0.1); color: #3a4a65; font-weight: 700; padding: 12px 24px; border-radius: 12px; font-size: 13px; border: 1px solid rgba(100,180,255,0.12); cursor: not-allowed; }
+
     footer { border-top: 1px solid rgba(100,180,255,0.07); padding: 28px 40px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
     .footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 15px; color: #fff; }
     .footer-logo span { color: #44aaff; }
@@ -105,8 +213,11 @@
       .section { padding: 48px 18px; }
       .divider { margin: 0 18px; }
       footer { padding: 20px 18px; }
-      .modal-content { padding: 24px 18px; }
       .courses-grid { grid-template-columns: 1fr; }
+      .cs-banner { padding: 12px 18px; }
+      .notify-section { padding: 40px 18px; }
+      .countdown { gap: 12px; }
+      .count-num { width: 56px; height: 52px; font-size: 26px; }
     }
   </style>
 </head>
@@ -144,61 +255,75 @@
     <a href="index.html#contact" class="mob-cta" onclick="closeMenu()">Enroll Now</a>
   </div>
 
+  <!-- Announcement Banner -->
+  <div class="cs-banner">
+    <span class="cs-banner-icon">🚀</span>
+    <p class="cs-banner-text"><strong>Video courses are launching soon!</strong> Drop your email below to get notified first.</p>
+  </div>
+
   <section class="hero">
     <div class="hero-bg"></div>
     <div class="hero-orbit"></div>
     <div class="hero-orbit2"></div>
-    <div class="hero-badge">🎓 Video Lectures Now Available!</div>
+    <div class="hero-badge">🎓 Video Lectures — Coming Soon!</div>
     <h1>Master Physics<br>with <span class="accent">Complete</span> <span class="accent2">Video</span> Courses</h1>
-    <p>Learn from expert-crafted video lectures. Watch at your own pace. Get lifetime access to study materials and download videos.</p>
+    <p>We're crafting expert video lectures, just for you. Get early access — be the first to know when we go live!</p>
+
+    <!-- Countdown Timer -->
+    <div class="hero-cs-box">
+      <div class="hero-cs-label">⏳ Launching In</div>
+      <div class="countdown">
+        <div class="count-block">
+          <div class="count-num" id="cd-days">00</div>
+          <div class="count-label">Days</div>
+        </div>
+        <div class="count-block">
+          <div class="count-num" id="cd-hours">00</div>
+          <div class="count-label">Hours</div>
+        </div>
+        <div class="count-block">
+          <div class="count-num" id="cd-mins">00</div>
+          <div class="count-label">Mins</div>
+        </div>
+        <div class="count-block">
+          <div class="count-num" id="cd-secs">00</div>
+          <div class="count-label">Secs</div>
+        </div>
+      </div>
+      <p class="hero-cs-note">🔥 Early subscribers get an exclusive <strong style="color:#f7c948;">10% launch discount</strong></p>
+    </div>
   </section>
 
   <hr class="divider">
 
-  <div class="section">
-    <div class="section-tag">Video Courses</div>
-    <div class="section-title">Choose Your Course</div>
-    <div class="section-sub">Complete video lecture series covering all JEE Mains and NEET Physics topics with lifetime access.</div>
-    
-    <div class="courses-grid" id="coursesGrid">
-      <!-- Courses will load here -->
+  <!-- Notify Me Section -->
+  <div class="notify-section">
+    <div class="section-tag">Stay Updated</div>
+    <h2>Get Notified When We Launch 🔔</h2>
+    <p>Be the first to access our video courses. No spam — just one email when we're live.</p>
+    <div class="notify-form">
+      <input type="email" id="notifyEmail" placeholder="Enter your email address" />
+      <button onclick="submitNotify()">Notify Me!</button>
+    </div>
+    <div class="notify-success" id="notifySuccess">
+      ✅ You're on the list! We'll email you the moment we launch.
     </div>
   </div>
 
   <hr class="divider">
 
-  <!-- Payment Modal -->
-  <div id="paymentModal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal()">&times;</span>
-      <h2>Complete Your Purchase</h2>
-      
-      <div class="course-info" id="courseInfo">
-        <!-- Course details will appear here -->
-      </div>
-
-      <form id="paymentForm">
-        <div class="form-group">
-          <label for="name">Full Name</label>
-          <input type="text" id="name" name="name" required>
-        </div>
-
-        <div class="form-group">
-          <label for="email">Email Address</label>
-          <input type="email" id="email" name="email" required>
-        </div>
-
-        <div class="form-group">
-          <label for="phone">Phone Number</label>
-          <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" placeholder="10-digit mobile number" required>
-        </div>
-
-        <button type="button" class="payment-btn" onclick="processPayment()">
-          Proceed to Payment
-        </button>
-      </form>
+  <!-- Courses Preview Section -->
+  <div class="section">
+    <div class="section-tag">Coming Soon — Preview</div>
+    <div class="section-title">Courses We're Building 🛠️</div>
+    <div class="section-sub">Here's a sneak peek at what's coming. Each course will include full video lectures, PDFs, and practice problems.</div>
+    
+    <div class="courses-grid" id="coursesGrid">
+      <!-- Cards injected by JS -->
     </div>
   </div>
+
+  <hr class="divider">
 
   <footer>
     <p class="footer-logo">&copy; 2026 Let's Play With <span>Physics</span></p>
@@ -210,158 +335,103 @@
     </p>
   </footer>
 
-  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <script>
+    // ── Courses Data ──
     const courses = [
-      {
-        id: 1,
-        title: 'Mechanics Complete',
-        emoji: '⚙️',
-        description: 'Master Kinematics, Laws of Motion, Work-Energy, and Circular Motion',
-        videos: 45,
-        duration: '12 weeks',
-        price: 499,
-        features: ['45 video lectures', '100+ practice problems', 'Chapter notes PDF', 'Lifetime access']
-      },
-      {
-        id: 2,
-        title: 'Thermodynamics & Waves',
-        emoji: '🌊',
-        description: 'Complete coverage of Heat, Thermodynamics, and Wave Motion',
-        videos: 35,
-        duration: '10 weeks',
-        price: 399,
-        features: ['35 video lectures', '80+ practice problems', 'Formula sheets', 'Lifetime access']
-      },
-      {
-        id: 3,
-        title: 'Electricity & Magnetism',
-        emoji: '⚡',
-        description: 'Electrostatics, Current, and complete Magnetism coverage',
-        videos: 50,
-        duration: '14 weeks',
-        price: 599,
-        features: ['50 video lectures', '120+ practice problems', 'Solution PDFs', 'Lifetime access']
-      },
-      {
-        id: 4,
-        title: 'Optics & Modern Physics',
-        emoji: '🔬',
-        description: 'Geometric & Wave Optics, Quantum Mechanics basics',
-        videos: 40,
-        duration: '11 weeks',
-        price: 499,
-        features: ['40 video lectures', '90+ practice problems', 'Quick revision notes', 'Lifetime access']
-      },
-      {
-        id: 5,
-        title: 'Complete JEE Physics Bundle',
-        emoji: '🎁',
-        description: 'All 4 courses combined - SAVE ₹500!',
-        videos: 170,
-        duration: '47 weeks',
-        price: 1499,
-        features: ['170 video lectures', '400+ practice problems', 'All materials included', 'Priority support', 'Lifetime access']
-      }
+      { id: 1, title: 'Mechanics Complete', emoji: '⚙️', description: 'Master Kinematics, Laws of Motion, Work-Energy, and Circular Motion', videos: 45, duration: '12 weeks', price: 499, features: ['45 video lectures', '100+ practice problems', 'Chapter notes PDF', 'Lifetime access'] },
+      { id: 2, title: 'Thermodynamics & Waves', emoji: '🌊', description: 'Complete coverage of Heat, Thermodynamics, and Wave Motion', videos: 35, duration: '10 weeks', price: 399, features: ['35 video lectures', '80+ practice problems', 'Formula sheets', 'Lifetime access'] },
+      { id: 3, title: 'Electricity & Magnetism', emoji: '⚡', description: 'Electrostatics, Current, and complete Magnetism coverage', videos: 50, duration: '14 weeks', price: 599, features: ['50 video lectures', '120+ practice problems', 'Solution PDFs', 'Lifetime access'] },
+      { id: 4, title: 'Optics & Modern Physics', emoji: '🔬', description: 'Geometric & Wave Optics, Quantum Mechanics basics', videos: 40, duration: '11 weeks', price: 499, features: ['40 video lectures', '90+ practice problems', 'Quick revision notes', 'Lifetime access'] },
+      { id: 5, title: 'Complete JEE Physics Bundle', emoji: '🎁', description: 'All 4 courses combined — SAVE ₹500!', videos: 170, duration: '47 weeks', price: 1499, features: ['170 video lectures', '400+ practice problems', 'All materials included', 'Priority support', 'Lifetime access'] }
     ];
 
-    let selectedCourse = null;
-
     function loadCourses() {
-      const coursesGrid = document.getElementById('coursesGrid');
-      coursesGrid.innerHTML = courses.map(course => `
+      const grid = document.getElementById('coursesGrid');
+      grid.innerHTML = courses.map(course => `
         <div class="course-card">
-          <div class="course-header">
-            <span class="course-emoji">${course.emoji}</span>
-            <h3 class="course-title">${course.title}</h3>
-            <p class="course-desc">${course.description}</p>
+          <div class="cs-ribbon">Coming Soon</div>
+          <div class="card-inner">
+            <div class="course-header">
+              <span class="course-emoji">${course.emoji}</span>
+              <h3 class="course-title">${course.title}</h3>
+              <p class="course-desc">${course.description}</p>
+            </div>
+            <div class="course-body">
+              <div class="course-meta">
+                <span class="course-videos">📺 ${course.videos} Videos</span>
+                <span class="course-duration">⏱️ ${course.duration}</span>
+              </div>
+              <ul class="course-features">
+                ${course.features.map(f => `<li>${f}</li>`).join('')}
+              </ul>
+              <div class="course-footer">
+                <span class="course-price">₹${course.price}</span>
+                <span class="btn-disabled">Coming Soon</span>
+              </div>
+            </div>
           </div>
-          <div class="course-body">
-            <div class="course-meta">
-              <span class="course-videos">📺 ${course.videos} Videos</span>
-              <span class="course-duration">⏱️ ${course.duration}</span>
-            </div>
-            <ul class="course-features">
-              ${course.features.map(f => `<li>${f}</li>`).join('')}
-            </ul>
-            <div class="course-footer">
-              <span class="course-price">₹${course.price}</span>
-              <button class="btn-primary" onclick="openPaymentModal(${course.id})">
-                Buy Now
-              </button>
-            </div>
+          <!-- Blinking badge at bottom -->
+          <div class="cs-card-badge">
+            <div class="cs-dot"></div>
+            <span>Videos Launching Soon</span>
+            <div class="cs-dot"></div>
           </div>
         </div>
       `).join('');
     }
 
-    function openPaymentModal(courseId) {
-      selectedCourse = courses.find(c => c.id === courseId);
-      document.getElementById('courseInfo').innerHTML = `
-        <strong>${selectedCourse.emoji} ${selectedCourse.title}</strong>
-        <p>Price: ₹${selectedCourse.price} | ${selectedCourse.videos} videos | ${selectedCourse.duration}</p>
-      `;
-      document.getElementById('paymentModal').style.display = 'block';
-    }
+    // ── Countdown Timer ──
+    // Set your target launch date here (YYYY, MM-1, DD, HH, MM, SS)
+    const launchDate = new Date(2026, 7, 1, 0, 0, 0); // Aug 1, 2026
 
-    function closeModal() {
-      document.getElementById('paymentModal').style.display = 'none';
-    }
-
-    function processPayment() {
-      const email = document.getElementById('email').value;
-      const phone = document.getElementById('phone').value;
-      const name = document.getElementById('name').value;
-
-      if (!email || !phone || !name) {
-        alert('Please fill all fields');
+    function updateCountdown() {
+      const now = new Date();
+      const diff = launchDate - now;
+      if (diff <= 0) {
+        document.getElementById('cd-days').textContent = '00';
+        document.getElementById('cd-hours').textContent = '00';
+        document.getElementById('cd-mins').textContent = '00';
+        document.getElementById('cd-secs').textContent = '00';
         return;
       }
-
-      const options = {
-        key: 'rzp_live_T1wpWkcepPWau4', // Replace with your Razorpay Key ID
-        amount: selectedCourse.price * 100,
-        currency: 'INR',
-        name: 'Let\'s Play With Physics',
-        description: selectedCourse.title,
-        image: 'Logo.png',
-        prefill: {
-          name: name,
-          email: email,
-          contact: phone
-        },
-        handler: function(response) {
-          handlePaymentSuccess(response, selectedCourse, {name, email, phone});
-        },
-        modal: {
-          ondismiss: function() {
-            alert('Payment cancelled');
-          }
-        }
-      };
-
-      const rzp = new Razorpay(options);
-      rzp.open();
+      const days  = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const mins  = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const secs  = Math.floor((diff % (1000 * 60)) / 1000);
+      document.getElementById('cd-days').textContent  = String(days).padStart(2, '0');
+      document.getElementById('cd-hours').textContent = String(hours).padStart(2, '0');
+      document.getElementById('cd-mins').textContent  = String(mins).padStart(2, '0');
+      document.getElementById('cd-secs').textContent  = String(secs).padStart(2, '0');
     }
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
 
-    function handlePaymentSuccess(response, course, userDetails) {
-      alert(`✅ Payment Successful!\n\nCourse: ${course.title}\nPayment ID: ${response.razorpay_payment_id}\n\nYou'll receive access details via email shortly.`);
-      closeModal();
-      document.getElementById('paymentForm').reset();
-    }
-
-    window.onclick = function(event) {
-      const modal = document.getElementById('paymentModal');
-      if (event.target == modal) {
-        modal.style.display = 'none';
+    // ── Notify Me ──
+    function submitNotify() {
+      const emailInput = document.getElementById('notifyEmail');
+      const email = emailInput.value.trim();
+      if (!email || !email.includes('@')) {
+        emailInput.style.borderColor = 'rgba(255,80,80,0.5)';
+        emailInput.focus();
+        return;
       }
+      emailInput.style.borderColor = '';
+      // Here you can integrate with your backend / EmailJS / Formspree etc.
+      console.log('Notify email captured:', email);
+      document.getElementById('notifySuccess').style.display = 'block';
+      emailInput.value = '';
     }
 
+    // Allow pressing Enter in notify input
+    document.getElementById('notifyEmail').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') submitNotify();
+    });
+
+    // ── Nav ──
     function toggleMenu() {
       document.getElementById('mobile-menu').classList.toggle('open');
       document.getElementById('hamburger').classList.toggle('open');
     }
-
     function closeMenu() {
       document.getElementById('mobile-menu').classList.remove('open');
       document.getElementById('hamburger').classList.remove('open');
