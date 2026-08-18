@@ -75,6 +75,14 @@
     .feat-icon { font-size: 28px; margin-bottom: 16px; }
     .feat-title { font-weight: 700; font-size: 15px; margin-bottom: 8px; }
     .feat-desc { font-size: 13px; color: #5a6a85; line-height: 1.6; }
+    .simulations-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+    .sim-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(100,180,255,0.1); border-radius: 16px; padding: 28px 24px; transition: border-color 0.2s, background 0.2s, transform 0.2s; text-decoration: none; color: inherit; display: flex; flex-direction: column; }
+    .sim-card:hover { border-color: rgba(44,120,255,0.3); background: rgba(44,120,255,0.06); transform: translateY(-4px); }
+    .sim-icon { font-size: 36px; margin-bottom: 16px; }
+    .sim-title { font-weight: 700; font-size: 16px; margin-bottom: 8px; }
+    .sim-desc { font-size: 13px; color: #5a6a85; line-height: 1.6; flex-grow: 1; margin-bottom: 16px; }
+    .sim-link { color: #7ab8ff; font-size: 13px; font-weight: 600; text-decoration: none; transition: color 0.2s; align-self: flex-start; }
+    .sim-link:hover { color: #44aaff; }
     .batches-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
     .batch-card { border-radius: 18px; padding: 28px 24px; }
     .batch-card.free { background: rgba(26,255,160,0.07); border: 1px solid rgba(26,255,160,0.2); }
@@ -140,10 +148,10 @@
       <a href="#features">Features</a>
       <a href="course.html" style="color: #44aaff;">Courses</a>
       <a href="#batches">Batches</a>
+      <a href="#simulations">Simulations</a>
       <a href="#topics">Syllabus</a>
       <a href="material.html">Materials</a>
       <a href="mocktest.html">Mock Test</a>
-      <a href="simulations.html">Simulations</a>
       <a href="#contact">Contact</a>
     </div>
     <a href="#contact" class="nav-cta">Enroll Now</a>
@@ -156,10 +164,10 @@
     <a href="#about" onclick="closeMenu()">About</a>
     <a href="#features" onclick="closeMenu()">Features</a>
     <a href="#batches" onclick="closeMenu()">Batches</a>
+    <a href="#simulations" onclick="closeMenu()">Simulations</a>
     <a href="#topics" onclick="closeMenu()">Syllabus</a>
     <a href="material.html" onclick="closeMenu()">Materials</a>
     <a href="mocktest.html" onclick="closeMenu()">Mock Test</a>
-    <a href="simulations.html" onclick="closeMenu()">Simulations</a>
     <a href="#contact" onclick="closeMenu()">Contact</a>
     <a href="#contact" class="mob-cta" onclick="closeMenu()">Enroll Now</a>
   </div>
@@ -224,10 +232,6 @@
         <div class="feat-title">Practice Questions</div>
         <div class="feat-desc">Chapter-wise practice questions for NEET and JEE Mains preparation.</div>
       </a>
-       <a href=simulations.html" class="feat-card">
-        <div class="feat-icon">✏️</div>
-        <div class="feat-title">sims</div>
-        <div class="feat-desc">SIMS for NEET and JEE Mains preparation.</div>
       <div class="feat-card">
         <div class="feat-icon">🎯</div>
         <div class="feat-title">Personal Guidance</div>
@@ -267,6 +271,59 @@
         </ul>
         <a href="#contact" class="batch-cta">Enroll Now</a>
       </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section" id="simulations">
+    <div class="section-tag">Interactive Learning</div>
+    <div class="section-title">Physics Simulations</div>
+    <div class="section-sub">Visualize complex concepts with interactive simulations. See physics in action!</div>
+    <div class="simulations-grid">
+      <!-- Simulation Card Template - Copy this block to add more simulations -->
+      <div class="sim-card">
+        <div class="sim-icon">🚀</div>
+        <div class="sim-title">Projectile Motion</div>
+        <div class="sim-desc">Visualize how objects move under gravity. Adjust angle and velocity to explore parabolic paths.</div>
+        <a href="simulations/projectile-motion.html" class="sim-link">Launch Simulation →</a>
+      </div>
+
+      <div class="sim-card">
+        <div class="sim-icon">🌊</div>
+        <div class="sim-title">Wave Motion</div>
+        <div class="sim-desc">Understand transverse and longitudinal waves. Play with frequency, amplitude, and wavelength.</div>
+        <a href="simulations/wave-motion.html" class="sim-link">Launch Simulation →</a>
+      </div>
+
+      <div class="sim-card">
+        <div class="sim-icon">⚡</div>
+        <div class="sim-title">Electric Fields</div>
+        <div class="sim-desc">Visualize electric field lines and forces. Explore how charges interact with each other.</div>
+        <a href="simulations/electric-fields.html" class="sim-link">Launch Simulation →</a>
+      </div>
+
+      <div class="sim-card">
+        <div class="sim-icon">🔴</div>
+        <div class="sim-title">Circular Motion</div>
+        <div class="sim-desc">See centripetal force in action. Experiment with mass, radius, and velocity.</div>
+        <a href="simulations/circular-motion.html" class="sim-link">Launch Simulation →</a>
+      </div>
+
+      <div class="sim-card">
+        <div class="sim-icon">💡</div>
+        <div class="sim-title">Optics & Refraction</div>
+        <div class="sim-desc">Watch light bend and reflect. Explore mirrors, lenses, and prisms interactively.</div>
+        <a href="simulations/optics.html" class="sim-link">Launch Simulation →</a>
+      </div>
+
+      <div class="sim-card">
+        <div class="sim-icon">🔄</div>
+        <div class="sim-title">Rotational Motion</div>
+        <div class="sim-desc">Understand angular velocity and torque. Spin objects and measure rotational effects.</div>
+        <a href="simulations/rotational-motion.html" class="sim-link">Launch Simulation →</a>
+      </div>
+      <!-- End of template -->
     </div>
   </div>
 
