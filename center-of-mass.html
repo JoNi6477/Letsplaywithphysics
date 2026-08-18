@@ -99,6 +99,10 @@ canvas:active{cursor:grabbing}
 .posinp{width:58px;background:rgba(255,255,255,.05);border:1px solid var(--bdr);border-radius:6px;color:var(--blue);font-size:12px;font-weight:700;font-family:inherit;padding:4px 6px;outline:none;transition:border-color .2s;-moz-appearance:textfield}
 .posinp:focus{border-color:var(--blue)}
 .posinp::-webkit-outer-spin-button,.posinp::-webkit-inner-spin-button{-webkit-appearance:none}
+.fninp{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(0,229,255,.4);border-radius:8px;color:#fff;font-size:13px;font-weight:700;font-family:inherit;padding:8px 12px;outline:none;margin-top:6px;transition:all .2s}
+.fninp:focus{border-color:#00e5ff;box-shadow:0 0 10px rgba(0,229,255,.3)}
+.preset-btn{background:rgba(0,229,255,.1);border:1px solid rgba(0,229,255,.3);color:#00e5ff;font-size:11px;font-weight:700;padding:4px 8px;border-radius:6px;cursor:pointer;font-family:inherit;transition:all .2s}
+.preset-btn:hover{background:rgba(0,229,255,.25);color:#fff}
 .inst-list li{font-size:12px;color:var(--muted);display:flex;gap:6px}
 .inst-list li::before{content:'•';color:var(--blue);flex-shrink:0}
 
@@ -477,15 +481,15 @@ function drawPM(){
 function renderPM(){
   var list=document.getElementById('olist');list.innerHTML='';
   objs.forEach(function(o){
-    var pct=((o.mass-1)/49*100).toFixed(0);
+    var pct=((o.mass-0.1)/49.9*100).toFixed(0);
     var d=document.createElement('div');d.className='ocard';d.style.borderLeftColor=o.c.b;
     d.innerHTML='<div class="otop">'+
       '<div class="oswch" style="background:'+o.c.b+';box-shadow:0 0 6px '+o.c.b+'"></div>'+
       '<div class="oname">Object '+o.c.n+'</div>'+
-      '<div class="omd" id="od_'+o.id+'">'+o.mass+' kg</div>'+
+      '<div class="omd" id="od_'+o.id+'">'+o.mass.toFixed(1)+' kg</div>'+
       '<button class="odel" data-id="'+o.id+'">&#10005;</button></div>'+
-      '<div class="mrow"><input type="range" class="mslider" min="1" max="50" value="'+o.mass+'" style="--p:'+pct+'%" data-id="'+o.id+'"/>'+
-      '<div class="mv" id="mv_'+o.id+'">'+o.mass+'</div></div>'+
+      '<div class="mrow"><input type="range" class="mslider" min="0.1" max="50" step="0.1" value="'+o.mass+'" style="--p:'+pct+'%" data-id="'+o.id+'"/>'+
+      '<div class="mv" id="mv_'+o.id+'">'+o.mass.toFixed(1)+'</div></div>'+
       '<div class="posrow">'+
         '<span class="poslbl">x&thinsp;:</span>'+
         '<input type="number" class="posinp" id="px_'+o.id+'" step="0.1" value="'+c2w(o.x,o.y).x.toFixed(1)+'" data-id="'+o.id+'" data-axis="x" />'+
@@ -499,11 +503,11 @@ function renderPM(){
       var sid=s.getAttribute('data-id');
       var ob=objs.find(function(x){return String(x.id)===sid;});
       if(!ob)return;
-      ob.mass=+s.value;
-      var pct=((ob.mass-1)/49*100).toFixed(0);
+      ob.mass=parseFloat(s.value);
+      var pct=((ob.mass-0.1)/49.9*100).toFixed(0);
       s.style.setProperty('--p',pct+'%');
       var v=document.getElementById('mv_'+sid),d=document.getElementById('od_'+sid);
-      if(v)v.textContent=ob.mass;if(d)d.textContent=ob.mass+' kg';
+      if(v)v.textContent=ob.mass.toFixed(1);if(d)d.textContent=ob.mass.toFixed(1)+' kg';
     });
   });
   list.querySelectorAll('.odel').forEach(function(b){b.addEventListener('click',function(){removeObj(b.getAttribute('data-id'));});});
@@ -632,6 +636,50 @@ window.addEventListener('resize',resizePM);
 var c2=document.getElementById('c2');
 var g2=c2.getContext('2d');
 var selB=0;
+
+/* ── Mathematical Evaluator for Custom \u03BB(x) ── */
+function evalLambda(expr, x) {
+  if (!expr || typeof expr !== 'string') return 1;
+  try {
+    var s = expr.trim().toLowerCase();
+    if (!s) return 1;
+    s = s.replace(/pi/g, 'Math.PI');
+    s = s.replace(/sin/g, 'Math.sin');
+    s = s.replace(/cos/g, 'Math.cos');
+    s = s.replace(/tan/g, 'Math.tan');
+    s = s.replace(/sqrt/g, 'Math.sqrt');
+    s = s.replace(/exp/g, 'Math.exp');
+    s = s.replace(/abs/g, 'Math.abs');
+    s = s.replace(/(\d)\s*x/g, '$1*x');
+    s = s.replace(/x\s*(\d)/g, 'x*$1');
+    s = s.replace(/x\s*\(/g, 'x*(');
+    s = s.replace(/\)\s*x/g, ')*x');
+    s = s.replace(/x\s*\^\s*(\d+(\.\d+)?)/g, 'Math.pow(x,$1)');
+    s = s.replace(/x\s*\^\s*\(([^)]+)\)/g, 'Math.pow(x,$1)');
+    s = s.replace(/x\s*\*\*\s*(\d+(\.\d+)?)/g, 'Math.pow(x,$1)');
+    var fn = new Function('x', 'return ' + s + ';');
+    var val = fn(x);
+    if (typeof val !== 'number' || isNaN(val) || !isFinite(val) || val < 0) return 0.001;
+    return val;
+  } catch(e) {
+    return 1;
+  }
+}
+
+/* ── Numerical Calculus Integration for \u03BB(x) ── */
+function integrateLambda(expr, L) {
+  var N = 200;
+  var dx = L / N;
+  var sumMass = 0, sumNum = 0;
+  for (var i = 0; i < N; i++) {
+    var xVal = (i + 0.5) * dx;
+    var lam = evalLambda(expr, xVal);
+    sumMass += lam * dx;
+    sumNum += xVal * lam * dx;
+  }
+  if (sumMass <= 0) return L / 2;
+  return sumNum / sumMass;
+}
 
 /* ── helper: draw axis arrow ── */
 function arr2(x1,y1,x2,y2,col){
@@ -858,6 +906,105 @@ var BODIES=[
      g2.save();g2.font='12px Space Grotesk,sans-serif';g2.fillStyle='rgba(255,159,67,.8)';g2.textAlign='left';g2.fillText('R='+v.R.toFixed(1)+'m',ox+R*.74,oy-R*.74-4);g2.restore();
      hLine(cx,cy,R*.5,'rgba(247,201,72,.3)');comMark(ox,cy,'CoM');
    }
+  },
+  /* 8 Non-Uniform Rod */
+  {name:'Non-Uniform Rod \u03BB(x)',icon:'&#9883;',col:'#ff5588',
+   sl:[
+     {k:'L',lbl:'Length (L)',min:2,max:12,stp:.5,v:6,u:'m'},
+     {k:'K',lbl:'Density Factor (k)',min:0,max:5,stp:.5,v:2,u:''},
+     {k:'N',lbl:'Exponent (n in x\u207F)',min:1,max:3,stp:1,v:1,u:''}
+   ],
+   com:function(v){
+     var num = 0.5 + v.K/(v.N + 2);
+     var den = 1.0 + v.K/(v.N + 1);
+     return {x: v.L * (num / den), y: 0};
+   },
+   fml:'x<sub>cm</sub> = &int; x &middot; &lambda;(x) dx / &int; &lambda;(x) dx',
+   valF:function(v){
+     var num = 0.5 + v.K/(v.N + 2);
+     var den = 1.0 + v.K/(v.N + 1);
+     return (v.L * (num / den)).toFixed(2) + ' m';
+   },
+   desc:function(v){
+     return '&lambda;(x) = &lambda;<sub>0</sub> [ 1 + ' + v.K.toFixed(1) + '(x/L)' + (v.N > 1 ? '<sup>' + v.N + '</sup>' : '') + ' ]';
+   },
+   info:'For a rod with non-uniform linear mass density &lambda;(x) = &lambda;<sub>0</sub>[1 + k(x/L)<sup>n</sup>], mass accumulates towards the right end. We evaluate x<sub>cm</sub> via integration: &int; x &lambda;(x) dx / &int; &lambda;(x) dx.',
+   origF:function(W,H){return{x:W*.12,y:H*.5};},
+   scF:function(v,W){return Math.min(60,(W*.76)/v.L);},
+   draw:function(ox,oy,sc,v,cx,cy){
+     var L=v.L*sc,h=26;
+     var N_SLICES = 60;
+     var sliceW = L / N_SLICES;
+     for(var i=0; i<N_SLICES; i++){
+       var frac = (i + 0.5) / N_SLICES;
+       var densityFactor = 1 + v.K * Math.pow(frac, v.N);
+       var maxDF = 1 + v.K;
+       var alpha = 0.15 + 0.75 * (densityFactor / maxDF);
+       g2.fillStyle = 'rgba(255, 85, 136, ' + alpha.toFixed(2) + ')';
+       g2.fillRect(ox + i * sliceW, oy - h/2, sliceW + 0.5, h);
+     }
+     g2.strokeStyle='#ff5588';g2.lineWidth=1.8;g2.setLineDash([]);
+     g2.strokeRect(ox, oy-h/2, L, h);
+     [0,L].forEach(function(dx){g2.save();g2.beginPath();g2.arc(ox+dx,oy,7,0,Math.PI*2);g2.fillStyle='#ff5588';g2.shadowColor='#ff5588';g2.shadowBlur=8;g2.fill();g2.restore();});
+     dim2(ox,oy+h/2+28,ox+L,oy+h/2+28,'L='+v.L.toFixed(1)+' m','rgba(255,85,136,.7)');
+     g2.save();g2.font='11px Space Grotesk,sans-serif';g2.fillStyle='rgba(255,85,136,.8)';
+     g2.textAlign='left';g2.fillText('Light (low \u03BB)',ox,oy-h/2-10);
+     g2.textAlign='right';g2.fillText('Heavy (high \u03BB)',ox+L,oy-h/2-10);g2.restore();
+     g2.save();g2.strokeStyle='rgba(247,201,72,.4)';g2.lineWidth=1.5;g2.setLineDash([4,4]);
+     g2.beginPath();g2.moveTo(cx,oy-h/2-12);g2.lineTo(cx,oy+h/2+12);g2.stroke();g2.restore();
+     comMark(cx,oy,'CoM');
+   }
+  },
+  /* 9 Custom \u03BB(x) Rod */
+  {name:'Custom \u03BB(x) Rod',icon:'&#9998;',col:'#00e5ff',
+   isCustom: true,
+   sl:[
+     {k:'L',lbl:'Length (L)',min:2,max:12,stp:.5,v:6,u:'m'}
+   ],
+   com:function(v){
+     var expr = v.fnStr || '1 + 2*x';
+     return {x: integrateLambda(expr, v.L), y: 0};
+   },
+   fml:'x<sub>cm</sub> = &int; x &middot; &lambda;(x) dx / &int; &lambda;(x) dx',
+   valF:function(v){
+     var expr = v.fnStr || '1 + 2*x';
+     return integrateLambda(expr, v.L).toFixed(2) + ' m';
+   },
+   desc:function(v){
+     return '&lambda;(x) = ' + (v.fnStr || '1 + 2*x');
+   },
+   info:'Type any density function &lambda;(x) like <code>2*x</code>, <code>1 + x^2</code>, <code>x^3</code>, or <code>sin(x)+1</code>. The simulation calculates x<sub>cm</sub> live using 200-point calculus integration!',
+   origF:function(W,H){return{x:W*.12,y:H*.5};},
+   scF:function(v,W){return Math.min(60,(W*.76)/v.L);},
+   draw:function(ox,oy,sc,v,cx,cy){
+     var L=v.L*sc,h=26;
+     var expr = v.fnStr || '1 + 2*x';
+     var N_SLICES = 80;
+     var sliceW = L / N_SLICES;
+     var maxLam = 0.001;
+     for(var i=0; i<N_SLICES; i++){
+       var xVal = ((i+0.5)/N_SLICES) * v.L;
+       var lamVal = evalLambda(expr, xVal);
+       if(lamVal > maxLam) maxLam = lamVal;
+     }
+     for(var i=0; i<N_SLICES; i++){
+       var xVal = ((i+0.5)/N_SLICES) * v.L;
+       var lamVal = evalLambda(expr, xVal);
+       var alpha = 0.12 + 0.8 * (lamVal / maxLam);
+       g2.fillStyle = 'rgba(0, 229, 255, ' + alpha.toFixed(2) + ')';
+       g2.fillRect(ox + i * sliceW, oy - h/2, sliceW + 0.5, h);
+     }
+     g2.strokeStyle='#00e5ff';g2.lineWidth=1.8;g2.setLineDash([]);
+     g2.strokeRect(ox, oy-h/2, L, h);
+     [0,L].forEach(function(dx){g2.save();g2.beginPath();g2.arc(ox+dx,oy,7,0,Math.PI*2);g2.fillStyle='#00e5ff';g2.shadowColor='#00e5ff';g2.shadowBlur=8;g2.fill();g2.restore();});
+     dim2(ox,oy+h/2+28,ox+L,oy+h/2+28,'L='+v.L.toFixed(1)+' m','rgba(0,229,255,.7)');
+     g2.save();g2.font='11px Space Grotesk,sans-serif';g2.fillStyle='rgba(0,229,255,.8)';
+     g2.textAlign='left';g2.fillText('\u03BB(0) = ' + evalLambda(expr, 0).toFixed(2),ox,oy-h/2-10);
+     g2.textAlign='right';g2.fillText('\u03BB(L) = ' + evalLambda(expr, v.L).toFixed(2),ox+L,oy-h/2-10);g2.restore();
+     g2.save();g2.strokeStyle='rgba(247,201,72,.4)';g2.lineWidth=1.5;g2.setLineDash([4,4]);
+     g2.beginPath();g2.moveTo(cx,oy-h/2-12);g2.lineTo(cx,oy+h/2+12);g2.stroke();g2.restore();
+     comMark(cx,oy,'CoM');
+   }
   }
 ];
 
@@ -878,6 +1025,10 @@ function getValsDB(){
     var el=document.getElementById('dbs_'+b.name+'_'+s.k);
     v[s.k]=el?parseFloat(el.value):s.v;
   });
+  if(b.isCustom){
+    var cel = document.getElementById('customFnInput');
+    v.fnStr = cel ? cel.value : '1 + 2*x';
+  }
   return v;
 }
 
@@ -903,7 +1054,7 @@ function drawDB(){
   b.draw(ox,oy,sc,v,sx,sy);
   // update panel
   document.getElementById('dbVal').textContent=b.valF(v);
-  document.getElementById('dbDesc').textContent=b.desc(v);
+  document.getElementById('dbDesc').innerHTML=b.desc(v);
 }
 
 function buildDB(){
@@ -927,6 +1078,28 @@ function renderDBPanel(){
   document.getElementById('dbFml').innerHTML=b.fml;
   document.getElementById('dbInfo').innerHTML=b.info;
   var sd=document.getElementById('dbSliders');sd.innerHTML='';
+  if(b.isCustom){
+    var crow=document.createElement('div');crow.className='srow';
+    crow.innerHTML='<div class="slrow"><span class="sname">Density Function &lambda;(x)</span></div>'+
+      '<input type="text" class="fninp" id="customFnInput" value="'+(b.fnStr||'1 + 2*x')+'" placeholder="e.g. 2*x, 1 + x^2, x^3, sin(x)+1" />'+
+      '<div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:8px">'+
+        '<button class="preset-btn" data-fn="2*x">&lambda;=2x</button>'+
+        '<button class="preset-btn" data-fn="1 + x^2">&lambda;=1+x&sup2;</button>'+
+        '<button class="preset-btn" data-fn="x^3">&lambda;=x&sup3;</button>'+
+        '<button class="preset-btn" data-fn="sin(x) + 1">&lambda;=sin(x)+1</button>'+
+      '</div>';
+    sd.appendChild(crow);
+    var cel = document.getElementById('customFnInput');
+    cel.addEventListener('input', function(){ b.fnStr = cel.value; drawDB(); });
+    sd.querySelectorAll('.preset-btn').forEach(function(pb){
+      pb.addEventListener('click', function(){
+        var fnVal = pb.getAttribute('data-fn');
+        cel.value = fnVal;
+        b.fnStr = fnVal;
+        drawDB();
+      });
+    });
+  }
   b.sl.forEach(function(s){
     var pct=((s.v-s.min)/(s.max-s.min)*100).toFixed(0);
     var row=document.createElement('div');row.className='srow';
