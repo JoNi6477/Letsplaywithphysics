@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JH395VJSCQ"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1782276680578286"
+     crossorigin="anonymous"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-JH395VJSCQ');
+</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Akshay Kumar">
+  <meta property="og:site_name" content="Let's Play With Physics">
+  <meta name="application-name" content="Let's Play With Physics">
+  <title>Physics Simulations — Let's Play With Physics</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Space Grotesk', sans-serif; background: #0a0e1a; color: #e8eaf0; overflow-x: hidden; }
+    nav { display: flex; align-items: center; justify-content: space-between; padding: 18px 40px; background: rgba(10,14,26,0.97); border-bottom: 1px solid rgba(100,180,255,0.12); position: sticky; top: 0; z-index: 100; }
+    .nav-logo { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; color: #fff; text-decoration: none; }
+    .nav-logo span { color: #44aaff; }
+    .nav-links { display: flex; gap: 28px; }
+    .nav-links a { color: #a0aac0; font-size: 14px; text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: #44aaff; }
+    .nav-links a.active { color: #44aaff; }
+    .nav-cta { background: #44aaff; color: #0a0e1a; font-size: 13px; font-weight: 700; padding: 8px 20px; border-radius: 20px; text-decoration: none; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: #e8eaf0; border-radius: 2px; transition: all 0.3s; }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .mobile-menu { display: none; flex-direction: column; background: rgba(10,14,26,0.99); border-bottom: 1px solid rgba(100,180,255,0.12); max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.3s ease; padding: 0 18px; }
+    .mobile-menu.open { max-height: 500px; padding: 16px 18px 20px; }
+    .mobile-menu a { color: #a0aac0; font-size: 15px; text-decoration: none; padding: 12px 0; border-bottom: 1px solid rgba(100,180,255,0.07); transition: color 0.2s; display: block; }
+    .mobile-menu a:last-child { border-bottom: none; }
+    .mobile-menu a:hover { color: #44aaff; }
+    .mobile-menu .mob-cta { margin-top: 14px; background: #44aaff; color: #0a0e1a; font-weight: 700; padding: 12px 20px; border-radius: 20px; text-align: center; border-bottom: none !important; }
+    .page-hero { padding: 70px 24px 40px; text-align: center; position: relative; overflow: hidden; }
+    .page-hero-bg { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(44,120,255,0.13) 0%, transparent 70%); }
+    .page-tag { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #44aaff; margin-bottom: 14px; position: relative; }
+    .page-hero h1 { font-family: 'Syne', sans-serif; font-size: clamp(32px, 5vw, 52px); font-weight: 800; line-height: 1.15; margin-bottom: 16px; position: relative; }
+    .page-hero h1 .accent { color: #44aaff; }
+    .page-hero p { font-size: 16px; color: #8090b0; max-width: 560px; line-height: 1.7; margin: 0 auto; position: relative; }
+    .section { padding: 40px 40px 80px; max-width: 1100px; margin: 0 auto; }
+    .simulations-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+    .sim-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(100,180,255,0.1); border-radius: 16px; padding: 28px 24px; transition: border-color 0.2s, background 0.2s, transform 0.2s; text-decoration: none; color: inherit; display: flex; flex-direction: column; }
+    .sim-card:hover { border-color: rgba(44,120,255,0.3); background: rgba(44,120,255,0.06); transform: translateY(-4px); }
+    .sim-icon { font-size: 36px; margin-bottom: 16px; }
+    .sim-title { font-weight: 700; font-size: 16px; margin-bottom: 8px; }
+    .sim-desc { font-size: 13px; color: #5a6a85; line-height: 1.6; flex-grow: 1; margin-bottom: 16px; }
+    .sim-link { color: #7ab8ff; font-size: 13px; font-weight: 600; text-decoration: none; transition: color 0.2s; align-self: flex-start; }
+    .sim-link:hover { color: #44aaff; }
+    .coming-soon-card { background: rgba(255,255,255,0.015); border: 1px dashed rgba(100,180,255,0.15); border-radius: 16px; padding: 28px 24px; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; min-height: 160px; }
+    .coming-soon-card .sim-icon { opacity: 0.5; }
+    .coming-soon-card .sim-title { color: #6070a0; }
+    .coming-soon-card .sim-desc { color: #4a5a75; margin-bottom: 0; }
+    .contact-box { background: rgba(44,120,255,0.07); border: 1px solid rgba(44,120,255,0.2); border-radius: 24px; padding: 40px; text-align: center; margin-top: 20px; }
+    .contact-box h2 { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 800; margin-bottom: 10px; }
+    .contact-box p { color: #6070a0; font-size: 14px; margin-bottom: 20px; }
+    .btn-whatsapp { display: inline-flex; align-items: center; gap: 8px; background: #25d366; color: #fff; font-size: 15px; font-weight: 700; padding: 12px 28px; border-radius: 30px; text-decoration: none; transition: background 0.2s; }
+    .btn-whatsapp:hover { background: #1ebe5d; }
+    footer { border-top: 1px solid rgba(100,180,255,0.07); padding: 28px 40px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .footer-copy { font-size: 12px; color: #3a4a65; }
+    @media (max-width: 600px) {
+      nav { padding: 14px 18px; }
+      .nav-links { display: none; }
+      .nav-cta { display: none; }
+      .hamburger { display: flex; }
+      .mobile-menu { display: flex; }
+      .section { padding: 30px 18px 60px; }
+      .page-hero { padding: 50px 18px 30px; }
+      footer { padding: 20px 18px; }
+      .contact-box { padding: 28px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">
+      <img src="Logo.png" alt="Let's Play With Physics" style="height: 44px; width: auto; display: block;">
+    </a>
+    <div class="nav-links">
+      <a href="index.html#about">About</a>
+      <a href="index.html#features">Features</a>
+      <a href="course.html">Courses</a>
+      <a href="index.html#batches">Batches</a>
+      <a href="simulations.html" class="active">Simulations</a>
+      <a href="index.html#topics">Syllabus</a>
+      <a href="material.html">Materials</a>
+      <a href="mocktest.html">Mock Test</a>
+      <a href="index.html#contact">Contact</a>
+    </div>
+    <a href="index.html#contact" class="nav-cta">Enroll Now</a>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="index.html#about" onclick="closeMenu()">About</a>
+    <a href="index.html#features" onclick="closeMenu()">Features</a>
+    <a href="index.html#batches" onclick="closeMenu()">Batches</a>
+    <a href="simulations.html" onclick="closeMenu()">Simulations</a>
+    <a href="index.html#topics" onclick="closeMenu()">Syllabus</a>
+    <a href="material.html" onclick="closeMenu()">Materials</a>
+    <a href="mocktest.html" onclick="closeMenu()">Mock Test</a>
+    <a href="index.html#contact" onclick="closeMenu()">Contact</a>
+    <a href="index.html#contact" class="mob-cta" onclick="closeMenu()">Enroll Now</a>
+  </div>
+
+  <section class="page-hero">
+    <div class="page-hero-bg"></div>
+    <div class="page-tag">Interactive Learning</div>
+    <h1>Physics <span class="accent">Simulations</span></h1>
+    <p>Don't just read physics — play with it. Adjust the variables, watch what happens, and build real intuition for how these concepts actually behave.</p>
+  </section>
+
+  <div class="section">
+    <div class="simulations-grid">
+
+      <!--
+        ============================================================
+        HOW TO ADD A NEW SIMULATION (no coding needed):
+        1. Put your new simulation's HTML file inside the "simulations" folder
+           in the GitHub repo, right next to circularmotion.html.
+        2. Copy one whole card block below (everything from
+           <a href="simulations/..." class="sim-card"> down to </a>)
+           and paste it as a new card in this grid.
+        3. Change the href to your new file name, e.g. simulations/shm.html
+        4. Change the emoji icon, the title, and the description.
+        That's it — no other file needs to change.
+        ============================================================
+      -->
+
+      <a href="simulations/centerofmass.html" class="sim-card">
+        <div class="sim-icon">⚙️</div>
+        <div class="sim-title">Centre of Mass</div>
+        <div class="sim-desc">Visualize how the centre of mass of a system shifts as individual masses and positions change. Great for building intuition before tackling COM problems.</div>
+        <span class="sim-link">Launch Simulation →</span>
+      </a>
+
+      <a href="simulations/circularmotion.html" class="sim-card">
+        <div class="sim-icon">🔴</div>
+        <div class="sim-title">Circular Motion</div>
+        <div class="sim-desc">See centripetal force in action. Experiment with mass, radius, and velocity to understand how each factor affects circular motion.</div>
+        <span class="sim-link">Launch Simulation →</span>
+      </a>
+
+      <div class="coming-soon-card">
+        <div class="sim-icon">✨</div>
+        <div class="sim-title">More coming soon</div>
+        <div class="sim-desc">New simulations are added regularly — check back often.</div>
+      </div>
+
+    </div>
+
+    <div class="contact-box">
+      <h2>Want a simulation for a specific topic?</h2>
+      <p>Message Akshay Sir and let him know what you'd like to see next.</p>
+      <a href="https://wa.me/918639905551?text=Hi%20Akshay%20Sir%2C%20can%20you%20add%20a%20simulation%20for..." class="btn-whatsapp" target="_blank">
+        💬 Request on WhatsApp
+      </a>
+    </div>
+  </div>
+
+ <footer>
+  <p class="footer-copy">&copy; 2026 Let's Play With Physics</p>
+  <p>
+    <a href="about.html">About</a> &nbsp;|&nbsp;
+    <a href="contact.html">Contact</a> &nbsp;|&nbsp;
+    <a href="privacy-policy.html">Privacy Policy</a> &nbsp;|&nbsp;
+    <a href="terms.html">Terms & Conditions</a>
+  </p>
+</footer>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById('mobile-menu').classList.toggle('open');
+      document.getElementById('hamburger').classList.toggle('open');
+    }
+    function closeMenu() {
+      document.getElementById('mobile-menu').classList.remove('open');
+      document.getElementById('hamburger').classList.remove('open');
+    }
+  </script>
+
+</body>
+</html>
