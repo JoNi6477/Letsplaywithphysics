@@ -83,6 +83,7 @@
     .sim-desc { font-size: 13px; color: #5a6a85; line-height: 1.6; flex-grow: 1; margin-bottom: 16px; }
     .sim-link { color: #7ab8ff; font-size: 13px; font-weight: 600; text-decoration: none; transition: color 0.2s; align-self: flex-start; }
     .sim-link:hover { color: #44aaff; }
+    .sim-viewall-wrap { text-align: center; margin-top: 36px; }
     .batches-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
     .batch-card { border-radius: 18px; padding: 28px 24px; }
     .batch-card.free { background: rgba(26,255,160,0.07); border: 1px solid rgba(26,255,160,0.2); }
@@ -148,7 +149,7 @@
       <a href="#features">Features</a>
       <a href="course.html" style="color: #44aaff;">Courses</a>
       <a href="#batches">Batches</a>
-      <a href="#simulations">Simulations</a>
+      <a href="simulations.html">Simulations</a>
       <a href="#topics">Syllabus</a>
       <a href="material.html">Materials</a>
       <a href="mocktest.html">Mock Test</a>
@@ -164,7 +165,7 @@
     <a href="#about" onclick="closeMenu()">About</a>
     <a href="#features" onclick="closeMenu()">Features</a>
     <a href="#batches" onclick="closeMenu()">Batches</a>
-    <a href="#simulations" onclick="closeMenu()">Simulations</a>
+    <a href="simulations.html" onclick="closeMenu()">Simulations</a>
     <a href="#topics" onclick="closeMenu()">Syllabus</a>
     <a href="material.html" onclick="closeMenu()">Materials</a>
     <a href="mocktest.html" onclick="closeMenu()">Mock Test</a>
@@ -233,9 +234,9 @@
         <div class="feat-desc">Chapter-wise practice questions for NEET and JEE Mains preparation.</div>
       </a>
        <a href="simulations.html" class="feat-card">
-        <div class="feat-icon">✏️</div>
-        <div class="feat-title">physics SIM</div>
-        <div class="feat-desc">SIMs  for NEET and JEE Mains preparation.</div>
+        <div class="feat-icon">🧪</div>
+        <div class="feat-title">Physics Simulations</div>
+        <div class="feat-desc">Interactive simulations to visualize concepts for NEET and JEE Mains preparation.</div>
       </a>
       <div class="feat-card">
         <div class="feat-icon">🎯</div>
@@ -286,49 +287,22 @@
     <div class="section-title">Physics Simulations</div>
     <div class="section-sub">Visualize complex concepts with interactive simulations. See physics in action!</div>
     <div class="simulations-grid">
-      <!-- Simulation Card Template - Copy this block to add more simulations -->
-      <div class="sim-card">
-        <div class="sim-icon">🚀</div>
-        <div class="sim-title">Center of Mass</div>
-        <div class="sim-desc">Visualize how objects move under gravity. Adjust angle and velocity to explore parabolic paths.</div>
-        <a href="center-of-mass.html" class="sim-link">Launch Simulation →</a>
-      </div>
+      <a href="simulations/centerofmass.html" class="sim-card">
+        <div class="sim-icon">⚙️</div>
+        <div class="sim-title">Centre of Mass</div>
+        <div class="sim-desc">Visualize how the centre of mass of a system shifts as individual masses and positions change.</div>
+        <span class="sim-link">Launch Simulation →</span>
+      </a>
 
-      <div class="sim-card">
-        <div class="sim-icon">🌊</div>
-        <div class="sim-title">Wave Motion</div>
-        <div class="sim-desc">Understand transverse and longitudinal waves. Play with frequency, amplitude, and wavelength.</div>
-        <a href="simulations/wave-motion.html" class="sim-link">Launch Simulation →</a>
-      </div>
-
-      <div class="sim-card">
-        <div class="sim-icon">⚡</div>
-        <div class="sim-title">Electric Fields</div>
-        <div class="sim-desc">Visualize electric field lines and forces. Explore how charges interact with each other.</div>
-        <a href="simulations/electric-fields.html" class="sim-link">Launch Simulation →</a>
-      </div>
-
-      <div class="sim-card">
+      <a href="simulations/circularmotion.html" class="sim-card">
         <div class="sim-icon">🔴</div>
         <div class="sim-title">Circular Motion</div>
         <div class="sim-desc">See centripetal force in action. Experiment with mass, radius, and velocity.</div>
-        <a href="simulations/circular-motion.html" class="sim-link">Launch Simulation →</a>
-      </div>
-
-      <div class="sim-card">
-        <div class="sim-icon">💡</div>
-        <div class="sim-title">Optics & Refraction</div>
-        <div class="sim-desc">Watch light bend and reflect. Explore mirrors, lenses, and prisms interactively.</div>
-        <a href="simulations/optics.html" class="sim-link">Launch Simulation →</a>
-      </div>
-
-      <div class="sim-card">
-        <div class="sim-icon">🔄</div>
-        <div class="sim-title">Rotational Motion</div>
-        <div class="sim-desc">Understand angular velocity and torque. Spin objects and measure rotational effects.</div>
-        <a href="simulations/rotational-motion.html" class="sim-link">Launch Simulation →</a>
-      </div>
-      <!-- End of template -->
+        <span class="sim-link">Launch Simulation →</span>
+      </a>
+    </div>
+    <div class="sim-viewall-wrap">
+      <a href="simulations.html" class="btn-outline">View All Simulations</a>
     </div>
   </div>
 
