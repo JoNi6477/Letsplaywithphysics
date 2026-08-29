@@ -17,7 +17,8 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:#dde6f0;m
 /* NAV */
 nav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;
   background:rgba(8,16,31,0.96);border-bottom:1px solid var(--bdr);position:sticky;top:0;z-index:100;}
-.nav-logo img{height:36px;}
+.nav-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:17px;color:#fff;text-decoration:none;letter-spacing:.2px;white-space:nowrap;}
+.nav-logo .hl{color:var(--blue);}
 .nav-back{color:var(--blue);font-size:13px;font-weight:700;text-decoration:none;
   border:1px solid rgba(68,170,255,0.3);padding:6px 16px;border-radius:20px;transition:.2s;}
 .nav-back:hover{background:rgba(68,170,255,0.1);}
@@ -123,7 +124,7 @@ window.onerror = function(msg, url, lineNo, columnNo, error) {
 
 
 <nav>
-  <a href="index.html" class="nav-logo"><img src="Logo.png" alt="Let's Play With Physics"></a>
+  <a href="index.html" class="nav-logo">Let's Play With <span class="hl">Physics</span></a>
   <a href="simulations.html" class="nav-back">← All Simulations</a>
 </nav>
 
