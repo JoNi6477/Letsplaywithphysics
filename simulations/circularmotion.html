@@ -130,6 +130,7 @@ window.onerror = function(msg, url, lineNo, columnNo, error) {
 <div class="tab-bar">
   <button class="tab on" id="tb-vc" onclick="go('vc')">⚙️ Vertical Circular Motion</button>
   <button class="tab"    id="tb-gk" onclick="go('gk')">🔄 General Kinematics (3D)</button>
+  <button class="tab" id="tb-br" onclick="go('br')">🛣️ Banking of Roads (3D)</button>
 </div>
 
 <div class="wrap">
@@ -246,6 +247,76 @@ window.onerror = function(msg, url, lineNo, columnNo, error) {
   </div>
 </div>
 
+
+<!-- ════════════════ TAB 3: BANKING OF ROADS ════════════════ -->
+<div class="sec" id="s-br">
+  <div class="cv-card">
+    <canvas id="c3" height="520"></canvas>
+    <div class="status" id="st3">Drag to Rotate Camera</div>
+    <div class="ov">
+      <button class="ob play"  onclick="p3.play()">▶ Play</button>
+      <button class="ob pause" onclick="p3.pause()">⏸ Pause</button>
+      <div class="ov-sep"></div>
+      <button class="ob reset" onclick="p3.reset()">↺ Reset</button>
+    </div>
+  </div>
+  <div class="side">
+    <div class="card">
+      <div class="ctitle">Parameters</div>
+      <div class="ig">
+        <div class="fg"><label>Radius r (m)</label><input type="number" id="b_r" value="10" step="1" min="2"></div>
+        <div class="fg"><label>Mass m (kg)</label><input type="number" id="b_m" value="1000" step="10" min="10"></div>
+        <div class="fg"><label>Speed v (m/s)</label><input type="number" id="b_v" value="15" step="1" min="0"></div>
+        <div class="fg"><label>Bank Angle θ (°)</label><input type="number" id="b_th" value="15" step="1" min="0" max="85"></div>
+      </div>
+      <div class="ig" style="margin-top:10px;">
+        <div class="fg"><label>Friction μ_s</label><input type="number" id="b_mu" value="0.5" step="0.1" min="0" max="1.5"></div>
+        <label class="chk-lbl" style="width:100%; justify-content:center; border:1px solid rgba(255,255,255,0.3); margin-top:18px;">
+          <input type="checkbox" id="b_f_en" checked> Enable Friction
+        </label>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="ctitle">Speed Limits & Predictions</div>
+      <div class="res-grid">
+        <div class="res-item"><div class="res-lbl">Optimum Speed v₀</div><div class="res-val" id="br_v0">0.00 m/s</div></div>
+        <div class="res-item"><div class="res-lbl">Current Speed v</div><div class="res-val" id="br_vc">0.00 m/s</div></div>
+        <div class="res-item"><div class="res-lbl">Min Safe Speed v_min</div><div class="res-val" id="br_vmin">0.00 m/s</div></div>
+        <div class="res-item"><div class="res-lbl">Max Safe Speed v_max</div><div class="res-val" id="br_vmax">0.00 m/s</div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="ctitle">Real-Time Forces</div>
+      <div class="res-grid">
+        <div class="res-item"><div class="res-lbl">Normal Force (N)</div><div class="res-val" id="br_N" style="color:var(--cyan)">0 N</div></div>
+        <div class="res-item"><div class="res-lbl">Req. Friction (f)</div><div class="res-val" id="br_f" style="color:var(--gold)">0 N</div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="ctitle">Visual Toggles</div>
+      <div class="ig">
+        <label class="chk-lbl" style="width:100%; border:1px solid rgba(255,255,255,0.3); margin-bottom:5px; justify-content:center;">
+          <input type="checkbox" id="b_v_road" checked> Show Banked Road
+        </label>
+        <label class="chk-lbl" style="width:100%; border:1px solid rgba(255,255,255,0.3); margin-bottom:5px; justify-content:center;">
+          <input type="checkbox" id="b_v_fc" checked> Show Centripetal Force (Fc)
+        </label>
+        <label class="chk-lbl" style="width:100%; border:1px solid rgba(255,255,255,0.3); margin-bottom:5px; justify-content:center;">
+          <input type="checkbox" id="b_v_axes"> Show Coordinate Axes
+        </label>
+        <select id="b_axis_type" class="v-select" style="width:100%; margin-top:5px; background:var(--bg2); color:white; border:1px solid #44aaff; padding:5px; border-radius:4px; font-family: 'Space Grotesk', sans-serif;">
+          <option value="hv">Horizontal / Vertical Axes</option>
+          <option value="pp">Parallel / Perpendicular Axes</option>
+        </select>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 </div><!-- wrap -->
 
 <script>
@@ -297,7 +368,7 @@ function drawBG(ctx,W,H){
 /* ═══════════════════════════════════════
    TAB SWITCH
 ═══════════════════════════════════════ */
-var tabs=['vc','gk'];
+var tabs=['vc','gk','br'];
 function go(id){
   tabs.forEach(function(t){
     $('s-'+t).classList.toggle('on',t===id);
@@ -305,6 +376,7 @@ function go(id){
   });
   if(id==='vc'){sz1();p1.reset();}
   if(id==='gk'){sz2();p2.reset();}
+  if(id==='br'){sz3();p3.reset();}
 }
 
 /* ═══════════════════════════════════════
@@ -738,15 +810,266 @@ var p2={
   document.getElementById(i).addEventListener('change', function(){ draw2(); });
 });
 
+
+/* ═══════════════════════════════════════
+   TAB 3 — BANKING OF ROADS (3D)
+═══════════════════════════════════════ */
+var S3 = {running: false, af: null};
+var A3 = {th: 0, r: 10, m: 1000, v: 15, bank: 15, mu: 0.5, f_en: true};
+var T4 = {inited: false};
+
+function sz3(){
+  var c3 = document.getElementById('c3');
+  var p = c3.parentElement.getBoundingClientRect();
+  if(T4.renderer) {
+      T4.renderer.setSize(p.width, 520);
+      T4.camera.aspect = p.width / 520;
+      T4.camera.updateProjectionMatrix();
+      draw3();
+  }
+}
+
+function initThreeBank(){
+  if(T4.inited) return;
+  T4.inited = true;
+  var c3 = document.getElementById('c3');
+  var w = c3.parentElement.getBoundingClientRect().width;
+  var h = 520;
+  
+  T4.scene = new THREE.Scene();
+  T4.scene.background = new THREE.Color('#0c1422');
+  
+  T4.camera = new THREE.PerspectiveCamera(45, w/h, 0.1, 1000);
+  T4.camera.position.set(0, 5, 25);
+  
+  T4.renderer = new THREE.WebGLRenderer({canvas: c3, antialias: true});
+  T4.renderer.setSize(w, h);
+  
+  T4.controls = new THREE.OrbitControls(T4.camera, T4.renderer.domElement);
+  T4.controls.addEventListener('change', draw3);
+  
+  var grid = new THREE.GridHelper(50, 50, 0x44aaff, 0x44aaff);
+  grid.material.opacity = 0.1; grid.material.transparent = true;
+  grid.position.y = -1;
+  T4.scene.add(grid);
+  
+  T4.carNode = new THREE.Group();
+  T4.scene.add(T4.carNode);
+
+  var carGeom = new THREE.BoxGeometry(1.2, 0.8, 2.4);
+  var carMat = new THREE.MeshBasicMaterial({color: 0x44aaff});
+  T4.car = new THREE.Mesh(carGeom, carMat);
+  T4.car.position.y = 0.4; 
+  T4.carNode.add(T4.car);
+  
+  T4.arrows = {
+      mg: new THREE.ArrowHelper(new THREE.Vector3(0,-1,0), new THREE.Vector3(0,0.4,0), 3, 0xff4d6d, 0.5, 0.3),
+      N: new THREE.ArrowHelper(new THREE.Vector3(0,1,0), new THREE.Vector3(0,0.4,0), 3, 0x00e5ff, 0.5, 0.3),
+      f: new THREE.ArrowHelper(new THREE.Vector3(1,0,0), new THREE.Vector3(0,0.4,0), 3, 0xf7c948, 0.5, 0.3),
+      fc: new THREE.ArrowHelper(new THREE.Vector3(-1,0,0), new THREE.Vector3(0,0.4,0), 3, 0x1affa0, 0.5, 0.3)
+  };
+  for(var k in T4.arrows) T4.carNode.add(T4.arrows[k]);
+  
+  var axMat = new THREE.LineDashedMaterial({color: 0xffffff, dashSize: 0.5, gapSize: 0.3, opacity:0.5, transparent:true});
+  var axGeomX = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(-8,0,0), new THREE.Vector3(8,0,0)]);
+  var axGeomY = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0,-8,0), new THREE.Vector3(0,8,0)]);
+  T4.axisX = new THREE.Line(axGeomX, axMat); T4.axisX.computeLineDistances();
+  T4.axisY = new THREE.Line(axGeomY, axMat); T4.axisY.computeLineDistances();
+  T4.axesGroup = new THREE.Group();
+  T4.axesGroup.add(T4.axisX); T4.axesGroup.add(T4.axisY);
+  T4.axesGroup.position.y = 0.4;
+  T4.carNode.add(T4.axesGroup);
+  
+  T4.track = new THREE.Mesh();
+}
+
+function updateBankingPhysics() {
+  var R = A3.carR !== undefined ? A3.carR : A3.r;
+  var m = A3.m, v = A3.v;
+  var bankRad = A3.bank * Math.PI / 180;
+  var mu = A3.f_en ? A3.mu : 0;
+  var g = 9.8;
+  
+  var v0 = Math.sqrt(R * g * Math.tan(bankRad));
+  
+  var denomMax = Math.cos(bankRad) - mu * Math.sin(bankRad);
+  var vmax = Infinity;
+  if(denomMax > 0) vmax = Math.sqrt(R * g * (Math.sin(bankRad) + mu * Math.cos(bankRad)) / denomMax);
+  
+  var denomMin = Math.cos(bankRad) + mu * Math.sin(bankRad);
+  var numMin = Math.sin(bankRad) - mu * Math.cos(bankRad);
+  var vmin = 0;
+  if(numMin > 0) vmin = Math.sqrt(R * g * numMin / denomMin);
+  
+  var reqF = (m * v * v / R) * Math.cos(bankRad) - m * g * Math.sin(bankRad);
+  var N = m * g * Math.cos(bankRad) + (m * v * v / R) * Math.sin(bankRad);
+  
+  var maxF = mu * N;
+  var status = "SAFE";
+  var stCol = "#1affa0";
+  if (Math.abs(reqF) > maxF + 0.1) {
+      if (reqF > 0) { status = "SKIDDING OUTWARD!"; stCol = "#ff4d6d"; }
+      else { status = "SLIDING DOWN!"; stCol = "#ff4d6d"; }
+  }
+  
+  document.getElementById('br_v0').textContent = v0.toFixed(2) + ' m/s';
+  document.getElementById('br_vc').textContent = v.toFixed(2) + ' m/s';
+  document.getElementById('br_vmin').textContent = vmin.toFixed(2) + ' m/s';
+  document.getElementById('br_vmax').textContent = (vmax === Infinity ? '∞' : vmax.toFixed(2)) + ' m/s';
+  document.getElementById('br_N').textContent = N.toFixed(0) + ' N';
+  document.getElementById('br_f').textContent = Math.abs(reqF).toFixed(0) + ' N' + (reqF > 0.1 ? ' (Down Bank)' : (reqF < -0.1 ? ' (Up Bank)' : ' (Zero)'));
+  
+  st('st3', status, stCol);
+  
+  return {bankRad: bankRad, reqF: reqF, N: N, status: status};
+}
+
+function draw3(){
+  if(!T4.inited) initThreeBank();
+  var phys = updateBankingPhysics();
+  var R = A3.r; // Track is fixed at A3.r
+  var carR = A3.carR !== undefined ? A3.carR : A3.r;
+  
+  T4.scene.remove(T4.track);
+  // Solid road, 6m wide
+  var ringGeom = new THREE.RingGeometry(R - 3, R + 3, 100);
+  ringGeom.rotateX(-Math.PI/2); 
+  var pos = ringGeom.attributes.position;
+  for(var i=0; i<pos.count; i++){
+      var x = pos.getX(i), z = pos.getZ(i);
+      var dist = Math.hypot(x, z);
+      var dr = dist - R;
+      var y = dr * Math.tan(phys.bankRad);
+      pos.setY(i, y);
+  }
+  ringGeom.computeVertexNormals();
+  T4.track = new THREE.Mesh(ringGeom, new THREE.MeshStandardMaterial({color: 0x555555, side: THREE.DoubleSide, roughness: 0.8}));
+  T4.track.visible = document.getElementById('b_v_road').checked;
+  T4.scene.add(T4.track);
+  
+  // Add some ambient light for the StandardMaterial
+  if(!T4.light) {
+      T4.light = new THREE.DirectionalLight(0xffffff, 1.0);
+      T4.light.position.set(10, 20, 10);
+      T4.scene.add(T4.light);
+      T4.scene.add(new THREE.AmbientLight(0x404040));
+  }
+  
+  A3.carY = (carR - R) * Math.tan(phys.bankRad);
+  var cx = carR * Math.cos(A3.th);
+  var cz = -carR * Math.sin(A3.th);
+  T4.carNode.position.set(cx, A3.carY, cz);
+  
+  // Velocity points forward (-Z relative). Tangent of CCW circle is CCW.
+  T4.carNode.rotation.y = A3.th; 
+  T4.carNode.rotation.z = phys.bankRad; 
+  
+  T4.arrows.N.setLength(phys.N / 5000 + 1); 
+  
+  var mgGlobal = new THREE.Vector3(0,-1,0);
+  var mgLocal = mgGlobal.clone().applyQuaternion(T4.carNode.quaternion.clone().invert());
+  T4.arrows.mg.setDirection(mgLocal);
+  T4.arrows.mg.setLength(A3.m * 9.8 / 5000 + 1);
+  
+  var fLocal = new THREE.Vector3(-Math.sign(phys.reqF), 0, 0);
+  if (Math.abs(phys.reqF) > 0.1) {
+      T4.arrows.f.visible = true;
+      T4.arrows.f.setDirection(fLocal);
+      T4.arrows.f.setLength(Math.abs(phys.reqF) / 5000 + 1);
+  } else {
+      T4.arrows.f.visible = false;
+  }
+  
+  // Centripetal Force (points globally horizontal towards center)
+  if(document.getElementById('b_v_fc').checked) {
+      T4.arrows.fc.visible = true;
+      var fcGlobal = new THREE.Vector3(-Math.cos(A3.th), 0, Math.sin(A3.th));
+      var fcLocal = fcGlobal.applyQuaternion(T4.carNode.quaternion.clone().invert());
+      T4.arrows.fc.setDirection(fcLocal);
+      var Fc_val = A3.m * A3.v * A3.v / carR;
+      T4.arrows.fc.setLength(Fc_val / 5000 + 1);
+  } else {
+      T4.arrows.fc.visible = false;
+  }
+  
+  // Axes
+  if(document.getElementById('b_v_axes').checked) {
+      T4.axesGroup.visible = true;
+      var axType = document.getElementById('b_axis_type').value;
+      // If hv, counter-rotate by -bankRad so it stays globally horizontal. If pp, stay 0.
+      T4.axesGroup.rotation.z = axType === 'hv' ? -phys.bankRad : 0;
+  } else {
+      T4.axesGroup.visible = false;
+  }
+  
+  T4.controls.target.set(0,0,0);
+  T4.renderer.render(T4.scene, T4.camera);
+}
+
+var p3={
+  init:function(){
+    A3.r = fv('b_r'); A3.m = fv('b_m'); A3.v = fv('b_v'); A3.bank = fv('b_th');
+    A3.mu = fv('b_mu'); A3.f_en = document.getElementById('b_f_en').checked;
+    A3.th = 0; A3.carR = A3.r; A3.carY = 0;
+    initThreeBank();
+    draw3();
+  },
+  play:function(){
+    if(S3.running) return;
+    S3.running = true;
+    var last = null;
+    function lp(ts){
+      if(!S3.running) { draw3(); return; }
+      if(!last) last = ts;
+      var dt = Math.min((ts-last)/1000, 0.04); last = ts;
+      
+      var new_r = fv('b_r');
+      if (Math.abs(new_r - A3.r) > 0.01) { A3.r = new_r; A3.carR = new_r; }
+      A3.m = fv('b_m'); A3.v = fv('b_v'); A3.bank = fv('b_th');
+      A3.mu = fv('b_mu'); A3.f_en = document.getElementById('b_f_en').checked;
+      
+      var phys = updateBankingPhysics();
+      
+      if(phys.status === 'SKIDDING OUTWARD!') {
+          A3.carR += 6 * dt; // slide out
+      } else if (phys.status === 'SLIDING DOWN!') {
+          A3.carR -= 6 * dt; // slide in
+      }
+      if (A3.carR < 0.1) A3.carR = 0.1; // prevent negative radius
+      
+      var om = A3.v / A3.carR;
+      A3.th += om * dt;
+      
+      draw3();
+      S3.af = requestAnimationFrame(lp);
+    }
+    S3.af = requestAnimationFrame(lp);
+  },
+  pause:function(){S3.running=false;if(S3.af){cancelAnimationFrame(S3.af);S3.af=null;}},
+  reset:function(){this.pause();this.init();st('st3','Drag to Rotate Camera');}
+};
+
+['b_r','b_m','b_v','b_th','b_mu'].forEach(function(i){
+  document.getElementById(i).addEventListener('input', function(){ 
+      if(!S3.running){ p3.init(); }
+  });
+});
+document.getElementById('b_f_en').addEventListener('change', function(){ if(!S3.running) p3.init(); });
+['b_v_road','b_v_fc','b_v_axes','b_axis_type'].forEach(function(i){
+  document.getElementById(i).addEventListener('change', function(){ draw3(); });
+});
+
 /* ═══ INIT ═══ */
 function initAll(){
   sz1();p1.reset();
   sz2();p2.reset();
+  sz3();p3.reset();
 }
 window.addEventListener('resize',function(){
   var cur=tabs.find(function(t){return document.getElementById('s-'+t).classList.contains('on');});
   if(cur==='vc'){sz1();draw1();}
   if(cur==='gk'){sz2();draw2();}
+  if(cur==='br'){sz3();draw3();}
 });
 setTimeout(initAll,80);
 </script>
