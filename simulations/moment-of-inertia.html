@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moment of Inertia | Let's Play With Physics</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
+<style>
+:root{
+  --bg:#08101f; --panel:#0d1828; --blue:#44aaff; --gold:#f7c948;
+  --green:#1affa0; --red:#ff4d6d; --cyan:#00e5ff; --purple:#c084fc;
+  --orange:#ff8c00; --bdr:rgba(100,180,255,0.12); --muted:#4a5e7a;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:#dde6f0;min-height:100vh;overflow-x:hidden;}
+
+/* NAV */
+nav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;
+  background:rgba(8,16,31,0.96);border-bottom:1px solid var(--bdr);position:sticky;top:0;z-index:100;}
+.nav-logo img{height:36px;}
+.nav-back{color:var(--blue);font-size:13px;font-weight:700;text-decoration:none;
+  border:1px solid rgba(68,170,255,0.3);padding:6px 16px;border-radius:20px;transition:.2s;}
+.nav-back:hover{background:rgba(68,170,255,0.1);}
+
+/* TABS */
+.tab-bar{display:flex;gap:5px;padding:16px 24px 0;max-width:1380px;margin:0 auto;flex-wrap:wrap;}
+.tab{font-family:inherit;font-size:13px;font-weight:700;color:var(--muted);
+  background:rgba(255,255,255,0.03);border:1px solid var(--bdr);
+  padding:9px 18px;border-radius:10px 10px 0 0;cursor:pointer;transition:.2s;white-space:nowrap;}
+.tab:hover{color:#aec6e8;background:rgba(68,170,255,0.06);}
+.tab.on{color:var(--blue);background:rgba(68,170,255,0.12);border-color:rgba(68,170,255,0.4);border-bottom-color:var(--panel);}
+
+/* LAYOUT */
+.wrap{max-width:1380px;margin:0 auto;padding:0 24px 48px;}
+.sec{display:none;}
+.sec.on{display:grid;grid-template-columns:1fr 340px;gap:16px;}
+@media(max-width:860px){.sec.on{grid-template-columns:1fr;}}
+
+/* CANVAS CARD */
+.cv-card{background:var(--panel);border:1px solid var(--bdr);border-radius:0 14px 14px 14px;
+  position:relative;overflow:hidden;}
+canvas{display:block;width:100%;}
+.status{position:absolute;top:14px;left:14px;background:rgba(8,16,31,0.8);
+  border:1px solid var(--bdr);padding:6px 12px;border-radius:6px;font-size:13px;font-weight:700;}
+
+/* OVERLAY CONTROLS */
+.ov{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);
+  display:flex;gap:6px;align-items:center;
+  background:rgba(8,16,31,0.88);border:1px solid rgba(100,180,255,0.22);
+  border-radius:32px;padding:7px 18px;backdrop-filter:blur(12px);white-space:nowrap;z-index:10;}
+.ob{font-family:inherit;font-size:12px;font-weight:700;padding:6px 15px;
+  border-radius:20px;cursor:pointer;border:1px solid;transition:.2s;}
+.ob.play{background:#44aaff;color:#08101f;border-color:#44aaff;}
+.ob.play:hover{background:#66bbff;}
+.ob.pause{background:rgba(68,170,255,0.14);color:var(--blue);border-color:rgba(68,170,255,0.35);}
+.ob.pause:hover{background:rgba(68,170,255,0.28);}
+.ob.reset{background:rgba(255,77,109,0.14);color:var(--red);border-color:rgba(255,77,109,0.3);}
+.ob.reset:hover{background:rgba(255,77,109,0.25);}
+.ov-sep{width:1px;height:16px;background:rgba(255,255,255,0.2);margin:0 4px;}
+
+/* SIDE CARDS */
+.side{display:flex;flex-direction:column;gap:12px;}
+.card{background:var(--panel);border:1px solid var(--bdr);border-radius:12px;padding:16px;}
+.ctitle{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);
+  font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:6px;}
+
+.ig{display:flex;flex-direction:column;gap:8px;}
+.fg{display:flex;justify-content:space-between;align-items:center;
+  background:rgba(8,16,31,0.4);border:1px solid var(--bdr);padding:4px 12px;border-radius:8px;}
+.fg label{font-size:12px;color:#a0b4cc;font-weight:500;}
+.fg input{width:60px;background:none;border:none;color:#fff;font-family:inherit;
+  font-size:14px;font-weight:700;text-align:right;outline:none;}
+.chk-lbl{font-size:12px;display:flex;align-items:center;gap:8px;cursor:pointer;
+  padding:6px 12px;border-radius:8px;background:rgba(8,16,31,0.4);}
+
+.v-select{width:100%; background:rgba(8,16,31,0.4); color:white; border:1px solid var(--bdr); 
+  padding:8px; border-radius:8px; font-family:inherit; font-size:13px; font-weight:700; outline:none; margin-bottom:8px;}
+
+/* ENERGY BARS */
+.bar-wrap{display:flex; flex-direction:column; gap:4px; margin-bottom:12px;}
+.bar-title{font-size:12px; color:#fff; font-weight:700; display:flex; justify-content:space-between;}
+.bar-sub{font-size:10px; color:var(--muted);}
+.bar-bg{width:100%; height:12px; background:rgba(0,0,0,0.5); border-radius:6px; overflow:hidden; display:flex;}
+.bar-fill-trans{height:100%; background:var(--green); transition:width 0.1s linear;}
+.bar-fill-rot{height:100%; background:var(--gold); transition:width 0.1s linear;}
+
+.shape-legend{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px;}
+.leg-item{display:flex; align-items:center; gap:6px; font-size:11px; font-weight:700;}
+.leg-box{width:12px; height:12px; border-radius:3px;}
+
+/* Custom Text */
+.math-txt{font-size:18px; font-weight:700; text-align:center; padding:10px; background:rgba(0,0,0,0.2); border-radius:8px; color:var(--cyan); margin:10px 0;}
+
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo"><img src="Logo.png" alt="Let's Play With Physics"></a>
+  <a href="simulations.html" class="nav-back">← All Simulations</a>
+</nav>
+
+<div class="tab-bar">
+  <button class="tab on" id="tb-r" onclick="go('r')">🏁 The Rolling Race</button>
+  <button class="tab"    id="tb-a" onclick="go('a')">📐 Axes & Theorems</button>
+</div>
+
+<div class="wrap">
+  <!-- TAB 1: THE ROLLING RACE -->
+  <div class="sec on" id="s-r">
+    <div class="cv-card">
+      <canvas id="c1" height="560"></canvas>
+      <div class="status" id="st1" style="color:var(--green);">Ready</div>
+      <div class="ov">
+        <button class="ob play"  onclick="p1.play()">▶ Race!</button>
+        <button class="ob pause" onclick="p1.pause()">⏸ Pause</button>
+        <div class="ov-sep"></div>
+        <button class="ob reset" onclick="p1.reset()">↺ Reset</button>
+      </div>
+    </div>
+    <div class="side">
+      <div class="card">
+        <div class="ctitle">Race Setup</div>
+        <div class="ig">
+          <div class="fg"><label>Incline Angle θ (°)</label><input type="number" id="r_th" value="20" step="1" min="5" max="60"></div>
+          <div class="fg" style="border-color:#00e5ff;"><label>Solid Sphere</label>
+             <div><input type="number" id="r_m0" value="10" title="Mass" style="width:40px;">kg <input type="number" id="r_r0" value="1" title="Radius" style="width:40px;">m</div>
+          </div>
+          <div class="fg" style="border-color:#c084fc;"><label>Solid Cyl</label>
+             <div><input type="number" id="r_m1" value="10" style="width:40px;">kg <input type="number" id="r_r1" value="1" style="width:40px;">m</div>
+          </div>
+          <div class="fg" style="border-color:#ff8c00;"><label>Hollow Sph</label>
+             <div><input type="number" id="r_m2" value="10" style="width:40px;">kg <input type="number" id="r_r2" value="1" style="width:40px;">m</div>
+          </div>
+          <div class="fg" style="border-color:#ff4d6d;"><label>Hollow Cyl</label>
+             <div><input type="number" id="r_m3" value="10" style="width:40px;">kg <input type="number" id="r_r3" value="1" style="width:40px;">m</div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="ctitle">Live Kinetic Energy</div>
+        <div class="shape-legend">
+          <div class="leg-item"><div class="leg-box" style="background:var(--green);"></div>Translational</div>
+          <div class="leg-item"><div class="leg-box" style="background:var(--gold);"></div>Rotational</div>
+        </div>
+        
+        <div class="bar-wrap">
+          <div class="bar-title">Solid Sphere <span style="color:#00e5ff;">(1st)</span></div>
+          <div class="bar-bg">
+            <div class="bar-fill-trans" id="b1_t" style="width:0%"></div>
+            <div class="bar-fill-rot" id="b1_r" style="width:0%"></div>
+          </div>
+        </div>
+        <div class="bar-wrap">
+          <div class="bar-title">Solid Cylinder <span style="color:#c084fc;">(2nd)</span></div>
+          <div class="bar-bg">
+            <div class="bar-fill-trans" id="b2_t" style="width:0%"></div>
+            <div class="bar-fill-rot" id="b2_r" style="width:0%"></div>
+          </div>
+        </div>
+        <div class="bar-wrap">
+          <div class="bar-title">Hollow Sphere <span style="color:#ff8c00;">(3rd)</span></div>
+          <div class="bar-bg">
+            <div class="bar-fill-trans" id="b3_t" style="width:0%"></div>
+            <div class="bar-fill-rot" id="b3_r" style="width:0%"></div>
+          </div>
+        </div>
+        <div class="bar-wrap">
+          <div class="bar-title">Hollow Cylinder <span style="color:#ff4d6d;">(4th)</span></div>
+          <div class="bar-bg">
+            <div class="bar-fill-trans" id="b4_t" style="width:0%"></div>
+            <div class="bar-fill-rot" id="b4_r" style="width:0%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 2: AXES & THEOREMS -->
+  <div class="sec" id="s-a">
+    <div class="cv-card">
+      <canvas id="c2" height="560"></canvas>
+      <div class="status" id="st2" style="color:var(--gold);">Ready</div>
+      <div class="ov">
+        <button class="ob play"  onclick="p2.play()">▶ Spin</button>
+        <button class="ob pause" onclick="p2.pause()">⏸ Stop</button>
+      </div>
+    </div>
+    <div class="side">
+      <div class="card">
+        <div class="ctitle">Shape Configuration</div>
+        <select id="a_shape" class="v-select">
+          <option value="rod">Thin Rod</option>
+          <option value="cyl">Solid Cylinder</option>
+          <option value="plate">Rectangular Plate</option>
+        </select>
+        <div class="ig">
+          <div class="fg"><label>Mass M (kg)</label><input type="number" id="a_m" value="5" step="1" min="1"></div>
+          <div class="fg" id="i_l"><label>Length L (m)</label><input type="number" id="a_l" value="6" step="0.5" min="2" max="10"></div>
+          <div class="fg" id="i_r"><label>Radius R (m)</label><input type="number" id="a_r" value="1" step="0.1" min="0.5" max="4"></div>
+          <div class="fg" id="i_w" style="display:none;"><label>Width W (m)</label><input type="number" id="a_w" value="4" step="0.5" min="2" max="10"></div>
+        </div>
+      </div>
+      
+      <div class="card">
+        <div class="ctitle">Axis Properties</div>
+        <select id="a_ori" class="v-select">
+          <option value="perp">Perpendicular to Length (Y-axis)</option>
+          <option value="para">Parallel to Length (X-axis)</option>
+          <option value="z" id="opt_z" style="display:none;">Perpendicular to Plate (Z-axis)</option>
+        </select>
+        <div class="ig">
+          <div class="fg"><label>Axis Shift d (m)</label><input type="number" id="a_d" value="0" step="0.5" min="0" max="5"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="ctitle">Parallel Axis Theorem</div>
+        <div class="math-txt" id="txt_icm">I_cm = 0.00 kg·m²</div>
+        <div class="math-txt" id="txt_md2" style="color:var(--gold); font-size:16px;">+ M·d² = 0.00</div>
+        <div class="math-txt" id="txt_itot" style="color:var(--green); font-size:22px;">Total I = 0.00</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function $(id){return document.getElementById(id);}
+function fv(id){return parseFloat($(id).value);}
+function st(id, msg, col){var e=$(id);e.textContent=msg;e.style.color=col||'#fff';}
+
+var tabs=['r','a'];
+function go(id){
+  tabs.forEach(function(t){
+    $('s-'+t).classList.toggle('on',t===id);
+    $('tb-'+t).classList.toggle('on',t===id);
+  });
+  if(id==='r'){sz1();p1.reset();}
+  if(id==='a'){sz2();p2.init();if(S2&&S2.running)p2.pause();}
+}
+
+/* ════════════ TAB 1: ROLLING RACE ════════════ */
+var T1 = {inited:false};
+var S1 = {running:false, af:null, t:0};
+var R1 = [];
+
+function sz1(){
+  var c = $('c1'); var p = c.parentElement.getBoundingClientRect();
+  if(T1.renderer){
+    T1.renderer.setSize(p.width, 560);
+    T1.camera.aspect = p.width / 560;
+    T1.camera.updateProjectionMatrix();
+    draw1();
+  }
+}
+
+function initRace(){
+  if(T1.inited) return; T1.inited=true;
+  var c = $('c1'); var p = c.parentElement.getBoundingClientRect();
+  T1.scene = new THREE.Scene();
+  T1.scene.background = new THREE.Color('#08101f');
+  T1.camera = new THREE.PerspectiveCamera(45, p.width/560, 0.1, 1000);
+  T1.renderer = new THREE.WebGLRenderer({canvas:c, antialias:true});
+  T1.renderer.setSize(p.width, 560);
+  T1.controls = new THREE.OrbitControls(T1.camera, T1.renderer.domElement);
+  T1.controls.addEventListener('change', draw1);
+  
+  T1.scene.add(new THREE.AmbientLight(0x404040));
+  var dl = new THREE.DirectionalLight(0xffffff, 0.8);
+  dl.position.set(10, 20, 10); T1.scene.add(dl);
+
+  T1.ramp = new THREE.Mesh(new THREE.BoxGeometry(40, 1, 16), new THREE.MeshStandardMaterial({color:0x334455}));
+  T1.scene.add(T1.ramp);
+
+  // 4 Objects: 1:Solid Sph(cyan), 2:Solid Cyl(purple), 3:Hollow Sph(orange), 4:Hollow Cyl(red)
+  R1 = [
+    {c: 0.4, col: 0x00e5ff, type:'sph', mesh:null, s:0, v:0},
+    {c: 0.5, col: 0xc084fc, type:'cyl', mesh:null, s:0, v:0},
+    {c: 0.667, col: 0xff8c00, type:'sph', mesh:null, s:0, v:0, wire:true},
+    {c: 1.0, col: 0xff4d6d, type:'cyl', mesh:null, s:0, v:0, wire:true}
+  ];
+  
+  R1.forEach((obj, i) => {
+    var geom;
+    if(obj.type==='sph') geom = new THREE.SphereGeometry(1, 32, 32);
+    else geom = new THREE.CylinderGeometry(1, 1, 2, 32);
+    var mat = new THREE.MeshStandardMaterial({color:obj.col, wireframe:obj.wire||false});
+    obj.mesh = new THREE.Mesh(geom, mat);
+    T1.scene.add(obj.mesh);
+  });
+  
+  T1.camera.position.set(-20, 15, 30);
+  T1.controls.target.set(0,0,0);
+}
+
+function updateRaceRamp(){
+  var th = fv('r_th') * Math.PI/180;
+  T1.ramp.rotation.z = -th;
+  T1.ramp.position.set(0,0,0);
+}
+
+function draw1(){
+  if(!T1.inited) initRace();
+  updateRaceRamp();
+  var th = fv('r_th') * Math.PI/180;
+  
+  // Track starts from left (-18) to right (+18) local to ramp
+  R1.forEach((obj, i) => {
+    var r = fv('r_r'+i);
+    var z_offset = -6 + i*4; // spread along Z axis
+    // Local coords on ramp
+    var lx = -18 + obj.s;
+    var ly = 0.5 + r; // on top of ramp
+    // Convert to global
+    var gx = lx * Math.cos(-th) - ly * Math.sin(-th);
+    var gy = lx * Math.sin(-th) + ly * Math.cos(-th);
+    
+    obj.mesh.position.set(gx, gy, z_offset);
+    obj.mesh.scale.set(r, r, r);
+    
+    // Rotation: distance s means angle phi = s / r. 
+    var phi = -obj.s / r;
+    if(obj.type==='cyl') {
+        obj.mesh.rotation.set(Math.PI/2, -th + phi, 0); // Rotate Y to spin around cylinder axis
+    } else {
+        obj.mesh.rotation.set(0, 0, -th + phi);
+    }
+  });
+  
+  T1.renderer.render(T1.scene, T1.camera);
+}
+
+function updateBars(){
+  R1.forEach((obj, i) => {
+    var M = fv('r_m'+i); var R = fv('r_r'+i);
+    var I = obj.c * M * R * R;
+    var w = obj.v / R;
+    var ke_t = 0.5 * M * obj.v * obj.v;
+    var ke_r = 0.5 * I * w * w;
+    var tot = ke_t + ke_r || 1;
+    var pt = (ke_t / tot) * 100;
+    var pr = (ke_r / tot) * 100;
+    
+    $('b'+(i+1)+'_t').style.width = pt + '%';
+    $('b'+(i+1)+'_r').style.width = pr + '%';
+  });
+}
+
+var p1={
+  init:function(){
+    initRace(); draw1(); updateBars();
+  },
+  play:function(){
+    if(S1.running) return; S1.running=true;
+    var th = fv('r_th') * Math.PI/180;
+    var g = 9.8;
+    st('st1','Racing...','#f7c948');
+    
+    var last = null;
+    function lp(ts){
+      if(!S1.running){draw1();return;}
+      if(!last) last=ts;
+      var dt = Math.min((ts-last)/1000, 0.04); last=ts;
+      
+      var allDone = true;
+      R1.forEach(obj => {
+        if(obj.s < 36){ // 36m track length
+          var a = (g * Math.sin(th)) / (1 + obj.c);
+          obj.v += a * dt;
+          obj.s += obj.v * dt;
+          allDone = false;
+        }
+      });
+      
+      draw1();
+      updateBars();
+      
+      if(allDone){
+        st('st1','Race Finished!','#1affa0');
+        S1.running = false;
+      } else {
+        S1.af = requestAnimationFrame(lp);
+      }
+    }
+    S1.af = requestAnimationFrame(lp);
+  },
+  pause:function(){S1.running=false;if(S1.af){cancelAnimationFrame(S1.af);S1.af=null;}st('st1','Paused','#ff8c00');},
+  reset:function(){
+    this.pause();
+    R1.forEach(obj => {obj.s=0; obj.v=0;});
+    st('st1','Ready','#1affa0');
+    draw1(); updateBars();
+  }
+};
+
+/* ════════════ TAB 2: AXES & THEOREMS ════════════ */
+var T2 = {inited:false};
+function sz2(){
+  var c = $('c2'); var p = c.parentElement.getBoundingClientRect();
+  if(T2.renderer){
+    T2.renderer.setSize(p.width, 560);
+    T2.camera.aspect = p.width / 560;
+    T2.camera.updateProjectionMatrix();
+    draw2();
+  }
+}
+
+function initAxes(){
+  if(T2.inited) return; T2.inited=true;
+  var c = $('c2'); var p = c.parentElement.getBoundingClientRect();
+  T2.scene = new THREE.Scene(); T2.scene.background = new THREE.Color('#08101f');
+  T2.camera = new THREE.PerspectiveCamera(45, p.width/560, 0.1, 1000);
+  T2.renderer = new THREE.WebGLRenderer({canvas:c, antialias:true});
+  T2.renderer.setSize(p.width, 560);
+  T2.controls = new THREE.OrbitControls(T2.camera, T2.renderer.domElement);
+  T2.controls.addEventListener('change', draw2);
+  
+  T2.scene.add(new THREE.AmbientLight(0x606060));
+  var dl = new THREE.DirectionalLight(0xffffff, 0.6); dl.position.set(10,20,10); T2.scene.add(dl);
+  
+  T2.shapeMat = new THREE.MeshStandardMaterial({color:0x44aaff, transparent:true, opacity:0.8});
+  T2.mesh = new THREE.Mesh(new THREE.BoxGeometry(1,1,1), T2.shapeMat);
+  
+  // Center Axis
+  var axg = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0,-15,0), new THREE.Vector3(0,15,0)]);
+  T2.axC = new THREE.Line(axg, new THREE.LineBasicMaterial({color:0xffffff, transparent:true, opacity:0.3}));
+  
+  T2.spinGroup = new THREE.Group();
+  T2.spinGroup.add(T2.mesh);
+  T2.spinGroup.add(T2.axC);
+  T2.scene.add(T2.spinGroup);
+  
+  // Shifted Axis
+  T2.axS = new THREE.Line(axg, new THREE.LineBasicMaterial({color:0xff4d6d, linewidth:2}));
+  T2.scene.add(T2.axS);
+  
+  T2.camera.position.set(10, 10, 15);
+}
+
+function draw2(){
+  if(!T2.inited) initAxes();
+  
+  var shape = $('a_shape').value;
+  var ori = $('a_ori').value;
+  var M = fv('a_m'), L = fv('a_l'), R = fv('a_r'), W = fv('a_w'), d = fv('a_d');
+  
+  T2.mesh.geometry.dispose();
+  var Icm = 0;
+  
+  var pivotPt = new THREE.Vector3(0,0,0);
+  var rotAx = new THREE.Vector3(0,1,0);
+
+  if(shape === 'rod'){
+    T2.mesh.geometry = new THREE.CylinderGeometry(R, R, L, 32);
+    if(ori === 'perp'){
+       T2.mesh.rotation.z = Math.PI/2;
+       pivotPt.set(d, 0, 0);
+       Icm = M * (3*R*R + L*L) / 12; 
+    } else {
+       T2.mesh.rotation.z = 0;
+       pivotPt.set(d, 0, 0);
+       Icm = 0.5 * M * R * R;
+    }
+  } else if (shape === 'cyl') {
+    T2.mesh.geometry = new THREE.CylinderGeometry(R, R, L, 32);
+    if(ori === 'perp'){
+       T2.mesh.rotation.z = Math.PI/2; 
+       pivotPt.set(d, 0, 0);
+       Icm = M * (3*R*R + L*L) / 12;
+    } else {
+       T2.mesh.rotation.z = 0;
+       pivotPt.set(d, 0, 0);
+       Icm = 0.5 * M * R * R;
+    }
+  } else if (shape === 'plate') {
+    T2.mesh.geometry = new THREE.BoxGeometry(L, 0.2, W);
+    T2.mesh.rotation.set(0,0,0);
+    
+    if(ori === 'para'){
+      T2.axC.rotation.z = Math.PI/2;
+      T2.axS.rotation.z = Math.PI/2;
+      pivotPt.set(0, 0, d);
+      rotAx.set(1, 0, 0);
+      Icm = M * W * W / 12;
+    } else if (ori === 'perp') {
+      T2.axC.rotation.x = Math.PI/2;
+      T2.axC.rotation.z = 0;
+      T2.axS.rotation.x = Math.PI/2;
+      T2.axS.rotation.z = 0;
+      pivotPt.set(d, 0, 0);
+      rotAx.set(0, 0, 1);
+      Icm = M * L * L / 12;
+    } else if (ori === 'z') {
+      T2.axC.rotation.set(0,0,0);
+      T2.axS.rotation.set(0,0,0);
+      pivotPt.set(d, 0, 0);
+      rotAx.set(0, 1, 0);
+      Icm = M * (L*L + W*W) / 12;
+    }
+  }
+  
+  if(shape !== 'plate') {
+     T2.axC.rotation.set(0,0,0);
+     T2.axS.rotation.set(0,0,0);
+  }
+  
+  T2.axS.position.copy(pivotPt);
+  T2.spinGroup.position.copy(pivotPt);
+  T2.mesh.position.copy(pivotPt).negate();
+  T2.axC.position.copy(pivotPt).negate();
+  
+  if (S2.running && S2.angle) {
+     T2.spinGroup.setRotationFromAxisAngle(rotAx, S2.angle);
+  } else {
+     T2.spinGroup.setRotationFromAxisAngle(rotAx, 0);
+  }
+
+  
+  var md2 = M * d * d;
+  var itot = Icm + md2;
+  
+  $('txt_icm').innerHTML = `I<sub>cm</sub> = ${Icm.toFixed(2)} kg·m²`;
+  $('txt_md2').innerHTML = `+ M·d² = ${md2.toFixed(2)}`;
+  $('txt_itot').innerHTML = `Total I = ${itot.toFixed(2)}`;
+  
+  T2.renderer.render(T2.scene, T2.camera);
+}
+
+var S2 = {running:false, af:null, angle:0};
+var p2={
+  init:function(){
+    initAxes();
+    var sh = $('a_shape').value;
+    $('i_r').style.display = (sh==='plate') ? 'none' : 'flex';
+    $('i_w').style.display = (sh==='plate') ? 'flex' : 'none';
+    $('opt_z').style.display = (sh==='plate') ? 'block' : 'none';
+    if(sh!=='plate' && $('a_ori').value==='z') $('a_ori').value='perp';
+    
+    // adjust max d based on shape size so they can shift it outside
+    $('a_d').max = Math.max(fv('a_l'), fv('a_w')||0, fv('a_r')||0) * 1.5;
+    
+    draw2();
+  },
+  play:function(){
+    if(S2.running) return; S2.running=true;
+    st('st2','Spinning...','#f7c948');
+    var last = null;
+    function lp(ts){
+      if(!S2.running){draw2();return;}
+      if(!last) last=ts;
+      var dt = Math.min((ts-last)/1000, 0.04); last=ts;
+      
+      var itot = parseFloat($('txt_itot').innerText.split('=')[1]);
+      var speed = 10 / Math.max(itot, 1); // spin slower if high inertia
+      S2.angle += speed * dt;
+      
+      draw2();
+      S2.af = requestAnimationFrame(lp);
+    }
+    S2.af = requestAnimationFrame(lp);
+  },
+  pause:function(){
+    S2.running=false;
+    if(S2.af){cancelAnimationFrame(S2.af);S2.af=null;}
+    st('st2','Paused','#1affa0');
+    draw2();
+  }
+};
+
+['a_shape','a_ori','a_m','a_l','a_r','a_w','a_d'].forEach(function(i){
+  $(i).addEventListener('input', function(){ p2.init(); });
+});
+$('a_shape').addEventListener('change', function(){ $('a_d').value=0; p2.init(); });
+
+
+['r_th','r_m0','r_r0','r_m1','r_r1','r_m2','r_r2','r_m3','r_r3'].forEach(function(i){
+  var el = document.getElementById(i);
+  if(el) el.addEventListener('input', function(){ if(!S1.running) { draw1(); updateBars(); } });
+});
+
+// Start
+go('r');
+window.addEventListener('resize',function(){
+  var cur=tabs.find(function(t){return $('s-'+t).classList.contains('on');});
+  if(cur==='r'){sz1();draw1();}
+  if(cur==='a'){sz2();draw2();}
+});
+</script>
+</body>
+</html>
