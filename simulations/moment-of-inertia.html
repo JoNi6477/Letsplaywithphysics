@@ -196,6 +196,10 @@ canvas{display:block;width:100%;}
           <option value="rod">Thin Rod</option>
           <option value="cyl">Solid Cylinder</option>
           <option value="plate">Rectangular Plate</option>
+          <option value="disc">Disc (Thin Cylinder)</option>
+          <option value="ring">Ring (Thin Hollow Cylinder)</option>
+          <option value="sph_s">Solid Sphere</option>
+          <option value="sph_h">Hollow Sphere</option>
         </select>
         <div class="ig">
           <div class="fg"><label>Mass M (kg)</label><input type="number" id="a_m" value="5" step="1" min="1"></div>
@@ -454,59 +458,60 @@ function draw2(){
   var pivotPt = new THREE.Vector3(0,0,0);
   var rotAx = new THREE.Vector3(0,1,0);
 
-  if(shape === 'rod'){
+  // 1. Static Shape Geometry & Orientation
+  if(shape === 'rod' || shape === 'cyl'){
     T2.mesh.geometry = new THREE.CylinderGeometry(R, R, L, 32);
-    if(ori === 'perp'){
-       T2.mesh.rotation.z = Math.PI/2;
-       pivotPt.set(d, 0, 0);
-       Icm = M * (3*R*R + L*L) / 12; 
-    } else {
-       T2.mesh.rotation.z = 0;
-       pivotPt.set(d, 0, 0);
-       Icm = 0.5 * M * R * R;
-    }
-  } else if (shape === 'cyl') {
-    T2.mesh.geometry = new THREE.CylinderGeometry(R, R, L, 32);
-    if(ori === 'perp'){
-       T2.mesh.rotation.z = Math.PI/2; 
-       pivotPt.set(d, 0, 0);
-       Icm = M * (3*R*R + L*L) / 12;
-    } else {
-       T2.mesh.rotation.z = 0;
-       pivotPt.set(d, 0, 0);
-       Icm = 0.5 * M * R * R;
-    }
+    T2.mesh.rotation.set(0, 0, Math.PI/2); // Align length with X
   } else if (shape === 'plate') {
     T2.mesh.geometry = new THREE.BoxGeometry(L, 0.2, W);
+    T2.mesh.rotation.set(0,0,0); // Face in XZ plane
+  } else if (shape === 'disc') {
+    T2.mesh.geometry = new THREE.CylinderGeometry(R, R, 0.4, 32);
+    T2.mesh.rotation.set(0,0,0); // Face in XZ plane (cylinder axis is Y)
+  } else if (shape === 'ring') {
+    T2.mesh.geometry = new THREE.TorusGeometry(R, 0.2, 16, 64);
+    T2.mesh.rotation.set(Math.PI/2, 0, 0); // Face in XZ plane (torus axis is Y)
+  } else if (shape === 'sph_s' || shape === 'sph_h') {
+    T2.mesh.geometry = new THREE.SphereGeometry(R, 32, 32);
     T2.mesh.rotation.set(0,0,0);
-    
-    if(ori === 'para'){
-      T2.axC.rotation.z = Math.PI/2;
-      T2.axS.rotation.z = Math.PI/2;
-      pivotPt.set(0, 0, d);
-      rotAx.set(1, 0, 0);
-      Icm = M * W * W / 12;
-    } else if (ori === 'perp') {
-      T2.axC.rotation.x = Math.PI/2;
-      T2.axC.rotation.z = 0;
-      T2.axS.rotation.x = Math.PI/2;
-      T2.axS.rotation.z = 0;
-      pivotPt.set(d, 0, 0);
-      rotAx.set(0, 0, 1);
-      Icm = M * L * L / 12;
-    } else if (ori === 'z') {
+  }
+
+  // 2. Axis Configuration
+  if(ori === 'perp'){ // Y-axis
       T2.axC.rotation.set(0,0,0);
       T2.axS.rotation.set(0,0,0);
       pivotPt.set(d, 0, 0);
       rotAx.set(0, 1, 0);
-      Icm = M * (L*L + W*W) / 12;
-    }
+      
+      if(shape === 'rod' || shape === 'cyl') Icm = M * (3*R*R + L*L) / 12;
+      else if (shape === 'plate') Icm = M * (L*L + W*W) / 12;
+      else if (shape === 'disc') Icm = 0.5 * M * R * R; // Symmetric axis
+      else if (shape === 'ring') Icm = M * R * R;
+      else if (shape === 'sph_s') Icm = 0.4 * M * R * R;
+      else if (shape === 'sph_h') Icm = (2/3) * M * R * R;
+      
+  } else if (ori === 'para'){ // X-axis
+      T2.axC.rotation.set(0, 0, Math.PI/2);
+      T2.axS.rotation.set(0, 0, Math.PI/2);
+      pivotPt.set(0, 0, d); // Shift along Z
+      rotAx.set(1, 0, 0);
+      
+      if(shape === 'rod' || shape === 'cyl') Icm = 0.5 * M * R * R;
+      else if (shape === 'plate') Icm = M * W * W / 12;
+      else if (shape === 'disc') Icm = 0.25 * M * R * R; // In-plane diameter
+      else if (shape === 'ring') Icm = 0.5 * M * R * R;
+      else if (shape === 'sph_s') Icm = 0.4 * M * R * R;
+      else if (shape === 'sph_h') Icm = (2/3) * M * R * R;
+      
+  } else if (ori === 'z'){ // Z-axis (Plate only)
+      T2.axC.rotation.set(Math.PI/2, 0, 0);
+      T2.axS.rotation.set(Math.PI/2, 0, 0);
+      pivotPt.set(d, 0, 0);
+      rotAx.set(0, 0, 1);
+      if (shape === 'plate') Icm = M * L * L / 12;
   }
   
-  if(shape !== 'plate') {
-     T2.axC.rotation.set(0,0,0);
-     T2.axS.rotation.set(0,0,0);
-  }
+  T2.shapeMat.wireframe = (shape === 'sph_h');
   
   T2.axS.position.copy(pivotPt);
   T2.spinGroup.position.copy(pivotPt);
@@ -537,11 +542,30 @@ var p2={
     var sh = $('a_shape').value;
     $('i_r').style.display = (sh==='plate') ? 'none' : 'flex';
     $('i_w').style.display = (sh==='plate') ? 'flex' : 'none';
-    $('opt_z').style.display = (sh==='plate') ? 'block' : 'none';
-    if(sh!=='plate' && $('a_ori').value==='z') $('a_ori').value='perp';
+    $('i_l').style.display = (sh==='rod' || sh==='cyl' || sh==='plate') ? 'flex' : 'none';
     
-    // adjust max d based on shape size so they can shift it outside
-    $('a_d').max = Math.max(fv('a_l'), fv('a_w')||0, fv('a_r')||0) * 1.5;
+    var opt1 = $('a_ori').options[0];
+    var opt2 = $('a_ori').options[1];
+    var opt3 = $('opt_z');
+    
+    if(sh === 'disc' || sh === 'ring' || sh === 'sph_s' || sh === 'sph_h') {
+        opt1.text = "Perpendicular to Face (Y-axis)";
+        opt2.text = "In-Plane Diameter (X-axis)";
+        opt3.style.display = 'none';
+        if($('a_ori').value === 'z') $('a_ori').value = 'perp';
+    } else if (sh === 'plate') {
+        opt1.text = "Perpendicular to Plate (Y-axis)";
+        opt2.text = "Along Length (X-axis)";
+        opt3.text = "Along Width (Z-axis)";
+        opt3.style.display = 'block';
+    } else {
+        opt1.text = "Perpendicular to Length (Y-axis)";
+        opt2.text = "Parallel to Length (X-axis)";
+        opt3.style.display = 'none';
+        if($('a_ori').value === 'z') $('a_ori').value = 'perp';
+    }
+    
+    $('a_d').max = Math.max(fv('a_l')||0, fv('a_w')||0, fv('a_r')||0) * 1.5;
     
     draw2();
   },
