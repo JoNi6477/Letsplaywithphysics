@@ -120,6 +120,7 @@
     .contact-form input:focus { border-color: rgba(100,180,255,0.4); }
     .contact-form button { background: #44aaff; color: #0a0e1a; border: none; font-weight: 700; padding: 12px 24px; border-radius: 12px; cursor: pointer; font-size: 14px; font-family: inherit; }
     .contact-form button:hover { background: #66bbff; }
+    .enquiry-status { margin-top: 14px; font-size: 14px; color: #44ffaa; min-height: 1em; }
     footer { border-top: 1px solid rgba(100,180,255,0.07); padding: 28px 40px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
     .footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 15px; color: #fff; }
     .footer-logo span { color: #44aaff; }
@@ -164,6 +165,7 @@
   <div class="mobile-menu" id="mobile-menu">
     <a href="#about" onclick="closeMenu()">About</a>
     <a href="#features" onclick="closeMenu()">Features</a>
+    <a href="course.html" onclick="closeMenu()">Courses</a>
     <a href="#batches" onclick="closeMenu()">Batches</a>
     <a href="simulations.html" onclick="closeMenu()">Simulations</a>
     <a href="#topics" onclick="closeMenu()">Syllabus</a>
@@ -287,7 +289,7 @@
     <div class="section-title">Physics Simulations</div>
     <div class="section-sub">Visualize complex concepts with interactive simulations. See physics in action!</div>
     <div class="simulations-grid">
-      <a href="simulations/centerofmass.html" class="sim-card">
+      <a href="simulations/center-of-mass.html" class="sim-card">
         <div class="sim-icon">⚙️</div>
         <div class="sim-title">Centre of Mass</div>
         <div class="sim-desc">Visualize how the centre of mass of a system shifts as individual masses and positions change.</div>
@@ -346,11 +348,12 @@
 
       <a href="mailto:letsplaywithphysics647742@gmail.com" class="contact-email">letsplaywithphysics647742@gmail.com</a>
 
-      <div class="contact-form">
-        <input type="text" placeholder="Your name">
-        <input type="text" placeholder="Your phone number">
-        <button onclick="window.location.href='mailto:letsplaywithphysics647742@gmail.com?subject=Batch Enrollment Enquiry'">Send Enquiry</button>
-      </div>
+      <form class="contact-form" id="enquiry-form" onsubmit="sendEnquiry(event)">
+        <input type="text" name="name" placeholder="Your name" aria-label="Your name" required>
+        <input type="tel" name="phone" placeholder="Your phone number" aria-label="Your phone number" pattern="[0-9+ ]{10,15}" required>
+        <button type="submit">Send Enquiry</button>
+      </form>
+      <p class="enquiry-status" id="enquiry-status" role="status"></p>
     </div>
   </div>
 
@@ -369,6 +372,34 @@
       document.getElementById('mobile-menu').classList.toggle('open');
       document.getElementById('hamburger').classList.toggle('open');
     }
+    // Sends the enquiry to the site's inbox via FormSubmit (free, no backend needed)
+    async function sendEnquiry(event) {
+      event.preventDefault();
+      const form = event.target;
+      const status = document.getElementById('enquiry-status');
+      const button = form.querySelector('button');
+      button.disabled = true;
+      status.textContent = 'Sending…';
+      try {
+        const res = await fetch('https://formsubmit.co/ajax/letsplaywithphysics647742@gmail.com', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({
+            _subject: 'New batch enrollment enquiry',
+            name: form.elements.name.value.trim(),
+            phone: form.elements.phone.value.trim(),
+            _template: 'table'
+          })
+        });
+        if (!res.ok) throw new Error('Request failed');
+        status.textContent = "✅ Thanks! Akshay Sir will contact you soon.";
+        form.reset();
+      } catch (err) {
+        status.textContent = '⚠️ Could not send. Please use the WhatsApp button above.';
+      }
+      button.disabled = false;
+    }
+
     function closeMenu() {
       document.getElementById('mobile-menu').classList.remove('open');
       document.getElementById('hamburger').classList.remove('open');
