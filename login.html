@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login — Let's Play With Physics</title>
+  <meta name="description" content="Log in or create your student account to access mock tests, simulations and video lectures.">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/account.css">
+</head>
+<body>
+  <nav>
+    <a href="index.html" class="nav-logo"><img src="Logo.png" alt="Let's Play With Physics"></a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="course.html">Courses</a>
+      <a href="material.html">Materials</a>
+      <a href="simulations.html">Simulations</a>
+      <a href="mocktest.html">Mock Test</a>
+    </div>
+    <a href="index.html#contact" class="nav-cta">Enroll Now</a>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+  </nav>
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="index.html">Home</a>
+    <a href="course.html">Courses</a>
+    <a href="material.html">Materials</a>
+    <a href="simulations.html">Simulations</a>
+    <a href="mocktest.html">Mock Test</a>
+  </div>
+
+  <main>
+    <div class="auth-wrap">
+      <div style="text-align:center; margin-bottom: 24px;">
+        <h1 id="page-title">Welcome back 👋</h1>
+        <p class="lead" id="page-sub">Log in to access your mock tests, simulations and lectures.</p>
+      </div>
+
+      <div class="auth-card">
+        <div class="tabs" id="tabs" role="tablist">
+          <button class="tab active" data-view="login" role="tab">Log in</button>
+          <button class="tab" data-view="signup" role="tab">Create account</button>
+        </div>
+
+        <div class="msg" id="msg" hidden role="status"></div>
+
+        <!-- LOG IN -->
+        <form id="form-login" novalidate>
+          <label class="field">Email
+            <input class="input" type="email" name="email" autocomplete="email" required>
+          </label>
+          <label class="field">Password
+            <input class="input" type="password" name="password" autocomplete="current-password" required>
+          </label>
+          <button class="btn btn-primary btn-block" type="submit">Log in</button>
+          <div class="auth-foot">
+            <button type="button" class="link-btn" data-view="forgot">Forgot password?</button>
+            <span id="resend-wrap" hidden> · <button type="button" class="link-btn" id="btn-resend">Resend confirmation email</button></span>
+          </div>
+        </form>
+
+        <!-- SIGN UP -->
+        <form id="form-signup" novalidate hidden>
+          <label class="field">Full name
+            <input class="input" type="text" name="full_name" autocomplete="name" maxlength="80" required>
+          </label>
+          <label class="field">Email
+            <input class="input" type="email" name="email" autocomplete="email" required>
+          </label>
+          <label class="field">Phone / WhatsApp number <small>Optional — helps Akshay Sir reach you about your batch.</small>
+            <input class="input" type="tel" name="phone" autocomplete="tel" maxlength="15" pattern="[0-9+ ]{10,15}">
+          </label>
+          <label class="field">Password <small>At least 8 characters.</small>
+            <input class="input" type="password" name="password" autocomplete="new-password" minlength="8" required>
+          </label>
+          <label class="check"><input type="checkbox" name="consent" required>
+            <span>I am 18 or older, or my parent/guardian agrees to me creating this account. I accept the <a href="terms.html" target="_blank">Terms</a> and <a href="privacy-policy.html" target="_blank">Privacy Policy</a>.</span>
+          </label>
+          <button class="btn btn-primary btn-block" type="submit">Create account</button>
+        </form>
+
+        <!-- FORGOT PASSWORD -->
+        <form id="form-forgot" novalidate hidden>
+          <p class="lead" style="margin-bottom:16px; font-size:14px;">Enter your account email and we'll send you a link to set a new password.</p>
+          <label class="field">Email
+            <input class="input" type="email" name="email" autocomplete="email" required>
+          </label>
+          <button class="btn btn-primary btn-block" type="submit">Send reset link</button>
+          <div class="auth-foot"><button type="button" class="link-btn" data-view="login">← Back to log in</button></div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <span>&copy; 2026 Let's Play With Physics</span>
+    <span><a href="privacy-policy.html">Privacy Policy</a> &nbsp;·&nbsp; <a href="terms.html">Terms</a> &nbsp;·&nbsp; <a href="contact.html">Contact</a></span>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.1/dist/umd/supabase.js"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/account.js"></script>
+  <script>
+    const msg = $('msg');
+    const forms = { login: $('form-login'), signup: $('form-signup'), forgot: $('form-forgot') };
+    const titles = {
+      login:  ['Welcome back 👋', 'Log in to access your mock tests, simulations and lectures.'],
+      signup: ['Create your account', 'Free to join. Unlock premium content whenever you are ready.'],
+      forgot: ['Reset your password', '']
+    };
+    let lastEmail = '';
+
+    function showView(view) {
+      Object.entries(forms).forEach(([name, form]) => form.hidden = name !== view);
+      document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.view === view));
+      $('tabs').hidden = view === 'forgot';
+      $('page-title').textContent = titles[view][0];
+      $('page-sub').textContent = titles[view][1];
+      showMessage(msg, '');
+      $('resend-wrap').hidden = true;
+    }
+    document.querySelectorAll('[data-view]').forEach(el => el.addEventListener('click', () => showView(el.dataset.view)));
+    if (location.hash === '#signup') showView('signup');
+
+    async function withBusy(form, fn) {
+      const btn = form.querySelector('button[type="submit"]');
+      const label = btn.textContent;
+      btn.disabled = true; btn.textContent = 'Please wait…';
+      try { await fn(); } finally { btn.disabled = false; btn.textContent = label; }
+    }
+
+    // Already signed in? Go straight to the dashboard.
+    sb.auth.getSession().then(({ data }) => { if (data.session) location.replace(safeNext('dashboard.html')); });
+
+    forms.login.addEventListener('submit', e => {
+      e.preventDefault();
+      const f = e.target;
+      if (!f.reportValidity()) return;
+      lastEmail = f.email.value.trim();
+      withBusy(f, async () => {
+        const { error } = await sb.auth.signInWithPassword({ email: lastEmail, password: f.password.value });
+        if (error) {
+          showMessage(msg, friendlyError(error), 'error');
+          $('resend-wrap').hidden = !/not confirmed/i.test(error.message);
+          return;
+        }
+        location.replace(safeNext('dashboard.html'));
+      });
+    });
+
+    $('btn-resend').addEventListener('click', async () => {
+      const { error } = await sb.auth.resend({ type: 'signup', email: lastEmail, options: { emailRedirectTo: pageUrl('dashboard.html') } });
+      showMessage(msg, error ? friendlyError(error) : 'Confirmation email sent again. Check your inbox and spam folder.', error ? 'error' : 'success');
+    });
+
+    forms.signup.addEventListener('submit', e => {
+      e.preventDefault();
+      const f = e.target;
+      if (!f.reportValidity()) return;
+      withBusy(f, async () => {
+        const email = f.email.value.trim();
+        const { data, error } = await sb.auth.signUp({
+          email,
+          password: f.password.value,
+          options: {
+            data: { full_name: f.full_name.value.trim(), phone: f.phone.value.trim() },
+            emailRedirectTo: pageUrl('dashboard.html')
+          }
+        });
+        if (error) { showMessage(msg, friendlyError(error), 'error'); return; }
+        if (data.session) { location.replace(safeNext('dashboard.html')); return; }
+        f.reset();
+        showView('login');
+        forms.login.email.value = email;
+        showMessage(msg, `Almost done! We sent a confirmation link to ${email}. Click it to activate your account, then log in. (Check your spam folder too.)`, 'success');
+      });
+    });
+
+    forms.forgot.addEventListener('submit', e => {
+      e.preventDefault();
+      const f = e.target;
+      if (!f.reportValidity()) return;
+      withBusy(f, async () => {
+        const { error } = await sb.auth.resetPasswordForEmail(f.email.value.trim(), { redirectTo: pageUrl('reset-password.html') });
+        if (error) { showMessage(msg, friendlyError(error), 'error'); return; }
+        showMessage(msg, 'If an account exists for this email, a reset link is on its way. Check your inbox and spam folder.', 'success');
+      });
+    });
+  </script>
+</body>
+</html>

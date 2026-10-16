@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Account — Let's Play With Physics</title>
+  <meta name="robots" content="noindex">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/account.css">
+</head>
+<body>
+  <nav>
+    <a href="index.html" class="nav-logo"><img src="Logo.png" alt="Let's Play With Physics"></a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="material.html">Materials</a>
+      <a href="simulations.html">Simulations</a>
+      <a href="mocktest.html">Mock Test</a>
+      <a href="dashboard.html" class="active">My Account</a>
+      <a href="admin.html" class="admin-link" hidden>Admin</a>
+    </div>
+    <button class="nav-cta" style="border:none; cursor:pointer;" onclick="logout()">Log out</button>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+  </nav>
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="index.html">Home</a>
+    <a href="material.html">Materials</a>
+    <a href="simulations.html">Simulations</a>
+    <a href="mocktest.html">Mock Test</a>
+    <a href="admin.html" class="admin-link" hidden>Admin</a>
+    <a href="#" onclick="logout(); return false;">Log out</a>
+  </div>
+
+  <main>
+    <p class="loading" id="loading">Loading your account…</p>
+
+    <div id="content" hidden>
+      <div class="welcome">
+        <div>
+          <h1 id="hello">Hi!</h1>
+          <p class="lead" id="email-line"></p>
+        </div>
+        <a href="admin.html" class="btn btn-ghost admin-link" hidden>⚙️ Admin panel</a>
+      </div>
+
+      <div class="msg" id="msg" hidden role="status"></div>
+
+      <section class="section">
+        <h2>My access</h2>
+        <div class="access-grid" id="access-grid"></div>
+      </section>
+
+      <section class="section">
+        <h2>My plans</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Plan</th><th>Unlocks</th><th>From</th><th>Valid till</th><th>Status</th></tr></thead>
+            <tbody id="my-plans"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section" id="buy">
+        <div class="section-head">
+          <h2>Get premium access</h2>
+          <span class="muted small">Pay by UPI on WhatsApp — access is added to your account within 24 hours.</span>
+        </div>
+        <div class="plans-grid" id="plans-grid"></div>
+      </section>
+
+      <section class="section">
+        <h2>My details</h2>
+        <form class="card" id="form-profile" style="max-width:520px;" novalidate>
+          <div class="msg" id="profile-msg" hidden role="status"></div>
+          <label class="field">Full name
+            <input class="input" type="text" name="full_name" maxlength="80" required>
+          </label>
+          <label class="field">Phone / WhatsApp number
+            <input class="input" type="tel" name="phone" maxlength="15" pattern="[0-9+ ]{10,15}">
+          </label>
+          <button class="btn btn-primary" type="submit">Save changes</button>
+          <span class="muted small" style="margin-left:10px;">To change your password, log out and use “Forgot password”.</span>
+        </form>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <span>&copy; 2026 Let's Play With Physics</span>
+    <span><a href="privacy-policy.html">Privacy Policy</a> &nbsp;·&nbsp; <a href="terms.html">Terms</a> &nbsp;·&nbsp; <a href="contact.html">Contact</a></span>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.1/dist/umd/supabase.js"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/account.js"></script>
+  <script>
+    let user = null, profile = null;
+
+    async function load() {
+      user = await requireUser();
+      if (!user) return;
+
+      const [profileRes, enrollRes, plansRes, adminRes] = await Promise.all([
+        sb.from('profiles').select('full_name, phone, email').eq('id', user.id).single(),
+        sb.from('enrollments').select('id, starts_at, expires_at, plans(name, unlocks)').order('expires_at', { ascending: false }),
+        sb.from('plans').select('id, name, description, price_inr, duration_days, unlocks').eq('is_active', true).order('sort_order'),
+        sb.rpc('is_admin')
+      ]);
+      const failed = [profileRes, enrollRes, plansRes].find(r => r.error);
+      $('loading').hidden = true;
+      $('content').hidden = false;
+      if (failed) { showMessage($('msg'), 'Could not load your account: ' + friendlyError(failed.error), 'error'); return; }
+
+      profile = profileRes.data;
+      const enrollments = enrollRes.data;
+      document.querySelectorAll('.admin-link').forEach(el => el.hidden = adminRes.data !== true);
+
+      const firstName = (profile.full_name || '').split(' ')[0];
+      $('hello').textContent = firstName ? `Hi, ${firstName}! 👋` : 'Hi! 👋';
+      $('email-line').textContent = profile.email;
+      $('form-profile').full_name.value = profile.full_name;
+      $('form-profile').phone.value = profile.phone;
+
+      renderAccess(accessByType(enrollments));
+      renderMyPlans(enrollments);
+      renderPlans(plansRes.data);
+    }
+
+    function renderAccess(access) {
+      $('access-grid').innerHTML = Object.entries(CONTENT_TYPES).map(([kind, c]) => {
+        const until = access[kind];
+        const action = !until
+          ? `<a class="btn btn-ghost btn-sm" href="#buy">Get access</a>`
+          : c.link ? `<a class="btn btn-primary btn-sm" href="${c.link}">Open ${c.label}</a>`
+                   : `<span class="muted small">Coming soon — you're all set for launch.</span>`;
+        return `
+          <div class="access-card ${until ? 'unlocked' : ''}">
+            <div class="access-icon">${c.icon}</div>
+            <div class="access-title">${c.label}</div>
+            <div>${until ? `<span class="badge badge-on">✓ Unlocked till ${formatDate(until)}</span>` : '<span class="badge badge-off">🔒 Locked</span>'}</div>
+            <div class="access-desc">${c.desc}</div>
+            <div>${action}</div>
+          </div>`;
+      }).join('');
+    }
+
+    function renderMyPlans(enrollments) {
+      if (!enrollments.length) {
+        $('my-plans').innerHTML = `<tr><td colspan="5" class="empty">You don't have any plans yet. Pick one below to unlock premium content.</td></tr>`;
+        return;
+      }
+      const badge = { active: '<span class="badge badge-on">Active</span>', upcoming: '<span class="badge badge-gold">Starts soon</span>', expired: '<span class="badge badge-red">Expired</span>' };
+      $('my-plans').innerHTML = enrollments.map(e => `
+        <tr>
+          <td><b>${escapeHtml(e.plans?.name || 'Plan')}</b></td>
+          <td><div class="chips">${(e.plans?.unlocks || []).map(k => `<span class="chip">${CONTENT_TYPES[k]?.label || escapeHtml(k)}</span>`).join('')}</div></td>
+          <td class="muted">${formatDate(e.starts_at)}</td>
+          <td>${formatDate(e.expires_at)}</td>
+          <td>${badge[enrollmentStatus(e)]}</td>
+        </tr>`).join('');
+    }
+
+    function renderPlans(plans) {
+      if (!plans.length) { $('plans-grid').innerHTML = '<p class="muted">No plans are on sale right now.</p>'; return; }
+      $('plans-grid').innerHTML = plans.map(p => {
+        const text = `Hi Akshay Sir, I want to buy the "${p.name}" plan (${formatInr(p.price_inr)}). My account email: ${profile.email}`;
+        const wa = `https://wa.me/${LPWP_CONFIG.whatsappNumber}?text=${encodeURIComponent(text)}`;
+        return `
+          <div class="plan-card">
+            <div class="plan-name">${escapeHtml(p.name)}</div>
+            <div class="plan-price">${formatInr(p.price_inr)} <small>/ ${p.duration_days} days</small></div>
+            <div class="chips">${p.unlocks.map(k => `<span class="chip">${CONTENT_TYPES[k]?.label || escapeHtml(k)}</span>`).join('')}</div>
+            <div class="plan-desc">${escapeHtml(p.description)}</div>
+            <a class="btn btn-whatsapp" href="${wa}" target="_blank" rel="noopener">💬 Buy via WhatsApp</a>
+          </div>`;
+      }).join('');
+    }
+
+    $('form-profile').addEventListener('submit', async e => {
+      e.preventDefault();
+      const f = e.target;
+      if (!f.reportValidity()) return;
+      const { error } = await sb.from('profiles')
+        .update({ full_name: f.full_name.value.trim(), phone: f.phone.value.trim() })
+        .eq('id', user.id);
+      showMessage($('profile-msg'), error ? friendlyError(error) : 'Saved!', error ? 'error' : 'success');
+      if (!error) $('hello').textContent = `Hi, ${f.full_name.value.trim().split(' ')[0]}! 👋`;
+    });
+
+    async function logout() {
+      await sb.auth.signOut();
+      location.replace('index.html');
+    }
+
+    load();
+  </script>
+</body>
+</html>
