@@ -234,7 +234,7 @@
       <a href="index.html#topics">Syllabus</a>
       <a href="material.html">Materials</a>
       <a href="mocktest.html">Mock Test</a>
-      <a href="courses.html" style="color: #44aaff;">Courses</a>
+      <a href="course.html" style="color: #44aaff;">Courses</a>
       <a href="index.html#contact">Contact</a>
     </div>
     <a href="index.html#contact" class="nav-cta">Enroll Now</a>
@@ -250,7 +250,7 @@
     <a href="index.html#topics" onclick="closeMenu()">Syllabus</a>
     <a href="material.html" onclick="closeMenu()">Materials</a>
     <a href="mocktest.html" onclick="closeMenu()">Mock Test</a>
-    <a href="courses.html" onclick="closeMenu()" style="color: #44aaff;">Courses</a>
+    <a href="course.html" onclick="closeMenu()" style="color: #44aaff;">Courses</a>
     <a href="index.html#contact" onclick="closeMenu()">Contact</a>
     <a href="index.html#contact" class="mob-cta" onclick="closeMenu()">Enroll Now</a>
   </div>
@@ -271,7 +271,7 @@
 
     <!-- Countdown Timer -->
     <div class="hero-cs-box">
-      <div class="hero-cs-label">⏳ Launching In</div>
+      <div class="hero-cs-label" id="cd-label">⏳ Launching In</div>
       <div class="countdown">
         <div class="count-block">
           <div class="count-num" id="cd-days">00</div>
@@ -388,10 +388,10 @@
       const now = new Date();
       const diff = launchDate - now;
       if (diff <= 0) {
-        document.getElementById('cd-days').textContent = '00';
-        document.getElementById('cd-hours').textContent = '00';
-        document.getElementById('cd-mins').textContent = '00';
-        document.getElementById('cd-secs').textContent = '00';
+        // Launch date has passed: don't show a frozen 00:00:00:00 timer
+        document.querySelector('.countdown').style.display = 'none';
+        document.getElementById('cd-label').textContent = '🎬 Launching very soon';
+        clearInterval(countdownTimer);
         return;
       }
       const days  = Math.floor(diff / (1000 * 60 * 60 * 24));
@@ -403,11 +403,11 @@
       document.getElementById('cd-mins').textContent  = String(mins).padStart(2, '0');
       document.getElementById('cd-secs').textContent  = String(secs).padStart(2, '0');
     }
-    setInterval(updateCountdown, 1000);
+    const countdownTimer = setInterval(updateCountdown, 1000);
     updateCountdown();
 
     // ── Notify Me ──
-    function submitNotify() {
+    async function submitNotify() {
       const emailInput = document.getElementById('notifyEmail');
       const email = emailInput.value.trim();
       if (!email || !email.includes('@')) {
@@ -416,10 +416,24 @@
         return;
       }
       emailInput.style.borderColor = '';
-      // Here you can integrate with your backend / EmailJS / Formspree etc.
-      console.log('Notify email captured:', email);
-      document.getElementById('notifySuccess').style.display = 'block';
-      emailInput.value = '';
+      // Sends the email address to the site's inbox via FormSubmit (free, no backend needed)
+      const button = document.querySelector('.notify-form button');
+      const success = document.getElementById('notifySuccess');
+      button.disabled = true;
+      try {
+        const res = await fetch('https://formsubmit.co/ajax/letsplaywithphysics647742@gmail.com', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({ _subject: 'New video course sign-up', email: email, _template: 'table' })
+        });
+        if (!res.ok) throw new Error('Request failed');
+        success.textContent = "✅ You're on the list! We'll email you the moment we launch.";
+        emailInput.value = '';
+      } catch (err) {
+        success.textContent = '⚠️ Something went wrong. Please message us on WhatsApp instead: +91 8639905551';
+      }
+      success.style.display = 'block';
+      button.disabled = false;
     }
 
     // Allow pressing Enter in notify input

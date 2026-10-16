@@ -173,8 +173,8 @@
     </div>
 
     <div class="test-tabs">
-      <button class="test-tab active" onclick="switchTest('neet', this)">🟢 NEET (45 Qs)</button>
-      <button class="test-tab" onclick="switchTest('jee', this)">🟡 JEE Mains (25 Qs)</button>
+      <button class="test-tab active" onclick="switchTest('neet', this)">🟢 NEET (<span id="neet-count"></span> Qs)</button>
+      <button class="test-tab" onclick="switchTest('jee', this)">🟡 JEE Mains (<span id="jee-count"></span> Qs)</button>
     </div>
 
     <!-- TIMER BAR -->
@@ -187,10 +187,6 @@
         <div class="timer-item">
           <div class="timer-label">Attempted</div>
           <div class="timer-val" id="attempted-count">0</div>
-        </div>
-        <div class="timer-item">
-          <div class="timer-label">Live Score</div>
-          <div class="score-live"><span class="score-pos" id="live-score">0</span></div>
         </div>
       </div>
       <button class="btn-submit" onclick="submitTest()">Submit Test</button>
@@ -237,7 +233,7 @@
 
   <footer>
     <div class="footer-logo">Let's <span>Play</span> With Physics</div>
-    <div class="footer-copy">© 2025 · Akshay Kumar · University of Hyderabad · Hyderabad</div>
+    <div class="footer-copy">© 2026 · Akshay Kumar · University of Hyderabad · Hyderabad</div>
   </footer>
 
   <script>
@@ -247,7 +243,7 @@
     // ans: 0=A, 1=B, 2=C, 3=D
     // =============================================
 
-    const neetQuestions = [
+    const neetQuestionBank = [
       { q: "A body is moving with uniform velocity. The net force acting on it is:", opts: ["Zero", "Non-zero", "Variable", "Cannot be determined"], ans: 0 },
       { q: "The SI unit of electric field is:", opts: ["N/C", "V·m", "C/N", "J/C"], ans: 0 },
       { q: "Which of the following has the highest frequency?", opts: ["Gamma rays", "X-rays", "UV rays", "Infrared rays"], ans: 0 },
@@ -295,7 +291,7 @@
       { q: "Question 45 — Replace with your question", opts: ["Option A", "Option B", "Option C", "Option D"], ans: 0 },
     ];
 
-    const jeeQuestions = [
+    const jeeQuestionBank = [
       { q: "A particle moves in a circle of radius r. The displacement after half a circle is:", opts: ["0", "2r", "πr", "r"], ans: 1 },
       { q: "The dimensional formula of Planck's constant is:", opts: ["[ML²T⁻¹]", "[MLT⁻²]", "[ML²T⁻²]", "[ML³T⁻¹]"], ans: 0 },
       { q: "Question 3 — Replace with your question", opts: ["Option A", "Option B", "Option C", "Option D"], ans: 0 },
@@ -327,15 +323,31 @@
     // CORE LOGIC — DO NOT EDIT BELOW THIS LINE
     // =============================================
 
-    const PASSWORD = "Physics6477";
+    // Only questions that have been filled in are shown to students.
+    const isFilledIn = q => !q.q.includes('Replace with your question');
+    const neetQuestions = neetQuestionBank.filter(isFilledIn);
+    const jeeQuestions = jeeQuestionBank.filter(isFilledIn);
+    document.getElementById('neet-count').textContent = neetQuestions.length;
+    document.getElementById('jee-count').textContent = jeeQuestions.length;
+
+    // SHA-256 of the password, so it can't be read from the page source.
+    // To change the password, open https://emn178.github.io/online-tools/sha256.html,
+    // type the new password, and paste the result here.
+    const PASSWORD_HASH = "a418fdaf1128d003b34dafc803cbea1e26034a98b7382a19d88b590c8b4d34c4";
+    const freshAnswers = () => ({ neet: new Array(neetQuestions.length).fill(-1), jee: new Array(jeeQuestions.length).fill(-1) });
     let currentTest = 'neet';
-    let answers = { neet: new Array(45).fill(-1), jee: new Array(25).fill(-1) };
+    let answers = freshAnswers();
     let timerInterval = null;
     let timeLeft = 3600;
 
-    function checkPassword() {
+    async function sha256(text) {
+      const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+      return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    async function checkPassword() {
       const val = document.getElementById('pwd-input').value;
-      if (val === PASSWORD) {
+      if (await sha256(val) === PASSWORD_HASH) {
         document.getElementById('password-screen').style.display = 'none';
         document.getElementById('test-screen').style.display = 'block';
         loadTest('neet');
@@ -415,13 +427,8 @@
     }
 
     function updateLiveScore() {
-      const qs = currentTest === 'neet' ? neetQuestions : jeeQuestions;
       const ans = answers[currentTest];
-      let score = 0, attempted = 0;
-      ans.forEach((a, i) => {
-        if (a !== -1) { attempted++; score += a === qs[i].ans ? 4 : -1; }
-      });
-      document.getElementById('live-score').textContent = score;
+      const attempted = ans.filter(a => a !== -1).length;
       document.getElementById('attempted-count').textContent = attempted;
     }
 
@@ -451,7 +458,7 @@
     }
 
     function retryTest() {
-      answers = { neet: new Array(45).fill(-1), jee: new Array(25).fill(-1) };
+      answers = freshAnswers();
       document.getElementById('result-screen').style.display = 'none';
       document.getElementById('test-screen').style.display = 'block';
       loadTest(currentTest);

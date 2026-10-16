@@ -63,9 +63,25 @@
     .footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 15px; color: #fff; }
     .footer-logo span { color: #44aaff; }
     .footer-copy { font-size: 12px; color: #3a4a65; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: #e8eaf0; border-radius: 2px; transition: all 0.3s; }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .mobile-menu { display: none; flex-direction: column; background: rgba(10,14,26,0.99); border-bottom: 1px solid rgba(100,180,255,0.12); max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.3s ease; padding: 0 18px; }
+    .mobile-menu.open { max-height: 500px; padding: 16px 18px 20px; }
+    .mobile-menu a { color: #a0aac0; font-size: 15px; text-decoration: none; padding: 12px 0; border-bottom: 1px solid rgba(100,180,255,0.07); transition: color 0.2s; display: block; }
+    .mobile-menu a:last-child { border-bottom: none; }
+    .mobile-menu a:hover { color: #44aaff; }
+    .mobile-menu .mob-cta { margin-top: 14px; background: #44aaff; color: #0a0e1a; font-weight: 700; padding: 12px 20px; border-radius: 20px; text-align: center; border-bottom: none !important; }
+      .hamburger { display: flex; }
+      .mobile-menu { display: flex; }
     @media (max-width: 600px) {
       nav { padding: 14px 18px; }
       .nav-links { display: none; }
+      .nav-cta { display: none; }
+      .hamburger { display: flex; }
+      .mobile-menu { display: flex; }
       .page-header { padding: 40px 18px 28px; }
       .top-tabs { padding: 0 18px; }
       .section-wrapper { padding: 0 18px 40px; }
@@ -88,7 +104,21 @@
       <a href="index.html#contact">Contact</a>
     </div>
     <a href="index.html#contact" class="nav-cta">Enroll Now</a>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
   </nav>
+
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="index.html#about">About</a>
+    <a href="course.html">Courses</a>
+    <a href="index.html#batches">Batches</a>
+    <a href="material.html">Materials</a>
+    <a href="simulations.html">Simulations</a>
+    <a href="mocktest.html">Mock Test</a>
+    <a href="index.html#contact">Contact</a>
+    <a href="index.html#contact" class="mob-cta">Enroll Now</a>
+  </div>
 
   <div class="page-header">
     <div class="breadcrumb"><a href="index.html">Home</a> › Study Materials</div>
@@ -559,7 +589,7 @@
           <div class="mat-card-meta"><span>📄 PDF</span></div>
           <div class="mat-card-footer">
             <span class="mat-card-size">By Akshay Sir</span>
-            <a class="btn-download" href="Dual nature of the radiation.pdf" target="_blank">⬇ Download</a>
+            <a class="btn-download disabled">Coming Soon</a>
           </div>
         </div>
 
@@ -731,6 +761,12 @@
     });
 
     setActiveSection('formula');
+  </script>
+  <script>
+    function toggleMenu() {
+      document.getElementById('mobile-menu').classList.toggle('open');
+      document.getElementById('hamburger').classList.toggle('open');
+    }
   </script>
 </body>
 </html>
