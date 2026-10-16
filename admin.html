@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — Let's Play With Physics</title>
+  <meta name="robots" content="noindex">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/account.css">
+</head>
+<body>
+  <nav>
+    <a href="index.html" class="nav-logo"><img src="Logo.png" alt="Let's Play With Physics"></a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="dashboard.html">My Account</a>
+      <a href="admin.html" class="active">Admin</a>
+    </div>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+  </nav>
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="index.html">Home</a>
+    <a href="dashboard.html">My Account</a>
+  </div>
+
+  <main>
+    <p class="loading" id="loading">Loading…</p>
+    <div class="msg msg-error" id="denied" hidden>This page is only for the site admin.</div>
+
+    <div id="content" hidden>
+      <h1>Admin panel</h1>
+      <p class="lead">Manage students, their access, and the plans you sell.</p>
+      <div class="msg" id="msg" hidden role="status"></div>
+
+      <section class="section">
+        <div class="stats">
+          <div class="card stat"><b id="stat-students">0</b><span>Students signed up</span></div>
+          <div class="card stat"><b id="stat-active">0</b><span>With active paid access</span></div>
+          <div class="card stat"><b id="stat-new">0</b><span>New in last 7 days</span></div>
+          <div class="card stat"><b id="stat-revenue">₹0</b><span>Recorded payments (30 days)</span></div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head"><h2>Students</h2></div>
+        <div class="toolbar">
+          <input class="input" type="search" id="search" placeholder="Search name, email or phone…" aria-label="Search students">
+          <select class="input" id="filter" style="max-width:200px;" aria-label="Filter students">
+            <option value="all">All students</option>
+            <option value="active">With active access</option>
+            <option value="none">No active access</option>
+          </select>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Student</th><th>Phone</th><th>Joined</th><th>Access</th><th></th></tr></thead>
+            <tbody id="students"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <h2>Plans</h2>
+          <button class="btn btn-ghost btn-sm" onclick="addPlan()">+ Add plan</button>
+        </div>
+        <div class="table-wrap" id="plans"></div>
+      </section>
+
+      <section class="section">
+        <h2>Recent access given</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Date</th><th>Student</th><th>Plan</th><th>Valid till</th><th>Amount</th><th>Note</th></tr></thead>
+            <tbody id="recent"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Grant access dialog -->
+  <dialog id="grant-dialog">
+    <form method="dialog" id="grant-form">
+      <div class="dialog-head">Give access to <span id="grant-name"></span></div>
+      <div class="dialog-body">
+        <label class="field">Plan
+          <select class="input" name="plan_id" required></select>
+        </label>
+        <div class="grid-2">
+          <label class="field">Starts on
+            <input class="input" type="date" name="starts" required>
+          </label>
+          <label class="field">Number of days
+            <input class="input" type="number" name="days" min="1" max="1825" required>
+          </label>
+        </div>
+        <div class="grid-2">
+          <label class="field">Amount paid (₹)
+            <input class="input" type="number" name="amount" min="0" required>
+          </label>
+          <label class="field">Note <small>e.g. UPI reference</small>
+            <input class="input" type="text" name="note" maxlength="120">
+          </label>
+        </div>
+        <p class="muted small" id="grant-summary" style="margin-bottom:14px;"></p>
+      </div>
+      <div class="dialog-foot">
+        <button class="btn btn-ghost" value="cancel" formnovalidate>Cancel</button>
+        <button class="btn btn-primary" value="ok" id="grant-ok">Give access</button>
+      </div>
+    </form>
+  </dialog>
+
+  <footer><span>&copy; 2026 Let's Play With Physics · Admin</span></footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.1/dist/umd/supabase.js"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/account.js"></script>
+  <script>
+    let me = null, students = [], plans = [], enrollments = [], grantFor = null;
+    const DAY = 24 * 60 * 60 * 1000;
+
+    async function init() {
+      me = await requireUser();
+      if (!me) return;
+      const { data: isAdmin } = await sb.rpc('is_admin');
+      $('loading').hidden = true;
+      if (isAdmin !== true) { $('denied').hidden = false; return; }
+      $('content').hidden = false;
+      await reload();
+    }
+
+    async function reload() {
+      const [s, p, e] = await Promise.all([
+        sb.from('profiles').select('id, email, full_name, phone, created_at').order('created_at', { ascending: false }),
+        sb.from('plans').select('*').order('sort_order'),
+        sb.from('enrollments').select('id, user_id, plan_id, starts_at, expires_at, amount_inr, note, source, created_at, plans(name, unlocks)').order('created_at', { ascending: false })
+      ]);
+      const failed = [s, p, e].find(r => r.error);
+      if (failed) { showMessage($('msg'), 'Could not load data: ' + friendlyError(failed.error), 'error'); return; }
+      students = s.data; plans = p.data; enrollments = e.data;
+      renderStats(); renderStudents(); renderPlans(); renderRecent();
+    }
+
+    const enrollmentsOf = id => enrollments.filter(e => e.user_id === id);
+    const activeOf = id => enrollmentsOf(id).filter(e => enrollmentStatus(e) === 'active');
+
+    function renderStats() {
+      const now = Date.now();
+      $('stat-students').textContent = students.length;
+      $('stat-active').textContent = students.filter(s => activeOf(s.id).length).length;
+      $('stat-new').textContent = students.filter(s => now - new Date(s.created_at) < 7 * DAY).length;
+      const revenue = enrollments.filter(e => now - new Date(e.created_at) < 30 * DAY).reduce((sum, e) => sum + e.amount_inr, 0);
+      $('stat-revenue').textContent = formatInr(revenue);
+    }
+
+    function renderStudents() {
+      const q = $('search').value.trim().toLowerCase();
+      const filter = $('filter').value;
+      const rows = students.filter(s => {
+        if (q && !`${s.full_name} ${s.email} ${s.phone}`.toLowerCase().includes(q)) return false;
+        const hasActive = activeOf(s.id).length > 0;
+        return filter === 'all' || (filter === 'active') === hasActive;
+      });
+      if (!rows.length) { $('students').innerHTML = '<tr><td colspan="5" class="empty">No students found.</td></tr>'; return; }
+      $('students').innerHTML = rows.map(s => {
+        const current = enrollmentsOf(s.id).filter(e => enrollmentStatus(e) !== 'expired');
+        const access = current.length ? current.map(e => `
+            <div style="margin-bottom:6px;">
+              <b>${escapeHtml(e.plans?.name)}</b>
+              <span class="muted small">${enrollmentStatus(e) === 'upcoming' ? 'from ' + formatDate(e.starts_at) + ' ' : ''}till ${formatDate(e.expires_at)}</span>
+              <button class="link-btn small" style="color:var(--red); margin-left:6px;" onclick="endAccess('${e.id}')">end</button>
+            </div>`).join('')
+          : '<span class="muted small">No active access</span>';
+        return `
+          <tr>
+            <td><b>${escapeHtml(s.full_name) || '<span class="muted">(no name)</span>'}</b><br><span class="muted small">${escapeHtml(s.email)}</span></td>
+            <td class="small">${s.phone ? `<a href="https://wa.me/${escapeHtml(s.phone.replace(/[^0-9]/g, '').replace(/^(\d{10})$/, '91$1'))}" target="_blank" rel="noopener">${escapeHtml(s.phone)}</a>` : '<span class="muted">—</span>'}</td>
+            <td class="small muted">${formatDate(s.created_at)}</td>
+            <td class="small">${access}</td>
+            <td><button class="btn btn-primary btn-sm" onclick="openGrant('${s.id}')">Give access</button></td>
+          </tr>`;
+      }).join('');
+    }
+    $('search').addEventListener('input', renderStudents);
+    $('filter').addEventListener('change', renderStudents);
+
+    // ── Give access ──
+    function openGrant(userId) {
+      grantFor = students.find(s => s.id === userId);
+      const f = $('grant-form');
+      $('grant-name').textContent = grantFor.full_name || grantFor.email;
+      const active = plans.filter(p => p.is_active);
+      f.plan_id.innerHTML = (active.length ? active : plans).map(p => `<option value="${p.id}">${escapeHtml(p.name)} — ${formatInr(p.price_inr)} / ${p.duration_days} days</option>`).join('');
+      f.starts.value = new Date().toISOString().slice(0, 10);
+      f.note.value = '';
+      applyPlanDefaults();
+      $('grant-dialog').showModal();
+    }
+    function applyPlanDefaults() {
+      const f = $('grant-form');
+      const p = plans.find(p => p.id === f.plan_id.value);
+      if (!p) return;
+      f.days.value = p.duration_days;
+      f.amount.value = p.price_inr;
+      updateGrantSummary();
+    }
+    function grantDates() {
+      const f = $('grant-form');
+      const start = new Date(f.starts.value + 'T00:00:00');
+      const today = new Date(); today.setHours(0, 0, 0, 0);
+      const startsAt = start.getTime() === today.getTime() ? new Date() : start;
+      return { startsAt, expiresAt: new Date(start.getTime() + Number(f.days.value) * DAY) };
+    }
+    function updateGrantSummary() {
+      const f = $('grant-form');
+      if (!f.starts.value || !(Number(f.days.value) > 0)) { $('grant-summary').textContent = ''; return; }
+      $('grant-summary').textContent = `Access will be valid till ${formatDate(grantDates().expiresAt)}.`;
+    }
+    $('grant-form').plan_id.addEventListener('change', applyPlanDefaults);
+    $('grant-form').starts.addEventListener('input', updateGrantSummary);
+    $('grant-form').days.addEventListener('input', updateGrantSummary);
+
+    $('grant-dialog').addEventListener('close', async () => {
+      if ($('grant-dialog').returnValue !== 'ok') return;
+      const f = $('grant-form');
+      const { startsAt, expiresAt } = grantDates();
+      const { error } = await sb.from('enrollments').insert({
+        user_id: grantFor.id,
+        plan_id: f.plan_id.value,
+        starts_at: startsAt.toISOString(),
+        expires_at: expiresAt.toISOString(),
+        amount_inr: Number(f.amount.value) || 0,
+        note: f.note.value.trim(),
+        source: 'manual',
+        granted_by: me.id
+      });
+      showMessage($('msg'), error ? 'Could not give access: ' + friendlyError(error) : `Access given to ${grantFor.full_name || grantFor.email}.`, error ? 'error' : 'success');
+      await reload();
+    });
+    $('grant-ok').addEventListener('click', e => { if (!$('grant-form').reportValidity()) e.preventDefault(); });
+
+    async function endAccess(enrollmentId) {
+      const e = enrollments.find(x => x.id === enrollmentId);
+      const who = students.find(s => s.id === e.user_id);
+      if (!confirm(`End "${e.plans?.name}" for ${who?.full_name || who?.email} now?`)) return;
+      // Keep the record (for payment history) but make it expire now; remove it if it hadn't started yet.
+      const res = new Date(e.starts_at) >= new Date()
+        ? await sb.from('enrollments').delete().eq('id', enrollmentId)
+        : await sb.from('enrollments').update({ expires_at: new Date().toISOString() }).eq('id', enrollmentId);
+      showMessage($('msg'), res.error ? friendlyError(res.error) : 'Access ended.', res.error ? 'error' : 'success');
+      await reload();
+    }
+
+    // ── Plans ──
+    function renderPlans() {
+      $('plans').innerHTML = plans.map(p => `
+        <form class="plan-edit-row" data-id="${p.id}" onsubmit="savePlan(event)">
+          <div class="plan-edit">
+            <label class="field">Name<input class="input" name="name" value="${escapeHtml(p.name)}" maxlength="60" required></label>
+            <label class="field">Description<input class="input" name="description" value="${escapeHtml(p.description)}" maxlength="200"></label>
+            <label class="field">Price (₹)<input class="input" type="number" name="price_inr" min="0" value="${p.price_inr}" required></label>
+            <label class="field">Days<input class="input" type="number" name="duration_days" min="1" value="${p.duration_days}" required></label>
+          </div>
+          <div class="plan-edit-foot">
+            <div class="inline-checks">
+              <span class="muted small">Unlocks:</span>
+              ${Object.entries(CONTENT_TYPES).map(([k, c]) => `<label><input type="checkbox" name="unlocks" value="${k}" ${p.unlocks.includes(k) ? 'checked' : ''}>${c.label}</label>`).join('')}
+              <label style="margin-left:8px;"><input type="checkbox" name="is_active" ${p.is_active ? 'checked' : ''}>On sale</label>
+              <label>Order <input class="input" type="number" name="sort_order" value="${p.sort_order}" style="width:70px; padding:6px 8px;"></label>
+            </div>
+            <button class="btn btn-ghost btn-sm" type="submit">Save</button>
+          </div>
+        </form>`).join('') || '<p class="empty">No plans yet.</p>';
+    }
+
+    function planFromForm(form) {
+      const v = name => form.elements.namedItem(name);
+      return {
+        name: v('name').value.trim(),
+        description: v('description').value.trim(),
+        price_inr: Number(v('price_inr').value),
+        duration_days: Number(v('duration_days').value),
+        unlocks: [...form.querySelectorAll('input[name="unlocks"]:checked')].map(i => i.value),
+        is_active: v('is_active').checked,
+        sort_order: Number(v('sort_order').value) || 0
+      };
+    }
+
+    async function savePlan(e) {
+      e.preventDefault();
+      const f = e.target;
+      const plan = planFromForm(f);
+      if (!plan.unlocks.length) { showMessage($('msg'), 'Tick at least one thing the plan unlocks.', 'error'); return; }
+      const res = f.dataset.id
+        ? await sb.from('plans').update(plan).eq('id', f.dataset.id)
+        : await sb.from('plans').insert(plan);
+      showMessage($('msg'), res.error ? 'Could not save plan: ' + friendlyError(res.error) : `Plan "${plan.name}" saved.`, res.error ? 'error' : 'success');
+      if (!res.error) await reload();
+    }
+
+    function addPlan() {
+      plans.push({ id: '', name: '', description: '', price_inr: 0, duration_days: 90, unlocks: [], is_active: true, sort_order: plans.length + 1 });
+      renderPlans();
+      const last = $('plans').lastElementChild;
+      last.removeAttribute('data-id');
+      last.querySelector('input[name="name"]').focus();
+    }
+
+    function renderRecent() {
+      const rows = enrollments.slice(0, 20);
+      if (!rows.length) { $('recent').innerHTML = '<tr><td colspan="6" class="empty">Nothing yet.</td></tr>'; return; }
+      $('recent').innerHTML = rows.map(e => {
+        const s = students.find(x => x.id === e.user_id);
+        return `<tr>
+          <td class="small muted">${formatDate(e.created_at)}</td>
+          <td class="small">${escapeHtml(s?.full_name || s?.email || '—')}</td>
+          <td class="small">${escapeHtml(e.plans?.name)}</td>
+          <td class="small">${formatDate(e.expires_at)}</td>
+          <td class="small">${formatInr(e.amount_inr)}</td>
+          <td class="small muted">${escapeHtml(e.note)}</td>
+        </tr>`;
+      }).join('');
+    }
+
+    init();
+  </script>
+</body>
+</html>
