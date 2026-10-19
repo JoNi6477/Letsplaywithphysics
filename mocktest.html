@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mock Test — Let's Play With Physics</title>
+  <link rel="icon" type="image/png" href="favicon.png">
   <meta name="description" content="NEET and JEE Mains physics mock tests in the real NTA computer-based test format — timer, question palette, mark for review, and instant results.">
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
   <style>
@@ -34,8 +35,8 @@
     .footer-logo span { color: #44aaff; }
     .footer-copy { font-size: 12px; color: #6a7a95; }
 
-    /* ───────── PASSWORD SCREEN ───────── */
-    #screen-login { min-height: 80vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
+    /* ───────── ACCESS CHECK SCREEN ───────── */
+    #screen-gate { min-height: 80vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
     .lock-box { background: rgba(44,120,255,0.07); border: 1px solid rgba(44,120,255,0.2); border-radius: 24px; padding: 48px 40px; text-align: center; max-width: 420px; width: 100%; }
     .lock-icon { font-size: 48px; margin-bottom: 16px; }
     .lock-box h2 { font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 800; margin-bottom: 10px; }
@@ -247,15 +248,13 @@
     </div>
   </div>
 
-  <!-- ═════════ 1. PASSWORD ═════════ -->
-  <div id="screen-login">
+  <!-- ═════════ 1. ACCESS CHECK ═════════ -->
+  <div id="screen-gate">
     <div class="lock-box">
-      <div class="lock-icon">🔒</div>
-      <h2>Premium Access Only</h2>
-      <p>This mock test is exclusive to paid batch students. Enter your password to continue.</p>
-      <input type="password" id="pwd-input" placeholder="Enter password" aria-label="Password" onkeydown="if(event.key==='Enter') checkPassword()">
-      <button onclick="checkPassword()">Unlock Test →</button>
-      <div class="lock-error" id="lock-error">❌ Incorrect password. Please try again.</div>
+      <div class="lock-icon" id="gate-icon">⏳</div>
+      <h2 id="gate-title">Checking your access…</h2>
+      <p id="gate-text">Please wait a moment.</p>
+      <div id="gate-actions"></div>
     </div>
   </div>
 
@@ -266,21 +265,18 @@
     </div>
     <div class="instr-wrap">
       <div class="instr-card">
-        <h2>1. Choose your paper</h2>
+        <h2 id="test-title">Mock Test</h2>
         <div class="paper-choice">
-          <label class="paper-card"><input type="radio" name="paper" value="neet" checked><div><b>NEET — Physics</b><span id="neet-meta"></span></div></label>
-          <label class="paper-card"><input type="radio" name="paper" value="jee"><div><b>JEE Mains — Physics</b><span id="jee-meta"></span></div></label>
+          <div class="paper-card" style="cursor:default; border-color:#1c3f7a; background:#eef3fb;"><div><b id="test-meta-1"></b><span id="test-meta-2"></span></div></div>
         </div>
-        <label class="name-field">Your name (shown on the exam screen)
-          <input type="text" id="candidate-name" placeholder="e.g. Ravi Kumar" maxlength="40">
-        </label>
+        <p class="name-field" style="margin-top:14px;">Candidate: <b id="candidate-name"></b></p>
       </div>
 
       <div class="instr-card">
-        <h2>2. Please read the instructions carefully</h2>
+        <h2>Please read the instructions carefully</h2>
         <ol>
           <li>The countdown timer at the top right shows how much time you have left. When it reaches zero, the test <b>ends and is submitted automatically</b>.</li>
-          <li>Each correct answer gets <b>+4</b> marks, each wrong answer <b>−1</b> mark. Unanswered questions get <b>0</b>.</li>
+          <li>Each correct answer gets <b>+<span class="m-pos">4</span></b> marks, each wrong answer <b>−<span class="m-neg">1</span></b> mark. Unanswered questions get <b>0</b>.</li>
           <li>The Question Palette on the right shows the status of every question:
             <div class="instr-legend">
               <div class="legend-item"><span class="st st-notvisited">1</span> You have not visited the question yet.</div>
@@ -318,7 +314,7 @@
     </div>
     <div class="cbt-subbar">
       <span class="section-tab">PHYSICS</span>
-      <span class="marking-info">Marks: correct <b class="pos">+4</b> &nbsp;|&nbsp; wrong <b class="neg">−1</b></span>
+      <span class="marking-info">Marks: correct <b class="pos">+<span class="m-pos">4</span></b> &nbsp;|&nbsp; wrong <b class="neg">−<span class="m-neg">1</span></b></span>
     </div>
 
     <div class="cbt-body">
@@ -375,8 +371,8 @@
           <div class="result-stat"><b class="c-blue" id="res-time">0:00</b><span>Time taken</span></div>
         </div>
         <div class="result-actions">
-          <button class="btn btn-begin" onclick="showInstructions()">Take another test</button>
-          <a class="btn btn-nav" href="index.html">Back to home</a>
+          <a class="btn btn-begin" href="dashboard.html#tests">Take another test</a>
+          <a class="btn btn-nav" href="dashboard.html#results">My results</a>
         </div>
       </div>
 
@@ -401,119 +397,12 @@
     <div class="footer-copy">© 2026 · Akshay Kumar · University of Hyderabad · Hyderabad</div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.1/dist/umd/supabase.js"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/account.js"></script>
   <script>
-    // =============================================
-    // ADD YOUR QUESTIONS HERE
-    // Each question: { q: "question text", opts: ["A","B","C","D"], ans: 0 }
-    // ans: 0=A, 1=B, 2=C, 3=D
-    // =============================================
-
-    const neetQuestionBank = [
-      // Units, Kinematics, Laws of Motion
-      { q: "A body is moving with uniform velocity. The net force acting on it is:", opts: ["Zero", "Non-zero", "Variable", "Cannot be determined"], ans: 0 },
-      { q: "The dimensional formula of surface tension is:", opts: ["[MLT⁻²]", "[ML⁻¹T⁻²]", "[MT⁻²]", "[ML²T⁻²]"], ans: 2 },
-      { q: "A ball is thrown vertically upward with a speed of 20 m/s. The maximum height reached is (g = 10 m/s²):", opts: ["10 m", "20 m", "40 m", "30 m"], ans: 1 },
-      { q: "Two projectiles are thrown with the same speed at angles of 30° and 60° with the horizontal. The ratio of their horizontal ranges is:", opts: ["1 : √3", "√3 : 1", "1 : 1", "1 : 2"], ans: 2 },
-      { q: "A man of mass 60 kg stands in a lift accelerating upward at 2 m/s². His apparent weight is (g = 10 m/s²):", opts: ["600 N", "480 N", "720 N", "660 N"], ans: 2 },
-      { q: "A 5 kg block rests on a horizontal surface with coefficient of static friction 0.4. The minimum horizontal force needed to just move it is (g = 10 m/s²):", opts: ["20 N", "50 N", "2 N", "12.5 N"], ans: 0 },
-      // Work, Energy, Power; Circular motion
-      { q: "If the momentum of a body is increased by 100%, its kinetic energy increases by:", opts: ["300%", "200%", "100%", "400%"], ans: 0 },
-      { q: "The work done in stretching a spring of spring constant 200 N/m by 10 cm is:", opts: ["2 J", "10 J", "1 J", "0.5 J"], ans: 2 },
-      { q: "A particle moves in a circle of radius 2 m with a constant speed of 4 m/s. Its centripetal acceleration is:", opts: ["2 m/s²", "16 m/s²", "8 m/s²", "4 m/s²"], ans: 2 },
-      // Rotational motion
-      { q: "The moment of inertia of a thin ring of mass M and radius R about its diameter is:", opts: ["½ MR²", "MR²", "(2/5) MR²", "¼ MR²"], ans: 0 },
-      { q: "When an ice skater pulls in her arms while spinning, which quantity remains constant?", opts: ["Angular velocity", "Angular momentum", "Moment of inertia", "Rotational kinetic energy"], ans: 1 },
-      { q: "A solid sphere rolls without slipping. The fraction of its total kinetic energy that is rotational is:", opts: ["2/5", "2/7", "5/7", "1/2"], ans: 1 },
-      // Gravitation
-      { q: "The acceleration due to gravity at a height equal to the radius of the Earth (R) above its surface is:", opts: ["g/2", "g/9", "g/4", "g"], ans: 2 },
-      { q: "The escape velocity from Earth is 11.2 km/s. For a planet with the same density but twice the radius of Earth, the escape velocity is:", opts: ["11.2 km/s", "5.6 km/s", "44.8 km/s", "22.4 km/s"], ans: 3 },
-      { q: "If the orbital radius of a satellite becomes 4 times, its time period becomes:", opts: ["4 times", "8 times", "16 times", "2 times"], ans: 1 },
-      // Properties of matter, Thermal physics
-      { q: "A wire stretches by ΔL under a load. If both its length and radius are doubled, the extension under the same load becomes:", opts: ["ΔL/2", "2ΔL", "ΔL", "4ΔL"], ans: 0 },
-      { q: "Bernoulli's theorem is based on the conservation of:", opts: ["Energy", "Momentum", "Mass", "Angular momentum"], ans: 0 },
-      { q: "When water is heated from 0 °C to 10 °C, its volume:", opts: ["First decreases, then increases", "Decreases continuously", "Increases continuously", "First increases, then decreases"], ans: 0 },
-      { q: "In an isothermal process of an ideal gas, the change in internal energy is:", opts: ["Positive", "Negative", "Zero", "Depends on pressure"], ans: 2 },
-      { q: "The efficiency of a Carnot engine working between 527 °C and 127 °C is:", opts: ["25%", "40%", "75%", "50%"], ans: 3 },
-      { q: "The temperature of a gas is raised from 27 °C to 927 °C. Its rms speed:", opts: ["Doubles", "Becomes 4 times", "Halves", "Remains the same"], ans: 0 },
-      // Oscillations and Waves
-      { q: "A mass m on a spring oscillates with time period T. If the mass is changed to 4m, the new time period is:", opts: ["T/2", "4T", "√2 T", "2T"], ans: 3 },
-      { q: "The fundamental frequency of a pipe of length L closed at one end is (v = speed of sound):", opts: ["v/4L", "v/2L", "v/L", "2v/L"], ans: 0 },
-      { q: "Two tuning forks of frequencies 256 Hz and 260 Hz are sounded together. The number of beats heard per second is:", opts: ["516", "2", "8", "4"], ans: 3 },
-      // Electrostatics
-      { q: "The force between two point charges is F. If the distance between them is halved, the force becomes:", opts: ["4F", "2F", "F/2", "F/4"], ans: 0 },
-      { q: "The SI unit of electric field is:", opts: ["V·m", "C/N", "J/C", "N/C"], ans: 3 },
-      { q: "The electric field inside a charged hollow conducting sphere is:", opts: ["Maximum at the centre", "Zero", "kq/R²", "kq/R"], ans: 1 },
-      { q: "Two capacitors of 4 μF each are connected in series. The equivalent capacitance is:", opts: ["8 μF", "2 μF", "4 μF", "1 μF"], ans: 1 },
-      { q: "The energy stored in a 10 μF capacitor charged to 100 V is:", opts: ["0.05 J", "0.5 J", "5 J", "0.005 J"], ans: 0 },
-      // Current electricity
-      { q: "A wire of resistance R is stretched uniformly to double its length. Its new resistance is:", opts: ["2R", "R/2", "R", "4R"], ans: 3 },
-      { q: "Kirchhoff's junction (current) law is based on the conservation of:", opts: ["Energy", "Mass", "Momentum", "Charge"], ans: 3 },
-      // Magnetism
-      { q: "The magnetic field at the centre of a circular loop of radius R carrying current I is:", opts: ["μ₀I / 2πR", "μ₀I / 4R", "μ₀I / 2R", "μ₀I / R"], ans: 2 },
-      { q: "A proton and an alpha particle enter a uniform magnetic field perpendicularly with the same speed. The ratio of the radii of their paths (proton : alpha) is:", opts: ["1 : 1", "2 : 1", "1 : 2", "1 : 4"], ans: 2 },
-      { q: "The magnetic susceptibility of a diamagnetic substance is:", opts: ["Large and positive", "Small and positive", "Zero", "Small and negative"], ans: 3 },
-      // EMI and AC
-      { q: "Lenz's law is a consequence of the conservation of:", opts: ["Charge", "Energy", "Momentum", "Magnetic flux"], ans: 1 },
-      { q: "In a purely inductive AC circuit, the current:", opts: ["Lags the voltage by π/2", "Leads the voltage by π/2", "Is in phase with the voltage", "Lags the voltage by π"], ans: 0 },
-      { q: "At resonance in a series LCR circuit, the impedance is equal to:", opts: ["Zero", "Infinity", "R", "X_L + X_C"], ans: 2 },
-      { q: "Which of the following electromagnetic waves has the highest frequency?", opts: ["Infrared rays", "UV rays", "X-rays", "Gamma rays"], ans: 3 },
-      // Optics
-      { q: "An object is placed 30 cm in front of a convex lens of focal length 20 cm. The image is formed at:", opts: ["12 cm", "30 cm", "40 cm", "60 cm"], ans: 3 },
-      { q: "The power of a convex lens of focal length 25 cm is:", opts: ["+25 D", "−4 D", "+0.25 D", "+4 D"], ans: 3 },
-      { q: "In Young's double slit experiment, if the slit separation is halved and the screen distance is doubled, the fringe width becomes:", opts: ["Unchanged", "Double", "Four times", "Half"], ans: 2 },
-      // Modern physics
-      { q: "The maximum kinetic energy of photoelectrons depends on the:", opts: ["Intensity of incident light", "Frequency of incident light", "Time of exposure", "Area of the metal surface"], ans: 1 },
-      { q: "The ratio of the radius of the 2nd Bohr orbit to the 1st Bohr orbit in a hydrogen atom is:", opts: ["2 : 1", "1 : 4", "4 : 1", "1 : 2"], ans: 2 },
-      { q: "The half-life of a radioactive sample is 10 days. The fraction of the sample remaining after 30 days is:", opts: ["1/3", "1/8", "1/6", "1/9"], ans: 1 },
-      { q: "In an n-type semiconductor, the majority charge carriers are:", opts: ["Holes", "Electrons", "Protons", "Positive ions"], ans: 1 },
-    ];
-
-    const jeeQuestionBank = [
-      { q: "A particle moves in a circle of radius r. The displacement after half a circle is:", opts: ["0", "2r", "πr", "r"], ans: 1 },
-      { q: "The dimensional formula of Planck's constant is:", opts: ["[ML²T⁻¹]", "[MLT⁻²]", "[ML²T⁻²]", "[ML³T⁻¹]"], ans: 0 },
-      { q: "Question 3 — Replace with your question", opts: ["Option A", "Option B", "Option C", "Option D"], ans: 0 },
-      { q: "Question 4 — Replace with your question", opts: ["Option A", "Option B", "Option C", "Option D"], ans: 0 },
-      { q: "Question 5 — Replace with your question", opts: ["Option A", "Option B", "Option C", "Option D"], ans: 0 },
-      { q: "Question 6 — Replace with your question", opts: ["Option A", "Option B", "Option C", "Option D"], ans: 0 },
-      { q: "Question 7 — Replace with your question", opts: ["Option A", "Option B", "Option C", "Option D"], ans: 0 },
-      { q: "Question 8 — Replace with your question", opts: ["Option A", "Option B", "Option C", "Option D"], ans: 0 },
-      { q: "Question 9 — Replace with your question", opts: ["Option A", "Option B", "Option C", "Option D"], ans: 0 },
-      { q: "Question 10 — Replace with your question", opts: ["Option A", "Option B", "Option C", "Option D"], ans: 0 },
-      { q: "Question 11 — Replace with your question", opts: ["Option A", "Option B", "Option C", "Option D"], ans: 0 },
-      { q: "Question 12 — Replace with your question", opts: ["Option A", "Option B", "Option C", "Option D"], ans: 0 },
-      { q: "Question 13 — Replace with your question", opts: ["Option A", "Option B", "Option C", "Option D"], ans: 0 },
-      { q: "Question 14 — Replace with your question", opts: ["Option A", "Option B", "Option C", "Option D"], ans: 0 },
-      { q: "Question 15 — Replace with your question", opts: ["Option A", "Option B", "Option C", "Option D"], ans: 0 },
-      { q: "Question 16 — Replace with your question", opts: ["Option A", "Option B", "Option C", "Option D"], ans: 0 },
-      { q: "Question 17 — Replace with your question", opts: ["Option A", "Option B", "Option C", "Option D"], ans: 0 },
-      { q: "Question 18 — Replace with your question", opts: ["Option A", "Option B", "Option C", "Option D"], ans: 0 },
-      { q: "Question 19 — Replace with your question", opts: ["Option A", "Option B", "Option C", "Option D"], ans: 0 },
-      { q: "Question 20 — Replace with your question", opts: ["Option A", "Option B", "Option C", "Option D"], ans: 0 },
-      { q: "Question 21 — Replace with your question", opts: ["Option A", "Option B", "Option C", "Option D"], ans: 0 },
-      { q: "Question 22 — Replace with your question", opts: ["Option A", "Option B", "Option C", "Option D"], ans: 0 },
-      { q: "Question 23 — Replace with your question", opts: ["Option A", "Option B", "Option C", "Option D"], ans: 0 },
-      { q: "Question 24 — Replace with your question", opts: ["Option A", "Option B", "Option C", "Option D"], ans: 0 },
-      { q: "Question 25 — Replace with your question", opts: ["Option A", "Option B", "Option C", "Option D"], ans: 0 },
-    ];
-
-    // Time allowed for each paper, in minutes
-    const PAPERS = {
-      neet: { title: 'NEET — Physics Mock Test', minutes: 60 },
-      jee:  { title: 'JEE Mains — Physics Mock Test', minutes: 60 }
-    };
-
-    // =============================================
-    // CORE LOGIC — DO NOT EDIT BELOW THIS LINE
-    // =============================================
-
-    // Only questions that have been filled in are shown to students.
-    const isFilledIn = q => !q.q.includes('Replace with your question');
-    const BANKS = { neet: neetQuestionBank.filter(isFilledIn), jee: jeeQuestionBank.filter(isFilledIn) };
-
-    // SHA-256 of the password, so it can't be read from the page source.
-    // To change the password, open https://emn178.github.io/online-tools/sha256.html,
-    // type the new password, and paste the result here.
-    const PASSWORD_HASH = "a418fdaf1128d003b34dafc803cbea1e26034a98b7382a19d88b590c8b4d34c4";
+    // Questions and answers are stored in the database (see supabase/mock-tests.sql).
+    // Only students with an active Mock Test plan can load a test; answers come back only after submitting.
 
     const STATUS = {
       notvisited:  { label: 'Not Visited' },
@@ -523,27 +412,63 @@
       ansmarked:   { label: 'Answered & Marked for Review (will be considered for evaluation)' }
     };
 
-    let paper = 'neet', questions = [], state = [], current = 0, pending = -1;
+    let test = null, questions = [], state = [], current = 0, pending = -1;
     let timeLeft = 0, totalSeconds = 0, timerInterval = null, examRunning = false;
+    let candidateName = 'Student', submitting = false;
 
-    const $ = id => document.getElementById(id);
-    const show = id => ['screen-login','screen-instructions','screen-exam','screen-result'].forEach(s => $(s).classList.toggle('hidden', s !== id));
+    const show = id => ['screen-gate','screen-instructions','screen-exam','screen-result'].forEach(s => $(s).classList.toggle('hidden', s !== id));
 
-    // ── Password ──
-    async function sha256(text) {
-      const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
-      return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+    function gate(icon, title, text, actionsHtml = '') {
+      $('gate-icon').textContent = icon;
+      $('gate-title').textContent = title;
+      $('gate-text').textContent = text;
+      $('gate-actions').innerHTML = actionsHtml;
+      setChrome(true);
+      show('screen-gate');
     }
-    async function checkPassword() {
-      if (await sha256($('pwd-input').value) === PASSWORD_HASH) showInstructions();
-      else $('lock-error').style.display = 'block';
+    const gateBtn = (href, label) => `<a href="${href}" style="display:block; margin-top:10px; background:#44aaff; color:#0a0e1a; font-weight:700; padding:13px; border-radius:12px; text-decoration:none;">${label}</a>`;
+
+    // ── Start-up: who is this, and what did they open? ──
+    async function init() {
+      const { data: { session } } = await sb.auth.getSession();
+      if (!session) {
+        gate('🔒', 'Please log in', 'Mock tests are available to students with a Mock Test plan. Log in to continue.',
+          gateBtn('login.html?next=' + encodeURIComponent('dashboard.html#tests'), 'Log in →'));
+        return;
+      }
+      const params = new URLSearchParams(location.search);
+      const { data: prof } = await sb.from('profiles').select('full_name').eq('id', session.user.id).single();
+      candidateName = (prof && prof.full_name) || session.user.email;
+
+      if (params.get('review')) return loadReview(params.get('review'));
+      const slug = params.get('test');
+      if (!slug) { location.replace('dashboard.html#tests'); return; }
+
+      const { data, error } = await sb.rpc('get_test', { p_slug: slug });
+      if (error) {
+        if (/NO_ACCESS/.test(error.message)) {
+          gate('🔒', 'Mock tests are locked', 'You need an active Mock Test plan to take this test. Buy a plan and Akshay Sir will unlock it for your account.',
+            gateBtn('dashboard.html#plans', 'See plans →'));
+        } else if (/TEST_NOT_FOUND|TEST_EMPTY/.test(error.message)) {
+          gate('🤔', 'Test not found', 'This test is not available right now.', gateBtn('dashboard.html#tests', 'Back to my tests'));
+        } else {
+          gate('⚠️', 'Could not load the test', friendlyError(error), gateBtn(location.href, 'Try again'));
+        }
+        return;
+      }
+      test = data;
+      questions = data.questions;
+      showInstructions();
     }
 
     // ── Instructions ──
     function showInstructions() {
-      for (const key of ['neet', 'jee']) {
-        $(key + '-meta').textContent = `${BANKS[key].length} questions · ${PAPERS[key].minutes} minutes · ${BANKS[key].length * 4} marks`;
-      }
+      $('test-title').textContent = test.title;
+      $('test-meta-1').textContent = `${test.exam} — Physics`;
+      $('test-meta-2').textContent = `${questions.length} questions · ${test.duration_min} minutes · ${questions.length * test.marks_correct} marks`;
+      document.querySelectorAll('.m-pos').forEach(el => el.textContent = test.marks_correct);
+      document.querySelectorAll('.m-neg').forEach(el => el.textContent = test.marks_wrong);
+      $('candidate-name').textContent = candidateName;
       $('agree').checked = false;
       $('btn-begin').disabled = true;
       setChrome(false);
@@ -552,16 +477,12 @@
     }
 
     function beginTest() {
-      paper = document.querySelector('input[name="paper"]:checked').value;
-      questions = BANKS[paper];
-      if (!questions.length) { toast('This paper has no questions yet.'); return; }
       state = questions.map(() => ({ visited: false, answer: -1, marked: false }));
-      const name = $('candidate-name').value.trim() || 'Student';
-      $('cand-name-display').textContent = name;
-      $('cand-avatar').textContent = name.charAt(0).toUpperCase();
-      $('exam-title').innerHTML = `${PAPERS[paper].title}<small>Let's Play With Physics</small>`;
+      $('cand-name-display').textContent = candidateName;
+      $('cand-avatar').textContent = candidateName.charAt(0).toUpperCase();
+      $('exam-title').innerHTML = `${escapeHtml(test.title)}<small>Let's Play With Physics</small>`;
       $('q-of').textContent = `of ${questions.length}`;
-      totalSeconds = timeLeft = PAPERS[paper].minutes * 60;
+      totalSeconds = timeLeft = test.duration_min * 60;
       examRunning = true;
       show('screen-exam');
       buildPalette();
@@ -705,28 +626,52 @@
     }
     function closeModal() { $('modal-root').innerHTML = ''; }
 
-    function finishTest(timeUp) {
+    // ── Submit: the server marks the test and returns the answer key ──
+    async function finishTest(timeUp) {
+      if (submitting) return;
+      submitting = true;
       clearInterval(timerInterval);
       $('toast').classList.add('hidden');
       examRunning = false;
-      let correct = 0, wrong = 0, skipped = 0;
-      questions.forEach((q, i) => {
-        const a = state[i].answer;
-        if (a === -1) skipped++;
-        else if (a === q.ans) correct++;
-        else wrong++;
-      });
-      const attempted = correct + wrong;
-      $('result-title').innerHTML = `${PAPERS[paper].title} — Result<small>Let's Play With Physics</small>`;
-      $('result-heading').textContent = timeUp ? "⏰ Time's up! Your test was submitted automatically." : '🎯 Test Submitted';
-      $('result-sub').textContent = `${$('cand-name-display').textContent} · ${questions.length} questions`;
-      $('res-score').textContent = correct * 4 - wrong;
-      $('res-max').textContent = questions.length * 4;
-      $('res-correct').textContent = correct;
-      $('res-wrong').textContent = wrong;
-      $('res-skip').textContent = skipped;
-      $('res-accuracy').textContent = attempted ? Math.round(correct / attempted * 100) + '%' : '—';
-      $('res-time').textContent = fmt(totalSeconds - Math.max(timeLeft, 0));
+      const answers = state.map(s => s.answer);
+      const timeTaken = totalSeconds - Math.max(timeLeft, 0);
+      $('modal-root').innerHTML = `<div class="modal-backdrop"><div class="modal"><div class="modal-head">Submitting…</div><div class="modal-body">Please wait while your answers are saved and checked.</div></div></div>`;
+      const { data, error } = await sb.rpc('submit_attempt', { p_slug: test.slug, p_answers: answers, p_time_taken_sec: timeTaken });
+      submitting = false;
+      if (error) {
+        examRunning = true; // keep the page-leave warning while answers are unsaved
+        $('modal-root').innerHTML = `
+          <div class="modal-backdrop"><div class="modal" role="alertdialog">
+            <div class="modal-head">Could not submit</div>
+            <div class="modal-body">${escapeHtml(friendlyError(error))}<br><br>Your answers are still here. Check your internet connection and try again.</div>
+            <div class="modal-foot"><button class="btn btn-submit" onclick="finishTest(${timeUp})">Try again</button></div>
+          </div></div>`;
+        return;
+      }
+      closeModal();
+      showResult(data, timeUp ? "⏰ Time's up! Your test was submitted automatically." : '🎯 Test Submitted');
+    }
+
+    async function loadReview(attemptId) {
+      const { data, error } = await sb.rpc('get_attempt_review', { p_attempt_id: attemptId });
+      if (error) { gate('🤔', 'Result not found', 'We could not find this result in your account.', gateBtn('dashboard.html#results', 'Back to my results')); return; }
+      showResult(data, '📋 Your result');
+    }
+
+    let review = null;
+    function showResult(r, heading) {
+      review = r;
+      const attempted = r.correct + r.wrong;
+      $('result-title').innerHTML = `${escapeHtml(r.title)} — Result<small>Let's Play With Physics</small>`;
+      $('result-heading').textContent = heading;
+      $('result-sub').textContent = `${candidateName} · ${r.questions.length} questions · ${formatDate(r.submitted_at)}`;
+      $('res-score').textContent = r.score;
+      $('res-max').textContent = r.max_score;
+      $('res-correct').textContent = r.correct;
+      $('res-wrong').textContent = r.wrong;
+      $('res-skip').textContent = r.skipped;
+      $('res-accuracy').textContent = attempted ? Math.round(r.correct / attempted * 100) + '%' : '—';
+      $('res-time').textContent = fmt(r.time_taken_sec);
       renderReview('all');
       setChrome(true);
       show('screen-result');
@@ -736,11 +681,11 @@
     // ── Answer review ──
     function renderReview(filter) {
       document.querySelectorAll('#review-filters button').forEach(b => b.classList.toggle('active', b.dataset.filter === filter));
-      const items = questions.map((q, i) => {
-        const a = state[i].answer;
+      const items = review.questions.map((q, i) => {
+        const a = q.chosen ?? -1;
         const kind = a === -1 ? 'skipped' : a === q.ans ? 'correct' : 'wrong';
         if (filter !== 'all' && filter !== kind) return '';
-        const verdict = { correct: '<span class="c-green">✓ Correct · +4</span>', wrong: '<span class="c-red">✗ Wrong · −1</span>', skipped: '<span class="c-grey">Not answered · 0</span>' }[kind];
+        const verdict = { correct: '<span class="c-green">✓ Correct</span>', wrong: '<span class="c-red">✗ Wrong</span>', skipped: '<span class="c-grey">Not answered</span>' }[kind];
         const opts = q.opts.map((opt, j) => {
           const cls = j === q.ans ? 'is-correct' : (j === a ? 'is-wrong' : '');
           const tag = j === q.ans ? '<em class="c-green">Correct answer</em>' : (j === a ? '<em class="c-red">Your answer</em>' : '');
@@ -767,10 +712,7 @@
     }
     window.addEventListener('beforeunload', e => { if (examRunning) { e.preventDefault(); e.returnValue = ''; } });
 
-    function toggleMenu() {
-      $('mobile-menu').classList.toggle('open');
-      $('hamburger').classList.toggle('open');
-    }
+    init();
   </script>
 
   <script src="js/nav-account.js"></script>
