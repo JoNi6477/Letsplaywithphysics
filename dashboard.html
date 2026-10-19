@@ -21,8 +21,8 @@
       <a class="side-link" href="#overview" data-view="overview"><span class="ico">🏠</span>Dashboard</a>
       <a class="side-link" href="#tests" data-view="tests"><span class="ico">📝</span>Mock Tests</a>
       <a class="side-link" href="#results" data-view="results"><span class="ico">📊</span>My Results</a>
-      <a class="side-link" href="material.html"><span class="ico">📚</span>Study Materials<span class="ext">↗</span></a>
-      <a class="side-link" href="simulations.html"><span class="ico">🧪</span>Simulations<span class="ext">↗</span></a>
+      <a class="side-link" href="#materials" data-view="materials"><span class="ico">📚</span>Study Materials</a>
+      <a class="side-link" href="#simulations" data-view="simulations"><span class="ico">🧪</span>Simulations</a>
       <a class="side-link" href="#plans" data-view="plans"><span class="ico">💳</span>My Plans</a>
       <a class="side-link" href="#profile" data-view="profile"><span class="ico">👤</span>Profile</a>
       <div class="side-sep"></div>
@@ -96,6 +96,29 @@
         </table></div>
       </section>
 
+      <!-- STUDY MATERIALS -->
+      <section class="view" id="view-materials" hidden>
+        <div class="view-head">
+          <h1>Study Materials</h1>
+          <p class="lead">Formula sheets, practice questions and notes by Akshay Sir. Files open in a new tab.</p>
+        </div>
+        <div class="mat-tabs" id="mat-tabs" role="tablist"></div>
+        <div class="mat-filters">
+          <div id="mat-exams"></div>
+          <input class="input" type="search" id="mat-search" placeholder="Search chapter…" aria-label="Search materials">
+        </div>
+        <div class="mat-grid" id="mat-grid"></div>
+      </section>
+
+      <!-- SIMULATIONS -->
+      <section class="view" id="view-simulations" hidden>
+        <div class="view-head">
+          <h1>Simulations</h1>
+          <p class="lead">Don't just read physics — play with it. Each simulation opens in a new tab.</p>
+        </div>
+        <div class="test-grid" id="sim-grid"></div>
+      </section>
+
       <!-- PLANS -->
       <section class="view" id="view-plans" hidden>
         <div class="view-head">
@@ -141,8 +164,9 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.1/dist/umd/supabase.js"></script>
   <script src="js/supabase-config.js"></script>
   <script src="js/account.js"></script>
+  <script src="js/materials-data.js"></script>
   <script>
-    const VIEWS = ['overview', 'tests', 'results', 'plans', 'profile'];
+    const VIEWS = ['overview', 'tests', 'results', 'materials', 'simulations', 'plans', 'profile'];
     let user = null, profile = null, enrollments = [], attempts = [], tests = [], plans = [], access = {}, isAdmin = false;
 
     async function load() {
@@ -179,6 +203,8 @@
       renderOverview();
       renderTests();
       renderResults();
+      renderMaterials();
+      renderSimulations();
       renderPlans();
       renderProfile();
       route();
@@ -223,7 +249,7 @@
 
       $('access-grid').innerHTML = Object.entries(CONTENT_TYPES).map(([kind, c]) => {
         const until = access[kind];
-        const open = kind === 'mocks' ? '#tests' : c.link;
+        const open = { mocks: '#tests', simulations: '#simulations' }[kind] || c.link;
         const action = !until
           ? `<a class="btn btn-ghost btn-sm" href="#plans">Get access</a>`
           : open ? `<a class="btn btn-primary btn-sm" href="${open}">Open ${c.label}</a>`
@@ -274,6 +300,45 @@
           <td><a class="btn btn-ghost btn-sm" href="mocktest.html?review=${a.id}">Review</a></td>
         </tr>`).join('')
         || `<tr><td colspan="7" class="empty">No results yet. ${canTakeTests() ? '<a href="#tests">Take a mock test →</a>' : ''}</td></tr>`;
+    }
+
+    // ── Study materials ──
+    const mat = { tab: STUDY_MATERIALS[0].id, exam: 'NEET', q: '' };
+    function renderMaterials() {
+      const group = STUDY_MATERIALS.find(g => g.id === mat.tab);
+      const exams = Object.keys(group.exams);
+      if (!exams.includes(mat.exam)) mat.exam = exams[0];
+      const total = g => Object.values(g.exams).reduce((n, list) => n + list.length, 0);
+      $('mat-tabs').innerHTML = STUDY_MATERIALS.map(g =>
+        `<button class="mat-tab ${g.id === mat.tab ? 'active' : ''}" data-tab="${g.id}" role="tab">${g.icon} ${g.name}<span class="count">${total(g)}</span></button>`).join('');
+      $('mat-exams').innerHTML = exams.length > 1 ? exams.map(e =>
+        `<button class="pill ${e === mat.exam ? 'active' : ''}" data-exam="${e}">${e} (${group.exams[e].length})</button>`).join(' ') : '';
+      const q = mat.q.trim().toLowerCase();
+      const items = group.exams[mat.exam].filter(i => !q || i.title.toLowerCase().includes(q));
+      $('mat-grid').innerHTML = items.map(i => {
+        const url = encodeURI(i.file);
+        return `<div class="mat-item">
+          <div class="mat-item-title">${escapeHtml(i.title)}${i.isNew ? '<span class="new-tag">NEW</span>' : ''}</div>
+          <div class="muted small">📄 PDF · ${escapeHtml(mat.exam === 'All' ? 'NEET & JEE' : mat.exam)} · By Akshay Sir</div>
+          <div class="mat-item-actions">
+            <a class="btn btn-primary btn-sm" href="${url}" target="_blank" rel="noopener">View</a>
+            <a class="btn btn-ghost btn-sm" href="${url}" download>Download</a>
+          </div>
+        </div>`;
+      }).join('') || `<p class="muted">${q ? 'No files match your search.' : 'Coming soon — Akshay Sir is preparing these.'}</p>`;
+    }
+    $('mat-tabs').addEventListener('click', e => { const t = e.target.closest('[data-tab]'); if (t) { mat.tab = t.dataset.tab; renderMaterials(); } });
+    $('mat-exams').addEventListener('click', e => { const t = e.target.closest('[data-exam]'); if (t) { mat.exam = t.dataset.exam; renderMaterials(); } });
+    $('mat-search').addEventListener('input', e => { mat.q = e.target.value; renderMaterials(); });
+
+    function renderSimulations() {
+      $('sim-grid').innerHTML = SIMULATIONS.map(sim => `
+        <div class="test-card">
+          <div style="font-size:30px">${sim.icon}</div>
+          <h3>${escapeHtml(sim.title)}</h3>
+          <p class="muted small" style="line-height:1.55">${escapeHtml(sim.desc)}</p>
+          <a class="btn btn-primary" href="${encodeURI(sim.file)}" target="_blank" rel="noopener">Launch simulation ↗</a>
+        </div>`).join('');
     }
 
     function renderPlans() {
