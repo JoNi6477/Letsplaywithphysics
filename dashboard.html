@@ -3,136 +3,231 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Account — Let's Play With Physics</title>
+  <title>Student Portal — Let's Play With Physics</title>
+  <link rel="icon" type="image/png" href="favicon.png">
   <meta name="robots" content="noindex">
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/account.css">
 </head>
-<body>
-  <nav>
-    <a href="index.html" class="nav-logo"><img src="Logo.png" alt="Let's Play With Physics"></a>
-    <div class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="material.html">Materials</a>
-      <a href="simulations.html">Simulations</a>
-      <a href="mocktest.html">Mock Test</a>
-      <a href="dashboard.html" class="active">My Account</a>
-      <a href="admin.html" class="admin-link" hidden>Admin</a>
-    </div>
-    <button class="nav-cta" style="border:none; cursor:pointer;" onclick="logout()">Log out</button>
-    <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Toggle menu"><span></span><span></span><span></span></button>
-  </nav>
-  <div class="mobile-menu" id="mobile-menu">
-    <a href="index.html">Home</a>
-    <a href="material.html">Materials</a>
-    <a href="simulations.html">Simulations</a>
-    <a href="mocktest.html">Mock Test</a>
-    <a href="admin.html" class="admin-link" hidden>Admin</a>
-    <a href="#" onclick="logout(); return false;">Log out</a>
-  </div>
+<body class="portal">
+  <div class="portal-shell">
 
-  <main>
-    <p class="loading" id="loading">Loading your account…</p>
+    <!-- ═════════ SIDE MENU ═════════ -->
+    <aside class="side" id="side" aria-label="Student menu">
+      <a href="dashboard.html#overview" class="side-logo">
+        <img src="logo-nav.png" alt="Let's Play With Physics">
+        <span>Student<br>Portal</span>
+      </a>
+      <a class="side-link" href="#overview" data-view="overview"><span class="ico">🏠</span>Dashboard</a>
+      <a class="side-link" href="#tests" data-view="tests"><span class="ico">📝</span>Mock Tests</a>
+      <a class="side-link" href="#results" data-view="results"><span class="ico">📊</span>My Results</a>
+      <a class="side-link" href="material.html"><span class="ico">📚</span>Study Materials<span class="ext">↗</span></a>
+      <a class="side-link" href="simulations.html"><span class="ico">🧪</span>Simulations<span class="ext">↗</span></a>
+      <a class="side-link" href="#plans" data-view="plans"><span class="ico">💳</span>My Plans</a>
+      <a class="side-link" href="#profile" data-view="profile"><span class="ico">👤</span>Profile</a>
+      <div class="side-sep"></div>
+      <a class="side-link admin-link" href="admin.html" hidden><span class="ico">⚙️</span>Admin panel</a>
+      <a class="side-link" href="index.html"><span class="ico">🌐</span>Main website</a>
+      <div class="side-user">
+        <b id="side-name">…</b>
+        <span id="side-email"></span>
+        <button class="btn btn-ghost btn-sm" onclick="logout()">Log out</button>
+      </div>
+    </aside>
+    <div class="drawer-backdrop" id="backdrop" onclick="toggleSide(false)"></div>
 
-    <div id="content" hidden>
-      <div class="welcome">
-        <div>
-          <h1 id="hello">Hi!</h1>
-          <p class="lead" id="email-line"></p>
-        </div>
-        <a href="admin.html" class="btn btn-ghost admin-link" hidden>⚙️ Admin panel</a>
+    <div class="portal-main">
+      <div class="topbar">
+        <button onclick="toggleSide(true)" aria-label="Open menu">☰</button>
+        <img src="logo-nav.png" alt="Let's Play With Physics">
+        <span style="width:42px"></span>
       </div>
 
-      <div class="msg" id="msg" hidden role="status"></div>
+      <p class="loading" id="loading">Loading your portal…</p>
+      <div class="view" id="msg-wrap" hidden><div class="msg" id="msg" hidden role="status"></div></div>
 
-      <section class="section">
-        <h2>My access</h2>
-        <div class="access-grid" id="access-grid"></div>
+      <!-- DASHBOARD -->
+      <section class="view" id="view-overview" hidden>
+        <div class="view-head">
+          <h1 id="hello">Hi! 👋</h1>
+          <p class="lead">Here's your progress at a glance.</p>
+        </div>
+        <div class="kpis">
+          <div class="kpi"><b id="kpi-tests">0</b><span>Tests taken</span></div>
+          <div class="kpi"><b id="kpi-best">—</b><span>Best score</span></div>
+          <div class="kpi"><b id="kpi-acc">—</b><span>Average accuracy</span></div>
+          <div class="kpi"><b id="kpi-plan">0</b><span id="kpi-plan-label">Active plans</span></div>
+        </div>
+        <div class="section">
+          <h2>My access</h2>
+          <div class="access-grid" id="access-grid"></div>
+        </div>
+        <div class="section">
+          <div class="section-head"><h2>Recent results</h2><a href="#results" class="small">See all →</a></div>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Test</th><th>Date</th><th>Score</th><th>Accuracy</th><th></th></tr></thead>
+            <tbody id="recent-results"></tbody>
+          </table></div>
+        </div>
       </section>
 
-      <section class="section">
-        <h2>My plans</h2>
+      <!-- MOCK TESTS -->
+      <section class="view" id="view-tests" hidden>
+        <div class="view-head">
+          <h1>Mock Tests</h1>
+          <p class="lead">Real NTA exam format — timer, question palette, mark for review, and a full answer review after you submit.</p>
+        </div>
+        <div class="banner" id="tests-locked" hidden>
+          <span>🔒 Mock tests are locked. Get a plan that includes Mock Tests to start practising.</span>
+          <a href="#plans" class="btn btn-primary btn-sm">See plans</a>
+        </div>
+        <div class="test-grid" id="test-grid"></div>
+      </section>
+
+      <!-- RESULTS -->
+      <section class="view" id="view-results" hidden>
+        <div class="view-head">
+          <h1>My Results</h1>
+          <p class="lead">Every test you've submitted. Open any result to see the full answer review.</p>
+        </div>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Test</th><th>Date</th><th>Score</th><th>✓ / ✗ / —</th><th>Accuracy</th><th>Time</th><th></th></tr></thead>
+          <tbody id="all-results"></tbody>
+        </table></div>
+      </section>
+
+      <!-- PLANS -->
+      <section class="view" id="view-plans" hidden>
+        <div class="view-head">
+          <h1>My Plans</h1>
+          <p class="lead">Your current and past plans, and plans you can buy.</p>
+        </div>
         <div class="table-wrap">
           <table>
             <thead><tr><th>Plan</th><th>Unlocks</th><th>From</th><th>Valid till</th><th>Status</th></tr></thead>
             <tbody id="my-plans"></tbody>
           </table>
         </div>
-      </section>
-
-      <section class="section" id="buy">
-        <div class="section-head">
-          <h2>Get premium access</h2>
-          <span class="muted small">Pay by UPI on WhatsApp — access is added to your account within 24 hours.</span>
+        <div class="section">
+          <div class="section-head">
+            <h2>Get premium access</h2>
+            <span class="muted small">Pay by UPI on WhatsApp — access is added to your account within 24 hours.</span>
+          </div>
+          <div class="plans-grid" id="plans-grid"></div>
         </div>
-        <div class="plans-grid" id="plans-grid"></div>
       </section>
 
-      <section class="section">
-        <h2>My details</h2>
+      <!-- PROFILE -->
+      <section class="view" id="view-profile" hidden>
+        <div class="view-head">
+          <h1>Profile</h1>
+          <p class="lead" id="profile-email"></p>
+        </div>
         <form class="card" id="form-profile" style="max-width:520px;" novalidate>
           <div class="msg" id="profile-msg" hidden role="status"></div>
-          <label class="field">Full name
+          <label class="field">Full name <small>Shown on your mock test screen and results.</small>
             <input class="input" type="text" name="full_name" maxlength="80" required>
           </label>
           <label class="field">Phone / WhatsApp number
             <input class="input" type="tel" name="phone" maxlength="15" pattern="[0-9+ ]{10,15}">
           </label>
           <button class="btn btn-primary" type="submit">Save changes</button>
-          <span class="muted small" style="margin-left:10px;">To change your password, log out and use “Forgot password”.</span>
         </form>
+        <p class="muted small" style="margin-top:14px;">To change your password, log out and use “Forgot password” on the login page.</p>
       </section>
     </div>
-  </main>
-
-  <footer>
-    <span>&copy; 2026 Let's Play With Physics</span>
-    <span><a href="privacy-policy.html">Privacy Policy</a> &nbsp;·&nbsp; <a href="terms.html">Terms</a> &nbsp;·&nbsp; <a href="contact.html">Contact</a></span>
-  </footer>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.1/dist/umd/supabase.js"></script>
   <script src="js/supabase-config.js"></script>
   <script src="js/account.js"></script>
   <script>
-    let user = null, profile = null;
+    const VIEWS = ['overview', 'tests', 'results', 'plans', 'profile'];
+    let user = null, profile = null, enrollments = [], attempts = [], tests = [], plans = [], access = {}, isAdmin = false;
 
     async function load() {
       user = await requireUser();
       if (!user) return;
 
-      const [profileRes, enrollRes, plansRes, adminRes] = await Promise.all([
+      const [profileRes, enrollRes, plansRes, adminRes, testsRes, attemptsRes] = await Promise.all([
         sb.from('profiles').select('full_name, phone, email').eq('id', user.id).single(),
         sb.from('enrollments').select('id, starts_at, expires_at, plans(name, unlocks)').order('expires_at', { ascending: false }),
         sb.from('plans').select('id, name, description, price_inr, duration_days, unlocks').eq('is_active', true).order('sort_order'),
-        sb.rpc('is_admin')
+        sb.rpc('is_admin'),
+        sb.rpc('list_tests'),
+        sb.from('attempts').select('id, score, max_score, correct, wrong, skipped, time_taken_sec, submitted_at, tests(title, exam, slug)').order('submitted_at', { ascending: false })
       ]);
-      const failed = [profileRes, enrollRes, plansRes].find(r => r.error);
       $('loading').hidden = true;
-      $('content').hidden = false;
-      if (failed) { showMessage($('msg'), 'Could not load your account: ' + friendlyError(failed.error), 'error'); return; }
+      const failed = [profileRes, enrollRes, plansRes].find(r => r.error);
+      if (failed) {
+        $('msg-wrap').hidden = false;
+        showMessage($('msg'), 'Could not load your account: ' + friendlyError(failed.error), 'error');
+        return;
+      }
+      // The mock-test tables come from supabase/mock-tests.sql; the portal still works before that is run.
+      tests = testsRes.error ? [] : testsRes.data;
+      attempts = attemptsRes.error ? [] : attemptsRes.data;
 
       profile = profileRes.data;
-      const enrollments = enrollRes.data;
-      document.querySelectorAll('.admin-link').forEach(el => el.hidden = adminRes.data !== true);
+      enrollments = enrollRes.data;
+      plans = plansRes.data;
+      isAdmin = adminRes.data === true;
+      access = accessByType(enrollments);
+      document.querySelectorAll('.admin-link').forEach(el => el.hidden = !isAdmin);
 
-      const firstName = (profile.full_name || '').split(' ')[0];
-      $('hello').textContent = firstName ? `Hi, ${firstName}! 👋` : 'Hi! 👋';
-      $('email-line').textContent = profile.email;
-      $('form-profile').full_name.value = profile.full_name;
-      $('form-profile').phone.value = profile.phone;
-
-      renderAccess(accessByType(enrollments));
-      renderMyPlans(enrollments);
-      renderPlans(plansRes.data);
+      renderUser();
+      renderOverview();
+      renderTests();
+      renderResults();
+      renderPlans();
+      renderProfile();
+      route();
     }
 
-    function renderAccess(access) {
+    // ── Switching between sections ──
+    function route() {
+      const view = VIEWS.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'overview';
+      VIEWS.forEach(v => $('view-' + v).hidden = v !== view);
+      document.querySelectorAll('.side-link[data-view]').forEach(a => a.classList.toggle('active', a.dataset.view === view));
+      toggleSide(false);
+      window.scrollTo(0, 0);
+    }
+    window.addEventListener('hashchange', () => { if (profile) route(); });
+    function toggleSide(open) { $('side').classList.toggle('open', open); $('backdrop').classList.toggle('open', open); }
+
+    const pct = (a, b) => b ? Math.round(a / b * 100) + '%' : '—';
+    const duration = sec => `${Math.floor(sec / 60)}m ${String(sec % 60).padStart(2, '0')}s`;
+    const canTakeTests = () => !!access.mocks || isAdmin;
+
+    function renderUser() {
+      const name = profile.full_name || 'Student';
+      $('side-name').textContent = name;
+      $('side-email').textContent = profile.email;
+      $('hello').textContent = `Hi, ${name.split(' ')[0]}! 👋`;
+    }
+
+    function renderOverview() {
+      $('kpi-tests').textContent = attempts.length;
+      if (attempts.length) {
+        const best = attempts.reduce((b, a) => (a.score / a.max_score > b.score / b.max_score ? a : b));
+        $('kpi-best').textContent = `${best.score}/${best.max_score}`;
+        const c = attempts.reduce((s, a) => s + a.correct, 0), w = attempts.reduce((s, a) => s + a.wrong, 0);
+        $('kpi-acc').textContent = pct(c, c + w);
+      }
+      const active = enrollments.filter(e => enrollmentStatus(e) === 'active');
+      $('kpi-plan').textContent = active.length;
+      if (active.length) {
+        const soonest = active.reduce((m, e) => (new Date(e.expires_at) < new Date(m.expires_at) ? e : m));
+        $('kpi-plan-label').textContent = `Active plans · next ends ${formatDate(soonest.expires_at)}`;
+      }
+
       $('access-grid').innerHTML = Object.entries(CONTENT_TYPES).map(([kind, c]) => {
         const until = access[kind];
+        const open = kind === 'mocks' ? '#tests' : c.link;
         const action = !until
-          ? `<a class="btn btn-ghost btn-sm" href="#buy">Get access</a>`
-          : c.link ? `<a class="btn btn-primary btn-sm" href="${c.link}">Open ${c.label}</a>`
-                   : `<span class="muted small">Coming soon — you're all set for launch.</span>`;
+          ? `<a class="btn btn-ghost btn-sm" href="#plans">Get access</a>`
+          : open ? `<a class="btn btn-primary btn-sm" href="${open}">Open ${c.label}</a>`
+                 : `<span class="muted small">Coming soon — you're all set for launch.</span>`;
         return `
           <div class="access-card ${until ? 'unlocked' : ''}">
             <div class="access-icon">${c.icon}</div>
@@ -142,13 +237,46 @@
             <div>${action}</div>
           </div>`;
       }).join('');
+
+      $('recent-results').innerHTML = attempts.slice(0, 3).map(a => `<tr>
+          <td><b>${escapeHtml(a.tests?.title || 'Test')}</b></td>
+          <td class="muted small">${formatDate(a.submitted_at)}</td>
+          <td class="score-pill">${a.score} / ${a.max_score}</td>
+          <td>${pct(a.correct, a.correct + a.wrong)}</td>
+          <td><a class="btn btn-ghost btn-sm" href="mocktest.html?review=${a.id}">Review</a></td>
+        </tr>`).join('')
+        || `<tr><td colspan="5" class="empty">No tests taken yet. ${canTakeTests() ? '<a href="#tests">Take your first mock test →</a>' : ''}</td></tr>`;
     }
 
-    function renderMyPlans(enrollments) {
-      if (!enrollments.length) {
-        $('my-plans').innerHTML = `<tr><td colspan="5" class="empty">You don't have any plans yet. Pick one below to unlock premium content.</td></tr>`;
-        return;
-      }
+    function renderTests() {
+      $('tests-locked').hidden = canTakeTests();
+      if (!tests.length) { $('test-grid').innerHTML = '<p class="muted">No mock tests are available yet. Check back soon!</p>'; return; }
+      $('test-grid').innerHTML = tests.map(t => `
+        <div class="test-card">
+          <span class="badge ${t.exam === 'NEET' ? 'badge-on' : 'badge-gold'}" style="align-self:flex-start;">${escapeHtml(t.exam)}</span>
+          <h3>${escapeHtml(t.title)}</h3>
+          <div class="test-meta"><span>📋 ${t.question_count} questions</span><span>⏱ ${t.duration_min} min</span><span>🎯 ${t.max_score} marks</span></div>
+          <div class="test-meta">${t.my_attempts ? `<span>Attempts: ${t.my_attempts}</span><span>Best: <b>${t.my_best} / ${t.max_score}</b></span>` : '<span>Not attempted yet</span>'}</div>
+          ${canTakeTests()
+            ? `<a class="btn btn-primary" href="mocktest.html?test=${encodeURIComponent(t.slug)}">${t.my_attempts ? 'Take again' : 'Start test'} →</a>`
+            : `<a class="btn btn-ghost" href="#plans">🔒 Unlock</a>`}
+        </div>`).join('');
+    }
+
+    function renderResults() {
+      $('all-results').innerHTML = attempts.map(a => `<tr>
+          <td><b>${escapeHtml(a.tests?.title || 'Test')}</b></td>
+          <td class="muted small">${formatDate(a.submitted_at)}</td>
+          <td class="score-pill">${a.score} / ${a.max_score}</td>
+          <td class="small"><span style="color:var(--green)">${a.correct}</span> / <span style="color:var(--red)">${a.wrong}</span> / <span class="muted">${a.skipped}</span></td>
+          <td>${pct(a.correct, a.correct + a.wrong)}</td>
+          <td class="muted small">${duration(a.time_taken_sec)}</td>
+          <td><a class="btn btn-ghost btn-sm" href="mocktest.html?review=${a.id}">Review</a></td>
+        </tr>`).join('')
+        || `<tr><td colspan="7" class="empty">No results yet. ${canTakeTests() ? '<a href="#tests">Take a mock test →</a>' : ''}</td></tr>`;
+    }
+
+    function renderPlans() {
       const badge = { active: '<span class="badge badge-on">Active</span>', upcoming: '<span class="badge badge-gold">Starts soon</span>', expired: '<span class="badge badge-red">Expired</span>' };
       $('my-plans').innerHTML = enrollments.map(e => `
         <tr>
@@ -157,11 +285,9 @@
           <td class="muted">${formatDate(e.starts_at)}</td>
           <td>${formatDate(e.expires_at)}</td>
           <td>${badge[enrollmentStatus(e)]}</td>
-        </tr>`).join('');
-    }
+        </tr>`).join('')
+        || `<tr><td colspan="5" class="empty">You don't have any plans yet. Pick one below to unlock premium content.</td></tr>`;
 
-    function renderPlans(plans) {
-      if (!plans.length) { $('plans-grid').innerHTML = '<p class="muted">No plans are on sale right now.</p>'; return; }
       $('plans-grid').innerHTML = plans.map(p => {
         const text = `Hi Akshay Sir, I want to buy the "${p.name}" plan (${formatInr(p.price_inr)}). My account email: ${profile.email}`;
         const wa = `https://wa.me/${LPWP_CONFIG.whatsappNumber}?text=${encodeURIComponent(text)}`;
@@ -173,18 +299,23 @@
             <div class="plan-desc">${escapeHtml(p.description)}</div>
             <a class="btn btn-whatsapp" href="${wa}" target="_blank" rel="noopener">💬 Buy via WhatsApp</a>
           </div>`;
-      }).join('');
+      }).join('') || '<p class="muted">No plans are on sale right now.</p>';
+    }
+
+    function renderProfile() {
+      $('profile-email').textContent = profile.email;
+      $('form-profile').full_name.value = profile.full_name;
+      $('form-profile').phone.value = profile.phone;
     }
 
     $('form-profile').addEventListener('submit', async e => {
       e.preventDefault();
       const f = e.target;
       if (!f.reportValidity()) return;
-      const { error } = await sb.from('profiles')
-        .update({ full_name: f.full_name.value.trim(), phone: f.phone.value.trim() })
-        .eq('id', user.id);
+      const update = { full_name: f.full_name.value.trim(), phone: f.phone.value.trim() };
+      const { error } = await sb.from('profiles').update(update).eq('id', user.id);
       showMessage($('profile-msg'), error ? friendlyError(error) : 'Saved!', error ? 'error' : 'success');
-      if (!error) $('hello').textContent = `Hi, ${f.full_name.value.trim().split(' ')[0]}! 👋`;
+      if (!error) { Object.assign(profile, update); renderUser(); }
     });
 
     async function logout() {

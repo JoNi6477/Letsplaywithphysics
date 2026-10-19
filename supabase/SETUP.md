@@ -9,6 +9,17 @@ Do these steps once, in order, in the Supabase dashboard for the
 2. Paste the whole of [`schema.sql`](schema.sql) and click **Run**.
 3. You should see "Success. No rows returned". (Running it again later is safe.)
 
+## 1b. Set up the protected mock tests
+
+1. **SQL Editor** → **New query**.
+2. Paste the whole of [`mock-tests.sql`](mock-tests.sql) and click **Run**.
+
+This moves the mock test questions into the database. Only students with an
+active plan that includes **Mock Tests** (and admins) can open a test, and
+answers are only shown after submitting. The JEE test starts switched off
+(it has only 2 questions); switch it on in **Table Editor** → `tests` →
+`is_active` once more questions are added.
+
 ## 2. Login settings
 
 Open **Authentication** → **URL Configuration**:
