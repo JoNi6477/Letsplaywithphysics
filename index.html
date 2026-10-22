@@ -13,368 +13,620 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Akshay Kumar">
+  <meta name="description" content="NEET & JEE Mains physics coaching by Akshay Kumar (M.Sc. Physics, University of Hyderabad). Free formula sheets, NTA-style mock tests and interactive simulations.">
   <meta property="og:site_name" content="Let's Play With Physics">
   <meta name="application-name" content="Let's Play With Physics">
-  <title>Let's Play With Physics — JEE Mains Coaching by Akshay Kumar</title>
+  <title>Let's Play With Physics — NEET & JEE Mains Physics by Akshay Kumar</title>
   <link rel="icon" type="image/png" href="images/favicon.png">
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
   <style>
+    /* ───────── Design tokens (colours taken from the logo) ───────── */
+    :root {
+      --navy-950: #060d22;
+      --navy-900: #0b1736;
+      --navy-800: #13244d;
+      --blue: #1f6feb;          /* main brand blue (buttons, links on light) */
+      --blue-bright: #4d9bff;   /* brand blue on dark backgrounds */
+      --blue-soft: #e8f0ff;
+      --orange: #ff9a1f;        /* logo orange — main call-to-action */
+      --orange-dark: #e7820a;
+      --ink: #0f172a;           /* headings on light */
+      --text: #334155;          /* body on light (contrast 10:1) */
+      --muted: #5b6b82;         /* secondary on light (contrast 5.4:1) */
+      --line: #e3e9f3;
+      --bg-soft: #f4f7fc;
+      --on-dark: #eef3ff;
+      --on-dark-muted: #b4c2dc; /* secondary on navy (contrast 9:1) */
+      --green: #16a34a;
+      --radius: 18px;
+      --shadow: 0 1px 2px rgba(15,23,42,0.05), 0 8px 24px rgba(15,23,42,0.07);
+      --shadow-lg: 0 20px 50px rgba(6,13,34,0.35);
+    }
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Space Grotesk', sans-serif; background: #0a0e1a; color: #e8eaf0; overflow-x: hidden; }
-    nav { display: flex; align-items: center; justify-content: space-between; padding: 18px 40px; background: rgba(10,14,26,0.97); border-bottom: 1px solid rgba(100,180,255,0.12); position: sticky; top: 0; z-index: 100; }
-    .nav-logo { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; color: #fff; text-decoration: none; }
-    .nav-logo span { color: #44aaff; }
-    .nav-links { display: flex; gap: 28px; }
-    .nav-links a { color: #a0aac0; font-size: 14px; text-decoration: none; transition: color 0.2s; }
-    .nav-links a:hover { color: #44aaff; }
-    .nav-cta { background: #44aaff; color: #0a0e1a; font-size: 13px; font-weight: 700; padding: 8px 20px; border-radius: 20px; text-decoration: none; }
-    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; }
-    .hamburger span { display: block; width: 24px; height: 2px; background: #e8eaf0; border-radius: 2px; transition: all 0.3s; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Space Grotesk', system-ui, sans-serif; color: var(--text); background: #fff; font-size: 16px; line-height: 1.6; overflow-x: hidden; }
+    h1, h2, h3 { font-family: 'Syne', 'Space Grotesk', sans-serif; color: var(--ink); line-height: 1.15; }
+    a { color: inherit; }
+    img { max-width: 100%; display: block; }
+    .container { width: 100%; max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+    .svg-ico { width: 24px; height: 24px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+    /* ───────── Buttons ───────── */
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 26px; border-radius: 12px; font-weight: 700; font-size: 15.5px; text-decoration: none; border: 2px solid transparent; cursor: pointer; transition: transform .15s, background .15s, box-shadow .15s; font-family: inherit; }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-orange { background: var(--orange); color: #1b1203; box-shadow: 0 8px 22px rgba(255,154,31,0.35); }
+    .btn-orange:hover { background: #ffab45; }
+    .btn-blue { background: var(--blue); color: #fff; }
+    .btn-blue:hover { background: #1a5fd0; }
+    .btn-outline-light { border-color: rgba(255,255,255,0.35); color: #fff; }
+    .btn-outline-light:hover { background: rgba(255,255,255,0.08); }
+    .btn-outline { border-color: var(--blue); color: var(--blue); background: #fff; }
+    .btn-outline:hover { background: var(--blue-soft); }
+    .btn-whatsapp { background: #25d366; color: #fff; }
+    .btn-whatsapp:hover { background: #1fbd5b; }
+
+    /* ───────── Navigation ───────── */
+    .nav { position: sticky; top: 0; z-index: 100; background: rgba(6,13,34,0.92); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 72px; }
+    .nav-logo img { height: 50px; width: auto; }
+    .nav-links { display: flex; gap: 30px; }
+    .nav-links a { color: var(--on-dark-muted); text-decoration: none; font-size: 15px; font-weight: 500; }
+    .nav-links a:hover { color: #fff; }
+    .nav-right { display: flex; align-items: center; gap: 18px; }
+    .nav-login { color: #fff; text-decoration: none; font-weight: 600; font-size: 15px; }
+    .nav .btn { padding: 10px 18px; font-size: 14.5px; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; background: none; border: none; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: #fff; border-radius: 2px; transition: all .3s; }
     .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
     .hamburger.open span:nth-child(2) { opacity: 0; }
     .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-    .mobile-menu { display: none; flex-direction: column; background: rgba(10,14,26,0.99); border-bottom: 1px solid rgba(100,180,255,0.12); max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.3s ease; padding: 0 18px; }
-    .mobile-menu.open { max-height: 500px; padding: 16px 18px 20px; }
-    .mobile-menu a { color: #a0aac0; font-size: 15px; text-decoration: none; padding: 12px 0; border-bottom: 1px solid rgba(100,180,255,0.07); transition: color 0.2s; display: block; }
-    .mobile-menu a:last-child { border-bottom: none; }
-    .mobile-menu a:hover { color: #44aaff; }
-    .mobile-menu .mob-cta { margin-top: 14px; background: #44aaff; color: #0a0e1a; font-weight: 700; padding: 12px 20px; border-radius: 20px; text-align: center; border-bottom: none !important; }
-    .hero { min-height: 90vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 60px 24px 40px; position: relative; overflow: hidden; }
-    .hero-bg { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 80% 60% at 50% 30%, rgba(44,120,255,0.13) 0%, transparent 70%); }
-    .hero-orbit { position: absolute; width: 500px; height: 500px; border: 1px dashed rgba(100,180,255,0.1); border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%); animation: spin 30s linear infinite; }
-    .hero-orbit2 { position: absolute; width: 320px; height: 320px; border: 1px dashed rgba(100,180,255,0.08); border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%); animation: spin 18s linear infinite reverse; }
-    @keyframes spin { from { transform: translate(-50%,-50%) rotate(0deg); } to { transform: translate(-50%,-50%) rotate(360deg); } }
-    .hero-badge { background: rgba(44,120,255,0.15); border: 1px solid rgba(44,120,255,0.3); color: #7ab8ff; font-size: 12px; font-weight: 500; padding: 6px 16px; border-radius: 20px; margin-bottom: 24px; display: inline-block; position: relative; }
-    .hero h1 { font-family: 'Syne', sans-serif; font-size: clamp(36px, 6vw, 70px); font-weight: 800; line-height: 1.1; margin-bottom: 20px; position: relative; }
-    .hero h1 .accent { color: #44aaff; }
-    .hero h1 .accent2 { color: #f7c948; }
-    .hero p { font-size: 17px; color: #8090b0; max-width: 540px; line-height: 1.7; margin-bottom: 36px; position: relative; }
-    .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; position: relative; }
-    .btn-primary { background: #44aaff; color: #0a0e1a; font-weight: 700; padding: 14px 32px; border-radius: 30px; text-decoration: none; font-size: 15px; transition: transform 0.2s; }
-    .btn-primary:hover { transform: scale(1.04); }
-    .btn-outline { border: 1px solid rgba(100,180,255,0.3); color: #7ab8ff; padding: 14px 32px; border-radius: 30px; text-decoration: none; font-size: 15px; transition: background 0.2s; }
-    .btn-outline:hover { background: rgba(100,180,255,0.08); }
-    .hero-stats { display: flex; gap: 40px; margin-top: 60px; position: relative; flex-wrap: wrap; justify-content: center; }
-    .stat { text-align: center; }
-    .stat-num { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; color: #fff; }
-    .stat-label { font-size: 12px; color: #5a6a85; margin-top: 2px; }
-    .teacher-card { background: rgba(44,120,255,0.07); border: 1px solid rgba(44,120,255,0.2); border-radius: 20px; padding: 32px 36px; display: flex; align-items: center; gap: 28px; flex-wrap: wrap; }
-    .teacher-avatar { width: 72px; height: 72px; border-radius: 50%; background: rgba(44,120,255,0.2); border: 2px solid rgba(44,120,255,0.4); display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 800; color: #44aaff; flex-shrink: 0; }
-    .teacher-info { flex: 1; }
-    .teacher-name { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; margin-bottom: 6px; }
-    .teacher-desc { font-size: 14px; color: #6070a0; line-height: 1.7; }
-    .teacher-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
-    .teacher-tag { background: rgba(44,120,255,0.12); border: 1px solid rgba(44,120,255,0.2); color: #7ab8ff; font-size: 12px; padding: 4px 12px; border-radius: 20px; }
-    .section { padding: 72px 40px; max-width: 1100px; margin: 0 auto; }
-    .section-tag { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #44aaff; margin-bottom: 12px; }
-    .section-title { font-family: 'Syne', sans-serif; font-size: clamp(26px, 4vw, 40px); font-weight: 800; margin-bottom: 14px; }
-    .section-sub { font-size: 16px; color: #6070a0; max-width: 500px; line-height: 1.7; margin-bottom: 48px; }
-    .divider { border: none; border-top: 1px solid rgba(100,180,255,0.07); margin: 0 40px; }
-    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
-    .feat-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(100,180,255,0.1); border-radius: 16px; padding: 28px 24px; transition: border-color 0.2s, background 0.2s; text-decoration: none; color: inherit; display: block; }
-    .feat-card:hover { border-color: rgba(100,180,255,0.3); background: rgba(44,120,255,0.06); }
-    .feat-icon { font-size: 28px; margin-bottom: 16px; }
-    .feat-title { font-weight: 700; font-size: 15px; margin-bottom: 8px; }
-    .feat-desc { font-size: 13px; color: #5a6a85; line-height: 1.6; }
-    .simulations-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
-    .sim-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(100,180,255,0.1); border-radius: 16px; padding: 28px 24px; transition: border-color 0.2s, background 0.2s, transform 0.2s; text-decoration: none; color: inherit; display: flex; flex-direction: column; }
-    .sim-card:hover { border-color: rgba(44,120,255,0.3); background: rgba(44,120,255,0.06); transform: translateY(-4px); }
-    .sim-icon { font-size: 36px; margin-bottom: 16px; }
-    .sim-title { font-weight: 700; font-size: 16px; margin-bottom: 8px; }
-    .sim-desc { font-size: 13px; color: #5a6a85; line-height: 1.6; flex-grow: 1; margin-bottom: 16px; }
-    .sim-link { color: #7ab8ff; font-size: 13px; font-weight: 600; text-decoration: none; transition: color 0.2s; align-self: flex-start; }
-    .sim-link:hover { color: #44aaff; }
-    .sim-viewall-wrap { text-align: center; margin-top: 36px; }
-    .batches-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
-    .batch-card { border-radius: 18px; padding: 28px 24px; }
-    .batch-card.free { background: rgba(26,255,160,0.07); border: 1px solid rgba(26,255,160,0.2); }
-    .batch-card.paid { background: rgba(247,201,72,0.07); border: 1px solid rgba(247,201,72,0.25); }
-    .batch-badge { font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 20px; display: inline-block; margin-bottom: 16px; }
-    .batch-card.free .batch-badge { background: rgba(26,255,160,0.15); color: #1affa0; }
-    .batch-card.paid .batch-badge { background: rgba(247,201,72,0.15); color: #f7c948; }
-    .batch-name { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; margin-bottom: 8px; }
-    .batch-price { font-size: 28px; font-weight: 700; margin-bottom: 16px; }
-    .batch-card.free .batch-price { color: #1affa0; }
-    .batch-card.paid .batch-price { color: #f7c948; }
-    .batch-features { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-    .batch-features li { font-size: 13px; color: #8090b0; display: flex; align-items: center; gap: 8px; }
-    .batch-features li::before { content: '\2713'; font-weight: 700; color: #44aaff; }
-    .batch-cta { display: inline-block; margin-top: 24px; font-size: 13px; font-weight: 700; padding: 10px 22px; border-radius: 20px; text-decoration: none; }
-    .batch-card.free .batch-cta { background: rgba(26,255,160,0.15); color: #1affa0; }
-    .batch-card.paid .batch-cta { background: rgba(247,201,72,0.15); color: #f7c948; }
-    .topics-row { display: flex; flex-wrap: wrap; gap: 10px; }
-    .topic-pill { background: rgba(255,255,255,0.04); border: 1px solid rgba(100,180,255,0.12); color: #8090b0; font-size: 13px; padding: 8px 16px; border-radius: 20px; transition: all 0.2s; cursor: default; }
-    .topic-pill:hover { background: rgba(44,120,255,0.1); border-color: rgba(100,180,255,0.3); color: #c0d4f0; }
-    .contact-box { background: rgba(44,120,255,0.07); border: 1px solid rgba(44,120,255,0.2); border-radius: 24px; padding: 48px 40px; text-align: center; }
-    .contact-box h2 { font-family: 'Syne', sans-serif; font-size: 32px; font-weight: 800; margin-bottom: 12px; }
-    .contact-box p { color: #6070a0; margin-bottom: 8px; font-size: 15px; }
-    .contact-email { color: #44aaff; font-size: 16px; font-weight: 600; margin-bottom: 16px; display: block; text-decoration: none; }
-    .contact-email:hover { text-decoration: underline; }
-    .btn-whatsapp { display: inline-flex; align-items: center; gap: 8px; background: #25d366; color: #fff; font-size: 15px; font-weight: 700; padding: 12px 28px; border-radius: 30px; text-decoration: none; margin-bottom: 28px; transition: background 0.2s; }
-    .btn-whatsapp:hover { background: #1ebe5d; }
-    .contact-divider { display: flex; align-items: center; gap: 12px; max-width: 480px; margin: 0 auto 20px; }
-    .contact-divider::before, .contact-divider::after { content: ''; flex: 1; height: 1px; background: rgba(100,180,255,0.1); }
-    .contact-divider span { font-size: 12px; color: #4a5a75; }
-    .contact-form { display: flex; gap: 12px; max-width: 480px; margin: 0 auto; flex-wrap: wrap; justify-content: center; }
-    .contact-form input { flex: 1; min-width: 180px; background: rgba(255,255,255,0.06); border: 1px solid rgba(100,180,255,0.15); color: #e8eaf0; padding: 12px 18px; border-radius: 12px; font-size: 14px; outline: none; font-family: inherit; }
-    .contact-form input::placeholder { color: #3a4a65; }
-    .contact-form input:focus { border-color: rgba(100,180,255,0.4); }
-    .contact-form button { background: #44aaff; color: #0a0e1a; border: none; font-weight: 700; padding: 12px 24px; border-radius: 12px; cursor: pointer; font-size: 14px; font-family: inherit; }
-    .contact-form button:hover { background: #66bbff; }
-    .enquiry-status { margin-top: 14px; font-size: 14px; color: #44ffaa; min-height: 1em; }
-    footer { border-top: 1px solid rgba(100,180,255,0.07); padding: 28px 40px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
-    .footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 15px; color: #fff; }
-    .footer-logo span { color: #44aaff; }
-    .footer-copy { font-size: 12px; color: #3a4a65; }
-    @media (max-width: 600px) {
-      nav { padding: 14px 18px; }
-      .nav-links { display: none; }
-      .nav-cta { display: none; }
+    .mobile-menu { display: none; flex-direction: column; background: var(--navy-950); max-height: 0; overflow: hidden; transition: max-height .35s ease; }
+    .mobile-menu.open { max-height: 560px; }
+    .mobile-menu a { color: var(--on-dark); text-decoration: none; padding: 14px 24px; border-top: 1px solid rgba(255,255,255,0.06); font-size: 16px; }
+    .mobile-menu .btn { margin: 14px 24px 20px; }
+
+    /* ───────── Hero ───────── */
+    .hero { position: relative; background: radial-gradient(900px 500px at 85% 20%, rgba(31,111,235,0.35), transparent 60%), radial-gradient(600px 400px at 10% 90%, rgba(255,154,31,0.12), transparent 60%), linear-gradient(180deg, var(--navy-950), var(--navy-900)); color: var(--on-dark); padding: 72px 0 88px; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px); background-size: 48px 48px; mask-image: linear-gradient(180deg, #000, transparent 85%); pointer-events: none; }
+    .hero-grid { position: relative; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 56px; align-items: center; }
+    .badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,154,31,0.14); color: #ffc070; border: 1px solid rgba(255,154,31,0.35); padding: 7px 14px; border-radius: 30px; font-size: 13.5px; font-weight: 700; }
+    .badge .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--orange); box-shadow: 0 0 0 4px rgba(255,154,31,0.25); }
+    .hero h1 { color: #fff; font-size: clamp(36px, 5.2vw, 60px); margin: 22px 0 18px; letter-spacing: -0.5px; }
+    .hero h1 .hl-blue { color: var(--blue-bright); }
+    .hero h1 .hl-orange { color: var(--orange); }
+    .hero-sub { font-size: 18px; color: var(--on-dark-muted); max-width: 540px; margin-bottom: 30px; }
+    .hero-sub b { color: #fff; font-weight: 600; }
+    .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+    .hero-trust { display: flex; flex-wrap: wrap; gap: 10px 22px; margin-top: 30px; font-size: 14.5px; color: var(--on-dark-muted); }
+    .hero-trust span { display: inline-flex; align-items: center; gap: 8px; }
+    .hero-trust .svg-ico { width: 18px; height: 18px; color: #4ade80; }
+
+    /* Product preview on the right of the hero */
+    .preview { position: relative; height: 420px; }
+    .pv-card { position: absolute; background: #fff; color: var(--ink); border-radius: 16px; box-shadow: var(--shadow-lg); }
+    .pv-test { inset: 0 40px 70px 0; padding: 18px 20px; display: flex; flex-direction: column; }
+    .pv-head { display: flex; justify-content: space-between; align-items: center; background: var(--navy-800); color: #fff; margin: -18px -20px 16px; padding: 12px 18px; border-radius: 16px 16px 0 0; font-size: 13px; font-weight: 700; }
+    .pv-timer { background: #fff; color: var(--navy-800); padding: 3px 9px; border-radius: 6px; font-size: 12px; }
+    .pv-q { font-size: 14px; font-weight: 600; margin-bottom: 12px; }
+    .pv-opt { border: 1.5px solid var(--line); border-radius: 9px; padding: 8px 12px; font-size: 13px; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+    .pv-opt i { width: 14px; height: 14px; border-radius: 50%; border: 2px solid #94a3b8; flex-shrink: 0; }
+    .pv-opt.sel { border-color: var(--blue); background: var(--blue-soft); }
+    .pv-opt.sel i { border-color: var(--blue); background: radial-gradient(var(--blue) 45%, transparent 50%); }
+    .pv-palette { display: flex; gap: 6px; margin-top: auto; }
+    .pv-palette b { width: 26px; height: 24px; border-radius: 6px; font-size: 11px; display: grid; place-items: center; color: #fff; }
+    .pv-sheet { right: 0; bottom: 0; width: 230px; padding: 16px 18px; border-top: 5px solid var(--orange); }
+    .pv-sheet small { color: var(--muted); font-weight: 700; font-size: 11px; letter-spacing: 1px; }
+    .pv-sheet strong { display: block; font-family: 'Syne', sans-serif; font-size: 16px; margin: 2px 0 8px; }
+    .pv-formula { background: #fbf6ea; border: 1px solid #ecd9a6; border-radius: 8px; padding: 8px 10px; font-family: Georgia, serif; font-size: 14px; text-align: center; color: #3b2f12; }
+    .pv-score { position: absolute; left: 0; bottom: 0; background: #fff; border-radius: 14px; box-shadow: var(--shadow-lg); padding: 12px 16px; display: flex; align-items: center; gap: 12px; }
+    .pv-score .ring { width: 44px; height: 44px; border-radius: 50%; background: conic-gradient(var(--green) 0 78%, #e2e8f0 78%); display: grid; place-items: center; }
+    .pv-score .ring::after { content: '78%'; background: #fff; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; font-size: 11px; font-weight: 700; color: var(--ink); }
+    .pv-score div { font-size: 12px; color: var(--muted); line-height: 1.3; }
+    .pv-score div b { display: block; color: var(--ink); font-size: 14px; }
+
+    /* ───────── Stats strip ───────── */
+    .stats { position: relative; margin-top: -44px; z-index: 2; }
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid var(--line); }
+    .stat { padding: 24px 26px; border-right: 1px solid var(--line); }
+    .stat:last-child { border-right: none; }
+    .stat b { display: block; font-family: 'Syne', sans-serif; font-size: 30px; color: var(--ink); line-height: 1.1; }
+    .stat span { font-size: 14.5px; color: var(--muted); }
+
+    /* ───────── Sections ───────── */
+    section { padding: 96px 0; }
+    .soft { background: var(--bg-soft); }
+    .eyebrow { display: inline-block; color: var(--blue); font-weight: 700; font-size: 13px; letter-spacing: 1.6px; text-transform: uppercase; margin-bottom: 12px; }
+    .sec-head { max-width: 640px; margin-bottom: 44px; }
+    .sec-head.center { margin-left: auto; margin-right: auto; text-align: center; }
+    .sec-head h2 { font-size: clamp(28px, 3.6vw, 40px); margin-bottom: 14px; }
+    .sec-head p { font-size: 17px; color: var(--muted); }
+
+    /* Feature cards */
+    .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+    .feature { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 28px; box-shadow: var(--shadow); text-decoration: none; display: flex; flex-direction: column; transition: transform .2s, box-shadow .2s, border-color .2s; }
+    .feature:hover { transform: translateY(-4px); box-shadow: 0 18px 40px rgba(15,23,42,0.12); border-color: #c9d8f5; }
+    .ico-chip { width: 52px; height: 52px; border-radius: 14px; display: grid; place-items: center; margin-bottom: 18px; }
+    .ico-chip .svg-ico { width: 26px; height: 26px; }
+    .c-blue { background: #e8f0ff; color: #1f6feb; }
+    .c-orange { background: #fff1de; color: #d97706; }
+    .c-green { background: #e3f8ec; color: #15803d; }
+    .c-purple { background: #f0e9ff; color: #7c3aed; }
+    .c-pink { background: #ffe8f0; color: #db2777; }
+    .c-teal { background: #ddf6f6; color: #0f8b8d; }
+    .feature h3 { font-size: 19px; margin-bottom: 8px; }
+    .feature p { color: var(--muted); font-size: 15px; flex: 1; }
+    .feature .more { margin-top: 18px; color: var(--blue); font-weight: 700; font-size: 14.5px; }
+
+    /* Teacher */
+    .teacher { display: grid; grid-template-columns: 340px 1fr; gap: 56px; align-items: center; }
+    .teacher-photo { aspect-ratio: 4 / 5; border-radius: 24px; background: radial-gradient(circle at 30% 20%, #2b5bd7, var(--navy-900) 70%); display: grid; place-items: center; position: relative; box-shadow: var(--shadow-lg); overflow: hidden; }
+    .teacher-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .teacher-photo .initials { font-family: 'Syne', sans-serif; font-size: 96px; font-weight: 800; color: rgba(255,255,255,0.92); }
+    .teacher-photo .tag { position: absolute; left: 16px; right: 16px; bottom: 16px; background: rgba(255,255,255,0.95); border-radius: 12px; padding: 12px 14px; font-size: 13.5px; color: var(--muted); }
+    .teacher-photo .tag b { display: block; color: var(--ink); font-size: 15.5px; }
+    .teacher h2 { font-size: clamp(28px, 3.6vw, 40px); margin-bottom: 18px; }
+    .teacher p { font-size: 17px; margin-bottom: 16px; }
+    .quote { border-left: 4px solid var(--orange); padding: 6px 0 6px 18px; font-size: 18px; color: var(--ink); font-weight: 500; margin: 22px 0; }
+    .creds { display: flex; flex-wrap: wrap; gap: 10px; }
+    .cred { display: inline-flex; align-items: center; gap: 8px; background: var(--bg-soft); border: 1px solid var(--line); padding: 8px 14px; border-radius: 30px; font-size: 14px; font-weight: 600; color: var(--ink); }
+    .cred .svg-ico { width: 17px; height: 17px; color: var(--blue); }
+
+    /* Batches */
+    .plans { display: grid; grid-template-columns: repeat(2, minmax(0, 420px)); gap: 26px; justify-content: center; }
+    .plan { background: #fff; border: 1px solid var(--line); border-radius: 22px; padding: 34px; box-shadow: var(--shadow); position: relative; display: flex; flex-direction: column; }
+    .plan.featured { border: 2px solid var(--orange); box-shadow: 0 24px 50px rgba(255,154,31,0.18); }
+    .ribbon { position: absolute; top: -14px; right: 26px; background: var(--orange); color: #1b1203; font-weight: 700; font-size: 12.5px; padding: 6px 14px; border-radius: 20px; }
+    .plan-tag { font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); }
+    .plan h3 { font-size: 24px; margin: 6px 0 14px; }
+    .price { font-family: 'Syne', sans-serif; font-size: 44px; font-weight: 800; color: var(--ink); line-height: 1; }
+    .price small { font-family: 'Space Grotesk', sans-serif; font-size: 16px; font-weight: 500; color: var(--muted); }
+    .plan ul { list-style: none; margin: 24px 0 28px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+    .plan li { display: flex; gap: 10px; font-size: 15.5px; }
+    .plan li .svg-ico { width: 20px; height: 20px; color: var(--green); flex-shrink: 0; margin-top: 2px; stroke-width: 2.4; }
+    .plan .btn { width: 100%; }
+
+    /* Simulations (dark band) */
+    .dark { background: linear-gradient(180deg, var(--navy-900), var(--navy-950)); color: var(--on-dark); }
+    .dark h2, .dark h3 { color: #fff; }
+    .dark .sec-head p { color: var(--on-dark-muted); }
+    .dark .eyebrow { color: var(--orange); }
+    .sims { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+    .sim { background: var(--navy-800); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; text-decoration: none; transition: transform .2s, border-color .2s; }
+    .sim:hover { transform: translateY(-4px); border-color: rgba(77,155,255,0.5); }
+    .sim-art { height: 150px; display: grid; place-items: center; }
+    .sim-art svg { width: 120px; height: 120px; }
+    .sim-body { padding: 22px; display: flex; flex-direction: column; flex: 1; }
+    .sim-body h3 { font-size: 19px; margin-bottom: 8px; }
+    .sim-body p { color: var(--on-dark-muted); font-size: 15px; flex: 1; }
+    .sim-body .more { margin-top: 16px; color: var(--blue-bright); font-weight: 700; font-size: 14.5px; }
+    .center-btn { text-align: center; margin-top: 40px; }
+
+    /* Topics */
+    .topics { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .topic-col { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 26px 28px; box-shadow: var(--shadow); }
+    .topic-col h3 { font-size: 18px; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+    .topic-col h3 span { font-family: 'Space Grotesk', sans-serif; font-size: 12.5px; font-weight: 700; background: var(--blue-soft); color: var(--blue); padding: 3px 10px; border-radius: 20px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 10px; }
+    .chip { background: var(--bg-soft); border: 1px solid var(--line); color: var(--ink); font-size: 14.5px; font-weight: 500; padding: 8px 14px; border-radius: 10px; text-decoration: none; transition: background .15s, border-color .15s, color .15s; }
+    .chip:hover { background: var(--blue-soft); border-color: #bcd2fb; color: var(--blue); }
+    .topics-note { text-align: center; margin-top: 26px; color: var(--muted); font-size: 15px; }
+    .topics-note a { color: var(--blue); font-weight: 700; }
+
+    /* Contact / CTA */
+    .cta { background: radial-gradient(700px 400px at 90% 0%, rgba(31,111,235,0.4), transparent 60%), var(--navy-900); color: var(--on-dark); border-radius: 28px; padding: 56px; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 48px; align-items: center; }
+    .cta h2 { color: #fff; font-size: clamp(28px, 3.4vw, 38px); margin-bottom: 14px; }
+    .cta p { color: var(--on-dark-muted); font-size: 17px; margin-bottom: 26px; }
+    .cta-contacts { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
+    .cta-mail { color: var(--on-dark); font-weight: 600; text-decoration: none; display: inline-flex; gap: 8px; align-items: center; }
+    .cta-mail .svg-ico { width: 20px; height: 20px; color: var(--orange); }
+    .enquiry { background: #fff; border-radius: 20px; padding: 28px; color: var(--text); }
+    .enquiry h3 { font-size: 20px; margin-bottom: 4px; }
+    .enquiry > p { font-size: 14.5px; color: var(--muted); margin-bottom: 18px; }
+    .enquiry label { display: block; font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
+    .enquiry input { width: 100%; border: 1.5px solid #cbd5e1; border-radius: 10px; padding: 12px 14px; font-size: 15.5px; font-family: inherit; margin-bottom: 14px; color: var(--ink); }
+    .enquiry input::placeholder { color: #7a879b; }
+    .enquiry input:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(31,111,235,0.15); }
+    .enquiry .btn { width: 100%; }
+    .enquiry-status { margin-top: 12px; font-size: 14.5px; min-height: 1.2em; color: var(--green); font-weight: 600; }
+
+    /* Footer */
+    footer { background: var(--navy-950); color: var(--on-dark-muted); padding: 60px 0 28px; margin-top: 96px; }
+    .foot-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 36px; }
+    .foot-grid img { height: 60px; width: auto; margin-bottom: 14px; }
+    .foot-grid p { font-size: 14.5px; max-width: 300px; }
+    .foot-grid h4 { color: #fff; font-size: 15px; margin-bottom: 14px; }
+    .foot-grid a { display: block; color: var(--on-dark-muted); text-decoration: none; font-size: 14.5px; margin-bottom: 10px; }
+    .foot-grid a:hover { color: #fff; }
+    .foot-bottom { border-top: 1px solid rgba(255,255,255,0.08); margin-top: 40px; padding-top: 22px; font-size: 13.5px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+
+    /* ───────── Responsive ───────── */
+    @media (max-width: 1000px) {
+      .hero-grid { grid-template-columns: 1fr; }
+      .preview { display: none; }
+      .features, .sims { grid-template-columns: repeat(2, 1fr); }
+      .teacher { grid-template-columns: 1fr; gap: 32px; }
+      .teacher-photo { max-width: 320px; }
+      .cta { grid-template-columns: 1fr; padding: 40px 32px; }
+      .foot-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 860px) {
+      .nav-links, .nav-right .nav-login, .nav-right .btn { display: none; }
       .hamburger { display: flex; }
       .mobile-menu { display: flex; }
-      .section { padding: 48px 18px; }
-      .divider { margin: 0 18px; }
-      footer { padding: 20px 18px; }
-      .contact-box { padding: 32px 18px; }
-      .teacher-card { padding: 24px 20px; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .stat:nth-child(2) { border-right: none; }
+      .stat:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+    }
+    @media (max-width: 640px) {
+      .container { padding: 0 18px; }
+      .hero { padding: 44px 0 76px; }
+      .hero-sub { font-size: 16.5px; }
+      .hero-btns .btn { width: 100%; }
+      section { padding: 68px 0; }
+      .features, .sims, .topics, .plans { grid-template-columns: 1fr; }
+      .stat { padding: 18px; }
+      .stat b { font-size: 24px; }
+      .plan { padding: 28px 22px; }
+      .cta { padding: 32px 20px; border-radius: 22px; }
+      .enquiry { padding: 22px 18px; }
+      .foot-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
-  <nav>
-    <a href="index.html" class="nav-logo">
-      <img src="images/logo-nav.png" alt="Let's Play With Physics" style="height: 48px; width: auto; display: block;">
-    </a>
-    <div class="nav-links">
-      <a href="#about">About</a>
-      <a href="#features">Features</a>
-      <a href="course.html" style="color: #44aaff;">Courses</a>
-      <a href="#batches">Batches</a>
-      <a href="simulations.html">Simulations</a>
-      <a href="#topics">Syllabus</a>
-      <a href="material.html">Materials</a>
-      <a href="mocktest.html">Mock Test</a>
-      <a href="#contact">Contact</a>
-      <a href="login.html" data-account-link>Login</a>
-    </div>
-    <a href="#contact" class="nav-cta">Enroll Now</a>
-    <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Toggle menu">
-      <span></span><span></span><span></span>
-    </button>
-  </nav>
+  <!-- Icon set (line icons, reused below with <use>) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></symbol>
+    <symbol id="i-timer" viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6"/></symbol>
+    <symbol id="i-pencil" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></symbol>
+    <symbol id="i-atom" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1.6"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.4A8 8 0 1 1 21 12z"/><path d="M8.5 11h7M8.5 14h4"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></symbol>
+    <symbol id="i-cap" viewBox="0 0 24 24"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2 9 2 12 0v-5"/></symbol>
+    <symbol id="i-school" viewBox="0 0 24 24"><path d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></symbol>
+  </svg>
 
-  <div class="mobile-menu" id="mobile-menu">
-    <a href="#about" onclick="closeMenu()">About</a>
-    <a href="#features" onclick="closeMenu()">Features</a>
-    <a href="course.html" onclick="closeMenu()">Courses</a>
-    <a href="#batches" onclick="closeMenu()">Batches</a>
-    <a href="simulations.html" onclick="closeMenu()">Simulations</a>
-    <a href="#topics" onclick="closeMenu()">Syllabus</a>
-    <a href="material.html" onclick="closeMenu()">Materials</a>
-    <a href="mocktest.html" onclick="closeMenu()">Mock Test</a>
-    <a href="#contact" onclick="closeMenu()">Contact</a>
-    <a href="login.html" data-account-link>Login</a>
-    <a href="#contact" class="mob-cta" onclick="closeMenu()">Enroll Now</a>
-  </div>
-
-  <section class="hero">
-    <div class="hero-bg"></div>
-    <div class="hero-orbit"></div>
-    <div class="hero-orbit2"></div>
-    <div class="hero-badge">🚀 First Batch Now Open — Limited Seats!</div>
-    <h1>Physics is not hard —<br>it's a <span class="accent">game</span> you<br>haven't <span class="accent2">played</span> yet.</h1>
-    <p>Expert JEE Mains Physics coaching by Akshay Kumar — M.Sc. Physics, University of Hyderabad. Build concepts. Crack problems. Score big.</p>
-    <div class="hero-btns">
-      <a href="#contact" class="btn-primary">Join Free Batch</a>
-      <a href="#topics" class="btn-outline">View Syllabus</a>
+  <!-- ═════════ NAV ═════════ -->
+  <header class="nav">
+    <div class="container nav-inner">
+      <a href="index.html" class="nav-logo"><img src="images/logo-nav.png" alt="Let's Play With Physics"></a>
+      <nav class="nav-links" aria-label="Main">
+        <a href="course.html">Courses</a>
+        <a href="material.html">Study Materials</a>
+        <a href="mocktest.html">Mock Tests</a>
+        <a href="simulations.html">Simulations</a>
+        <a href="about.html">About</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <div class="nav-right">
+        <a href="login.html" class="nav-login" data-account-link>Login</a>
+        <a href="#batches" class="btn btn-orange">Enroll Now</a>
+        <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Open menu"><span></span><span></span><span></span></button>
+      </div>
     </div>
-    <div class="hero-stats">
-      <div class="stat"><div class="stat-num">1st</div><div class="stat-label">Batch opening</div></div>
-      <div class="stat"><div class="stat-num">M.Sc.</div><div class="stat-label">Physics graduate</div></div>
-      <div class="stat"><div class="stat-num">IIT</div><div class="stat-label">Coaching institute</div></div>
+    <div class="mobile-menu" id="mobile-menu">
+      <a href="course.html" onclick="closeMenu()">Courses</a>
+      <a href="material.html" onclick="closeMenu()">Study Materials</a>
+      <a href="mocktest.html" onclick="closeMenu()">Mock Tests</a>
+      <a href="simulations.html" onclick="closeMenu()">Simulations</a>
+      <a href="about.html" onclick="closeMenu()">About</a>
+      <a href="#contact" onclick="closeMenu()">Contact</a>
+      <a href="login.html" data-account-link onclick="closeMenu()">Login</a>
+      <a href="#batches" class="btn btn-orange" onclick="closeMenu()">Enroll Now</a>
+    </div>
+  </header>
+
+  <!-- ═════════ HERO ═════════ -->
+  <section class="hero" aria-label="Introduction">
+    <div class="container hero-grid">
+      <div>
+        <span class="badge"><span class="dot"></span>First batch now open — limited seats</span>
+        <h1>Physics is not hard&nbsp;— it's a <span class="hl-blue">game</span> you haven't <span class="hl-orange">played</span> yet.</h1>
+        <p class="hero-sub">NEET &amp; JEE Mains physics coaching by <b>Akshay Kumar</b>, M.Sc. Physics, University of Hyderabad. Build concepts, crack problems, score big.</p>
+        <div class="hero-btns">
+          <a href="#batches" class="btn btn-orange">Join Free Batch</a>
+          <a href="material.html" class="btn btn-outline-light">Free Study Materials</a>
+        </div>
+        <div class="hero-trust">
+          <span><svg class="svg-ico"><use href="#i-check"/></svg>NEET &amp; JEE Mains</span>
+          <span><svg class="svg-ico"><use href="#i-check"/></svg>Real NTA-style mock tests</span>
+          <span><svg class="svg-ico"><use href="#i-check"/></svg>Free formula sheets</span>
+        </div>
+      </div>
+
+      <div class="preview" aria-hidden="true">
+        <div class="pv-card pv-test">
+          <div class="pv-head"><span>NEET Physics — Mock 1</span><span class="pv-timer">Time Left 42:18</span></div>
+          <div class="pv-q">Q12. The escape velocity from a planet with the same density but twice the radius of Earth is:</div>
+          <div class="pv-opt"><i></i>(1) 11.2 km/s</div>
+          <div class="pv-opt sel"><i></i>(2) 22.4 km/s</div>
+          <div class="pv-opt"><i></i>(3) 5.6 km/s</div>
+          <div class="pv-palette">
+            <b style="background:#16a34a">1</b><b style="background:#16a34a">2</b><b style="background:#dc2626">3</b><b style="background:#7c3aed;border-radius:50%">4</b><b style="background:#16a34a">5</b><b style="background:#cbd5e1;color:#334155">6</b><b style="background:#cbd5e1;color:#334155">7</b>
+          </div>
+        </div>
+        <div class="pv-card pv-sheet">
+          <small>FORMULA SHEET · JEE</small>
+          <strong>Current Electricity</strong>
+          <div class="pv-formula">P<sub>max</sub> = E² / 4r</div>
+        </div>
+        <div class="pv-score"><span class="ring"></span><div><b>Great progress!</b>Accuracy this week</div></div>
+      </div>
     </div>
   </section>
 
-  <hr class="divider">
+  <!-- ═════════ STATS ═════════ -->
+  <div class="stats">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat"><b>39</b><span>Free formula sheets</span></div>
+        <div class="stat"><b>45 Qs</b><span>NTA-style NEET mock</span></div>
+        <div class="stat"><b>NEET + JEE</b><span>Both exams covered</span></div>
+        <div class="stat"><b>₹0</b><span>To start learning</span></div>
+      </div>
+    </div>
+  </div>
 
-  <div class="section" id="about">
-    <div class="section-tag">Your Teacher</div>
-    <div class="section-title">Meet Akshay Kumar</div>
-    <div class="teacher-card">
-      <div class="teacher-avatar">AK</div>
-      <div class="teacher-info">
-        <div class="teacher-name">Akshay Kumar</div>
-        <div class="teacher-desc">Physics teacher at a leading IIT coaching institute in Hyderabad. Completed Masters in Physics from the prestigious University of Hyderabad (Central University). Passionate about making Physics intuitive, fun, and exam-ready for every JEE Mains aspirant.</div>
-        <div class="teacher-tags">
-          <span class="teacher-tag">M.Sc. Physics</span>
-          <span class="teacher-tag">University of Hyderabad</span>
-          <span class="teacher-tag">IIT Coaching</span>
-          <span class="teacher-tag">Hyderabad</span>
+  <!-- ═════════ FEATURES ═════════ -->
+  <section id="features">
+    <div class="container">
+      <div class="sec-head center">
+        <span class="eyebrow">What you get</span>
+        <h2>Everything you need to conquer Physics</h2>
+        <p>Structured notes, real exam practice and personal guidance — all in one place.</p>
+      </div>
+      <div class="features">
+        <a href="material.html" class="feature">
+          <div class="ico-chip c-blue"><svg class="svg-ico"><use href="#i-file"/></svg></div>
+          <h3>Formula Sheets</h3>
+          <p>Two-page, exam-focused sheets for every chapter — with common pitfalls and JEE shortcuts.</p>
+          <span class="more">Open materials →</span>
+        </a>
+        <a href="mocktest.html" class="feature">
+          <div class="ico-chip c-orange"><svg class="svg-ico"><use href="#i-timer"/></svg></div>
+          <h3>NTA-Style Mock Tests</h3>
+          <p>The real exam screen: timer, question palette, mark for review, +4/−1 marking and full answer review.</p>
+          <span class="more">Try a mock test →</span>
+        </a>
+        <a href="material.html" class="feature">
+          <div class="ico-chip c-green"><svg class="svg-ico"><use href="#i-pencil"/></svg></div>
+          <h3>Practice Questions</h3>
+          <p>Chapter-wise question sets for NEET and JEE Mains to turn concepts into marks.</p>
+          <span class="more">Start practising →</span>
+        </a>
+        <a href="simulations.html" class="feature">
+          <div class="ico-chip c-purple"><svg class="svg-ico"><use href="#i-atom"/></svg></div>
+          <h3>Interactive Simulations</h3>
+          <p>Move the sliders and watch physics happen — build intuition you can't get from a textbook.</p>
+          <span class="more">Play with physics →</span>
+        </a>
+        <a href="login.html#signup" class="feature">
+          <div class="ico-chip c-teal"><svg class="svg-ico"><use href="#i-chart"/></svg></div>
+          <h3>Your Own Dashboard</h3>
+          <p>Every test result saved, accuracy tracked, and all your materials in one student portal.</p>
+          <span class="more">Create free account →</span>
+        </a>
+        <a href="#contact" class="feature">
+          <div class="ico-chip c-pink"><svg class="svg-ico"><use href="#i-chat"/></svg></div>
+          <h3>Personal Guidance</h3>
+          <p>Direct access to Akshay Sir for doubt-clearing and exam strategy.</p>
+          <span class="more">Talk to Akshay Sir →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═════════ TEACHER ═════════ -->
+  <section id="about" class="soft">
+    <div class="container teacher">
+      <div class="teacher-photo">
+        <img src="images/akshay-sir.jpg" alt="Akshay Kumar, physics teacher" width="720" height="900" loading="lazy">
+        <div class="tag"><b>Akshay Kumar</b>Physics Faculty · Hyderabad</div>
+      </div>
+      <div>
+        <span class="eyebrow">Your teacher</span>
+        <h2>Meet Akshay Kumar</h2>
+        <p>Physics faculty at an IIT-JEE coaching institute in Hyderabad, with a Master's degree in Physics from the University of Hyderabad (Central University).</p>
+        <p>He teaches the way physics should be learnt — by asking <em>why</em>, drawing the picture, and only then reaching for the formula.</p>
+        <div class="quote">Concept first, then formula, then problems — question, derive and discover rather than memorise.</div>
+        <div class="creds">
+          <span class="cred"><svg class="svg-ico"><use href="#i-cap"/></svg>M.Sc. Physics</span>
+          <span class="cred"><svg class="svg-ico"><use href="#i-school"/></svg>University of Hyderabad</span>
+          <span class="cred"><svg class="svg-ico"><use href="#i-pin"/></svg>Hyderabad</span>
         </div>
       </div>
     </div>
-  </div>
+  </section>
 
-  <hr class="divider">
-
-  <div class="section" id="features">
-    <div class="section-tag">What you get</div>
-    <div class="section-title">Everything you need<br>to conquer Physics</div>
-    <div class="section-sub">Structured content, rigorous tests, and personal guidance — all in one place.</div>
-    <div class="features-grid">
-      <a href="material.html" class="feat-card">
-        <div class="feat-icon">📄</div>
-        <div class="feat-title">Study Materials</div>
-        <div class="feat-desc">Chapter-wise notes, formula sheets, and solved examples — all downloadable.</div>
-      </a>
-      <a href="mocktest.html" class="feat-card">
-        <div class="feat-icon">📝</div>
-        <div class="feat-title">Mock Tests</div>
-        <div class="feat-desc">NEET and JEE Mains mock tests with timer and +4/-1 marking.</div>
-      </a>
-      <a href="material.html" class="feat-card">
-        <div class="feat-icon">✏️</div>
-        <div class="feat-title">Practice Questions</div>
-        <div class="feat-desc">Chapter-wise practice questions for NEET and JEE Mains preparation.</div>
-      </a>
-       <a href="simulations.html" class="feat-card">
-        <div class="feat-icon">🧪</div>
-        <div class="feat-title">Physics Simulations</div>
-        <div class="feat-desc">Interactive simulations to visualize concepts for NEET and JEE Mains preparation.</div>
-      </a>
-      <div class="feat-card">
-        <div class="feat-icon">🎯</div>
-        <div class="feat-title">Personal Guidance</div>
-        <div class="feat-desc">Direct access to Akshay sir for doubt-clearing and exam strategy.</div>
+  <!-- ═════════ BATCHES ═════════ -->
+  <section id="batches">
+    <div class="container">
+      <div class="sec-head center">
+        <span class="eyebrow">Batches</span>
+        <h2>Choose your batch</h2>
+        <p>Start free. Upgrade when you want personal doubt sessions and performance tracking.</p>
+      </div>
+      <div class="plans">
+        <div class="plan">
+          <span class="plan-tag">Free</span>
+          <h3>College Batch</h3>
+          <div class="price">₹0 <small>/ month</small></div>
+          <ul>
+            <li><svg class="svg-ico"><use href="#i-check"/></svg>Full study material access</li>
+            <li><svg class="svg-ico"><use href="#i-check"/></svg>Weekly test papers</li>
+            <li><svg class="svg-ico"><use href="#i-check"/></svg>Announcements &amp; updates</li>
+            <li><svg class="svg-ico"><use href="#i-check"/></svg>For college students</li>
+          </ul>
+          <a href="#contact" class="btn btn-outline">Join Free</a>
+        </div>
+        <div class="plan featured">
+          <span class="ribbon">Recommended</span>
+          <span class="plan-tag">Premium</span>
+          <h3>JEE Aspirant Batch</h3>
+          <div class="price">₹499 <small>/ month</small></div>
+          <ul>
+            <li><svg class="svg-ico"><use href="#i-check"/></svg>Everything in the Free batch</li>
+            <li><svg class="svg-ico"><use href="#i-check"/></svg>Personal doubt sessions</li>
+            <li><svg class="svg-ico"><use href="#i-check"/></svg>Performance tracking</li>
+            <li><svg class="svg-ico"><use href="#i-check"/></svg>Open to all students</li>
+          </ul>
+          <a href="#contact" class="btn btn-orange">Enroll Now</a>
+        </div>
       </div>
     </div>
-  </div>
+  </section>
 
-  <hr class="divider">
-
-  <div class="section" id="batches">
-    <div class="section-tag">Batches</div>
-    <div class="section-title">Choose your batch</div>
-    <div class="section-sub">Two tracks — one for college students, one for serious JEE aspirants.</div>
-    <div class="batches-grid">
-      <div class="batch-card free">
-        <span class="batch-badge">FREE</span>
-        <div class="batch-name">College Batch</div>
-        <div class="batch-price">&#8377;0 / month</div>
-        <ul class="batch-features">
-          <li>Full study material access</li>
-          <li>Weekly test papers</li>
-          <li>Announcements &amp; updates</li>
-          <li>For college students only</li>
-        </ul>
-        <a href="#contact" class="batch-cta">Join Free</a>
+  <!-- ═════════ SIMULATIONS ═════════ -->
+  <section class="dark" id="simulations">
+    <div class="container">
+      <div class="sec-head center">
+        <span class="eyebrow">Interactive learning</span>
+        <h2>Don't just read physics — play with it</h2>
+        <p>Change mass, radius or speed and watch what happens. Concepts click in minutes.</p>
       </div>
-      <div class="batch-card paid">
-        <span class="batch-badge">PREMIUM</span>
-        <div class="batch-name">JEE Aspirant Batch</div>
-        <div class="batch-price">&#8377;499 / month</div>
-        <ul class="batch-features">
-          <li>Everything in Free batch</li>
-          <li>Personal doubt sessions</li>
-          <li>Performance tracking</li>
-          <li>Open to all students</li>
-        </ul>
-        <a href="#contact" class="batch-cta">Enroll Now</a>
+      <div class="sims">
+        <a href="simulations/center-of-mass.html" class="sim">
+          <div class="sim-art" style="background:linear-gradient(135deg,#1d3f8f,#13244d)">
+            <svg viewBox="0 0 120 120" fill="none"><line x1="15" y1="80" x2="105" y2="80" stroke="#b4c2dc" stroke-width="3"/><circle cx="30" cy="62" r="14" fill="#4d9bff"/><circle cx="92" cy="68" r="9" fill="#ff9a1f"/><path d="M52 92l8-12 8 12z" fill="#fff"/><circle cx="53" cy="65" r="5" fill="#fff"/></svg>
+          </div>
+          <div class="sim-body"><h3>Centre of Mass</h3><p>See how the centre of mass shifts as masses and positions change.</p><span class="more">Launch simulation →</span></div>
+        </a>
+        <a href="simulations/circularmotion.html" class="sim">
+          <div class="sim-art" style="background:linear-gradient(135deg,#7a3b06,#13244d)">
+            <svg viewBox="0 0 120 120" fill="none"><circle cx="60" cy="60" r="38" stroke="#b4c2dc" stroke-width="2.5" stroke-dasharray="5 6"/><circle cx="60" cy="60" r="4" fill="#fff"/><line x1="60" y1="60" x2="87" y2="33" stroke="#fff" stroke-width="2"/><circle cx="87" cy="33" r="9" fill="#ff9a1f"/><path d="M95 40l12 6-3-13" stroke="#4d9bff" stroke-width="3" stroke-linecap="round"/></svg>
+          </div>
+          <div class="sim-body"><h3>Circular Motion</h3><p>Centripetal force in action — experiment with mass, radius and velocity.</p><span class="more">Launch simulation →</span></div>
+        </a>
+        <a href="simulations/moment-of-inertia.html" class="sim">
+          <div class="sim-art" style="background:linear-gradient(135deg,#4a2a8f,#13244d)">
+            <svg viewBox="0 0 120 120" fill="none"><circle cx="60" cy="60" r="34" stroke="#4d9bff" stroke-width="10"/><circle cx="60" cy="60" r="6" fill="#fff"/><path d="M60 14a46 46 0 0 1 40 23" stroke="#ff9a1f" stroke-width="3.5" stroke-linecap="round"/><path d="M101 28l-1 10-9-3" stroke="#ff9a1f" stroke-width="3.5" stroke-linecap="round"/></svg>
+          </div>
+          <div class="sim-body"><h3>Rotational Motion</h3><p>Explore moment of inertia and how mass distribution changes rotation.</p><span class="more">Launch simulation →</span></div>
+        </a>
       </div>
+      <div class="center-btn"><a href="simulations.html" class="btn btn-outline-light">View all simulations</a></div>
     </div>
-  </div>
+  </section>
 
-  <hr class="divider">
-
-  <div class="section" id="simulations">
-    <div class="section-tag">Interactive Learning</div>
-    <div class="section-title">Physics Simulations</div>
-    <div class="section-sub">Visualize complex concepts with interactive simulations. See physics in action!</div>
-    <div class="simulations-grid">
-      <a href="simulations/center-of-mass.html" class="sim-card">
-        <div class="sim-icon">⚙️</div>
-        <div class="sim-title">Centre of Mass</div>
-        <div class="sim-desc">Visualize how the centre of mass of a system shifts as individual masses and positions change.</div>
-        <span class="sim-link">Launch Simulation →</span>
-      </a>
-
-      <a href="simulations/circularmotion.html" class="sim-card">
-        <div class="sim-icon">🔴</div>
-        <div class="sim-title">Circular Motion</div>
-        <div class="sim-desc">See centripetal force in action. Experiment with mass, radius, and velocity.</div>
-        <span class="sim-link">Launch Simulation →</span>
-      </a>
+  <!-- ═════════ TOPICS ═════════ -->
+  <section id="topics">
+    <div class="container">
+      <div class="sec-head center">
+        <span class="eyebrow">Syllabus</span>
+        <h2>Every chapter, covered</h2>
+        <p>The complete NEET &amp; JEE Mains physics syllabus — with a formula sheet for each chapter.</p>
+      </div>
+      <div class="topics">
+        <div class="topic-col">
+          <h3>Class 11 <span>Mechanics · Heat · Waves</span></h3>
+          <div class="chips">
+            <a class="chip" href="material.html">Units &amp; Measurements</a>
+            <a class="chip" href="material.html">Kinematics</a>
+            <a class="chip" href="material.html">Laws of Motion</a>
+            <a class="chip" href="material.html">Work, Energy &amp; Power</a>
+            <a class="chip" href="material.html">Rotational Motion</a>
+            <a class="chip" href="material.html">Gravitation</a>
+            <a class="chip" href="material.html">Properties of Matter</a>
+            <a class="chip" href="material.html">Thermodynamics</a>
+            <a class="chip" href="material.html">Kinetic Theory</a>
+            <a class="chip" href="material.html">Oscillations</a>
+            <a class="chip" href="material.html">Waves</a>
+          </div>
+        </div>
+        <div class="topic-col">
+          <h3>Class 12 <span>Electricity · Optics · Modern</span></h3>
+          <div class="chips">
+            <a class="chip" href="material.html">Electrostatics</a>
+            <a class="chip" href="material.html">Current Electricity</a>
+            <a class="chip" href="material.html">Magnetism</a>
+            <a class="chip" href="material.html">EM Induction</a>
+            <a class="chip" href="material.html">Alternating Current</a>
+            <a class="chip" href="material.html">EM Waves</a>
+            <a class="chip" href="material.html">Ray Optics</a>
+            <a class="chip" href="material.html">Wave Optics</a>
+            <a class="chip" href="material.html">Dual Nature</a>
+            <a class="chip" href="material.html">Atoms &amp; Nuclei</a>
+            <a class="chip" href="material.html">Semiconductors</a>
+          </div>
+        </div>
+      </div>
+      <p class="topics-note">Tap any chapter to open its free formula sheet. <a href="material.html">Browse all study materials →</a></p>
     </div>
-    <div class="sim-viewall-wrap">
-      <a href="simulations.html" class="btn-outline">View All Simulations</a>
-    </div>
-  </div>
+  </section>
 
-  <hr class="divider">
-
-  <div class="section" id="topics">
-    <div class="section-tag">Syllabus</div>
-    <div class="section-title">Topics we cover</div>
-    <div class="section-sub">Complete JEE Mains Physics syllabus, chapter by chapter.</div>
-    <div class="topics-row">
-      <span class="topic-pill">Kinematics</span>
-      <span class="topic-pill">Laws of Motion</span>
-      <span class="topic-pill">Work, Energy &amp; Power</span>
-      <span class="topic-pill">Circular Motion</span>
-      <span class="topic-pill">Gravitation</span>
-      <span class="topic-pill">Rotational Motion</span>
-      <span class="topic-pill">Thermodynamics</span>
-      <span class="topic-pill">Waves &amp; Oscillations</span>
-      <span class="topic-pill">Electrostatics</span>
-      <span class="topic-pill">Current Electricity</span>
-      <span class="topic-pill">Magnetism</span>
-      <span class="topic-pill">Electromagnetic Induction</span>
-      <span class="topic-pill">Optics</span>
-      <span class="topic-pill">Modern Physics</span>
-      <span class="topic-pill">Semiconductors</span>
-    </div>
-  </div>
-
-  <hr class="divider">
-
-  <div class="section" id="contact">
-    <div class="contact-box">
-      <h2>Ready to start playing? 🎮</h2>
-      <p>Reach out directly to Akshay Sir to join a batch:</p>
-
-      <a href="https://wa.me/918639905551?text=Hi%20Akshay%20Sir%2C%20I%20want%20to%20join%20your%20batch%20at%20Let%27s%20Play%20With%20Physics!" class="btn-whatsapp" target="_blank">
-        💬 Chat on WhatsApp
-      </a>
-
-      <div class="contact-divider"><span>or reach via email</span></div>
-
-      <a href="mailto:letsplaywithphysics647742@gmail.com" class="contact-email">letsplaywithphysics647742@gmail.com</a>
-
-      <form class="contact-form" id="enquiry-form" onsubmit="sendEnquiry(event)">
-        <input type="text" name="name" placeholder="Your name" aria-label="Your name" required>
-        <input type="tel" name="phone" placeholder="Your phone number" aria-label="Your phone number" pattern="[0-9+ ]{10,15}" required>
-        <button type="submit">Send Enquiry</button>
+  <!-- ═════════ CONTACT / CTA ═════════ -->
+  <div class="container" id="contact">
+    <div class="cta">
+      <div>
+        <span class="eyebrow" style="color:var(--orange)">Get started</span>
+        <h2>Ready to start playing?</h2>
+        <p>Message Akshay Sir to join a batch, ask about plans, or clear a doubt. Replies usually within 24 hours.</p>
+        <div class="cta-contacts">
+          <a href="https://wa.me/918639905551?text=Hi%20Akshay%20Sir%2C%20I%20want%20to%20join%20your%20batch%20at%20Let%27s%20Play%20With%20Physics!" class="btn btn-whatsapp" target="_blank" rel="noopener">💬 Chat on WhatsApp</a>
+          <a href="mailto:letsplaywithphysics647742@gmail.com" class="cta-mail"><svg class="svg-ico"><use href="#i-mail"/></svg>Email us</a>
+        </div>
+      </div>
+      <form class="enquiry" id="enquiry-form" onsubmit="sendEnquiry(event)">
+        <h3>Request a call back</h3>
+        <p>Leave your number and Akshay Sir will call you.</p>
+        <label for="enq-name">Your name</label>
+        <input id="enq-name" type="text" name="name" placeholder="e.g. Ravi Kumar" required>
+        <label for="enq-phone">Phone / WhatsApp number</label>
+        <input id="enq-phone" type="tel" name="phone" placeholder="10-digit mobile number" pattern="[0-9+ ]{10,15}" required>
+        <button type="submit" class="btn btn-blue">Send Enquiry</button>
+        <p class="enquiry-status" id="enquiry-status" role="status"></p>
       </form>
-      <p class="enquiry-status" id="enquiry-status" role="status"></p>
     </div>
   </div>
 
- <footer>
-  <p>&copy; 2026 Let's Play With Physics</p>
-  <p>
-    <a href="about.html">About</a> &nbsp;|&nbsp;
-    <a href="contact.html">Contact</a> &nbsp;|&nbsp;
-    <a href="privacy-policy.html">Privacy Policy</a> &nbsp;|&nbsp;
-    <a href="terms.html">Terms & Conditions</a>
-  </p>
-</footer>
+  <!-- ═════════ FOOTER ═════════ -->
+  <footer>
+    <div class="container">
+      <div class="foot-grid">
+        <div>
+          <img src="images/logo-nav.png" alt="Let's Play With Physics">
+          <p>NEET &amp; JEE Mains physics, taught the way it should be — with concepts first.</p>
+        </div>
+        <div>
+          <h4>Learn</h4>
+          <a href="material.html">Study Materials</a>
+          <a href="mocktest.html">Mock Tests</a>
+          <a href="simulations.html">Simulations</a>
+          <a href="course.html">Courses</a>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <a href="about.html">About</a>
+          <a href="contact.html">Contact</a>
+          <a href="login.html" data-account-link>Login</a>
+        </div>
+        <div>
+          <h4>Legal</h4>
+          <a href="privacy-policy.html">Privacy Policy</a>
+          <a href="terms.html">Terms &amp; Conditions</a>
+        </div>
+      </div>
+      <div class="foot-bottom">
+        <span>&copy; 2026 Let's Play With Physics · Hyderabad, India</span>
+        <span>Made with ❤ for NEET &amp; JEE aspirants</span>
+      </div>
+    </div>
+  </footer>
 
   <script>
     function toggleMenu() {
       document.getElementById('mobile-menu').classList.toggle('open');
       document.getElementById('hamburger').classList.toggle('open');
     }
+    function closeMenu() {
+      document.getElementById('mobile-menu').classList.remove('open');
+      document.getElementById('hamburger').classList.remove('open');
+    }
+
     // Sends the enquiry to the site's inbox via FormSubmit (free, no backend needed)
     async function sendEnquiry(event) {
       event.preventDefault();
@@ -382,6 +634,7 @@
       const status = document.getElementById('enquiry-status');
       const button = form.querySelector('button');
       button.disabled = true;
+      status.style.color = '';
       status.textContent = 'Sending…';
       try {
         const res = await fetch('https://formsubmit.co/ajax/letsplaywithphysics647742@gmail.com', {
@@ -398,17 +651,12 @@
         status.textContent = "✅ Thanks! Akshay Sir will contact you soon.";
         form.reset();
       } catch (err) {
-        status.textContent = '⚠️ Could not send. Please use the WhatsApp button above.';
+        status.style.color = '#dc2626';
+        status.textContent = '⚠️ Could not send. Please use the WhatsApp button.';
       }
       button.disabled = false;
     }
-
-    function closeMenu() {
-      document.getElementById('mobile-menu').classList.remove('open');
-      document.getElementById('hamburger').classList.remove('open');
-    }
   </script>
-
   <script src="js/nav-account.js"></script>
 </body>
 </html>
