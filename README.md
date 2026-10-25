@@ -30,7 +30,9 @@ letsplaywithphysics/
 │
 ├── simulations/          Interactive simulation pages
 ├── images/               Logo (full + menu-bar size) and browser-tab icon
-├── css/                  Styles for the login, portal and admin pages
+├── css/
+│   ├── site.css            Shared design for every public page (colours, menu, footer)
+│   └── account.css         Login, student portal and admin pages
 ├── js/                   Shared scripts
 │   ├── materials-data.js   ← list of every study material and simulation
 │   ├── supabase-config.js  Supabase connection (publishable key only)

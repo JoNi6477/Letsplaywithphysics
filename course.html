@@ -1,450 +1,184 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="author" content="Akshay Kumar"> 
-  <meta property="og:site_name" content="Let's Play With Physics">
-  <title>Video Courses - Let's Play With Physics</title>
+  <title>Video Courses — Let's Play With Physics</title>
+  <meta name="description" content="Complete NEET & JEE Mains physics video courses by Akshay Kumar — coming soon. Get notified at launch.">
   <link rel="icon" type="image/png" href="images/favicon.png">
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Space Grotesk', sans-serif; background: #0a0e1a; color: #e8eaf0; overflow-x: hidden; }
-    
-    nav { display: flex; align-items: center; justify-content: space-between; padding: 18px 40px; background: rgba(10,14,26,0.97); border-bottom: 1px solid rgba(100,180,255,0.12); position: sticky; top: 0; z-index: 100; }
-    .nav-logo { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; color: #fff; text-decoration: none; }
-    .nav-logo span { color: #44aaff; }
-    .nav-logo img { height: 44px; width: auto; }
-    .nav-links { display: flex; gap: 28px; }
-    .nav-links a { color: #a0aac0; font-size: 14px; text-decoration: none; transition: color 0.2s; }
-    .nav-links a:hover { color: #44aaff; }
-    .nav-cta { background: #44aaff; color: #0a0e1a; font-size: 13px; font-weight: 700; padding: 8px 20px; border-radius: 20px; text-decoration: none; }
-    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; }
-    .hamburger span { display: block; width: 24px; height: 2px; background: #e8eaf0; border-radius: 2px; transition: all 0.3s; }
-    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-    .hamburger.open span:nth-child(2) { opacity: 0; }
-    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-    .mobile-menu { display: none; flex-direction: column; background: rgba(10,14,26,0.99); border-bottom: 1px solid rgba(100,180,255,0.12); max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.3s ease; padding: 0 18px; }
-    .mobile-menu.open { max-height: 500px; padding: 16px 18px 20px; }
-    .mobile-menu a { color: #a0aac0; font-size: 15px; text-decoration: none; padding: 12px 0; border-bottom: 1px solid rgba(100,180,255,0.07); transition: color 0.2s; display: block; }
-    .mobile-menu a:last-child { border-bottom: none; }
-    .mobile-menu a:hover { color: #44aaff; }
-    .mobile-menu .mob-cta { margin-top: 14px; background: #44aaff; color: #0a0e1a; font-weight: 700; padding: 12px 20px; border-radius: 20px; text-align: center; border-bottom: none !important; }
-
-    /* ── COMING SOON ANNOUNCEMENT BANNER ── */
-    .cs-banner {
-      background: linear-gradient(90deg, rgba(247,201,72,0.12) 0%, rgba(44,120,255,0.12) 100%);
-      border-bottom: 1px solid rgba(247,201,72,0.25);
-      padding: 14px 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      text-align: center;
-    }
-    .cs-banner-icon { font-size: 20px; animation: pulse-icon 2s ease-in-out infinite; }
-    @keyframes pulse-icon { 0%,100% { transform: scale(1); } 50% { transform: scale(1.2); } }
-    .cs-banner-text { font-size: 14px; color: #e8eaf0; font-weight: 500; }
-    .cs-banner-text strong { color: #f7c948; }
-
-    .hero { min-height: 70vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 60px 24px 40px; position: relative; overflow: hidden; }
-    .hero-bg { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 80% 60% at 50% 30%, rgba(44,120,255,0.13) 0%, transparent 70%); }
-    .hero-orbit { position: absolute; width: 500px; height: 500px; border: 1px dashed rgba(100,180,255,0.1); border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%); animation: spin 30s linear infinite; }
-    .hero-orbit2 { position: absolute; width: 320px; height: 320px; border: 1px dashed rgba(100,180,255,0.08); border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%); animation: spin 18s linear infinite reverse; }
-    @keyframes spin { from { transform: translate(-50%,-50%) rotate(0deg); } to { transform: translate(-50%,-50%) rotate(360deg); } }
-    .hero-badge { background: rgba(44,120,255,0.15); border: 1px solid rgba(44,120,255,0.3); color: #7ab8ff; font-size: 12px; font-weight: 500; padding: 6px 16px; border-radius: 20px; margin-bottom: 24px; display: inline-block; position: relative; }
-    .hero h1 { font-family: 'Syne', sans-serif; font-size: clamp(36px, 6vw, 60px); font-weight: 800; line-height: 1.1; margin-bottom: 20px; position: relative; }
-    .hero h1 .accent { color: #44aaff; }
-    .hero h1 .accent2 { color: #f7c948; }
-    .hero p { font-size: 17px; color: #8090b0; max-width: 540px; line-height: 1.7; margin-bottom: 36px; position: relative; }
-
-    /* ── COUNTDOWN TIMER (in hero) ── */
-    .hero-cs-box {
-      position: relative;
-      background: rgba(247,201,72,0.07);
-      border: 1px solid rgba(247,201,72,0.22);
-      border-radius: 18px;
-      padding: 24px 36px;
-      max-width: 500px;
-      width: 100%;
-      text-align: center;
-    }
-    .hero-cs-label { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #f7c948; margin-bottom: 16px; }
-    .countdown { display: flex; justify-content: center; gap: 20px; }
-    .count-block { display: flex; flex-direction: column; align-items: center; gap: 4px; }
-    .count-num {
-      font-family: 'Syne', sans-serif;
-      font-size: 36px;
-      font-weight: 800;
-      color: #fff;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 10px;
-      width: 70px;
-      height: 64px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .count-label { font-size: 11px; color: #6070a0; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
-    .hero-cs-note { font-size: 13px; color: #6070a0; margin-top: 18px; }
-
-    /* ── NOTIFY ME FORM ── */
-    .notify-section {
-      padding: 56px 40px;
-      max-width: 600px;
-      margin: 0 auto;
-      text-align: center;
-    }
-    .notify-section .section-tag { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #44aaff; margin-bottom: 12px; }
-    .notify-section h2 { font-family: 'Syne', sans-serif; font-size: clamp(22px, 3vw, 30px); font-weight: 800; margin-bottom: 12px; }
-    .notify-section p { font-size: 14px; color: #6070a0; margin-bottom: 28px; line-height: 1.7; }
-    .notify-form { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
-    .notify-form input {
-      flex: 1; min-width: 220px;
-      padding: 13px 18px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(100,180,255,0.18);
-      color: #e8eaf0;
-      border-radius: 12px;
-      font-size: 14px;
-      font-family: inherit;
-      transition: border-color 0.2s;
-    }
-    .notify-form input::placeholder { color: #3a4a65; }
-    .notify-form input:focus { outline: none; border-color: rgba(100,180,255,0.45); background: rgba(255,255,255,0.08); }
-    .notify-form button {
-      background: #44aaff;
-      color: #0a0e1a;
-      font-weight: 700;
-      padding: 13px 26px;
-      border-radius: 12px;
-      border: none;
-      font-size: 14px;
-      cursor: pointer;
-      transition: opacity 0.2s, transform 0.15s;
-      font-family: inherit;
-    }
-    .notify-form button:hover { opacity: 0.88; transform: translateY(-1px); }
-    .notify-success { display: none; background: rgba(44,255,130,0.1); border: 1px solid rgba(44,255,130,0.25); color: #44ffaa; padding: 14px 20px; border-radius: 12px; font-size: 14px; margin-top: 16px; }
-
-    .section { padding: 72px 40px; max-width: 1100px; margin: 0 auto; }
-    .section-tag { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #44aaff; margin-bottom: 12px; }
-    .section-title { font-family: 'Syne', sans-serif; font-size: clamp(26px, 4vw, 40px); font-weight: 800; margin-bottom: 14px; }
-    .section-sub { font-size: 16px; color: #6070a0; max-width: 500px; line-height: 1.7; margin-bottom: 48px; }
-    .divider { border: none; border-top: 1px solid rgba(100,180,255,0.07); margin: 0 40px; }
-    
-    .courses-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
-
-    /* ── COURSE CARD ── */
-    .course-card {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(100,180,255,0.1);
-      border-radius: 18px;
-      overflow: hidden;
-      transition: border-color 0.2s, background 0.2s, transform 0.2s;
-      position: relative;
-    }
-    /* Dim entire card */
-    .course-card .card-inner { opacity: 0.55; pointer-events: none; }
-
-    /* Coming Soon overlay ribbon */
-    .cs-ribbon {
-      position: absolute;
-      top: 16px;
-      right: -30px;
-      background: linear-gradient(90deg, #f7c948, #ffad33);
-      color: #1a1200;
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      padding: 6px 44px;
-      transform: rotate(35deg);
-      box-shadow: 0 2px 10px rgba(247,201,72,0.4);
-      z-index: 5;
-    }
-
-    /* Coming Soon badge on card */
-    .cs-card-badge {
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      background: rgba(10,14,26,0.88);
-      backdrop-filter: blur(6px);
-      border-top: 1px solid rgba(247,201,72,0.2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 14px;
-      z-index: 4;
-    }
-    .cs-card-badge span { font-size: 13px; font-weight: 700; color: #f7c948; letter-spacing: 0.5px; }
-    .cs-dot { width: 8px; height: 8px; background: #f7c948; border-radius: 50%; animation: blink 1.4s ease-in-out infinite; }
-    @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.2; } }
-
-    .course-header { padding: 32px 28px 20px; border-bottom: 1px solid rgba(100,180,255,0.08); }
-    .course-emoji { font-size: 32px; margin-bottom: 12px; display: block; }
-    .course-title { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; margin-bottom: 8px; }
-    .course-desc { font-size: 14px; color: #6070a0; line-height: 1.6; }
-    .course-body { padding: 24px 28px 80px; }
-    .course-meta { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; }
-    .course-videos { background: rgba(44,120,255,0.12); border: 1px solid rgba(44,120,255,0.2); color: #7ab8ff; font-size: 12px; padding: 6px 12px; border-radius: 20px; }
-    .course-duration { background: rgba(247,201,72,0.12); border: 1px solid rgba(247,201,72,0.2); color: #f7c948; font-size: 12px; padding: 6px 12px; border-radius: 20px; }
-    .course-features { list-style: none; margin-bottom: 24px; }
-    .course-features li { font-size: 13px; color: #8090b0; display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
-    .course-features li::before { content: '\2713'; font-weight: 700; color: #44aaff; }
-    .course-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 20px; border-top: 1px solid rgba(100,180,255,0.08); }
-    .course-price { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 800; color: #44aaff; }
-    .btn-disabled { background: rgba(100,180,255,0.1); color: #3a4a65; font-weight: 700; padding: 12px 24px; border-radius: 12px; font-size: 13px; border: 1px solid rgba(100,180,255,0.12); cursor: not-allowed; }
-
-    footer { border-top: 1px solid rgba(100,180,255,0.07); padding: 28px 40px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
-    .footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 15px; color: #fff; }
-    .footer-logo span { color: #44aaff; }
-    .footer-copy { font-size: 12px; color: #3a4a65; }
-    
-    @media (max-width: 600px) {
-      nav { padding: 14px 18px; }
-      .nav-links { display: none; }
-      .nav-cta { display: none; }
-      .hamburger { display: flex; }
-      .mobile-menu { display: flex; }
-      .section { padding: 48px 18px; }
-      .divider { margin: 0 18px; }
-      footer { padding: 20px 18px; }
-      .courses-grid { grid-template-columns: 1fr; }
-      .cs-banner { padding: 12px 18px; }
-      .notify-section { padding: 40px 18px; }
-      .countdown { gap: 12px; }
-      .count-num { width: 56px; height: 52px; font-size: 26px; }
-    }
-  </style>
+  <link rel="stylesheet" href="css/site.css">
 </head>
 <body>
 
-  <nav>
-    <a href="index.html" class="nav-logo">
-      <img src="images/logo-nav.png" alt="Let's Play With Physics" style="height: 48px; width: auto; display: block;">
-    </a>
-    <div class="nav-links">
-      <a href="index.html#about">About</a>
-      <a href="index.html#features">Features</a>
-      <a href="index.html#batches">Batches</a>
-      <a href="index.html#topics">Syllabus</a>
-      <a href="material.html">Materials</a>
-      <a href="mocktest.html">Mock Test</a>
-      <a href="course.html" style="color: #44aaff;">Courses</a>
-      <a href="index.html#contact">Contact</a>
-      <a href="login.html" data-account-link>Login</a>
-    </div>
-    <a href="index.html#contact" class="nav-cta">Enroll Now</a>
-    <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Toggle menu">
-      <span></span><span></span><span></span>
-    </button>
-  </nav>
+  <!-- Icon set (line icons, reused below with <use>) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></symbol>
+    <symbol id="i-timer" viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6"/></symbol>
+    <symbol id="i-pencil" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></symbol>
+    <symbol id="i-atom" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1.6"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.4A8 8 0 1 1 21 12z"/><path d="M8.5 11h7M8.5 14h4"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></symbol>
+    <symbol id="i-cap" viewBox="0 0 24 24"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2 9 2 12 0v-5"/></symbol>
+    <symbol id="i-school" viewBox="0 0 24 24"><path d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M10 9.5v5l4.5-2.5z"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 8 3 8H3s3-1 3-8"/><path d="M10 20a2 2 0 0 0 4 0"/></symbol>
+    <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></symbol>
+  </svg>
 
-  <div class="mobile-menu" id="mobile-menu">
-    <a href="index.html#about" onclick="closeMenu()">About</a>
-    <a href="index.html#features" onclick="closeMenu()">Features</a>
-    <a href="index.html#batches" onclick="closeMenu()">Batches</a>
-    <a href="index.html#topics" onclick="closeMenu()">Syllabus</a>
-    <a href="material.html" onclick="closeMenu()">Materials</a>
-    <a href="mocktest.html" onclick="closeMenu()">Mock Test</a>
-    <a href="course.html" onclick="closeMenu()" style="color: #44aaff;">Courses</a>
-    <a href="index.html#contact" onclick="closeMenu()">Contact</a>
-    <a href="login.html" data-account-link>Login</a>
-    <a href="index.html#contact" class="mob-cta" onclick="closeMenu()">Enroll Now</a>
-  </div>
-
-  <!-- Announcement Banner -->
-  <div class="cs-banner">
-    <span class="cs-banner-icon">🚀</span>
-    <p class="cs-banner-text"><strong>Video courses are launching soon!</strong> Drop your email below to get notified first.</p>
-  </div>
-
-  <section class="hero">
-    <div class="hero-bg"></div>
-    <div class="hero-orbit"></div>
-    <div class="hero-orbit2"></div>
-    <div class="hero-badge">🎓 Video Lectures — Coming Soon!</div>
-    <h1>Master Physics<br>with <span class="accent">Complete</span> <span class="accent2">Video</span> Courses</h1>
-    <p>We're crafting expert video lectures, just for you. Get early access — be the first to know when we go live!</p>
-
-    <!-- Countdown Timer -->
-    <div class="hero-cs-box">
-      <div class="hero-cs-label" id="cd-label">⏳ Launching In</div>
-      <div class="countdown">
-        <div class="count-block">
-          <div class="count-num" id="cd-days">00</div>
-          <div class="count-label">Days</div>
-        </div>
-        <div class="count-block">
-          <div class="count-num" id="cd-hours">00</div>
-          <div class="count-label">Hours</div>
-        </div>
-        <div class="count-block">
-          <div class="count-num" id="cd-mins">00</div>
-          <div class="count-label">Mins</div>
-        </div>
-        <div class="count-block">
-          <div class="count-num" id="cd-secs">00</div>
-          <div class="count-label">Secs</div>
-        </div>
+  <!-- ═════════ NAV ═════════ -->
+  <header class="nav">
+    <div class="container nav-inner">
+      <a href="index.html" class="nav-logo"><img src="images/logo-nav.png" alt="Let's Play With Physics"></a>
+      <nav class="nav-links" aria-label="Main">
+        <a href="course.html" style="color:#fff">Courses</a>
+        <a href="material.html">Study Materials</a>
+        <a href="mocktest.html">Mock Tests</a>
+        <a href="simulations.html">Simulations</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <div class="nav-right">
+        <a href="login.html" class="nav-login" data-account-link>Login</a>
+        <a href="index.html#batches" class="btn btn-orange">Enroll Now</a>
+        <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Open menu"><span></span><span></span><span></span></button>
       </div>
-      <p class="hero-cs-note">🔥 Early subscribers get an exclusive <strong style="color:#f7c948;">10% launch discount</strong></p>
+    </div>
+    <div class="mobile-menu" id="mobile-menu">
+      <a href="course.html" onclick="closeMenu()">Courses</a>
+      <a href="material.html" onclick="closeMenu()">Study Materials</a>
+      <a href="mocktest.html" onclick="closeMenu()">Mock Tests</a>
+      <a href="simulations.html" onclick="closeMenu()">Simulations</a>
+      <a href="about.html" onclick="closeMenu()">About</a>
+      <a href="contact.html" onclick="closeMenu()">Contact</a>
+      <a href="login.html" data-account-link onclick="closeMenu()">Login</a>
+      <a href="index.html#batches" class="btn btn-orange" onclick="closeMenu()">Enroll Now</a>
+    </div>
+  </header>
+
+  <section class="page-hero">
+    <div class="container">
+      <div class="crumbs"><a href="index.html">Home</a> › Courses</div>
+      <span class="eyebrow" style="margin-top:18px;">Video lectures — coming soon</span>
+      <h1>Master physics with complete video courses</h1>
+      <p>We're recording expert video lectures for NEET &amp; JEE Mains. Get notified first — early subscribers get an exclusive 10% launch discount.</p>
     </div>
   </section>
 
-  <hr class="divider">
-
-  <!-- Notify Me Section -->
-  <div class="notify-section">
-    <div class="section-tag">Stay Updated</div>
-    <h2>Get Notified When We Launch 🔔</h2>
-    <p>Be the first to access our video courses. No spam — just one email when we're live.</p>
-    <div class="notify-form">
-      <input type="email" id="notifyEmail" placeholder="Enter your email address" />
-      <button onclick="submitNotify()">Notify Me!</button>
-    </div>
-    <div class="notify-success" id="notifySuccess">
-      ✅ You're on the list! We'll email you the moment we launch.
+  <div class="stats">
+    <div class="container">
+      <form class="card" id="notify-form" onsubmit="submitNotify(event)" style="max-width:720px;margin:0 auto;display:flex;gap:16px;align-items:center;flex-wrap:wrap;">
+        <div class="ico-chip c-orange"><svg class="svg-ico"><use href="#i-bell"/></svg></div>
+        <div style="flex:1;min-width:220px;"><h3 style="margin-bottom:2px;">Get notified at launch</h3><p style="font-size:14.5px;">One email when we go live. No spam.</p></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;flex:1.4;min-width:260px;">
+          <input type="email" id="notifyEmail" required placeholder="Your email address" aria-label="Email address" style="flex:1;min-width:180px;border:1.5px solid #cbd5e1;border-radius:10px;padding:12px 14px;font-size:15.5px;font-family:inherit;">
+          <button type="submit" class="btn btn-orange">Notify me</button>
+        </div>
+        <p id="notifySuccess" role="status" style="width:100%;font-weight:600;color:var(--green);display:none;"></p>
+      </form>
     </div>
   </div>
 
-  <hr class="divider">
-
-  <!-- Courses Preview Section -->
-  <div class="section">
-    <div class="section-tag">Coming Soon — Preview</div>
-    <div class="section-title">Courses We're Building 🛠️</div>
-    <div class="section-sub">Here's a sneak peek at what's coming. Each course will include full video lectures, PDFs, and practice problems.</div>
-    
-    <div class="courses-grid" id="coursesGrid">
-      <!-- Cards injected by JS -->
+  <section>
+    <div class="container">
+      <div class="sec-head center">
+        <span class="eyebrow">Preview</span>
+        <h2>Courses we're building</h2>
+        <p>Every course includes full video lectures, notes PDFs, practice problems and lifetime access.</p>
+      </div>
+      <div class="grid-4">
+        <div class="card" style="display:flex;flex-direction:column;">
+          <div class="ico-chip c-blue"><svg class="svg-ico"><use href="#i-atom"/></svg></div>
+          <h3>Mechanics Complete</h3>
+          <p>Kinematics, Laws of Motion, Work–Energy and Circular Motion.</p>
+          <p style="margin-top:10px;font-size:14px;">▶ 45 videos · 12 weeks</p>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:6px;margin:14px 0 18px;flex:1;"><li style="display:flex;gap:8px;font-size:15px;"><svg class="svg-ico" style="width:18px;height:18px;color:var(--green);flex-shrink:0;margin-top:3px;stroke-width:2.4"><use href="#i-check"/></svg>45 video lectures</li><li style="display:flex;gap:8px;font-size:15px;"><svg class="svg-ico" style="width:18px;height:18px;color:var(--green);flex-shrink:0;margin-top:3px;stroke-width:2.4"><use href="#i-check"/></svg>100+ practice problems</li><li style="display:flex;gap:8px;font-size:15px;"><svg class="svg-ico" style="width:18px;height:18px;color:var(--green);flex-shrink:0;margin-top:3px;stroke-width:2.4"><use href="#i-check"/></svg>Chapter notes PDF</li></ul>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-family:Syne,sans-serif;font-size:26px;font-weight:800;color:var(--ink)">₹499</span>
+            <span style="background:var(--blue-soft);color:var(--blue);font-weight:700;font-size:13px;padding:6px 12px;border-radius:20px;">Coming soon</span>
+          </div>
+        </div>
+        <div class="card" style="display:flex;flex-direction:column;">
+          <div class="ico-chip c-orange"><svg class="svg-ico"><use href="#i-chart"/></svg></div>
+          <h3>Thermodynamics &amp; Waves</h3>
+          <p>Heat, Thermodynamics and Wave Motion — complete coverage.</p>
+          <p style="margin-top:10px;font-size:14px;">▶ 35 videos · 10 weeks</p>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:6px;margin:14px 0 18px;flex:1;"><li style="display:flex;gap:8px;font-size:15px;"><svg class="svg-ico" style="width:18px;height:18px;color:var(--green);flex-shrink:0;margin-top:3px;stroke-width:2.4"><use href="#i-check"/></svg>35 video lectures</li><li style="display:flex;gap:8px;font-size:15px;"><svg class="svg-ico" style="width:18px;height:18px;color:var(--green);flex-shrink:0;margin-top:3px;stroke-width:2.4"><use href="#i-check"/></svg>80+ practice problems</li><li style="display:flex;gap:8px;font-size:15px;"><svg class="svg-ico" style="width:18px;height:18px;color:var(--green);flex-shrink:0;margin-top:3px;stroke-width:2.4"><use href="#i-check"/></svg>Formula sheets</li></ul>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-family:Syne,sans-serif;font-size:26px;font-weight:800;color:var(--ink)">₹399</span>
+            <span style="background:var(--blue-soft);color:var(--blue);font-weight:700;font-size:13px;padding:6px 12px;border-radius:20px;">Coming soon</span>
+          </div>
+        </div>
+        <div class="card" style="display:flex;flex-direction:column;">
+          <div class="ico-chip c-purple"><svg class="svg-ico"><use href="#i-bulb"/></svg></div>
+          <h3>Electricity &amp; Magnetism</h3>
+          <p>Electrostatics, Current Electricity and complete Magnetism.</p>
+          <p style="margin-top:10px;font-size:14px;">▶ 50 videos · 14 weeks</p>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:6px;margin:14px 0 18px;flex:1;"><li style="display:flex;gap:8px;font-size:15px;"><svg class="svg-ico" style="width:18px;height:18px;color:var(--green);flex-shrink:0;margin-top:3px;stroke-width:2.4"><use href="#i-check"/></svg>50 video lectures</li><li style="display:flex;gap:8px;font-size:15px;"><svg class="svg-ico" style="width:18px;height:18px;color:var(--green);flex-shrink:0;margin-top:3px;stroke-width:2.4"><use href="#i-check"/></svg>120+ practice problems</li><li style="display:flex;gap:8px;font-size:15px;"><svg class="svg-ico" style="width:18px;height:18px;color:var(--green);flex-shrink:0;margin-top:3px;stroke-width:2.4"><use href="#i-check"/></svg>Solution PDFs</li></ul>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-family:Syne,sans-serif;font-size:26px;font-weight:800;color:var(--ink)">₹599</span>
+            <span style="background:var(--blue-soft);color:var(--blue);font-weight:700;font-size:13px;padding:6px 12px;border-radius:20px;">Coming soon</span>
+          </div>
+        </div>
+        <div class="card" style="display:flex;flex-direction:column;">
+          <div class="ico-chip c-teal"><svg class="svg-ico"><use href="#i-globe"/></svg></div>
+          <h3>Optics &amp; Modern Physics</h3>
+          <p>Geometric &amp; Wave Optics and Modern Physics basics.</p>
+          <p style="margin-top:10px;font-size:14px;">▶ 40 videos · 11 weeks</p>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:6px;margin:14px 0 18px;flex:1;"><li style="display:flex;gap:8px;font-size:15px;"><svg class="svg-ico" style="width:18px;height:18px;color:var(--green);flex-shrink:0;margin-top:3px;stroke-width:2.4"><use href="#i-check"/></svg>40 video lectures</li><li style="display:flex;gap:8px;font-size:15px;"><svg class="svg-ico" style="width:18px;height:18px;color:var(--green);flex-shrink:0;margin-top:3px;stroke-width:2.4"><use href="#i-check"/></svg>90+ practice problems</li><li style="display:flex;gap:8px;font-size:15px;"><svg class="svg-ico" style="width:18px;height:18px;color:var(--green);flex-shrink:0;margin-top:3px;stroke-width:2.4"><use href="#i-check"/></svg>Quick revision notes</li></ul>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-family:Syne,sans-serif;font-size:26px;font-weight:800;color:var(--ink)">₹499</span>
+            <span style="background:var(--blue-soft);color:var(--blue);font-weight:700;font-size:13px;padding:6px 12px;border-radius:20px;">Coming soon</span>
+          </div>
+        </div>
+      </div>
+      <div class="card" style="margin-top:26px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;border:2px solid var(--orange);">
+        <div><span class="eyebrow" style="margin-bottom:4px;">Best value</span><h3 style="font-size:22px;">Complete JEE Physics Bundle</h3><p>All 4 courses · 170 video lectures · 400+ problems · priority support — save ₹500.</p></div>
+        <div style="text-align:right;"><div style="font-family:Syne,sans-serif;font-size:34px;font-weight:800;color:var(--ink)">₹1,499</div><span style="color:var(--muted);font-size:14px;">Coming soon</span></div>
+      </div>
     </div>
-  </div>
+  </section>
 
-  <hr class="divider">
-
+  <!-- ═════════ FOOTER ═════════ -->
   <footer>
-    <p class="footer-logo">&copy; 2026 Let's Play With <span>Physics</span></p>
-    <p class="footer-copy">
-      <a href="index.html#about" style="color: #a0aac0; text-decoration: none;">About</a> &nbsp;|&nbsp;
-      <a href="index.html#contact" style="color: #a0aac0; text-decoration: none;">Contact</a> &nbsp;|&nbsp;
-      <a href="privacy-policy.html" style="color: #a0aac0; text-decoration: none;">Privacy Policy</a> &nbsp;|&nbsp;
-      <a href="terms.html" style="color: #a0aac0; text-decoration: none;">Terms & Conditions</a>
-    </p>
+    <div class="container">
+      <div class="foot-grid">
+        <div>
+          <img src="images/logo-nav.png" alt="Let's Play With Physics">
+          <p>NEET &amp; JEE Mains physics, taught the way it should be — with concepts first.</p>
+        </div>
+        <div>
+          <h4>Learn</h4>
+          <a href="material.html">Study Materials</a>
+          <a href="mocktest.html">Mock Tests</a>
+          <a href="simulations.html">Simulations</a>
+          <a href="course.html">Courses</a>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <a href="about.html">About</a>
+          <a href="contact.html">Contact</a>
+          <a href="login.html" data-account-link>Login</a>
+        </div>
+        <div>
+          <h4>Legal</h4>
+          <a href="privacy-policy.html">Privacy Policy</a>
+          <a href="terms.html">Terms &amp; Conditions</a>
+        </div>
+      </div>
+      <div class="foot-bottom">
+        <span>&copy; 2026 Let's Play With Physics · Hyderabad, India</span>
+        <span>Made with ❤ for NEET &amp; JEE aspirants</span>
+      </div>
+    </div>
   </footer>
 
   <script>
-    // ── Courses Data ──
-    const courses = [
-      { id: 1, title: 'Mechanics Complete', emoji: '⚙️', description: 'Master Kinematics, Laws of Motion, Work-Energy, and Circular Motion', videos: 45, duration: '12 weeks', price: 499, features: ['45 video lectures', '100+ practice problems', 'Chapter notes PDF', 'Lifetime access'] },
-      { id: 2, title: 'Thermodynamics & Waves', emoji: '🌊', description: 'Complete coverage of Heat, Thermodynamics, and Wave Motion', videos: 35, duration: '10 weeks', price: 399, features: ['35 video lectures', '80+ practice problems', 'Formula sheets', 'Lifetime access'] },
-      { id: 3, title: 'Electricity & Magnetism', emoji: '⚡', description: 'Electrostatics, Current, and complete Magnetism coverage', videos: 50, duration: '14 weeks', price: 599, features: ['50 video lectures', '120+ practice problems', 'Solution PDFs', 'Lifetime access'] },
-      { id: 4, title: 'Optics & Modern Physics', emoji: '🔬', description: 'Geometric & Wave Optics, Quantum Mechanics basics', videos: 40, duration: '11 weeks', price: 499, features: ['40 video lectures', '90+ practice problems', 'Quick revision notes', 'Lifetime access'] },
-      { id: 5, title: 'Complete JEE Physics Bundle', emoji: '🎁', description: 'All 4 courses combined — SAVE ₹500!', videos: 170, duration: '47 weeks', price: 1499, features: ['170 video lectures', '400+ practice problems', 'All materials included', 'Priority support', 'Lifetime access'] }
-    ];
-
-    function loadCourses() {
-      const grid = document.getElementById('coursesGrid');
-      grid.innerHTML = courses.map(course => `
-        <div class="course-card">
-          <div class="cs-ribbon">Coming Soon</div>
-          <div class="card-inner">
-            <div class="course-header">
-              <span class="course-emoji">${course.emoji}</span>
-              <h3 class="course-title">${course.title}</h3>
-              <p class="course-desc">${course.description}</p>
-            </div>
-            <div class="course-body">
-              <div class="course-meta">
-                <span class="course-videos">📺 ${course.videos} Videos</span>
-                <span class="course-duration">⏱️ ${course.duration}</span>
-              </div>
-              <ul class="course-features">
-                ${course.features.map(f => `<li>${f}</li>`).join('')}
-              </ul>
-              <div class="course-footer">
-                <span class="course-price">₹${course.price}</span>
-                <span class="btn-disabled">Coming Soon</span>
-              </div>
-            </div>
-          </div>
-          <!-- Blinking badge at bottom -->
-          <div class="cs-card-badge">
-            <div class="cs-dot"></div>
-            <span>Videos Launching Soon</span>
-            <div class="cs-dot"></div>
-          </div>
-        </div>
-      `).join('');
-    }
-
-    // ── Countdown Timer ──
-    // Set your target launch date here (YYYY, MM-1, DD, HH, MM, SS)
-    const launchDate = new Date(2026, 7, 1, 0, 0, 0); // Aug 1, 2026
-
-    function updateCountdown() {
-      const now = new Date();
-      const diff = launchDate - now;
-      if (diff <= 0) {
-        // Launch date has passed: don't show a frozen 00:00:00:00 timer
-        document.querySelector('.countdown').style.display = 'none';
-        document.getElementById('cd-label').textContent = '🎬 Launching very soon';
-        clearInterval(countdownTimer);
-        return;
-      }
-      const days  = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const mins  = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-      const secs  = Math.floor((diff % (1000 * 60)) / 1000);
-      document.getElementById('cd-days').textContent  = String(days).padStart(2, '0');
-      document.getElementById('cd-hours').textContent = String(hours).padStart(2, '0');
-      document.getElementById('cd-mins').textContent  = String(mins).padStart(2, '0');
-      document.getElementById('cd-secs').textContent  = String(secs).padStart(2, '0');
-    }
-    const countdownTimer = setInterval(updateCountdown, 1000);
-    updateCountdown();
-
-    // ── Notify Me ──
-    async function submitNotify() {
-      const emailInput = document.getElementById('notifyEmail');
-      const email = emailInput.value.trim();
-      if (!email || !email.includes('@')) {
-        emailInput.style.borderColor = 'rgba(255,80,80,0.5)';
-        emailInput.focus();
-        return;
-      }
-      emailInput.style.borderColor = '';
-      // Sends the email address to the site's inbox via FormSubmit (free, no backend needed)
-      const button = document.querySelector('.notify-form button');
-      const success = document.getElementById('notifySuccess');
-      button.disabled = true;
-      try {
-        const res = await fetch('https://formsubmit.co/ajax/letsplaywithphysics647742@gmail.com', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-          body: JSON.stringify({ _subject: 'New video course sign-up', email: email, _template: 'table' })
-        });
-        if (!res.ok) throw new Error('Request failed');
-        success.textContent = "✅ You're on the list! We'll email you the moment we launch.";
-        emailInput.value = '';
-      } catch (err) {
-        success.textContent = '⚠️ Something went wrong. Please message us on WhatsApp instead: +91 8639905551';
-      }
-      success.style.display = 'block';
-      button.disabled = false;
-    }
-
-    // Allow pressing Enter in notify input
-    document.getElementById('notifyEmail').addEventListener('keydown', function(e) {
-      if (e.key === 'Enter') submitNotify();
-    });
-
-    // ── Nav ──
     function toggleMenu() {
       document.getElementById('mobile-menu').classList.toggle('open');
       document.getElementById('hamburger').classList.toggle('open');
@@ -453,10 +187,33 @@
       document.getElementById('mobile-menu').classList.remove('open');
       document.getElementById('hamburger').classList.remove('open');
     }
-
-    loadCourses();
   </script>
-
+  <script>
+    // Sends the email to the site's inbox via FormSubmit (free, no backend needed)
+    async function submitNotify(event) {
+      event.preventDefault();
+      const input = document.getElementById('notifyEmail');
+      const msg = document.getElementById('notifySuccess');
+      const button = event.target.querySelector('button');
+      button.disabled = true;
+      try {
+        const res = await fetch('https://formsubmit.co/ajax/letsplaywithphysics647742@gmail.com', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({ _subject: 'New video course sign-up', email: input.value.trim(), _template: 'table' })
+        });
+        if (!res.ok) throw new Error('Request failed');
+        msg.style.color = 'var(--green)';
+        msg.textContent = "✅ You're on the list! We'll email you the moment we launch.";
+        input.value = '';
+      } catch (err) {
+        msg.style.color = '#dc2626';
+        msg.textContent = '⚠️ Something went wrong. Please message us on WhatsApp instead: +91 86399 05551';
+      }
+      msg.style.display = 'block';
+      button.disabled = false;
+    }
+  </script>
   <script src="js/nav-account.js"></script>
 </body>
 </html>

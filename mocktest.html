@@ -9,42 +9,38 @@
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Space Grotesk', Arial, sans-serif; background: #0a0e1a; color: #e8eaf0; overflow-x: hidden; }
+    body { font-family: 'Space Grotesk', Arial, sans-serif; background: #f4f7fc; color: #334155; overflow-x: hidden; }
     button { font-family: inherit; }
     .hidden { display: none !important; }
 
-    /* ───────── SITE NAV (shown outside the exam) ───────── */
-    nav { display: flex; align-items: center; justify-content: space-between; padding: 18px 40px; background: rgba(10,14,26,0.97); border-bottom: 1px solid rgba(100,180,255,0.12); position: sticky; top: 0; z-index: 100; }
-    .nav-logo { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; color: #fff; text-decoration: none; }
-    .nav-logo span { color: #44aaff; }
+    /* ───────── SITE NAV (shown outside the exam) — matches the main website ───────── */
+    nav { display: flex; align-items: center; justify-content: space-between; height: 72px; padding: 0 40px; background: rgba(6,13,34,0.96); border-bottom: 1px solid rgba(255,255,255,0.08); position: sticky; top: 0; z-index: 100; }
+    .nav-logo img { height: 48px; width: auto; display: block; }
     .nav-links { display: flex; gap: 28px; }
-    .nav-links a { color: #a0aac0; font-size: 14px; text-decoration: none; transition: color 0.2s; }
-    .nav-links a:hover { color: #44aaff; }
-    .nav-cta { background: #44aaff; color: #0a0e1a; font-size: 13px; font-weight: 700; padding: 8px 20px; border-radius: 20px; text-decoration: none; }
-    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; }
-    .hamburger span { display: block; width: 24px; height: 2px; background: #e8eaf0; border-radius: 2px; transition: all 0.3s; }
+    .nav-links a { color: #b4c2dc; font-size: 15px; font-weight: 500; text-decoration: none; }
+    .nav-links a:hover, .nav-links a.active { color: #fff; }
+    .nav-cta { background: #ff9a1f; color: #1b1203; font-size: 14px; font-weight: 700; padding: 10px 18px; border-radius: 12px; text-decoration: none; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 6px; background: none; border: none; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: #fff; border-radius: 2px; transition: all 0.3s; }
     .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
     .hamburger.open span:nth-child(2) { opacity: 0; }
     .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-    .mobile-menu { display: none; flex-direction: column; background: rgba(10,14,26,0.99); border-bottom: 1px solid rgba(100,180,255,0.12); padding: 0 18px; max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.3s ease; }
-    .mobile-menu.open { max-height: 400px; padding: 16px 18px 20px; }
-    .mobile-menu a { color: #a0aac0; font-size: 15px; text-decoration: none; padding: 12px 0; border-bottom: 1px solid rgba(100,180,255,0.07); }
-    .mobile-menu .mob-cta { margin-top: 14px; background: #44aaff; color: #0a0e1a; font-weight: 700; padding: 12px 20px; border-radius: 20px; text-align: center; border-bottom: none; }
-    footer { border-top: 1px solid rgba(100,180,255,0.07); padding: 28px 40px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .mobile-menu { display: none; flex-direction: column; background: #060d22; padding: 0 18px; max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.3s ease; }
+    .mobile-menu.open { max-height: 460px; padding: 10px 18px 16px; }
+    .mobile-menu a { color: #eef3ff; font-size: 16px; text-decoration: none; padding: 13px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .mobile-menu .mob-cta { margin-top: 14px; background: #ff9a1f; color: #1b1203; font-weight: 700; padding: 13px 20px; border-radius: 12px; text-align: center; border-bottom: none; }
+    footer { background: #060d22; padding: 24px 40px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
     .footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 15px; color: #fff; }
-    .footer-logo span { color: #44aaff; }
-    .footer-copy { font-size: 12px; color: #6a7a95; }
+    .footer-logo span { color: #ff9a1f; }
+    .footer-copy { font-size: 13px; color: #b4c2dc; }
 
     /* ───────── ACCESS CHECK SCREEN ───────── */
-    #screen-gate { min-height: 80vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
-    .lock-box { background: rgba(44,120,255,0.07); border: 1px solid rgba(44,120,255,0.2); border-radius: 24px; padding: 48px 40px; text-align: center; max-width: 420px; width: 100%; }
-    .lock-icon { font-size: 48px; margin-bottom: 16px; }
-    .lock-box h2 { font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 800; margin-bottom: 10px; }
-    .lock-box p { color: #8090b0; font-size: 14px; line-height: 1.6; margin-bottom: 24px; }
-    .lock-box input { width: 100%; background: rgba(255,255,255,0.06); border: 1px solid rgba(100,180,255,0.2); color: #e8eaf0; padding: 14px 18px; border-radius: 12px; font-size: 15px; outline: none; font-family: inherit; margin-bottom: 14px; }
-    .lock-box input:focus { border-color: rgba(100,180,255,0.5); }
-    .lock-box button { width: 100%; background: #44aaff; color: #0a0e1a; border: none; font-weight: 700; padding: 14px; border-radius: 12px; cursor: pointer; font-size: 15px; }
-    .lock-error { color: #ff7070; font-size: 13px; margin-top: 12px; display: none; }
+    #screen-gate { min-height: 78vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
+    .lock-box { background: #fff; border: 1px solid #e3e9f3; border-radius: 22px; padding: 44px 36px; text-align: center; max-width: 440px; width: 100%; box-shadow: 0 1px 2px rgba(15,23,42,0.05), 0 12px 32px rgba(15,23,42,0.09); }
+    .lock-icon { width: 72px; height: 72px; border-radius: 20px; background: #e8f0ff; display: grid; place-items: center; font-size: 34px; margin: 0 auto 18px; }
+    .lock-box h2 { font-family: 'Syne', sans-serif; font-size: 25px; font-weight: 800; margin-bottom: 10px; color: #0f172a; }
+    .lock-box p { color: #5b6b82; font-size: 15px; line-height: 1.6; margin-bottom: 8px; }
+    #gate-actions a { background: #ff9a1f !important; color: #1b1203 !important; box-shadow: 0 8px 22px rgba(255,154,31,0.3); margin-top: 18px !important; }
 
     /* ───────── NTA-STYLE EXAM AREA (light theme like the real CBT) ───────── */
     .cbt { background: #f4f6fa; color: #1f2937; min-height: 100vh; font-family: Arial, 'Space Grotesk', sans-serif; }
@@ -195,8 +191,13 @@
       .side-close { display: block; margin: 0 0 12px auto; background: #1c3f7a; color: #fff; border: none; border-radius: 4px; padding: 7px 12px; font-weight: 700; cursor: pointer; }
       .cbt-candidate { display: none; }
     }
+    @media (max-width: 960px) {
+      .nav-links, .nav-cta { display: none; }
+      .hamburger { display: flex; }
+      .mobile-menu { display: flex; }
+    }
     @media (max-width: 600px) {
-      nav { padding: 14px 18px; }
+      nav { padding: 0 18px; }
       .nav-links, .nav-cta { display: none; }
       .hamburger { display: flex; }
       .mobile-menu { display: flex; }
@@ -223,28 +224,30 @@
   <!-- ═════════ SITE NAV (hidden during the exam) ═════════ -->
   <div id="site-chrome">
     <nav>
-      <a href="index.html" class="nav-logo">Let's <span>Play</span> With Physics</a>
+      <a href="index.html" class="nav-logo"><img src="images/logo-nav.png" alt="Let's Play With Physics"></a>
       <div class="nav-links">
-        <a href="index.html#about">About</a>
-        <a href="index.html#batches">Batches</a>
-        <a href="material.html">Materials</a>
+        <a href="course.html">Courses</a>
+        <a href="material.html">Study Materials</a>
+        <a href="mocktest.html" class="active">Mock Tests</a>
         <a href="simulations.html">Simulations</a>
-        <a href="index.html#contact">Contact</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
         <a href="login.html" data-account-link>Login</a>
       </div>
-      <a href="index.html#contact" class="nav-cta">Enroll Now</a>
+      <a href="index.html#batches" class="nav-cta">Enroll Now</a>
       <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Toggle menu">
         <span></span><span></span><span></span>
       </button>
     </nav>
     <div class="mobile-menu" id="mobile-menu">
-      <a href="index.html#about">About</a>
-      <a href="index.html#batches">Batches</a>
-      <a href="material.html">Materials</a>
+      <a href="course.html">Courses</a>
+      <a href="material.html">Study Materials</a>
+      <a href="mocktest.html">Mock Tests</a>
       <a href="simulations.html">Simulations</a>
-      <a href="index.html#contact">Contact</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
       <a href="login.html" data-account-link>Login</a>
-      <a href="index.html#contact" class="mob-cta">Enroll Now →</a>
+      <a href="index.html#batches" class="mob-cta">Enroll Now</a>
     </div>
   </div>
 

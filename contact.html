@@ -1,222 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Contact – Let's Play With Physics</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact — Let's Play With Physics</title>
+  <meta name="description" content="Contact Akshay Sir on WhatsApp or email for batches, mock test access and doubts.">
   <link rel="icon" type="image/png" href="images/favicon.png">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --navy: #0d1b2a;
-    --blue: #1b4f8a;
-    --accent: #e8a020;
-    --light: #f5f8fc;
-    --text: #1a1a2e;
-    --muted: #5a6478;
-    --border: #d0dce8;
-    --green: #25d366;
-  }
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Source Sans 3', sans-serif; background: var(--light); color: var(--text); font-size: 16px; line-height: 1.8; }
-
-  header {
-    background: var(--navy); padding: 18px 40px;
-    display: flex; align-items: center;
-  }
-  header .logo-text { font-family: 'Playfair Display', serif; color: #fff; font-size: 1.3rem; }
-  header .logo-text span { color: var(--accent); }
-  header a.home { text-decoration: none; }
-  header .back { margin-left: auto; color: #aac4e0; font-size: 0.85rem; text-decoration: none; border: 1px solid #2a4a6a; padding: 6px 14px; border-radius: 4px; transition: all 0.2s; }
-  header .back:hover { background: #1b4f8a; color: #fff; }
-
-  .hero {
-    background: linear-gradient(135deg, var(--navy) 0%, #0a3060 100%);
-    color: white; padding: 65px 40px 55px;
-    position: relative; overflow: hidden;
-  }
-  .hero::before { content: '✉'; position: absolute; right: 60px; top: 20px; font-size: 130px; opacity: 0.06; color: white; }
-  .hero .badge { display: inline-block; background: var(--accent); color: var(--navy); font-weight: 600; font-size: 0.75rem; padding: 3px 10px; border-radius: 20px; margin-bottom: 16px; letter-spacing: 0.08em; text-transform: uppercase; }
-  .hero h1 { font-family: 'Playfair Display', serif; font-size: 2.4rem; margin-bottom: 10px; }
-  .hero p { color: #aac4e0; max-width: 520px; }
-
-  .container { max-width: 860px; margin: 0 auto; padding: 60px 40px; }
-
-  .contact-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 28px;
-    margin-bottom: 50px;
-  }
-
-  .contact-card {
-    background: white;
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 30px 28px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  .contact-card .icon {
-    width: 52px; height: 52px; border-radius: 12px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.6rem; margin-bottom: 6px;
-  }
-  .wa-card .icon { background: #e8f9ef; }
-  .email-card .icon { background: #eef4fb; }
-  .location-card .icon { background: #fff3e0; }
-  .website-card .icon { background: #f3eeff; }
-
-  .contact-card h3 { font-family: 'Playfair Display', serif; font-size: 1.15rem; color: var(--navy); }
-  .contact-card p { color: var(--muted); font-size: 0.92rem; margin: 0; }
-  .contact-card a { text-decoration: none; font-weight: 600; }
-  .wa-card a { color: var(--green); }
-  .email-card a { color: var(--blue); }
-  .website-card a { color: var(--blue); }
-
-  .wa-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    background: var(--green);
-    color: white;
-    padding: 12px 22px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 0.95rem;
-    margin-top: 10px;
-    transition: background 0.2s;
-    width: fit-content;
-  }
-  .wa-btn:hover { background: #1daa54; }
-
-  .faq-section { margin-top: 20px; }
-  .faq-section h2 {
-    font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--navy);
-    margin-bottom: 24px; display: flex; align-items: center; gap: 12px;
-  }
-  .faq-section h2::after { content: ''; flex: 1; height: 2px; background: var(--border); border-radius: 2px; }
-
-  .faq-item {
-    background: white; border: 1px solid var(--border); border-radius: 8px;
-    padding: 20px 24px; margin-bottom: 14px;
-  }
-  .faq-item h3 { font-size: 1rem; font-weight: 600; color: var(--navy); margin-bottom: 6px; }
-  .faq-item p { color: var(--muted); font-size: 0.92rem; margin: 0; }
-
-  .note-box {
-    background: #eef4fb; border: 1px solid #c8daf0; border-left: 4px solid var(--blue);
-    border-radius: 6px; padding: 18px 22px; margin-top: 40px; font-size: 0.92rem; color: var(--muted);
-  }
-  .note-box strong { color: var(--navy); }
-
-  footer { background: var(--navy); color: #6a8aaa; text-align: center; padding: 24px; font-size: 0.85rem; margin-top: 40px; }
-  footer a { color: var(--accent); text-decoration: none; }
-
-  @media (max-width: 640px) {
-    .contact-grid { grid-template-columns: 1fr; }
-    header { padding: 14px 20px; }
-    .container { padding: 40px 20px; }
-    .hero { padding: 50px 20px; }
-    .hero h1 { font-size: 1.9rem; }
-  }
-</style>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/site.css">
 </head>
 <body>
 
-<header>
-  <a href="index.html" class="home">
-    <div class="logo-text">Let's Play With <span>Physics</span></div>
-  </a>
-  <a href="index.html" class="back">← Home</a>
-</header>
+  <!-- Icon set (line icons, reused below with <use>) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></symbol>
+    <symbol id="i-timer" viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6"/></symbol>
+    <symbol id="i-pencil" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></symbol>
+    <symbol id="i-atom" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1.6"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.4A8 8 0 1 1 21 12z"/><path d="M8.5 11h7M8.5 14h4"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></symbol>
+    <symbol id="i-cap" viewBox="0 0 24 24"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2 9 2 12 0v-5"/></symbol>
+    <symbol id="i-school" viewBox="0 0 24 24"><path d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M10 9.5v5l4.5-2.5z"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 8 3 8H3s3-1 3-8"/><path d="M10 20a2 2 0 0 0 4 0"/></symbol>
+    <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></symbol>
+  </svg>
 
-<div class="hero">
-  <div style="max-width:860px; margin:0 auto;">
-    <div class="badge">Get in Touch</div>
-    <h1>Contact Us</h1>
-    <p>Have a doubt, a question, or want to know more about our materials? We're happy to hear from you.</p>
-  </div>
-</div>
-
-<div class="container">
-
-  <div class="contact-grid">
-
-    <div class="contact-card wa-card">
-      <div class="icon">💬</div>
-      <h3>WhatsApp</h3>
-      <p>The fastest way to reach us. Message us for doubts, enrollment queries, or feedback.</p>
-      <p><a href="https://wa.me/918639905551">+91 8639905551</a></p>
-      <a href="https://wa.me/918639905551?text=Hello%2C%20I%20have%20a%20query%20about%20Let%27s%20Play%20With%20Physics." class="wa-btn" target="_blank">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        Chat on WhatsApp
-      </a>
+  <!-- ═════════ NAV ═════════ -->
+  <header class="nav">
+    <div class="container nav-inner">
+      <a href="index.html" class="nav-logo"><img src="images/logo-nav.png" alt="Let's Play With Physics"></a>
+      <nav class="nav-links" aria-label="Main">
+        <a href="course.html">Courses</a>
+        <a href="material.html">Study Materials</a>
+        <a href="mocktest.html">Mock Tests</a>
+        <a href="simulations.html">Simulations</a>
+        <a href="about.html">About</a>
+        <a href="contact.html" style="color:#fff">Contact</a>
+      </nav>
+      <div class="nav-right">
+        <a href="login.html" class="nav-login" data-account-link>Login</a>
+        <a href="index.html#batches" class="btn btn-orange">Enroll Now</a>
+        <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Open menu"><span></span><span></span><span></span></button>
+      </div>
     </div>
-
-    <div class="contact-card location-card">
-      <div class="icon">📍</div>
-      <h3>Location</h3>
-      <p>Based in Hyderabad, Telangana, India.</p>
-      <p>Serving NEET &amp; JEE aspirants across India through online resources.</p>
+    <div class="mobile-menu" id="mobile-menu">
+      <a href="course.html" onclick="closeMenu()">Courses</a>
+      <a href="material.html" onclick="closeMenu()">Study Materials</a>
+      <a href="mocktest.html" onclick="closeMenu()">Mock Tests</a>
+      <a href="simulations.html" onclick="closeMenu()">Simulations</a>
+      <a href="about.html" onclick="closeMenu()">About</a>
+      <a href="contact.html" onclick="closeMenu()">Contact</a>
+      <a href="login.html" data-account-link onclick="closeMenu()">Login</a>
+      <a href="index.html#batches" class="btn btn-orange" onclick="closeMenu()">Enroll Now</a>
     </div>
+  </header>
 
-    <div class="contact-card website-card">
-      <div class="icon">🌐</div>
-      <h3>Website</h3>
-      <p>You're already here! Explore our materials, formula sheets, and mock tests.</p>
-      <p><a href="https://letsplaywithphysics.in">letsplaywithphysics.in</a></p>
+  <section class="page-hero">
+    <div class="container">
+      <div class="crumbs"><a href="index.html">Home</a> › Contact</div>
+      <span class="eyebrow" style="margin-top:18px;">Get in touch</span>
+      <h1>Contact us</h1>
+      <p>Have a doubt, a question, or want to join a batch? We're happy to hear from you.</p>
     </div>
+  </section>
 
-    <div class="contact-card email-card">
-      <div class="icon">⏱️</div>
-      <h3>Response Time</h3>
-      <p>We typically respond to WhatsApp messages within <strong>24 hours</strong> on working days.</p>
-      <p>For urgent doubts, WhatsApp is the best channel.</p>
+  <section>
+    <div class="container">
+      <div class="grid-4">
+        <div class="card contact-card"><div class="ico-chip c-green"><svg class="svg-ico"><use href="#i-chat"/></svg></div><h3>WhatsApp</h3><p>The fastest way to reach us — doubts, enrolment or feedback.</p><p><a href="https://wa.me/918639905551">+91 86399 05551</a></p>
+          <a href="https://wa.me/918639905551?text=Hello%2C%20I%20have%20a%20query%20about%20Let%27s%20Play%20With%20Physics." class="btn btn-whatsapp" target="_blank" rel="noopener">💬 Chat on WhatsApp</a></div>
+        <div class="card contact-card"><div class="ico-chip c-blue"><svg class="svg-ico"><use href="#i-mail"/></svg></div><h3>Email</h3><p>For detailed questions or collaboration requests.</p><p><a class="email-link" href="mailto:letsplaywithphysics647742@gmail.com">letsplaywithphysics647742<wbr>@gmail.com</a></p></div>
+        <div class="card contact-card"><div class="ico-chip c-orange"><svg class="svg-ico"><use href="#i-pin"/></svg></div><h3>Location</h3><p>Based in Hyderabad, Telangana.</p><p>Serving NEET &amp; JEE aspirants across India online.</p></div>
+        <div class="card contact-card"><div class="ico-chip c-purple"><svg class="svg-ico"><use href="#i-clock"/></svg></div><h3>Response time</h3><p>We usually reply to WhatsApp messages within <strong>24 hours</strong> on working days.</p></div>
+      </div>
     </div>
+  </section>
 
-  </div>
-
-  <div class="faq-section">
-    <h2>Common Queries</h2>
-
-    <div class="faq-item">
-      <h3>How do I access the mock test or protected materials?</h3>
-      <p>Passwords for mock tests and premium materials are shared by the instructor. Contact us on WhatsApp to get access.</p>
+  <section class="soft">
+    <div class="container narrow">
+      <div class="sec-head center">
+        <span class="eyebrow">FAQ</span>
+        <h2>Common questions</h2>
+      </div>
+      <div class="faq">
+        <details open><summary>How do I get access to mock tests?</summary><p>Create a free student account, then buy a plan that includes Mock Tests from <a href="dashboard.html#plans">My Plans</a> in your student portal (payment by UPI on WhatsApp). Akshay Sir unlocks it for your account, usually within 24 hours.</p></details>
+        <details><summary>Are the formula sheets free?</summary><p>Yes. All formula sheets, practice questions and notes are free for every student with an account — open <a href="material.html">Study Materials</a> to get started.</p></details>
+        <details><summary>I found an error in a question or answer. What should I do?</summary><p>Thank you! WhatsApp us the test name, question number and what you noticed. We review all feedback carefully.</p></details>
+        <details><summary>Can schools or institutes use your materials?</summary><p>For institutional use or collaborations, please message us on WhatsApp to discuss permissions and terms.</p></details>
+      </div>
+      <div class="note"><strong>Note:</strong> This platform is run by a single educator, so replies can take a little longer during exam season. Thank you for your patience.</div>
     </div>
+  </section>
 
-    <div class="faq-item">
-      <h3>Are the formula sheets free to download?</h3>
-      <p>Yes! Most formula sheets and practice questions on our Materials page are free to download and use for personal study.</p>
+  <!-- ═════════ FOOTER ═════════ -->
+  <footer>
+    <div class="container">
+      <div class="foot-grid">
+        <div>
+          <img src="images/logo-nav.png" alt="Let's Play With Physics">
+          <p>NEET &amp; JEE Mains physics, taught the way it should be — with concepts first.</p>
+        </div>
+        <div>
+          <h4>Learn</h4>
+          <a href="material.html">Study Materials</a>
+          <a href="mocktest.html">Mock Tests</a>
+          <a href="simulations.html">Simulations</a>
+          <a href="course.html">Courses</a>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <a href="about.html">About</a>
+          <a href="contact.html">Contact</a>
+          <a href="login.html" data-account-link>Login</a>
+        </div>
+        <div>
+          <h4>Legal</h4>
+          <a href="privacy-policy.html">Privacy Policy</a>
+          <a href="terms.html">Terms &amp; Conditions</a>
+        </div>
+      </div>
+      <div class="foot-bottom">
+        <span>&copy; 2026 Let's Play With Physics · Hyderabad, India</span>
+        <span>Made with ❤ for NEET &amp; JEE aspirants</span>
+      </div>
     </div>
+  </footer>
 
-    <div class="faq-item">
-      <h3>I found an error in a question/answer. What should I do?</h3>
-      <p>We appreciate it! Please WhatsApp us with the question number and your observation. We review all feedback carefully.</p>
-    </div>
-
-    <div class="faq-item">
-      <h3>Can schools or institutes use your materials?</h3>
-      <p>For institutional use or collaboration inquiries, please reach out to us directly on WhatsApp to discuss permissions and terms.</p>
-    </div>
-
-  </div>
-
-  <div class="note-box">
-    <strong>Note:</strong> This website is managed by a single educator. Response times may vary during exam seasons or preparation periods. We appreciate your patience.
-  </div>
-
-</div>
-
-<footer>
-  &copy; 2026 Let's Play With Physics &nbsp;·&nbsp;
-  <a href="privacy-policy.html">Privacy Policy</a> &nbsp;·&nbsp;
-  <a href="terms.html">Terms &amp; Conditions</a> &nbsp;·&nbsp;
-  <a href="about.html">About</a>
-</footer>
-
+  <script>
+    function toggleMenu() {
+      document.getElementById('mobile-menu').classList.toggle('open');
+      document.getElementById('hamburger').classList.toggle('open');
+    }
+    function closeMenu() {
+      document.getElementById('mobile-menu').classList.remove('open');
+      document.getElementById('hamburger').classList.remove('open');
+    }
+  </script>
+  <script src="js/nav-account.js"></script>
 </body>
 </html>
