@@ -69,6 +69,13 @@ It then appears in the student portal → **Study Materials**.
 2. Add a card for it in `simulations.html`, and a line to the `SIMULATIONS`
    list at the bottom of `js/materials-data.js`.
 
+## After changing a CSS or JS file
+
+Browsers keep old copies of `css/` and `js/` files. Every page loads them with a
+version number, e.g. `css/site.css?v=20261026`. When you change one of those files,
+change the number on every page (use today's date) so students get the new version
+straight away.
+
 ## Mock tests, students and plans
 
 Questions, answers, student accounts, plans and results are stored in

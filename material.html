@@ -7,7 +7,7 @@
   <meta name="description" content="Free NEET and JEE Mains physics formula sheets, practice questions and revision notes by Akshay Sir. Create a free student account to access them.">
   <link rel="icon" type="image/png" href="images/favicon.png">
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/site.css">
+  <link rel="stylesheet" href="css/site.css?v=20261026">
   <script>
     // Already logged in? Study materials live in the student portal.
     try { if (localStorage.getItem('sb-cclwdlijpxsefczgqoou-auth-token')) location.replace('dashboard.html#materials'); } catch (e) {}
@@ -136,12 +136,12 @@
       document.getElementById('hamburger').classList.remove('open');
     }
   </script>
-  <script src="js/materials-data.js"></script>
+  <script src="js/materials-data.js?v=20261026"></script>
   <script>
     const total = id => Object.values(STUDY_MATERIALS.find(g => g.id === id).exams).reduce((n, l) => n + l.length, 0);
     document.getElementById('counts').innerHTML = STUDY_MATERIALS.map(g =>
       `<div class="stat"><b>${total(g.id) || 'Soon'}</b><span>${g.name}</span></div>`).join('');
   </script>
-  <script src="js/nav-account.js"></script>
+  <script src="js/nav-account.js?v=20261026"></script>
 </body>
 </html>
