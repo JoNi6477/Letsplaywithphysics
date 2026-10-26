@@ -7,7 +7,7 @@
   <link rel="icon" type="image/png" href="images/favicon.png">
   <meta name="description" content="Log in or create your student account to access mock tests, simulations and video lectures.">
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/account.css?v=20261027">
+  <link rel="stylesheet" href="css/account.css?v=20261028">
 </head>
 <body>
   <nav>
@@ -65,8 +65,15 @@
           <label class="field">Full name
             <input class="input" type="text" name="full_name" autocomplete="name" maxlength="80" required>
           </label>
-          <label class="field">Email
+          <label class="field">Email <small>We'll send a confirmation link here — please type it carefully.</small>
             <input class="input" type="email" name="email" autocomplete="email" required>
+          </label>
+          <div class="email-hint" id="signup-hint" hidden>
+            <span id="signup-hint-text"></span>
+            <button type="button" class="link-btn" id="signup-hint-fix" hidden>Yes, fix it</button>
+          </div>
+          <label class="field">Confirm email
+            <input class="input" type="email" name="email2" autocomplete="off" required>
           </label>
           <label class="field">Phone / WhatsApp number <small>Optional — helps Akshay Sir reach you about your batch.</small>
             <input class="input" type="tel" name="phone" autocomplete="tel" maxlength="15" pattern="[0-9+ ]{10,15}">
@@ -99,8 +106,9 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.1/dist/umd/supabase.js"></script>
-  <script src="js/supabase-config.js?v=20261027"></script>
-  <script src="js/account.js?v=20261027"></script>
+  <script src="js/supabase-config.js?v=20261028"></script>
+  <script src="js/account.js?v=20261028"></script>
+  <script src="js/email-check.js?v=20261028"></script>
   <script>
     const msg = $('msg');
     const forms = { login: $('form-login'), signup: $('form-signup'), forgot: $('form-forgot') };
@@ -150,16 +158,49 @@
     });
 
     $('btn-resend').addEventListener('click', async () => {
+      const btn = $('btn-resend');
+      if (btn.disabled) return;
+      btn.disabled = true;
+      setTimeout(() => { btn.disabled = false; }, 60000);  // one resend per minute
       const { error } = await sb.auth.resend({ type: 'signup', email: lastEmail, options: { emailRedirectTo: pageUrl('dashboard.html') } });
       showMessage(msg, error ? friendlyError(error) : 'Confirmation email sent again. Check your inbox and spam folder.', error ? 'error' : 'success');
+    });
+
+    // Typo check on the sign-up email ("gmial.com" → "gmail.com")
+    let checkedEmail = '';
+    function showEmailHint(result) {
+      $('signup-hint').hidden = !result.warning;
+      $('signup-hint-text').textContent = result.warning || '';
+      $('signup-hint-fix').hidden = !result.suggestion;
+      $('signup-hint-fix').dataset.email = result.suggestion || '';
+    }
+    forms.signup.email.addEventListener('blur', e => { if (e.target.value.trim()) showEmailHint(checkEmail(e.target.value)); });
+    forms.signup.email.addEventListener('input', () => showEmailHint({}));
+    $('signup-hint-fix').addEventListener('click', e => {
+      forms.signup.email.value = e.target.dataset.email;
+      if (forms.signup.email2.value.trim()) forms.signup.email2.value = e.target.dataset.email;
+      showEmailHint({});
     });
 
     forms.signup.addEventListener('submit', e => {
       e.preventDefault();
       const f = e.target;
       if (!f.reportValidity()) return;
+      const email = f.email.value.trim().toLowerCase();
+      const check = checkEmail(email);
+      if (check.error) { showMessage(msg, check.error, 'error'); return; }
+      if (email !== f.email2.value.trim().toLowerCase()) {
+        showMessage(msg, 'The two email addresses don\'t match. Please check them.', 'error');
+        return;
+      }
+      if (check.warning && checkedEmail !== email) {
+        // Ask once; pressing "Create account" again means the student is sure.
+        checkedEmail = email;
+        showEmailHint(check);
+        showMessage(msg, check.warning + ' Fix it, or press "Create account" again if it is correct.', 'info');
+        return;
+      }
       withBusy(f, async () => {
-        const email = f.email.value.trim();
         const { data, error } = await sb.auth.signUp({
           email,
           password: f.password.value,
@@ -171,6 +212,7 @@
         if (error) { showMessage(msg, friendlyError(error), 'error'); return; }
         if (data.session) { location.replace(safeNext('dashboard.html')); return; }
         f.reset();
+        showEmailHint({});
         showView('login');
         forms.login.email.value = email;
         showMessage(msg, `Almost done! We sent a confirmation link to ${email}. Click it to activate your account, then log in. (Check your spam folder too.)`, 'success');
@@ -181,6 +223,8 @@
       e.preventDefault();
       const f = e.target;
       if (!f.reportValidity()) return;
+      const check = checkEmail(f.email.value);
+      if (check.error) { showMessage(msg, check.error, 'error'); return; }
       withBusy(f, async () => {
         const { error } = await sb.auth.resetPasswordForEmail(f.email.value.trim(), { redirectTo: pageUrl('reset-password.html') });
         if (error) { showMessage(msg, friendlyError(error), 'error'); return; }

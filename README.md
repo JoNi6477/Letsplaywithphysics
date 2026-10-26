@@ -74,7 +74,7 @@ logging in.
 ## After changing a CSS or JS file
 
 Browsers keep old copies of `css/` and `js/` files. Every page loads them with a
-version number, e.g. `css/site.css?v=20261026`. When you change one of those files,
+version number, e.g. `css/site.css?v=20261028`. When you change one of those files,
 change the number on every page (use today's date) so students get the new version
 straight away.
 
