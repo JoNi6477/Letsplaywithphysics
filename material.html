@@ -4,14 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Study Materials — Let's Play With Physics</title>
-  <meta name="description" content="Free NEET and JEE Mains physics formula sheets, practice questions and revision notes by Akshay Sir. Create a free student account to access them.">
+  <meta name="description" content="Free NEET and JEE Mains physics formula sheets for every chapter by Akshay Sir — view or download instantly, no login needed.">
   <link rel="icon" type="image/png" href="images/favicon.png">
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/site.css?v=20261026">
-  <script>
-    // Already logged in? Study materials live in the student portal.
-    try { if (localStorage.getItem('sb-cclwdlijpxsefczgqoou-auth-token')) location.replace('dashboard.html#materials'); } catch (e) {}
-  </script>
+  <link rel="stylesheet" href="css/site.css?v=20261027">
 </head>
 <body>
 
@@ -68,9 +64,9 @@
   <section class="page-hero">
     <div class="container">
       <div class="crumbs"><a href="index.html">Home</a> › Study Materials</div>
-      <span class="eyebrow" style="margin-top:18px;">Free for every student</span>
-      <h1>Study materials</h1>
-      <p>Formula sheets, practice questions and revision notes — handpicked by Akshay Sir for NEET and JEE Mains.</p>
+      <span class="eyebrow" style="margin-top:18px;">Free · no login needed</span>
+      <h1>Formula sheets &amp; study materials</h1>
+      <p>Exam-focused formula sheets for every chapter of NEET and JEE Mains physics — open or download them right away.</p>
     </div>
   </section>
 
@@ -80,14 +76,33 @@
     </div>
   </div>
 
-  <section>
+  <section id="formula-sheets">
     <div class="container">
-      <div class="card gate-card">
-        <div style="margin:0 auto 18px;" class="ico-chip c-blue"><svg class="svg-ico"><use href="#i-file"/></svg></div>
-        <h2 style="font-size:26px;margin-bottom:8px;">Log in to open them</h2>
-        <p>Creating an account takes 30 seconds and is free. You'll also get your own student dashboard with test results and progress.</p>
-        <a class="btn btn-orange" href="login.html#signup" style="margin-top:22px;">Create free account</a>
-        <a class="btn btn-outline" href="login.html?next=dashboard.html%23materials">I already have an account — Log in</a>
+      <div class="sec-head">
+        <span class="eyebrow">Formula sheets</span>
+        <h2>Pick your exam and chapter</h2>
+        <p>Two-page sheets with every key formula, common pitfalls and exam shortcuts. Free to view and download.</p>
+      </div>
+      <div class="fs-tools">
+        <div class="fs-pills" id="fs-exams" role="tablist"></div>
+        <input type="search" id="fs-search" class="fs-search" placeholder="Search chapter, e.g. Optics" aria-label="Search chapters">
+      </div>
+      <div class="fs-grid" id="fs-grid"></div>
+    </div>
+  </section>
+
+  <section class="soft">
+    <div class="container">
+      <div class="card fs-more">
+        <div>
+          <span class="eyebrow">More free materials</span>
+          <h2>Practice questions &amp; revision notes</h2>
+          <p id="more-text">Chapter-wise practice sets and quick revision notes are free with a student account — plus mock test results and progress tracking in your own dashboard.</p>
+        </div>
+        <div class="fs-more-actions" id="more-actions">
+          <a class="btn btn-orange" href="login.html#signup">Create free account</a>
+          <a class="btn btn-outline" href="login.html?next=dashboard.html%23materials">Log in</a>
+        </div>
       </div>
     </div>
   </section>
@@ -136,12 +151,47 @@
       document.getElementById('hamburger').classList.remove('open');
     }
   </script>
-  <script src="js/materials-data.js?v=20261026"></script>
+  <script src="js/materials-data.js?v=20261027"></script>
   <script>
-    const total = id => Object.values(STUDY_MATERIALS.find(g => g.id === id).exams).reduce((n, l) => n + l.length, 0);
-    document.getElementById('counts').innerHTML = STUDY_MATERIALS.map(g =>
-      `<div class="stat"><b>${total(g.id) || 'Soon'}</b><span>${g.name}</span></div>`).join('');
+    const groups = STUDY_MATERIALS;
+    const total = id => Object.values(groups.find(g => g.id === id).exams).reduce((n, l) => n + l.length, 0);
+    document.getElementById('counts').innerHTML = groups.map(g =>
+      `<div class="stat"><b>${total(g.id) || 'Soon'}</b><span>${g.name}${g.id === 'formula' ? ' · open to all' : ' · free login'}</span></div>`).join('');
+
+    // Open formula-sheet library
+    const sheets = groups.find(g => g.id === 'formula').exams;
+    const esc = t => String(t).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    let exam = Object.keys(sheets)[0], query = '';
+    function render() {
+      document.getElementById('fs-exams').innerHTML = Object.keys(sheets).map(e =>
+        `<button class="fs-pill ${e === exam ? 'active' : ''}" data-exam="${e}" role="tab">${e} <span>${sheets[e].length}</span></button>`).join('');
+      const q = query.trim().toLowerCase();
+      const list = sheets[exam].filter(i => !q || i.title.toLowerCase().includes(q));
+      document.getElementById('fs-grid').innerHTML = list.map(i => {
+        const url = encodeURI(i.file), name = i.title.replace(/ — Formula Sheet$/, '');
+        return `<div class="fs-card">
+          <div class="fs-top"><span class="fs-ico">📄</span>${i.isNew ? '<span class="fs-new">NEW</span>' : ''}</div>
+          <h3>${esc(name)}</h3>
+          <p>${esc(exam)} · Formula sheet · PDF</p>
+          <div class="fs-actions">
+            <a class="btn btn-blue" href="${url}" target="_blank" rel="noopener">View</a>
+            <a class="btn btn-outline" href="${url}" download>Download</a>
+          </div>
+        </div>`;
+      }).join('') || '<p class="fs-empty">No chapter matches your search.</p>';
+    }
+    document.getElementById('fs-exams').addEventListener('click', e => { const b = e.target.closest('[data-exam]'); if (b) { exam = b.dataset.exam; render(); } });
+    document.getElementById('fs-search').addEventListener('input', e => { query = e.target.value; render(); });
+    render();
+
+    // Logged-in students: point the sign-up card to their portal instead
+    try {
+      if (localStorage.getItem('sb-cclwdlijpxsefczgqoou-auth-token')) {
+        document.getElementById('more-text').textContent = 'Your practice questions, revision notes, mock tests and results are waiting in your student portal.';
+        document.getElementById('more-actions').innerHTML = '<a class="btn btn-orange" href="dashboard.html#materials">Open my portal</a>';
+      }
+    } catch (e) {}
   </script>
-  <script src="js/nav-account.js?v=20261026"></script>
+  <script src="js/nav-account.js?v=20261027"></script>
 </body>
 </html>
