@@ -9,7 +9,7 @@ letsplaywithphysics/
 │
 ├── index.html            Home page
 ├── course.html           Courses (video lectures — coming soon)
-├── material.html         Study Materials (asks visitors to log in)
+├── material.html         Study Materials (formula sheets open to everyone)
 ├── simulations.html      Simulations list
 ├── mocktest.html         Mock test (NTA exam screen — login + plan required)
 ├── login.html            Log in / create account / forgot password
@@ -61,7 +61,9 @@ letsplaywithphysics/
    { "title": "Current Electricity — Formula Sheet", "file": "materials/formula-sheets/jee/current-electricity.pdf", "isNew": true },
    ```
 
-It then appears in the student portal → **Study Materials**.
+It then appears in the student portal → **Study Materials**. Formula sheets
+also appear on the public `material.html` page, so anyone can open them without
+logging in.
 
 ## How to add a simulation
 
