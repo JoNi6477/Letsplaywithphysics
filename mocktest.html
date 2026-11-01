@@ -3,6 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Security: this page may only load code from this site and talk to our Supabase project -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://cclwdlijpxsefczgqoou.supabase.co wss://cclwdlijpxsefczgqoou.supabase.co; form-action 'self'; base-uri 'self'; object-src 'none'; frame-src 'none'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <script>if (window.top !== window.self) document.documentElement.style.display = "none"; // shown blank if another site frames it</script>
   <title>Mock Test — Let's Play With Physics</title>
   <link rel="icon" type="image/png" href="images/favicon.png">
   <meta name="description" content="NEET and JEE Mains physics mock tests in the real NTA computer-based test format — timer, question palette, mark for review, and instant results.">
@@ -400,7 +404,7 @@
     <div class="footer-copy">© 2026 · Akshay Kumar · University of Hyderabad · Hyderabad</div>
   </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.1/dist/umd/supabase.js"></script>
+  <script src="js/vendor/supabase-2.117.1.js"></script>
   <script src="js/supabase-config.js?v=20261028"></script>
   <script src="js/account.js?v=20261028"></script>
   <script>

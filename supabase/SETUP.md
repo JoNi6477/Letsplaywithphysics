@@ -14,11 +14,15 @@ Do these steps once, in order, in the Supabase dashboard for the
 1. **SQL Editor** → **New query**.
 2. Paste the whole of [`mock-tests.sql`](mock-tests.sql) and click **Run**.
 
-This moves the mock test questions into the database. Only students with an
-active plan that includes **Mock Tests** (and admins) can open a test, and
-answers are only shown after submitting. The JEE test starts switched off
-(it has only 2 questions); switch it on in **Table Editor** → `tests` →
-`is_active` once more questions are added.
+This creates the mock test tables. Only students with an active plan that
+includes **Mock Tests** (and admins) can open a test, and answers are only
+shown after submitting. The JEE test starts switched off; switch it on in
+**Table Editor** → `tests` → `is_active` once it has questions.
+
+**Questions and answers never go in GitHub** — this repository is public, so
+anyone could read an answer key here. Keep question files on your own
+computer and paste them into **SQL Editor** (the end of `mock-tests.sql`
+shows the format).
 
 ## 2. Login settings
 
@@ -46,6 +50,18 @@ Open **Authentication** → **Sign In / Providers** → **Email**:
    ```
 
 3. Log in on the website. You will now see **Admin** in the menu.
+4. The first time you open the Admin page it shows a QR code. Install
+   **Google Authenticator** on your phone, scan it and type the 6-digit code.
+   From then on, each new login to the Admin page asks for a code from the app.
+   Admin powers do not work without it, so a stolen password alone is useless.
+
+**Lost your phone?** Run this in **SQL Editor** (put in your email), then open the
+Admin page again to scan a new QR code:
+
+```sql
+delete from auth.mfa_factors
+where user_id = (select id from auth.users where email = 'your-email@example.com');
+```
 
 To remove an admin later:
 

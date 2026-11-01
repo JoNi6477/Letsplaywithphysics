@@ -10,6 +10,9 @@
 --   * Only admins (people listed in public.admins) can grant or remove access
 --     and manage plans. Nobody can make themselves an admin from the website;
 --     admins are added only by running SQL here in the dashboard.
+--   * Admin powers also need 2-step verification (a code from an authenticator
+--     app) in the same login, so a stolen admin password alone is not enough.
+--   * Students can delete their own account and everything stored with it.
 -- =====================================================================
 
 
@@ -70,8 +73,9 @@ create index if not exists enrollments_user_idx on public.enrollments (user_id, 
 -- Helper functions
 -- ---------------------------------------------------------------------
 
--- True when the logged-in user is an admin.
-create or replace function public.is_admin()
+-- True when the logged-in user is listed as an admin (used by the admin page to
+-- ask for the 2-step code). Gives no admin powers by itself.
+create or replace function public.is_admin_account()
 returns boolean
 language sql
 stable
@@ -79,6 +83,19 @@ security definer
 set search_path = ''
 as $$
   select exists (select 1 from public.admins where user_id = (select auth.uid()));
+$$;
+
+-- True when the logged-in user is an admin AND passed 2-step verification
+-- ("aal2") in this login. Every admin permission checks this.
+create or replace function public.is_admin()
+returns boolean
+language sql
+stable
+security definer
+set search_path = ''
+as $$
+  select coalesce((select auth.jwt() ->> 'aal'), '') = 'aal2'
+     and exists (select 1 from public.admins where user_id = (select auth.uid()));
 $$;
 
 -- True when the logged-in user currently has access to a kind of content
@@ -143,6 +160,21 @@ drop trigger if exists on_auth_user_email_changed on auth.users;
 create trigger on_auth_user_email_changed
   after update of email on auth.users
   for each row execute function public.handle_user_email_change();
+
+-- Lets a student permanently delete their own account. Their profile, plans
+-- and mock test results are removed with it (on delete cascade).
+create or replace function public.delete_my_account()
+returns void
+language plpgsql
+volatile
+security definer
+set search_path = ''
+as $$
+begin
+  if (select auth.uid()) is null then raise exception 'NOT_LOGGED_IN'; end if;
+  delete from auth.users where id = (select auth.uid());
+end;
+$$;
 
 
 -- ---------------------------------------------------------------------
@@ -220,9 +252,11 @@ grant select, insert, update, delete on public.enrollments to authenticated;
 
 -- is_admin() is also used by the public plans policy, so visitors need to run it
 -- (it simply returns false for them).
-revoke execute on function public.is_admin(), public.has_access(text) from public;
+revoke execute on function public.is_admin(), public.is_admin_account(), public.has_access(text),
+  public.delete_my_account() from public, anon;
 grant execute on function public.is_admin() to anon, authenticated;
-grant execute on function public.has_access(text) to authenticated;
+grant execute on function public.is_admin_account(), public.has_access(text),
+  public.delete_my_account() to authenticated;
 revoke execute on function public.handle_new_user(), public.handle_user_email_change() from public, anon, authenticated;
 
 

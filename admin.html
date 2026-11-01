@@ -3,6 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Security: this page may only load code from this site and talk to our Supabase project -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://cclwdlijpxsefczgqoou.supabase.co wss://cclwdlijpxsefczgqoou.supabase.co; form-action 'self'; base-uri 'self'; object-src 'none'; frame-src 'none'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <script>if (window.top !== window.self) document.documentElement.style.display = "none"; // shown blank if another site frames it</script>
   <title>Admin — Let's Play With Physics</title>
   <link rel="icon" type="image/png" href="images/favicon.png">
   <meta name="robots" content="noindex">
@@ -27,6 +31,26 @@
   <main>
     <p class="loading" id="loading">Loading…</p>
     <div class="msg msg-error" id="denied" hidden>This page is only for the site admin.</div>
+
+    <!-- 2-step verification: admin powers need a code from an authenticator app -->
+    <div class="auth-wrap" id="twostep" hidden>
+      <div class="auth-card">
+        <h1 style="font-size:24px;">2-step verification</h1>
+        <div id="twostep-setup" hidden>
+          <p class="lead small">Protect the admin panel with a code from your phone. Install <b>Google Authenticator</b> (or Microsoft Authenticator), tap <b>+</b> → <b>Scan a QR code</b>, and scan this:</p>
+          <div style="text-align:center; margin:16px 0;"><img id="twostep-qr" alt="QR code for your authenticator app" width="180" height="180"></div>
+          <p class="muted small" style="margin-bottom:16px;">Can't scan? Choose "Enter a setup key" and type: <code id="twostep-secret" style="word-break:break-all;"></code></p>
+        </div>
+        <p class="lead small" id="twostep-ask" hidden>Open your authenticator app and enter the 6-digit code for <b>Let's Play With Physics</b>.</p>
+        <div class="msg" id="twostep-msg" hidden role="status"></div>
+        <form id="twostep-form" novalidate>
+          <label class="field">6-digit code
+            <input class="input" name="code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" required>
+          </label>
+          <button class="btn btn-primary btn-block" type="submit">Verify</button>
+        </form>
+      </div>
+    </div>
 
     <div id="content" hidden>
       <h1>Admin panel</h1>
@@ -115,7 +139,7 @@
 
   <footer><span>&copy; 2026 Let's Play With Physics · Admin</span></footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.1/dist/umd/supabase.js"></script>
+  <script src="js/vendor/supabase-2.117.1.js"></script>
   <script src="js/supabase-config.js?v=20261028"></script>
   <script src="js/account.js?v=20261028"></script>
   <script>
@@ -125,12 +149,49 @@
     async function init() {
       me = await requireUser();
       if (!me) return;
-      const { data: isAdmin } = await sb.rpc('is_admin');
+      const { data: isAdminAccount } = await sb.rpc('is_admin_account');
       $('loading').hidden = true;
-      if (isAdmin !== true) { $('denied').hidden = false; return; }
+      if (isAdminAccount !== true) { $('denied').hidden = false; return; }
+      const { data: aal } = await sb.auth.mfa.getAuthenticatorAssuranceLevel();
+      if (aal?.currentLevel !== 'aal2') { await startTwoStep(); return; }
+      $('twostep').hidden = true;
       $('content').hidden = false;
       await reload();
     }
+
+    // Asks for the authenticator code, or sets the app up the first time.
+    let factorId = null;
+    async function startTwoStep() {
+      $('twostep').hidden = false;
+      const { data, error } = await sb.auth.mfa.listFactors();
+      if (error) { showMessage($('twostep-msg'), friendlyError(error), 'error'); return; }
+      const verified = (data.totp || []).find(f => f.status === 'verified');
+      if (verified) {
+        factorId = verified.id;
+        $('twostep-ask').hidden = false;
+        return;
+      }
+      // First time: clear any half-finished setup, then show a new QR code.
+      for (const f of data.all || []) if (f.status !== 'verified') await sb.auth.mfa.unenroll({ factorId: f.id });
+      const enrolled = await sb.auth.mfa.enroll({ factorType: 'totp', friendlyName: 'Admin ' + Date.now() });
+      if (enrolled.error) { showMessage($('twostep-msg'), friendlyError(enrolled.error), 'error'); return; }
+      factorId = enrolled.data.id;
+      $('twostep-qr').src = enrolled.data.totp.qr_code;
+      $('twostep-secret').textContent = enrolled.data.totp.secret;
+      $('twostep-setup').hidden = false;
+    }
+
+    $('twostep-form').addEventListener('submit', async e => {
+      e.preventDefault();
+      const f = e.target;
+      if (!f.reportValidity() || !factorId) return;
+      const btn = f.querySelector('button');
+      btn.disabled = true;
+      const { error } = await sb.auth.mfa.challengeAndVerify({ factorId, code: f.code.value.trim() });
+      btn.disabled = false;
+      if (error) { showMessage($('twostep-msg'), 'That code didn\'t work. Check the time on your phone is correct and try the newest code.', 'error'); f.code.value = ''; return; }
+      init();
+    });
 
     async function reload() {
       const [s, p, e] = await Promise.all([
