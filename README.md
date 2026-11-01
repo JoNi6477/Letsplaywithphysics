@@ -37,7 +37,9 @@ letsplaywithphysics/
 │   ├── materials-data.js   ← list of every study material and simulation
 │   ├── supabase-config.js  Supabase connection (publishable key only)
 │   ├── account.js          Login helpers
-│   └── nav-account.js      Shows "Login" / "My Account" in the menu
+│   ├── nav-account.js      Shows "Login" / "My Account" in the menu
+│   ├── email-check.js      Catches mistyped emails on the sign-up form
+│   └── vendor/             Our own copy of the Supabase login library
 │
 ├── supabase/             Database setup (run once in Supabase → SQL Editor)
 │   ├── schema.sql          Student accounts, plans, access
@@ -81,5 +83,7 @@ straight away.
 ## Mock tests, students and plans
 
 Questions, answers, student accounts, plans and results are stored in
-**Supabase** (not in this repository). See [`supabase/SETUP.md`](supabase/SETUP.md).
+**Supabase** (not in this repository). This repository is public: never put
+question papers with answers, paid videos or paid simulations here — anything
+in it can be downloaded by anyone. See [`supabase/SETUP.md`](supabase/SETUP.md).
 Give students access from the **Admin panel** on the website.
