@@ -15,7 +15,7 @@
   const ansText = q => answers(q).map(n => `(${n})`).join(' or ');
   const yearSpan = years => years.length ? `${Math.min(...years)}–${Math.max(...years)}` : '';
 
-  fetch('data/pyq-neet.json?v=20261130')
+  fetch('data/pyq-neet.json?v=20261201')
     .then(r => r.json())
     .then(data => {
       const chapter = data.chapters.find(c => c.slug === params.get('ch'));
@@ -81,7 +81,7 @@
     let year = 'all';
     function render() {
       $('year-pills').innerHTML = ['all', ...years].map(y =>
-        `<button class="pyq-year ${y === year ? 'active' : ''}" data-y="${y}"><span>${y === 'all' ? 'All years' : 'NEET ' + y}</span><b>${y === 'all' ? qs.length : qs.filter(q => q.y === y).length}</b></button>`).join('');
+        `<button class="pyq-year ${y === year ? 'active' : ''}" data-y="${y}"><span>${y === 'all' ? 'All years' : y}</span><b>${y === 'all' ? qs.length : qs.filter(q => q.y === y).length}</b></button>`).join('');
       const list = year === 'all' ? qs : qs.filter(q => q.y === year);
       $('q-list').innerHTML = list.map((q, i) => questionCard(q, i + 1)).join('');
       if ($('show-all').checked) list.forEach(q => reveal(q.id));
@@ -129,8 +129,6 @@
     $('ch-nav').innerHTML = units.map(u => `<p class="pyq-nav-unit">${u}</p>` + data.chapters.filter(c => c.unit === u && c.count).map(c =>
       `<a class="pyq-nav-ch ${c.slug === current.slug ? 'current' : ''}" href="pyq.html?ch=${c.slug}"${c.slug === current.slug ? ' aria-current="page"' : ''}><span>${c.name}</span><b>${c.count}</b></a>`).join('')).join('');
     $('ch-nav-wrap').open = window.matchMedia('(min-width: 900px)').matches;
-    const cur = $('ch-nav').querySelector('.current');
-    if (cur && $('ch-nav-wrap').open) $('ch-nav').scrollTop = cur.offsetTop - $('ch-nav').offsetTop - 80;
   }
 
   function addBlock(parent, cls, html) {
