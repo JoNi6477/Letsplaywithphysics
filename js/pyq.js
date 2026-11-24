@@ -15,7 +15,7 @@
   const ansText = q => answers(q).map(n => `(${n})`).join(' or ');
   const yearSpan = years => years.length ? `${Math.min(...years)}–${Math.max(...years)}` : '';
 
-  fetch('data/pyq-neet.json?v=20261201')
+  fetch('data/pyq-neet.json?v=20261202')
     .then(r => r.json())
     .then(data => {
       const chapter = data.chapters.find(c => c.slug === params.get('ch'));
