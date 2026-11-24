@@ -460,3 +460,10 @@ body.pyq-print { background: #fff; color: #111; font-size: 13px; line-height: 1.
 .pyq-print .pp-keygrid span { border: 1px solid #e3e9f3; border-radius: 6px; padding: 4px 8px; }
 .pyq-print .pp-key p { margin-bottom: 6px; }
 .pyq-print .pp-site { margin-top: 18px; color: #1f6feb; }
+.pyq-sol { margin-top: 12px; background: var(--bg-soft); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; font-size: 15px; line-height: 1.7; color: var(--text); }
+.pyq-sol > b { display: block; color: var(--ink); font-size: 13px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+.pyq-print .pp-sols { margin-top: 22px; }
+.pyq-print .pp-sols h2 { font-size: 20px; margin-bottom: 8px; }
+.pyq-print .pp-sol { padding: 7px 0; border-bottom: 1px solid #e3e9f3; break-inside: avoid; }
+.pyq-print .pp-ans { display: inline-block; background: #ecfdf3; color: #15803d; font-weight: 700; font-size: 11px; padding: 1px 7px; border-radius: 10px; margin-right: 4px; }
+.pyq-print section { padding: 0; }

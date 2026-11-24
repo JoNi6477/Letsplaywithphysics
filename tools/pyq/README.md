@@ -8,6 +8,8 @@ the files here, never the JSON.
 tools/pyq/
 ├── data/neet2025.py …   One file per paper: every physics question, its options,
 │                         answer (1–4), chapter, and where its figure is on the PDF page
+├── solutions/neet2025.py …  Worked solutions, keyed by question number (shown after an answer
+│                         is revealed, and printed at the end of each chapter PDF)
 ├── figs/                 Figures cut by crop.py (not in git; build.py reuses images/pyq/neet/ when missing)
 ├── crop.py               Cuts the figures out of a paper PDF
 ├── build.py              Writes data/pyq-neet.json + images/pyq/neet/
@@ -18,7 +20,7 @@ tools/pyq/
 ## Adding a new paper (e.g. NEET 2026)
 
 1. Put the PDF in `tools/pyq/src/neet-2026.pdf`.
-2. Write `data/neet2026.py` in the same format as the other years.
+2. Write `data/neet2026.py` and `solutions/neet2026.py` in the same format as the other years.
 3. Add 2026 to `YEARS` in `build.py`, then run:
    ```
    python3 tools/pyq/crop.py 2026 tools/pyq/figs/2026
