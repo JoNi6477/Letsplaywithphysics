@@ -11,7 +11,12 @@
   <link rel="icon" type="image/png" href="images/favicon.png">
   <meta name="description" content="NEET and JEE Mains physics mock tests in the real NTA computer-based test format — timer, question palette, mark for review, and instant results.">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="js/vendor/katex/katex.min.css">
   <style>
+    /* Figures and tables inside questions */
+    .q-text img, .review-q img { display: block; max-width: min(100%, 380px); max-height: 240px; margin: 10px 0; }
+    .q-text .mt, .review-q .mt { border-collapse: collapse; margin: 10px 0; font-size: 15px; }
+    .q-text .mt td, .review-q .mt td { border: 1px solid #cbd5e1; padding: 5px 10px; vertical-align: top; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Nunito', Arial, sans-serif; background: #f4f7fc; color: #334155; overflow-x: hidden; }
     button { font-family: inherit; }
@@ -406,6 +411,8 @@
     <div class="footer-copy">© 2026 · Akshay Kumar · University of Hyderabad · Hyderabad</div>
   </footer>
 
+  <script src="js/vendor/katex/katex.min.js"></script>
+  <script src="js/vendor/katex/auto-render.min.js"></script>
   <script src="js/vendor/supabase-2.117.1.js"></script>
   <script src="js/supabase-config.js?v=20261203"></script>
   <script src="js/account.js?v=20261203"></script>
@@ -539,6 +546,11 @@
       togglePalette(false);
     }
 
+    // Formulas in questions are written as \( … \) and drawn with KaTeX.
+    function renderMath(el) {
+      if (window.renderMathInElement) renderMathInElement(el, { delimiters: [{ left: '\\(', right: '\\)', display: false }], throwOnError: false });
+    }
+
     function renderQuestion() {
       const q = questions[current];
       $('q-number').textContent = current + 1;
@@ -550,6 +562,7 @@
         </label>`).join('');
       $('btn-back').disabled = current === 0;
       $('btn-next').disabled = current === questions.length - 1;
+      renderMath($('q-text')); renderMath($('q-options'));
       document.querySelector('.q-content').scrollTop = 0;
     }
 
@@ -703,6 +716,7 @@
         return `<div class="review-item ${kind}"><div class="review-top"><span>Question ${i + 1}</span>${verdict}</div><div class="review-q">${q.q}</div><div class="review-opts">${opts}</div></div>`;
       }).join('');
       $('review-list').innerHTML = items || '<p class="c-grey" style="padding:12px 0;">No questions in this group.</p>';
+      renderMath($('review-list'));
     }
     $('review-filters').addEventListener('click', e => { if (e.target.dataset.filter) renderReview(e.target.dataset.filter); });
 
