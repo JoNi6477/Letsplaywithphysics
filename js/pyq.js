@@ -15,7 +15,7 @@
   const ansText = q => answers(q).map(n => `(${n})`).join(' or ');
   const yearSpan = years => years.length ? `${Math.min(...years)}–${Math.max(...years)}` : '';
 
-  fetch('data/pyq-neet.json?v=20261128')
+  fetch('data/pyq-neet.json?v=20261130')
     .then(r => r.json())
     .then(data => {
       const chapter = data.chapters.find(c => c.slug === params.get('ch'));
@@ -74,12 +74,14 @@
     $('hero-text').textContent = `${qs.length} NEET physics questions from ${yearSpan(years)}, newest first. Tap an option to check your answer, or download the chapter as a PDF.`;
     $('crumbs').innerHTML = $('crumbs').innerHTML.replace('› Previous Year Questions', '› <a href="pyq.html">Previous Year Questions</a>') + ` › ${ch.name}`;
     $('stats').hidden = true;
-    $('main').style.paddingTop = '36px';
+    $('main').style.paddingTop = '28px';
+    document.querySelector('.page-hero').classList.add('compact');
+    chapterNav(data, ch);
     $('ch-pdf').href = `materials/pyq/neet/${ch.slug}.pdf`;
     let year = 'all';
     function render() {
       $('year-pills').innerHTML = ['all', ...years].map(y =>
-        `<button class="fs-pill ${y === year ? 'active' : ''}" data-y="${y}">${y === 'all' ? 'All' : y} <span>${y === 'all' ? qs.length : qs.filter(q => q.y === y).length}</span></button>`).join('');
+        `<button class="pyq-year ${y === year ? 'active' : ''}" data-y="${y}"><span>${y === 'all' ? 'All years' : 'NEET ' + y}</span><b>${y === 'all' ? qs.length : qs.filter(q => q.y === y).length}</b></button>`).join('');
       const list = year === 'all' ? qs : qs.filter(q => q.y === year);
       $('q-list').innerHTML = list.map((q, i) => questionCard(q, i + 1)).join('');
       if ($('show-all').checked) list.forEach(q => reveal(q.id));
@@ -87,7 +89,10 @@
     }
     $('year-pills').addEventListener('click', e => {
       const b = e.target.closest('[data-y]');
-      if (b) { year = b.dataset.y === 'all' ? 'all' : Number(b.dataset.y); render(); }
+      if (!b) return;
+      year = b.dataset.y === 'all' ? 'all' : Number(b.dataset.y);
+      render();
+      if ($('q-list').getBoundingClientRect().top < 0) $('main').scrollIntoView({ behavior: 'smooth' });
     });
     $('show-all').addEventListener('change', render);
     $('q-list').addEventListener('click', e => {
@@ -116,6 +121,16 @@
       if (q.note) addBlock(card, 'pyq-note', q.note);
     }
     render();
+  }
+
+  // Sidebar list of every chapter, grouped by unit; open by default on laptops.
+  function chapterNav(data, current) {
+    const units = [...new Set(data.chapters.map(c => c.unit))];
+    $('ch-nav').innerHTML = units.map(u => `<p class="pyq-nav-unit">${u}</p>` + data.chapters.filter(c => c.unit === u && c.count).map(c =>
+      `<a class="pyq-nav-ch ${c.slug === current.slug ? 'current' : ''}" href="pyq.html?ch=${c.slug}"${c.slug === current.slug ? ' aria-current="page"' : ''}><span>${c.name}</span><b>${c.count}</b></a>`).join('')).join('');
+    $('ch-nav-wrap').open = window.matchMedia('(min-width: 900px)').matches;
+    const cur = $('ch-nav').querySelector('.current');
+    if (cur && $('ch-nav-wrap').open) $('ch-nav').scrollTop = cur.offsetTop - $('ch-nav').offsetTop - 80;
   }
 
   function addBlock(parent, cls, html) {
