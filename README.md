@@ -10,6 +10,7 @@ letsplaywithphysics/
 ├── index.html            Home page
 ├── course.html           Courses (video lectures — coming soon)
 ├── material.html         Study Materials (formula sheets open to everyone)
+├── pyq.html              NEET previous year questions, chapter-wise (open to everyone)
 ├── simulations.html      Simulations list
 ├── mocktest.html         Mock test (NTA exam screen — login + plan required)
 ├── login.html            Log in / create account / forgot password
@@ -25,9 +26,12 @@ letsplaywithphysics/
 │   ├── practice-questions/
 │   │   ├── neet/
 │   │   └── jee/
+│   ├── pyq/neet/         Chapter-wise NEET PYQ PDFs (made from pyq.html)
 │   ├── notes/            Quick revision notes
 │   └── archive/          Old versions — not shown on the website
 │
+├── data/pyq-neet.json    All NEET PYQs shown on pyq.html (generated — see tools/pyq/)
+├── tools/pyq/            Question source files + scripts that build the PYQ section
 ├── simulations/          Interactive simulation pages
 ├── images/               Logo (full + menu-bar size) and browser-tab icon
 ├── css/
