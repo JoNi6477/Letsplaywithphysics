@@ -10,9 +10,12 @@
   const MATH = { delimiters: [{ left: '\\(', right: '\\)', display: false }], throwOnError: false };
   const renderMath = el => { if (window.renderMathInElement) renderMathInElement(el, MATH); };
   const text = html => html.replace(/<[^>]+>/g, '').replace(/\\\(|\\\)|\\[a-z]+/gi, '');
+  // An answer is 1–4, or a list when NTA accepted more than one option.
+  const answers = q => q.a == null ? [] : [].concat(q.a);
+  const ansText = q => answers(q).map(n => `(${n})`).join(' or ');
   const yearSpan = years => years.length ? `${Math.min(...years)}–${Math.max(...years)}` : '';
 
-  fetch('data/pyq-neet.json?v=20261126')
+  fetch('data/pyq-neet.json?v=20261128')
     .then(r => r.json())
     .then(data => {
       const chapter = data.chapters.find(c => c.slug === params.get('ch'));
@@ -97,16 +100,16 @@
       const card = document.querySelector(`.pyq-q[data-id="${id}"]`);
       if (card.dataset.done) return;
       const q = byId(id);
-      if (q.a && i !== q.a) card.querySelector(`.pyq-opt[data-i="${i}"]`).classList.add('is-wrong');
+      if (q.a && !answers(q).includes(i)) card.querySelector(`.pyq-opt[data-i="${i}"]`).classList.add('is-wrong');
       reveal(id);
     }
     function reveal(id) {
       const card = document.querySelector(`.pyq-q[data-id="${id}"]`), q = byId(id);
       if (!card || card.dataset.done) return;
       card.dataset.done = '1';
-      if (q.a) card.querySelector(`.pyq-opt[data-i="${q.a}"]`).classList.add('is-right');
+      answers(q).forEach(n => card.querySelector(`.pyq-opt[data-i="${n}"]`).classList.add('is-right'));
       const ans = card.querySelector('.pyq-ans');
-      ans.innerHTML = q.a ? `Correct answer: <b>(${q.a})</b>`
+      ans.innerHTML = q.a ? `Correct answer: <b>${ansText(q)}</b>`
         : `<span class="pyq-soon">${q.pending ? 'Answer is being checked — coming soon.' : 'No single correct option — see note.'}</span>`;
       card.querySelector('.pyq-reveal').hidden = true;
       if (q.sol) addBlock(card, 'pyq-sol', `<b>Solution</b><div>${q.sol}</div>`);
@@ -161,12 +164,12 @@
       </div>`).join('')}
       <section class="pp-key">
         <h2>Answer key</h2>
-        <div class="pp-keygrid">${qs.map((q, i) => `<span><b>Q${i + 1}</b> ${q.a ? `(${q.a})` : '—'}</span>`).join('')}</div>
+        <div class="pp-keygrid">${qs.map((q, i) => `<span><b>Q${i + 1}</b> ${q.a ? ansText(q) : '—'}</span>`).join('')}</div>
         ${qs.filter(q => q.note).map(q => `<p><b>Q${qs.indexOf(q) + 1}:</b> ${q.note}</p>`).join('')}
       </section>
       <section class="pp-sols">
         <h2>Solutions</h2>
-        ${qs.map((q, i) => q.sol ? `<div class="pp-sol"><b>Q${i + 1}.</b> ${q.a ? `<span class="pp-ans">Answer (${q.a})</span>` : ''} ${q.sol}</div>` : '').join('')}
+        ${qs.map((q, i) => q.sol ? `<div class="pp-sol"><b>Q${i + 1}.</b> ${q.a ? `<span class="pp-ans">Answer ${ansText(q)}</span>` : ''} ${q.sol}</div>` : '').join('')}
         <p class="pp-site">More free formula sheets, PYQs and mock tests at <b>letsplaywithphysics.in</b></p>
       </section>`;
     renderMath(document.body);
