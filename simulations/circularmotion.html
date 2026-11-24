@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Circular Motion — Vector Simulations | Let's Play With Physics</title>
   <link rel="icon" type="image/png" href="../images/favicon.png">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#08101f; --panel:#0d1828; --blue:#44aaff; --gold:#f7c948;
@@ -13,7 +13,7 @@
   --orange:#ff8c00; --bdr:rgba(100,180,255,0.12); --muted:#4a5e7a;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:#dde6f0;min-height:100vh;overflow-x:hidden;}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:#dde6f0;min-height:100vh;overflow-x:hidden;}
 
 /* NAV */
 nav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;
@@ -62,7 +62,7 @@ canvas{display:block;width:100%;}
 /* SIDE PANEL */
 .side{display:flex;flex-direction:column;gap:10px;}
 .card{background:var(--panel);border:1px solid var(--bdr);border-radius:12px;padding:14px;}
-.ctitle{font-family:'Syne',sans-serif;font-size:11px;font-weight:800;color:var(--blue);
+.ctitle{font-family:'Nunito',sans-serif;font-size:11px;font-weight:800;color:var(--blue);
   letter-spacing:1.2px;text-transform:uppercase;margin-bottom:11px;}
 
 /* INPUTS */
@@ -308,7 +308,7 @@ window.onerror = function(msg, url, lineNo, columnNo, error) {
         <label class="chk-lbl" style="width:100%; border:1px solid rgba(255,255,255,0.3); margin-bottom:5px; justify-content:center;">
           <input type="checkbox" id="b_v_axes"> Show Coordinate Axes
         </label>
-        <select id="b_axis_type" class="v-select" style="width:100%; margin-top:5px; background:var(--bg2); color:white; border:1px solid #44aaff; padding:5px; border-radius:4px; font-family: 'Space Grotesk', sans-serif;">
+        <select id="b_axis_type" class="v-select" style="width:100%; margin-top:5px; background:var(--bg2); color:white; border:1px solid #44aaff; padding:5px; border-radius:4px; font-family: 'Nunito', sans-serif;">
           <option value="hv">Horizontal / Vertical Axes</option>
           <option value="pp">Parallel / Perpendicular Axes</option>
         </select>
@@ -341,7 +341,7 @@ function arr(ctx,x1,y1,x2,y2,col,lw,hs){
 }
 /* Text */
 function txt(ctx,s,x,y,col,sz,al){
-  ctx.save();ctx.font=(sz||11)+'px Space Grotesk,sans-serif';
+  ctx.save();ctx.font=(sz||11)+'px Nunito,sans-serif';
   ctx.fillStyle=col||'#fff';ctx.textAlign=al||'center';ctx.textBaseline='middle';
   ctx.fillText(s,x,y);ctx.restore();
 }

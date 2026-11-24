@@ -10,10 +10,10 @@
   <title>Mock Test — Let's Play With Physics</title>
   <link rel="icon" type="image/png" href="images/favicon.png">
   <meta name="description" content="NEET and JEE Mains physics mock tests in the real NTA computer-based test format — timer, question palette, mark for review, and instant results.">
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Space Grotesk', Arial, sans-serif; background: #f4f7fc; color: #334155; overflow-x: hidden; }
+    body { font-family: 'Nunito', Arial, sans-serif; background: #f4f7fc; color: #334155; overflow-x: hidden; }
     button { font-family: inherit; }
     .hidden { display: none !important; }
 
@@ -34,7 +34,7 @@
     .mobile-menu a { color: #eef3ff; font-size: 16px; text-decoration: none; padding: 13px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
     .mobile-menu .mob-cta { margin-top: 14px; background: #ff9a1f; color: #1b1203; font-weight: 700; padding: 13px 20px; border-radius: 12px; text-align: center; border-bottom: none; }
     footer { background: #060d22; padding: 24px 40px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
-    .footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 15px; color: #fff; }
+    .footer-logo { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 15px; color: #fff; }
     .footer-logo span { color: #ff9a1f; }
     .footer-copy { font-size: 13px; color: #b4c2dc; }
 
@@ -42,12 +42,12 @@
     #screen-gate { min-height: 78vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
     .lock-box { background: #fff; border: 1px solid #e3e9f3; border-radius: 22px; padding: 44px 36px; text-align: center; max-width: 440px; width: 100%; box-shadow: 0 1px 2px rgba(15,23,42,0.05), 0 12px 32px rgba(15,23,42,0.09); }
     .lock-icon { width: 72px; height: 72px; border-radius: 20px; background: #e8f0ff; display: grid; place-items: center; font-size: 34px; margin: 0 auto 18px; }
-    .lock-box h2 { font-family: 'Syne', sans-serif; font-size: 25px; font-weight: 800; margin-bottom: 10px; color: #0f172a; }
+    .lock-box h2 { font-family: 'Nunito', sans-serif; font-size: 25px; font-weight: 800; margin-bottom: 10px; color: #0f172a; }
     .lock-box p { color: #5b6b82; font-size: 15px; line-height: 1.6; margin-bottom: 8px; }
     #gate-actions a { background: #ff9a1f !important; color: #1b1203 !important; box-shadow: 0 8px 22px rgba(255,154,31,0.3); margin-top: 18px !important; }
 
     /* ───────── NTA-STYLE EXAM AREA (light theme like the real CBT) ───────── */
-    .cbt { background: #f4f6fa; color: #1f2937; min-height: 100vh; font-family: Arial, 'Space Grotesk', sans-serif; }
+    .cbt { background: #f4f6fa; color: #1f2937; min-height: 100vh; font-family: Arial, 'Nunito', sans-serif; }
     .cbt-header { background: #1c3f7a; color: #fff; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 20px; }
     .cbt-title { font-weight: 700; font-size: 16px; line-height: 1.3; }
     .cbt-title small { display: block; font-weight: 400; font-size: 12px; opacity: 0.8; }
@@ -146,7 +146,7 @@
 
     /* ───────── SUBMIT CONFIRMATION ───────── */
     .modal-backdrop { position: fixed; inset: 0; background: rgba(17,24,39,0.6); display: flex; align-items: center; justify-content: center; z-index: 200; padding: 16px; }
-    .modal { background: #fff; color: #1f2937; border-radius: 8px; width: 100%; max-width: 520px; overflow: hidden; font-family: Arial, 'Space Grotesk', sans-serif; }
+    .modal { background: #fff; color: #1f2937; border-radius: 8px; width: 100%; max-width: 520px; overflow: hidden; font-family: Arial, 'Nunito', sans-serif; }
     .modal-head { background: #1c3f7a; color: #fff; padding: 12px 18px; font-weight: 700; }
     .modal-body { padding: 18px; font-size: 14px; }
     .summary-table { width: 100%; border-collapse: collapse; margin: 6px 0 14px; }
@@ -407,8 +407,8 @@
   </footer>
 
   <script src="js/vendor/supabase-2.117.1.js"></script>
-  <script src="js/supabase-config.js?v=20261125"></script>
-  <script src="js/account.js?v=20261125"></script>
+  <script src="js/supabase-config.js?v=20261126"></script>
+  <script src="js/account.js?v=20261126"></script>
   <script>
     // Questions and answers are stored in the database (see supabase/mock-tests.sql).
     // Only students with an active Mock Test plan can load a test; answers come back only after submitting.
@@ -724,6 +724,6 @@
     init();
   </script>
 
-  <script src="js/nav-account.js?v=20261125"></script>
+  <script src="js/nav-account.js?v=20261126"></script>
 </body>
 </html>
