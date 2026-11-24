@@ -4,7 +4,7 @@ import sys, os, json, importlib.util, re
 from PIL import Image
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = HERE
 REPO = sys.argv[1]
-YEARS = [2025, 2024, 2023, 2022, 2020]
+YEARS = [2026, 2025, 2024, 2023, 2022, 2020]
 
 UNITS = [
  ("Mechanics", [("units-measurements", "Units and Measurements"), ("motion-straight-line", "Motion in a Straight Line"),
@@ -43,7 +43,8 @@ for y in YEARS:
         qid = f"{y}-q{q['n']:02d}"
         if q['ch'] not in SLUGS: problems.append(f'{qid}: unknown chapter {q["ch"]}')
         if len(q['o']) != 4: problems.append(f'{qid}: {len(q["o"])} options')
-        if q['a'] not in (1, 2, 3, 4, None): problems.append(f'{qid}: bad answer {q["a"]}')
+        ok = q['a'] is None or q['a'] in (1, 2, 3, 4) or (isinstance(q['a'], list) and q['a'] and all(x in (1, 2, 3, 4) for x in q['a']))
+        if not ok: problems.append(f'{qid}: bad answer {q["a"]}')
         if q['a'] is None and not (q.get('note') or q.get('chk')): problems.append(f'{qid}: no answer and no note')
         if not q.get('ofig') and any(o.strip() == '' for o in q['o']): problems.append(f'{qid}: empty option text')
         for t in [q['q']] + q['o']:

@@ -12,7 +12,7 @@ def page(p):
         subprocess.run(['pdftoppm', '-r', str(DPI), '-f', str(p), '-l', str(p), '-png', '-singlefile', src, f[:-4]], check=True)
     return Image.open(f).convert('RGB')
 FONT = '/usr/share/fonts/truetype/liberation/LiberationSerif-Regular.ttf'
-def crop(box, name, patch=()):
+def crop(box, name, patch=(), lum_cut=150):
     p, x0, y0, x1, y1 = box
     pg = page(p)
     # patch: fix a misprinted label — [px0, py0, px1, py1, text] in page coords
@@ -20,6 +20,13 @@ def crop(box, name, patch=()):
         dr = ImageDraw.Draw(pg); dr.rectangle([a0*S, b0*S, a1*S, b1*S], fill='white')
         f = ImageFont.truetype(FONT, int((b1 - b0) * S * 0.95)); dr.text((a0*S, b0*S), text, fill='black', font=f)
     im = pg.crop((int(x0*S), int(y0*S), int(x1*S), int(y1*S)))
+    if getattr(d, 'CLEAN', False):
+        # Photographed papers: drop bluish watermarks and grey paper shading, keep dark print
+        import numpy as np
+        a = np.asarray(im).astype(int); r, g, bl = a[..., 0], a[..., 1], a[..., 2]
+        lum = 0.3 * r + 0.59 * g + 0.11 * bl
+        arr = np.where(((bl - r > 28) | (lum > lum_cut))[..., None], 255, np.clip((a - 20) * 1.25, 0, 255))
+        im = Image.fromarray(arr.astype('uint8'))
     bg = Image.new('RGB', im.size, (255, 255, 255))
     diff = ImageChops.difference(im, bg).convert('L').point(lambda v: 255 if v > 40 else 0)
     bb = diff.getbbox()
@@ -27,7 +34,7 @@ def crop(box, name, patch=()):
     im.save(f'{out}/{name}.png', optimize=True)
     return name
 for q in d.Q:
-    if q.get('fig'): crop(q['fig'], f"{year}-q{q['n']:02d}", q.get('patch', ()))
+    if isinstance(q.get('fig'), list): crop(q['fig'], f"{year}-q{q['n']:02d}", q.get('patch', ()), q.get('lum', 150))
     for i, b in enumerate(q.get('ofig') or []):
-        if b: crop(b, f"{year}-q{q['n']:02d}-o{i+1}")
+        if b: crop(b, f"{year}-q{q['n']:02d}-o{i+1}", (), q.get('lum', 150))
 print('ok', sorted(os.listdir(out)))
