@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NEET Physics Previous Year Questions — Let's Play With Physics</title>
+  <meta name="description" content="Chapter-wise NEET physics previous year questions (2020–2025) with answers. Practise online or download each chapter as a PDF — free, no login needed.">
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/site.css?v=20261124">
+  <link rel="stylesheet" href="js/vendor/katex/katex.min.css">
+</head>
+<body>
+
+  <!-- ═════════ NAV ═════════ -->
+  <header class="nav">
+    <div class="container nav-inner">
+      <a href="index.html" class="nav-logo"><img src="images/logo-nav.png" alt="Let's Play With Physics"></a>
+      <nav class="nav-links" aria-label="Main">
+        <a href="course.html">Courses</a>
+        <a href="material.html" style="color:#fff">Study Materials</a>
+        <a href="mocktest.html">Mock Tests</a>
+        <a href="simulations.html">Simulations</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <div class="nav-right">
+        <a href="login.html" class="nav-login" data-account-link>Login</a>
+        <a href="index.html#batches" class="btn btn-orange">Enroll Now</a>
+        <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Open menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+    <div class="mobile-menu" id="mobile-menu">
+      <a href="course.html" onclick="closeMenu()">Courses</a>
+      <a href="material.html" onclick="closeMenu()">Study Materials</a>
+      <a href="mocktest.html" onclick="closeMenu()">Mock Tests</a>
+      <a href="simulations.html" onclick="closeMenu()">Simulations</a>
+      <a href="about.html" onclick="closeMenu()">About</a>
+      <a href="contact.html" onclick="closeMenu()">Contact</a>
+      <a href="login.html" data-account-link onclick="closeMenu()">Login</a>
+      <a href="index.html#batches" class="btn btn-orange" onclick="closeMenu()">Enroll Now</a>
+    </div>
+  </header>
+
+  <section class="page-hero">
+    <div class="container">
+      <div class="crumbs" id="crumbs"><a href="index.html">Home</a> › <a href="material.html">Study Materials</a> › Previous Year Questions</div>
+      <span class="eyebrow" style="margin-top:18px;">Free · no login needed</span>
+      <h1 id="hero-title">NEET Physics previous year questions</h1>
+      <p id="hero-text">Every physics question from the NEET papers, sorted chapter by chapter with answers. Practise online or download a chapter as a PDF.</p>
+    </div>
+  </section>
+
+  <div class="stats" id="stats">
+    <div class="container">
+      <div class="stats-grid" id="counts"></div>
+    </div>
+  </div>
+
+  <section id="main">
+    <div class="container">
+      <!-- Chapter list -->
+      <div id="view-list">
+        <div class="fs-tools">
+          <div class="fs-pills" role="tablist">
+            <button class="fs-pill active" role="tab" aria-selected="true">NEET <span id="neet-count"></span></button>
+            <button class="fs-pill" role="tab" disabled title="Coming soon">JEE Mains <span>soon</span></button>
+          </div>
+          <input type="search" id="ch-search" class="fs-search" placeholder="Search chapter, e.g. Current Electricity" aria-label="Search chapters">
+        </div>
+        <div id="units"></div>
+      </div>
+
+      <!-- One chapter -->
+      <div id="view-chapter" hidden>
+        <div class="pyq-head">
+          <a class="pyq-back" href="pyq.html">← All chapters</a>
+          <a class="btn btn-outline" id="ch-pdf" download>Download chapter PDF</a>
+        </div>
+        <div class="fs-tools">
+          <div class="fs-pills" id="year-pills"></div>
+          <label class="pyq-reveal" style="display:flex;align-items:center;gap:8px;"><input type="checkbox" id="show-all"> Show all answers</label>
+        </div>
+        <div class="pyq-list" id="q-list"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═════════ FOOTER ═════════ -->
+  <footer>
+    <div class="container">
+      <div class="foot-grid">
+        <div>
+          <img src="images/logo-nav.png" alt="Let's Play With Physics">
+          <p>NEET &amp; JEE Mains physics, taught the way it should be — with concepts first.</p>
+        </div>
+        <div>
+          <h4>Learn</h4>
+          <a href="material.html">Study Materials</a>
+          <a href="pyq.html">Previous Year Questions</a>
+          <a href="mocktest.html">Mock Tests</a>
+          <a href="simulations.html">Simulations</a>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <a href="about.html">About</a>
+          <a href="contact.html">Contact</a>
+          <a href="login.html" data-account-link>Login</a>
+        </div>
+        <div>
+          <h4>Legal</h4>
+          <a href="privacy-policy.html">Privacy Policy</a>
+          <a href="terms.html">Terms &amp; Conditions</a>
+        </div>
+      </div>
+      <div class="foot-bottom">
+        <span>&copy; 2026 Let's Play With Physics · Hyderabad, India</span>
+        <span>Made with ❤ for NEET &amp; JEE aspirants</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById('mobile-menu').classList.toggle('open');
+      document.getElementById('hamburger').classList.toggle('open');
+    }
+    function closeMenu() {
+      document.getElementById('mobile-menu').classList.remove('open');
+      document.getElementById('hamburger').classList.remove('open');
+    }
+  </script>
+  <script src="js/vendor/katex/katex.min.js"></script>
+  <script src="js/vendor/katex/auto-render.min.js"></script>
+  <script src="js/pyq.js?v=20261124"></script>
+  <script src="js/nav-account.js?v=20261124"></script>
+</body>
+</html>

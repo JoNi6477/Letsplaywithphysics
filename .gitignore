@@ -1,0 +1,4 @@
+tools/pyq/src/
+tools/pyq/render/
+tools/pyq/figs/
+__pycache__/
