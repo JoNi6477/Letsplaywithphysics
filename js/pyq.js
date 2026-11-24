@@ -12,7 +12,7 @@
   const text = html => html.replace(/<[^>]+>/g, '').replace(/\\\(|\\\)|\\[a-z]+/gi, '');
   const yearSpan = years => years.length ? `${Math.min(...years)}–${Math.max(...years)}` : '';
 
-  fetch('data/pyq-neet.json?v=20261124')
+  fetch('data/pyq-neet.json?v=20261125')
     .then(r => r.json())
     .then(data => {
       const chapter = data.chapters.find(c => c.slug === params.get('ch'));
@@ -109,9 +109,18 @@
       ans.innerHTML = q.a ? `Correct answer: <b>(${q.a})</b>`
         : `<span class="pyq-soon">${q.pending ? 'Answer is being checked — coming soon.' : 'No single correct option — see note.'}</span>`;
       card.querySelector('.pyq-reveal').hidden = true;
-      if (q.note) { const n = document.createElement('div'); n.className = 'pyq-note'; n.innerHTML = q.note; card.appendChild(n); renderMath(n); }
+      if (q.sol) addBlock(card, 'pyq-sol', `<b>Solution</b><div>${q.sol}</div>`);
+      if (q.note) addBlock(card, 'pyq-note', q.note);
     }
     render();
+  }
+
+  function addBlock(parent, cls, html) {
+    const el = document.createElement('div');
+    el.className = cls;
+    el.innerHTML = html;
+    parent.appendChild(el);
+    renderMath(el);
   }
 
   function optionsLayout(q) {
@@ -128,7 +137,7 @@
       <div class="pyq-opts ${optionsLayout(q)}">${q.o.map((o, i) => `
         <button class="pyq-opt" type="button" data-i="${i + 1}"><b>(${i + 1})</b><span>${q.ofig ? `<img src="${q.ofig[i]}" alt="Option ${i + 1}" loading="lazy">` : ''}${o}</span></button>`).join('')}
       </div>
-      <div class="pyq-foot"><button class="pyq-reveal" type="button">Show answer</button><span class="pyq-ans"></span></div>
+      <div class="pyq-foot"><button class="pyq-reveal" type="button">${q.sol ? 'Show answer &amp; solution' : 'Show answer'}</button><span class="pyq-ans"></span></div>
     </article>`;
   }
 
@@ -154,6 +163,10 @@
         <h2>Answer key</h2>
         <div class="pp-keygrid">${qs.map((q, i) => `<span><b>Q${i + 1}</b> ${q.a ? `(${q.a})` : '—'}</span>`).join('')}</div>
         ${qs.filter(q => q.note).map(q => `<p><b>Q${qs.indexOf(q) + 1}:</b> ${q.note}</p>`).join('')}
+      </section>
+      <section class="pp-sols">
+        <h2>Solutions</h2>
+        ${qs.map((q, i) => q.sol ? `<div class="pp-sol"><b>Q${i + 1}.</b> ${q.a ? `<span class="pp-ans">Answer (${q.a})</span>` : ''} ${q.sol}</div>` : '').join('')}
         <p class="pp-site">More free formula sheets, PYQs and mock tests at <b>letsplaywithphysics.in</b></p>
       </section>`;
     renderMath(document.body);

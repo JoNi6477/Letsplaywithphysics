@@ -36,6 +36,9 @@ def put_image(year, name):
 questions, problems = [], []
 for y in YEARS:
     spec = importlib.util.spec_from_file_location('d', f'{ROOT}/data/neet{y}.py'); d = importlib.util.module_from_spec(spec); spec.loader.exec_module(d)
+    sp = f'{ROOT}/solutions/neet{y}.py'; sols = {}
+    if os.path.exists(sp):
+        s2 = importlib.util.spec_from_file_location('s', sp); m2 = importlib.util.module_from_spec(s2); s2.loader.exec_module(m2); sols = m2.S
     for q in d.Q:
         qid = f"{y}-q{q['n']:02d}"
         if q['ch'] not in SLUGS: problems.append(f'{qid}: unknown chapter {q["ch"]}')
@@ -46,6 +49,11 @@ for y in YEARS:
         for t in [q['q']] + q['o']:
             if t.count(r'\(') != t.count(r'\)'): problems.append(f'{qid}: unbalanced \\( \\)')
         item = {'id': qid, 'y': y, 'paper': d.PAPER, 'ch': q['ch'], 'q': q['q'], 'o': q['o'], 'a': q['a']}
+        sol = sols.get(q['n'])
+        if sol:
+            item['sol'] = sol
+            if sol.count(r'\(') != sol.count(r'\)'): problems.append(f'{qid}: unbalanced \\( \\) in solution')
+        elif q['a'] is not None: problems.append(f'{qid}: no solution')
         if q.get('note'): item['note'] = q['note']
         if q['a'] is None and q.get('chk'): item['pending'] = True
         if q.get('fig'): item['fig'] = put_image(y, qid)
@@ -63,6 +71,6 @@ out = {'exam': 'NEET', 'years': YEARS, 'chapters': chapters, 'questions': questi
 os.makedirs(os.path.join(REPO, 'data'), exist_ok=True)
 with open(os.path.join(REPO, 'data/pyq-neet.json'), 'w', encoding='utf-8') as f:
     json.dump(out, f, ensure_ascii=False, separators=(',', ':'))
-print(len(questions), 'questions;', sum(1 for q in questions if q['a'] is None), 'without answer')
+print(len(questions), 'questions;', sum(1 for q in questions if q['a'] is None), 'without answer;', sum(1 for q in questions if q.get('sol')), 'with solutions')
 for c in chapters: print(f"  {c['count']:3d}  {c['slug']}")
 print('PROBLEMS:' if problems else 'no problems', *problems, sep='\n  ')
