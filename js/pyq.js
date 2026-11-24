@@ -12,7 +12,7 @@
   const text = html => html.replace(/<[^>]+>/g, '').replace(/\\\(|\\\)|\\[a-z]+/gi, '');
   const yearSpan = years => years.length ? `${Math.min(...years)}–${Math.max(...years)}` : '';
 
-  fetch('data/pyq-neet.json?v=20261125')
+  fetch('data/pyq-neet.json?v=20261126')
     .then(r => r.json())
     .then(data => {
       const chapter = data.chapters.find(c => c.slug === params.get('ch'));
