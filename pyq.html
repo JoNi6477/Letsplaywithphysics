@@ -7,7 +7,7 @@
   <meta name="description" content="Chapter-wise NEET physics previous year questions (2020–2026) with answers. Practise online or download each chapter as a PDF — free, no login needed.">
   <link rel="icon" type="image/png" href="images/favicon.png">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/site.css?v=20261128">
+  <link rel="stylesheet" href="css/site.css?v=20261130">
   <link rel="stylesheet" href="js/vendor/katex/katex.min.css">
 </head>
 <body>
@@ -73,17 +73,24 @@
         <div id="units"></div>
       </div>
 
-      <!-- One chapter -->
-      <div id="view-chapter" hidden>
-        <div class="pyq-head">
+      <!-- One chapter: sidebar (years + chapters) and the questions -->
+      <div id="view-chapter" class="pyq-layout" hidden>
+        <aside class="pyq-side">
           <a class="pyq-back" href="pyq.html">← All chapters</a>
-          <a class="btn btn-outline" id="ch-pdf" download>Download chapter PDF</a>
+          <div class="pyq-side-box">
+            <h4>Year</h4>
+            <div class="pyq-years" id="year-pills"></div>
+            <label class="pyq-check"><input type="checkbox" id="show-all"> Show all answers</label>
+            <a class="btn btn-outline pyq-pdf" id="ch-pdf" download>Download chapter PDF</a>
+          </div>
+          <details class="pyq-side-box pyq-chapters" id="ch-nav-wrap">
+            <summary>Chapters</summary>
+            <nav id="ch-nav" aria-label="Chapters"></nav>
+          </details>
+        </aside>
+        <div class="pyq-main">
+          <div class="pyq-list" id="q-list"></div>
         </div>
-        <div class="fs-tools">
-          <div class="fs-pills" id="year-pills"></div>
-          <label class="pyq-reveal" style="display:flex;align-items:center;gap:8px;"><input type="checkbox" id="show-all"> Show all answers</label>
-        </div>
-        <div class="pyq-list" id="q-list"></div>
       </div>
     </div>
   </section>
@@ -134,7 +141,7 @@
   </script>
   <script src="js/vendor/katex/katex.min.js"></script>
   <script src="js/vendor/katex/auto-render.min.js"></script>
-  <script src="js/pyq.js?v=20261128"></script>
-  <script src="js/nav-account.js?v=20261128"></script>
+  <script src="js/pyq.js?v=20261130"></script>
+  <script src="js/nav-account.js?v=20261130"></script>
 </body>
 </html>

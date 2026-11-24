@@ -409,7 +409,7 @@ footer { background: var(--navy-950); color: var(--on-dark-muted); padding: 60px
 .pyq-num { font-family: 'Nunito', sans-serif; font-weight: 800; color: var(--ink); }
 .pyq-tag { background: var(--navy-900); color: #fff; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 20px; white-space: nowrap; }
 .pyq-text { color: var(--ink); font-size: 16px; line-height: 1.65; }
-.pyq-fig { display: block; max-width: min(100%, 380px); max-height: 300px; height: auto; margin: 12px 0 4px; }
+.pyq-fig { display: block; max-width: min(100%, 340px); max-height: 220px; height: auto; margin: 12px 0 4px; }
 .pyq-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 14px; }
 .pyq-opts.one { grid-template-columns: 1fr; }
 .pyq-opt { display: flex; gap: 10px; align-items: flex-start; text-align: left; background: #fff; border: 1.5px solid var(--line); border-radius: 12px; padding: 10px 12px; font-family: inherit; font-size: 15px; color: var(--text); cursor: pointer; line-height: 1.5; }
@@ -467,3 +467,43 @@ body.pyq-print { background: #fff; color: #111; font-size: 13px; line-height: 1.
 .pyq-print .pp-sol { padding: 7px 0; border-bottom: 1px solid #e3e9f3; break-inside: avoid; }
 .pyq-print .pp-ans { display: inline-block; background: #ecfdf3; color: #15803d; font-weight: 700; font-size: 11px; padding: 1px 7px; border-radius: 10px; margin-right: 4px; }
 .pyq-print section { padding: 0; }
+
+/* PYQ chapter page: sticky sidebar (years + chapters) beside the questions */
+.page-hero.compact { padding: 26px 0 30px; }
+.page-hero.compact h1 { font-size: clamp(26px, 3vw, 34px); margin: 8px 0 6px; }
+.page-hero.compact p { font-size: 15.5px; }
+.page-hero.compact .eyebrow { display: none; }
+.pyq-layout { display: grid; grid-template-columns: 270px minmax(0, 1fr); gap: 28px; align-items: start; }
+.pyq-layout[hidden] { display: none; }
+.pyq-side { position: sticky; top: 88px; max-height: calc(100vh - 104px); display: flex; flex-direction: column; gap: 12px; }
+.pyq-side-box { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 14px; box-shadow: var(--shadow); }
+.pyq-side-box h4, .pyq-chapters summary { font-size: 12.5px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+.pyq-years { display: flex; flex-direction: column; gap: 4px; }
+.pyq-year { display: flex; justify-content: space-between; align-items: center; background: none; border: 0; border-radius: 9px; padding: 8px 10px; font-family: inherit; font-size: 15px; font-weight: 700; color: var(--ink); cursor: pointer; text-align: left; }
+.pyq-year b { font-size: 13px; color: var(--muted); background: var(--bg-soft); border-radius: 20px; padding: 1px 8px; }
+.pyq-year:hover { background: var(--bg-soft); }
+.pyq-year.active { background: var(--navy-900); color: #fff; }
+.pyq-year.active b { background: rgba(255,255,255,0.15); color: #fff; }
+.pyq-check { display: flex; align-items: center; gap: 8px; margin: 12px 2px 10px; font-size: 14.5px; font-weight: 700; color: var(--blue); cursor: pointer; }
+.pyq-pdf { width: 100%; padding: 10px 14px; font-size: 14.5px; }
+.pyq-chapters { display: flex; flex-direction: column; min-height: 0; flex: 1; }
+.pyq-chapters summary { cursor: pointer; list-style: none; margin-bottom: 0; }
+.pyq-chapters summary::-webkit-details-marker { display: none; }
+.pyq-chapters summary::after { content: '▾'; float: right; }
+.pyq-chapters[open] summary { margin-bottom: 6px; }
+.pyq-chapters[open] summary::after { content: '▴'; }
+#ch-nav { overflow-y: auto; max-height: calc(100vh - 470px); min-height: 160px; margin: 0 -6px; padding: 0 6px; }
+.pyq-nav-unit { font-size: 12px; font-weight: 800; color: var(--muted); margin: 10px 0 4px; }
+.pyq-nav-unit:first-child { margin-top: 0; }
+.pyq-nav-ch { display: flex; justify-content: space-between; gap: 8px; padding: 6px 8px; border-radius: 8px; text-decoration: none; color: var(--text); font-size: 14px; line-height: 1.35; }
+.pyq-nav-ch b { color: var(--muted); font-size: 12.5px; }
+.pyq-nav-ch:hover { background: var(--bg-soft); color: var(--ink); }
+.pyq-nav-ch.current { background: var(--blue-soft); color: var(--blue); font-weight: 700; }
+.pyq-nav-ch.current b { color: var(--blue); }
+@media (max-width: 899px) {
+  .pyq-layout { grid-template-columns: 1fr; gap: 16px; }
+  .pyq-side { position: static; max-height: none; }
+  .pyq-years { flex-direction: row; flex-wrap: wrap; }
+  .pyq-year { border: 1.5px solid var(--line); border-radius: 30px; padding: 6px 12px; gap: 8px; }
+  #ch-nav { max-height: 320px; }
+}
