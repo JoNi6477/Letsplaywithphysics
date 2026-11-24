@@ -15,7 +15,21 @@
   const ansText = q => answers(q).map(n => `(${n})`).join(' or ');
   const yearSpan = years => years.length ? `${Math.min(...years)}–${Math.max(...years)}` : '';
 
-  fetch('data/pyq-neet.json?v=20261202')
+  // Inside the student portal (dashboard.html loads pyq.html?embed=1 in a frame):
+  // hide the website's menu, header and footer, and keep embed=1 on every PYQ link.
+  const embedded = params.get('embed') === '1';
+  if (embedded) {
+    document.body.classList.add('pyq-embed');
+    document.addEventListener('click', e => {
+      const link = e.target.closest('a[href^="pyq.html"]');
+      if (!link) return;
+      const url = new URL(link.getAttribute('href'), location.href);
+      url.searchParams.set('embed', '1');
+      link.setAttribute('href', url.pathname.split('/').pop() + url.search);
+    });
+  }
+
+  fetch('data/pyq-neet.json?v=20261203')
     .then(r => r.json())
     .then(data => {
       const chapter = data.chapters.find(c => c.slug === params.get('ch'));

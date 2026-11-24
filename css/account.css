@@ -236,3 +236,8 @@ body.portal { display: block; }
 /* Sign-up email typo hint */
 .email-hint { margin: -6px 0 14px; padding: 9px 12px; border-radius: 10px; background: #fff7ed; border: 1px solid #fdd6a8; color: #9a3412; font-size: 13.5px; line-height: 1.5; }
 .email-hint .link-btn { margin-left: 6px; font-weight: 700; }
+
+/* PYQs inside the portal: the PYQ page in a frame */
+.view-wide { max-width: 1240px; }
+.pyq-frame { display: block; width: 100%; height: calc(100vh - 190px); min-height: 520px; border: 1px solid var(--line); border-radius: 16px; background: #fff; }
+@media (max-width: 860px) { .pyq-frame { height: calc(100vh - 170px); } }

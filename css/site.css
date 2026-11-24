@@ -510,3 +510,13 @@ body.pyq-print { background: #fff; color: #111; font-size: 13px; line-height: 1.
   .pyq-year { background: #fff; border: 1.5px solid var(--line); border-radius: 30px; padding: 6px 12px; gap: 8px; }
   #ch-nav { max-height: 340px; overflow-y: auto; }
 }
+
+/* PYQ page inside the student portal (pyq.html?embed=1) */
+body.pyq-embed header.nav, body.pyq-embed footer, body.pyq-embed .stats, body.pyq-embed .crumbs { display: none; }
+body.pyq-embed .page-hero { padding: 16px 0 18px; }
+body.pyq-embed .page-hero h1 { font-size: 24px; margin: 0 0 4px; }
+body.pyq-embed .page-hero p { font-size: 14.5px; }
+body.pyq-embed .page-hero .eyebrow { display: none; }
+body.pyq-embed #main { padding: 18px 0 40px !important; }
+body.pyq-embed .container { padding: 0 18px; }
+body.pyq-embed .pyq-side { top: 12px; max-height: calc(100vh - 24px); }
