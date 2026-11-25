@@ -77,6 +77,8 @@ for stem, g, label in PAPERS:
             if sol.count(r'\(') != sol.count(r'\)'): problems.append(f'{qid}: unbalanced \\( \\) in solution')
         elif q['a'] is not None: problems.append(f'{qid}: no solution')
         if q.get('note'): item['note'] = q['note']
+        if q.get('bonus'): item['bonus'] = True
+        if q.get('val'): item['val'] = q['val']
         if q['a'] is None and q.get('chk'): item['pending'] = True
         fig_dir = str(y) if EXAM == 'neet' else 'jee'
         if q.get('fig'):

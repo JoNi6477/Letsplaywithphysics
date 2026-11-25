@@ -54,7 +54,7 @@ Q = [
  dict(n=17, ch="wave-optics", a=4,
   q=r"When an unpolarized light falls at a particular angle on a glass plate (placed in air), it is observed that the reflected beam is linearly polarized. The angle of refracted beam with respect to the normal is ____ . (\(\tan^{-1}(1.52) = 57.7°\), refractive indices of air and glass are 1.00 and 1.52, respectively.)",
   o=["36.3°", "39.6°", "42.6°", "32.3°"]),
- dict(n=18, ch="ray-optics", a=[1, 2, 3], note="This is a multiple-correct question: (A), (B) and (C) are all correct.",
+ dict(n=18, ch="ray-optics", a=[1, 2, 3], bonus=True, note="<b>Bonus question:</b> three options, (A), (B) and (C), are all correct, so full marks are given to everyone.",
   q=r"<b>(Multiple correct answers)</b> A prism of angle 75° and refractive index \(\sqrt3\) is coated with thin film of refractive index 1.5 only at the back exit surface. To have total internal reflection at the back exit surface the incident angle must be ____ (\(\sin15° = 0.25\) and \(\sin25° = 0.43\))",
   o=["between 15° and 20°", "15°", "&lt; 15°", "&gt; 25°"]),
  dict(n=19, ch="nuclei", a=1,
