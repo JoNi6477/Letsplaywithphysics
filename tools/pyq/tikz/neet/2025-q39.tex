@@ -1,0 +1,7 @@
+\begin{tikzpicture}
+\begin{scope} \clip (0,0) circle (2); \fill[white] (0,0) circle (2); \foreach \y in {-1.9,-1.7,...,1.9} \draw[ink!70] (-2,\y) -- (2,\y); \end{scope}
+\draw[fill=white] (1,0) circle (1);
+\draw[line width=1pt] (0,0) circle (2); \draw (1,0) circle (1);
+\draw[->] (-2.5,0) -- (2.6,0) node[right]{$X$}; \draw[->] (0,-2.3) -- (0,2.4) node[right]{$Y$};
+\draw[dim] (0,-0.25) -- node[fill=white,inner sep=1pt]{$2R$} (2,-0.25);
+\end{tikzpicture}

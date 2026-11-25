@@ -1,0 +1,6 @@
+\begin{tikzpicture}
+\fill[ground] (-1.7,-0.18) rectangle (2.4,0); \draw (-1.7,0) -- (2.4,0);
+\draw[line width=1pt] (0,1.2) circle (1.2); \foreach \a in {0,45,90,135} \draw (0,1.2) -- +(\a:1.2) (0,1.2) -- +(\a+180:1.2);
+\fill (0,2.4) circle (1.8pt) node[above]{$P$}; \node[below] at (0,-0.15) {$Q$};
+\draw[vec] (1.5,1.2) -- (2.5,1.2) node[above,acc]{$v$};
+\end{tikzpicture}
