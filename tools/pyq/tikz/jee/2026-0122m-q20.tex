@@ -1,0 +1,9 @@
+\begin{tikzpicture}
+\node[nor port] (g1) at (2,2) {}; \node[nor port] (g2) at (2,0.8) {};
+\node[nand port] (g3) at (4.3,1.4) {}; \node[nor port] (g4) at (4.3,-0.6) {};
+\draw (g1.in 1) -- ++(-0.3,0) coordinate (a) |- (g1.in 2); \draw (a |- g1.out) -- (0,2) node[circ]{} node[left]{$A$};
+\draw (g2.in 1) -- ++(-0.3,0) coordinate (b) |- (g2.in 2); \draw (b |- g2.out) -- (0,0.8) node[circ]{} node[left]{$B$};
+\draw (g1.out) -| ($(g3.in 1)+(-0.3,0)$) -- (g3.in 1); \draw (g2.out) -| ($(g3.in 2)+(-0.3,0)$) -- (g3.in 2);
+\draw (0,-0.35) node[circ]{} node[left]{$C$} -- (g4.in 1); \draw (0,-0.85) node[circ]{} node[left]{$D$} -- (g4.in 2);
+\draw (g3.out) -- ++(0.4,0) coordinate (r) to[R] ($(r)+(0,-0.8)$) to[empty led,l=LED] ($(r)+(0,-1.6)$) |- (g4.out);
+\end{tikzpicture}

@@ -1,0 +1,10 @@
+\begin{tikzpicture}
+\node[nor port] (g1) at (1.6,1) {}; \node[nor port] (g2) at (1.6,-1) {};
+\node[nor port] (g3) at (3.6,0) {}; \node[nor port] (g4) at (5.6,0) {};
+\draw (g1.in 1) -- ++(-0.3,0) coordinate (a1) |- (g1.in 2); \draw (a1 |- g1.out) -- (0,1) node[circ]{} node[left]{$A$};
+\draw (g2.in 1) -- ++(-0.3,0) coordinate (b1) |- (g2.in 2); \draw (b1 |- g2.out) -- (0,-1) node[circ]{} node[left]{$B$};
+\draw (g1.out) -| ($(g3.in 1)+(-0.3,0)$) -- (g3.in 1); \draw (g2.out) -| ($(g3.in 2)+(-0.3,0)$) -- (g3.in 2);
+\draw (g3.out) -- ($(g4.in 1)+(-0.3,0)$) coordinate (c1) -- (g4.in 1); \draw (c1) |- (g4.in 2);
+\draw (g4.out) -- ++(0.3,0) node[circ]{} node[right]{Output};
+\node[left] at (-0.5,0) {Input};
+\end{tikzpicture}

@@ -1,0 +1,19 @@
+\documentclass[tikz,border=3pt]{standalone}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb}
+\usepackage[siunitx,RPvoltages]{circuitikz}
+\usetikzlibrary{arrows.meta,calc,patterns,decorations.pathmorphing,decorations.markings,angles,quotes,shapes.geometric,positioning}
+\definecolor{ink}{HTML}{1E3A8A}
+\definecolor{acc}{HTML}{C2410C}
+\definecolor{fillb}{HTML}{DBEAFE}
+\definecolor{fillg}{HTML}{E5E7EB}
+\tikzset{every picture/.style={line width=0.8pt, draw=ink, text=ink, >={Stealth[length=2.2mm]}},
+  ground/.style={pattern=north east lines, pattern color=ink, draw=none},
+  vec/.style={->, acc, line width=1pt},
+  dim/.style={<->, line width=0.5pt, >={Stealth[length=1.6mm]}},
+  hid/.style={dashed, line width=0.5pt},
+  spring/.style={decorate, decoration={coil, aspect=0.5, segment length=2.2mm, amplitude=2mm}},
+  block/.style={draw=ink, fill=fillb}}
+\ctikzset{bipoles/thickness=1.3, color=ink}
+\begin{document}
+\color{ink}

@@ -1,0 +1,9 @@
+\begin{tikzpicture}
+\draw[line width=1.1pt] (0,-1.6) -- (0,2) to[R,l=$R$] (3,2) -- (3,-1.6);
+\fill (0,-1.6) circle (2pt) node[below]{$X$}; \fill (3,-1.6) circle (2pt) node[below]{$Y$};
+\node[above left] at (0,2) {$P$}; \node[above right] at (3,2) {$Q$};
+\draw[line width=1.6pt] (-0.6,0) -- (3.6,0); \node[below left] at (-0.4,0) {$C$}; \node[below right] at (3.4,0) {$D$};
+\draw[dim,dashed] (-0.6,0.4) -- node[above]{$L$} (3.6,0.4);
+\draw[vec] (1.5,-0.1) -- (1.5,-0.7);
+\draw[dim,dashed] (0,-1.1) -- node[fill=white]{$l$} (3,-1.1);
+\end{tikzpicture}
