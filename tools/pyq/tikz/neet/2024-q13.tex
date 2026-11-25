@@ -1,0 +1,11 @@
+\begin{tikzpicture}
+\foreach \x/\a/\b/\n in {0/A/B/1,4.6/C/D/2} {
+\begin{scope}[shift={(\x,0)}]
+\draw[hid] (-0.3,1.4) -- (1.7,1.4) (-0.3,0) -- (1.7,0);
+\foreach \k in {0,...,4} \draw (0.25*\k,0) .. controls (0.25*\k-0.1,0.7) .. (0.25*\k+0.1,1.4) .. controls (0.25*\k+0.35,1.55) and (0.25*\k+0.35,1.4) .. (0.25*\k+0.3,1.3);
+\draw (0,0) -- (-0.1,-0.25) node[below]{$\a$}; \draw (1.3,1.3) -- (1.3,-0.25) node[below right=-2pt]{$\b$};
+\node at (0.7,-0.95) {\small Solenoid-\n};
+\end{scope} }
+\draw[block] (2.2,0.2) rectangle (3.9,1.2); \node at (2.5,0.7) {$N$}; \node at (3.6,0.7) {$S$};
+\draw[->] (2.7,1.45) -- (3.4,1.45); \draw[->] (3.9,0.7) -- (4.5,0.7) node[above,pos=0.5]{$v$};
+\end{tikzpicture}

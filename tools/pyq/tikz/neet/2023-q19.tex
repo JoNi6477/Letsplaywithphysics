@@ -1,0 +1,5 @@
+\begin{tikzpicture}
+\draw (0,1.8) node[left]{$A$} to[R,l=$2\,\Omega$] (1.5,1.8) to[battery1,l=$10$ V] (2.1,1.8) -- (2.5,1.8) to[battery1,invert,l=$5$ V] (3.1,1.8) to[R,l=$1\,\Omega$] (4.6,1.8) node[right]{$B$};
+\node[below] at (2.3,1.75) {$E$};
+\draw (4.6,1.8) -- (4.6,0) node[right]{$C$} to[R,l_=$7\,\Omega$] (0,0) node[left]{$D$} -- (0,1.8);
+\end{tikzpicture}

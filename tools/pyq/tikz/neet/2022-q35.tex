@@ -1,0 +1,10 @@
+\begin{tikzpicture}
+\foreach \y/\a/\b/\c/\d/\n in {0/P/N/P/N/a,-1.8/P/N/N/P/b,-3.6/N/P/N/P/c} {
+\begin{scope}[shift={(0,\y)}]
+\draw[block] (0,0) rectangle node{$\a$} (0.6,0.5); \draw[block] (0.6,0) rectangle node{$\b$} (1.2,0.5);
+\draw[block] (2.6,0) rectangle node{$\c$} (3.2,0.5); \draw[block] (3.2,0) rectangle node{$\d$} (3.8,0.5);
+\draw (1.2,0.25) -- (2.6,0.25);
+\draw (0,0.25) -- (-0.2,0.25) -- (-0.2,-0.5) -- (1.6,-0.5) to[battery1] (2.2,-0.5) -- (4,-0.5) -- (4,0.25) -- (3.8,0.25);
+\node at (1.9,-1.05) {(\n)};
+\end{scope} }
+\end{tikzpicture}

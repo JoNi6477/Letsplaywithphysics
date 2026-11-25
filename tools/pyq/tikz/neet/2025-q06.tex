@@ -1,0 +1,7 @@
+\begin{tikzpicture}
+\coordinate (A) at (0,1.6); \coordinate (B) at (2,1.6); \coordinate (C) at (4,1.6); \coordinate (F) at (0,0); \coordinate (E) at (2,0); \coordinate (D) at (4,0);
+\draw (A) to[R,l=$5\,\Omega$] (B) to[R,l_=$2.5\,\Omega$] (C) -- (D) to[R,l=$1.5\,\Omega$] (E) to[R,l=$3\,\Omega$] (F) -- (A);
+\draw (A) to[R] (D); \node at (2.75,1.0) {$6\,\Omega$};
+\draw (B) -- (2,2.5) to[R,l=$1.5\,\Omega$] (5.4,2.5) to[R,l=$5.5\,\Omega$] (5.4,-0.9) -- (4.4,-0.9) to[battery1,l=$5$ V] (3.8,-0.9) to[R,l={$\frac13\,\Omega$}] (2,-0.9) -- (E);
+\foreach \p/\a in {A/left,B/below,C/right,F/left,E/above,D/right} { \fill (\p) circle (1.4pt); \node[\a] at (\p) {$\p$}; }
+\end{tikzpicture}

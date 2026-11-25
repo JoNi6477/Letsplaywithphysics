@@ -1,0 +1,11 @@
+\begin{tikzpicture}[scale=1.1]
+\coordinate (B) at (0,0); \coordinate (C) at (4,0); \coordinate (A) at (1,1.732);
+\coordinate (P) at (0.4,0.693); \coordinate (Q) at (2.8,0.693);
+\draw[fill=fillb!40,line width=1pt] (A) -- (B) -- (C) -- cycle;
+\pic[draw,angle radius=2.5mm] {right angle=B--A--C};
+\draw[hid] ($(P)+(-0.866,0.5)$) -- ($(P)+(0.866,-0.5)$); \draw[hid] ($(Q)+(-0.5,-0.866)$) -- ($(Q)+(0.5,0.866)$);
+\draw[acc,line width=1pt] ($(P)+(200:1.1)$) -- (P) -- (Q) -- ($(Q)!1!(C)$);
+\draw[acc,->] ($(P)+(200:1.1)$) -- ($(P)+(200:0.5)$); \draw[acc,->] (P) -- (1.8,0.693); \draw[acc,->] (Q) -- ($(Q)!0.6!(C)$);
+\node[left] at ($(P)+(185:0.5)$) {$30^\circ$};
+\node[above left] at (P) {$P$}; \node[above] at (A) {$A$}; \node[below left] at (B) {$B$}; \node[below right] at (C) {$C$};
+\end{tikzpicture}
