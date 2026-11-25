@@ -1,0 +1,9 @@
+\begin{tikzpicture}
+\def\r{1.5}
+\draw[line width=1.6pt] (0,0) circle (\r);
+\foreach \t in {45,135} \draw[line width=1.6pt] (\t:\r) -- (\t+180:\r);
+\fill (0,0) circle (2.5pt);
+\draw[line width=1.2pt] (-\r,0) -- (-\r,-2.6); \draw[line width=1.2pt] (\r,0) -- (\r,-3.9);
+\draw[block,line width=1.2pt] (-\r-0.45,-2.6) rectangle node{$m$} (-\r+0.45,-3.4);
+\draw[block,line width=1.2pt] (\r-0.5,-3.9) rectangle node{\large$M$} (\r+0.5,-4.8);
+\end{tikzpicture}

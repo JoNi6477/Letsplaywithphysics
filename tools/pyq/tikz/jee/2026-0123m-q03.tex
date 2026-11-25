@@ -1,0 +1,7 @@
+\begin{tikzpicture}
+\draw (-0.4,0) -- (5.8,0);
+\draw[hid] (0,0) parabola bend (2.6,2.2) (5.2,0);
+\fill (0,0) circle (2pt) node[below]{$A$}; \fill (2.6,2.2) circle (2pt) node[above]{$B$}; \fill (5.2,0) circle (2pt) node[below]{$C$};
+\draw[vec] (0,0) -- (60:0.9); \draw[vec] (2.6,2.2) -- (3.4,2.2);
+\coordinate (O) at (0,0); \coordinate (X) at (1,0); \coordinate (V) at (60:1); \pic[draw,angle radius=4mm,"$60^\circ$",angle eccentricity=1.8] {angle=X--O--V};
+\end{tikzpicture}

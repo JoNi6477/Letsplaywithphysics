@@ -1,0 +1,10 @@
+\begin{tikzpicture}
+\def\s{2.2}\def\dx{0.75}\def\dy{0.65}
+\coordinate (H) at (0,0); \coordinate (E) at (\s,0); \coordinate (D) at (\s,\s); \coordinate (A) at (0,\s);
+\coordinate (G) at (\dx,\dy); \coordinate (F) at (\s+\dx,\dy); \coordinate (C) at (\s+\dx,\s+\dy); \coordinate (B) at (\dx,\s+\dy);
+\draw[fill=fillb!30] (H) -- (E) -- (D) -- (A) -- cycle; \draw (A) -- (B) -- (C) -- (D) (E) -- (F) -- (C);
+\draw[hid] (H) -- (G) -- (F) (G) -- (B);
+\foreach \p/\a in {H/below left,E/below,D/above left,A/left,G/above right,F/right,C/above right,B/above} \node[\a] at (\p) {$\p$};
+\fill[acc] (A) circle (2.5pt); \node[acc] at ($(A)+(-0.35,-0.42)$) {$2q$};
+\fill[acc] ($(D)!0.5!(F)$) circle (2.5pt) node[acc,below=2pt]{$q$};
+\end{tikzpicture}

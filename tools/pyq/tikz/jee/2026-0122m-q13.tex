@@ -1,0 +1,6 @@
+\begin{tikzpicture}
+\draw (0,0) node[circ]{} node[left]{$P$} -- (2.4,0) node[circ]{} node[below]{$Q$} -- (6,0) node[circ]{} node[right]{$R$};
+\draw (0,0) -- (0,1.4) to[R,l=$R_1$] (3.3,1.4) to[R,l=$R_2$] (6,1.4) -- (6,0);
+\fill (3.3,1.4) circle (2pt) node[above]{$S$}; \draw[->] (3.3,1.4) .. controls (2.5,1.1) and (2.4,0.7) .. (2.4,0.08);
+\draw (0,0) -- (0,-1) -- (2.7,-1) to[battery1,l_=$V$] (3.3,-1) -- (6,-1) -- (6,0);
+\end{tikzpicture}

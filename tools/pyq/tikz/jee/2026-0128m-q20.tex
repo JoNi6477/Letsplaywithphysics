@@ -1,0 +1,7 @@
+\begin{tikzpicture}
+\draw (0,0) to[battery1,l=$12\,\mathrm{V}$,invert] (0,2) -- (0.4,2) to[R,l={$R_1=0.3\,\mathrm{k}\Omega$}] (2.4,2) -- (5.2,2);
+\draw (0,0) -- (5.2,0); \draw (0,0) node[ground]{};
+\draw (2.4,2) to[empty diode,l_=$D_1$] (2.4,0); \draw (3.8,0) to[empty diode,l=$D_2$] (3.8,2); \draw (5.2,2) to[empty diode,l_=$D_3$] (5.2,0);
+\foreach \x in {2.4,3.8} { \fill (\x,2) circle (1.5pt); \fill (\x,0) circle (1.5pt); }
+\foreach \x in {2.4,3.8,5.2} \node[right] at (\x+0.25,0.45) {\scriptsize Si};
+\end{tikzpicture}

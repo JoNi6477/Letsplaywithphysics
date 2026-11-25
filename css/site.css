@@ -537,3 +537,9 @@ a.fs-pill { text-decoration: none; display: inline-flex; align-items: center; ga
 /* Bonus questions (marks given to everyone) */
 .pyq-type.pyq-bonus { color: #b45309; background: #fef3c7; }
 .pyq-bonus-msg { color: #b45309; font-weight: 700; }
+
+/* Figures redrawn in LaTeX (SVG): show at their natural size, which matches the page text */
+.pyq-fig[src$=".svg"] { max-width: min(100%, 520px); max-height: 340px; }
+.pyq-opt img[src$=".svg"] { max-height: 180px; }
+.pyq-print .pp-fig[src$=".svg"] { max-width: 420px; max-height: 260px; }
+.pyq-print .pp-opts img[src$=".svg"] { max-height: 130px; max-width: 170px; }

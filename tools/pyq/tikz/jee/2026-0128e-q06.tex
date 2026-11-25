@@ -1,0 +1,8 @@
+\begin{tikzpicture}
+\coordinate (L) at (0,0); \coordinate (R) at (3.4,0); \coordinate (T) at (3.4,3.0);
+\draw[fill=fillb!40] (L) -- (R) -- (T) -- cycle;
+\begin{scope}[shift={(T)},rotate={atan(3/3.4)}] \draw[block] (-0.75,0) rectangle node{$m$} (-0.15,0.55); \end{scope}
+\draw[vec] (1.9,1.65) -- (0.9,1.65) node[left,acc]{$a_0$};
+\coordinate (X) at (1,0); \pic[draw,angle radius=6mm,"$\theta$",angle eccentricity=1.5] {angle=R--L--T};
+\draw[dim] (0,-0.3) -- node[below]{$L$} (3.4,-0.3);
+\end{tikzpicture}

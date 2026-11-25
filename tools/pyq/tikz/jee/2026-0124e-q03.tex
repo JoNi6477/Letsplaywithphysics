@@ -1,0 +1,7 @@
+\begin{tikzpicture}
+\def\r{1.5}
+\draw[hid] (0,0) circle (\r); \fill (0,0) circle (1.3pt);
+\draw (0,0) -- node[left]{$r$} (0,-\r); \node[below] at (0,-\r) {$A$};
+\draw[hid] (0,0) -- (\r,0); \draw[hid] (0,0) -- (30:\r); \fill[acc] (30:\r) circle (3pt);
+\coordinate (O) at (0,0); \coordinate (X) at (1,0); \coordinate (Y) at (30:1); \pic[draw,angle radius=5mm,"$30^\circ$",angle eccentricity=1.7] {angle=X--O--Y};
+\end{tikzpicture}

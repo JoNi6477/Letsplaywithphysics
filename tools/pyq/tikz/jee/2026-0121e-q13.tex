@@ -1,0 +1,6 @@
+\begin{tikzpicture}
+\draw (0,0) node[circ]{} node[left]{$A$} -- node[below=2pt]{$P$} (5,0) node[circ]{} node[right]{$B$};
+\draw (0,0) -- (0,1.8) to[R,l=$6\,\Omega$] (2.5,1.8) to[R,l=$4\,\Omega$] (5,1.8) -- (5,0);
+\draw (2.5,1.8) -- (2.5,1.45); \draw[fill=white] (2.5,1.1) circle (0.35) node{$G$}; \draw[->] (2.5,0.75) .. controls (2.25,0.45) .. (2.5,0.05);
+\draw (0,0) -- (0,-1.6) -- (2.2,-1.6) to[battery1,l_=$V$] (2.8,-1.6) -- (5,-1.6) -- (5,0);
+\end{tikzpicture}

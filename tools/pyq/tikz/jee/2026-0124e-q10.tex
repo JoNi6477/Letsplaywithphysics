@@ -1,0 +1,8 @@
+\begin{tikzpicture}
+\draw (0,0) to[battery1,l=$10\,\mathrm{V}$,invert] (0,2.6) to[R,l=$1\,\Omega$] (2.2,2.6) to[R,l=$4\,\Omega$] (4.6,2.6) -- (6.2,2.6) to[R,l=$8\,\Omega$] (6.2,0) -- (4.6,0);
+\draw (2.2,2.6) to[R,l_=$8\,\Omega$] (2.2,0) -- (0,0);
+\draw (4.6,2.6) to[R,l=$8\,\Omega$] (4.6,0);
+\draw (2.2,0) -- (3.15,0) (3.65,0) -- (4.6,0); \draw (3.4,0) circle (0.25) node{\small $A$}; \draw[->] (4.2,0) -- (3.8,0);
+\draw (2.2,2.6) to[C] (3.3,1.4) to[R] (4.6,0);
+\node[right] at (2.95,1.95) {$10\,\mu\mathrm{F}$}; \node[left] at (3.55,0.7) {$8\,\Omega$};
+\end{tikzpicture}

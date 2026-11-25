@@ -1,0 +1,11 @@
+\begin{tikzpicture}
+\coordinate (P) at (0,0); \coordinate (A) at (210:2); \coordinate (B) at (0,-2);
+\fill (P) circle (1.5pt) node[above right]{$P$};
+\draw (P) -- node[above left]{$1$ m} (A); \draw[hid] (P) -- (B);
+\draw[fill=fillb] (A) circle (0.25) node{\scriptsize $m$}; \node[left] at ($(A)+(-0.25,0)$) {$A$};
+\draw[fill=fillb] (B) circle (0.25) node{\scriptsize $m$}; \node[left] at ($(B)+(-0.25,0)$) {$B$};
+\coordinate (V) at (0,-1); \pic[draw,angle radius=6mm,"$60^\circ$",angle eccentricity=1.5] {angle=A--P--V};
+\draw (-0.3,-2.25) -- (3.4,-2.25) arc[start angle=270,end angle=540,radius=0.75];
+\fill (3.4,-1.5) circle (1.3pt) node[below right]{$R$}; \draw[hid] (3.4,-1.5) -- (3.4,-0.75) (3.4,-1.5) -- (4.15,-1.5);
+\fill (2.65,-1.5) circle (1.5pt) node[left]{$Q$};
+\end{tikzpicture}

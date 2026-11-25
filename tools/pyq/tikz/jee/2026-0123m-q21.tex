@@ -1,0 +1,10 @@
+\begin{tikzpicture}
+\draw[fill=white] (0,0.8) rectangle (4,1.6); \node at (1,1.0) {$K_1$};
+\draw[pattern=north east lines,pattern color=ink] (0,0) rectangle (2,0.8); \draw[pattern=north west lines,pattern color=ink] (2,0) rectangle (4,0.8);
+\node[fill=white,inner sep=1pt] at (1,0.4) {$K_2$}; \node[fill=white,inner sep=1pt] at (3,0.4) {$K_3$};
+\draw[line width=1.6pt] (-0.1,1.6) -- (4.1,1.6) (-0.1,0) -- (4.1,0);
+\draw (2,1.6) -- (2,2.2) node[above]{$+$}; \draw (2,0) -- (2,-0.6) node[below]{$-$};
+\draw[dim] (0.1,1.4) -- node[fill=white,inner sep=1pt]{$A$} (3.9,1.35);
+\draw[dim] (2,-0.3) -- node[below]{$A/2$} (4,-0.3);
+\draw[dim] (-0.35,0.8) -- node[left]{$d/2$} (-0.35,1.6); \draw[dim] (4.35,0) -- node[right]{$d$} (4.35,1.6);
+\end{tikzpicture}

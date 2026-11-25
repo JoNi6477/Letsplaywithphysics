@@ -1,0 +1,6 @@
+\begin{tikzpicture}
+\foreach \x/\L/\len/\m/\w in {0/A/2.2/100/1.0,2.8/B/2.9/200/1.2} {
+ \fill[ground] (\x-0.8,0) rectangle (\x+0.8,0.22); \draw (\x-0.8,0) -- (\x+0.8,0); \node[right] at (\x+0.2,-0.3) {$\L$};
+ \draw[spring] (\x,0) -- (\x,-\len); \draw[block] (\x-\w/2,-\len) rectangle node{\small \m\ g} (\x+\w/2,-\len-0.65);
+}
+\end{tikzpicture}

@@ -1,0 +1,11 @@
+\begin{tikzpicture}
+\def\r{1.5}
+\draw (0,0) circle (\r);
+\foreach \a in {150,180,210,270} \draw[hid] (0,0) -- (\a:\r);
+\foreach \a in {30,-30} \draw (0,0) -- (\a:\r);
+\draw[->] (0,0) -- (0,2.2) node[above]{$y\,(\hat j)$}; \draw[->] (0,0) -- (2.2,0) node[right]{$x\,(\hat i)$};
+\fill[acc] (90:\r) circle (2.4pt); \node[acc,above right] at (90:\r) {$+Q$};
+\foreach \a/\l in {30/+Q,-30/+Q,-90/+Q,210/+Q,150/-Q} { \fill[acc] (\a:\r) circle (2.4pt); \node[acc] at (\a:\r+0.4) {$\l$}; }
+\coordinate (oo) at (0,0); \coordinate (xx) at (1,0); \coordinate (aa) at (30:1); \pic[draw,angle radius=6mm,"$30^\circ$",angle eccentricity=1.7] {angle=xx--oo--aa};
+\node at (-0.25,-0.75) {$R$};
+\end{tikzpicture}
