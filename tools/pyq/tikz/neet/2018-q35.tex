@@ -1,0 +1,9 @@
+\begin{tikzpicture}
+\draw (-0.4,0) -- (4.4,0);
+\coordinate (C) at (0,0); \coordinate (A) at (0,2.4); \coordinate (B) at (3.6,0);
+\draw[pattern=north east lines,pattern color=ink!50] (C) -- (A) -- (B) -- cycle;
+\begin{scope}[shift={($(A)!0.45!(B)$)},rotate={-atan(2.4/3.6)}] \draw[block] (-0.4,0) rectangle node{$m$} (0.4,0.6); \end{scope}
+\node[left] at (A) {$A$}; \node[below] at (C) {$C$}; \node[below] at (B) {$B$};
+\pic[draw,angle radius=6mm,"$\theta$",angle eccentricity=1.5] {angle=A--B--C};
+\draw[vec] (2.6,0.9) -- (3.7,0.9) node[right,acc]{$a$};
+\end{tikzpicture}

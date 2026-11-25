@@ -1,0 +1,5 @@
+\begin{tikzpicture}
+\draw (-0.6,0.4) -- (0,0.4) (6,0.4) -- (6.6,0.4);
+\draw[fill=fillb!40] (0,0) rectangle (6,0.8);
+\foreach \x/\c in {1.2/Yellow,2.4/Violet,3.6/Brown,4.8/Gold} { \fill[ink] (\x-0.12,0) rectangle (\x+0.12,0.8); \node[below,font=\small] at (\x,0) {\c}; }
+\end{tikzpicture}

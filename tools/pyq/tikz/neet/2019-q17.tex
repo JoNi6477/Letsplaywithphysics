@@ -1,0 +1,7 @@
+\begin{tikzpicture}
+\ctikzset{bipoles/lamp/height=0.45, bipoles/lamp/width=0.45}
+\draw (0,0) -- (0,3.6) (2.4,1.2) -- (2.4,3.6) (4.8,0) -- (4.8,3.6);
+\foreach \y in {1.2,2.4,3.6} { \draw (0,\y) to[lamp] (2.4,\y) to[lamp] (4.8,\y); }
+\draw (0,0) -- (2.1,0) to[battery1,l_=$E$] (2.7,0) -- (4.8,0);
+\draw[<->] (0,4.1) -- node[above]{$A$} (2.3,4.1); \draw[<->] (2.5,4.1) -- node[above]{$B$} (4.8,4.1);
+\end{tikzpicture}

@@ -1,0 +1,11 @@
+\begin{tikzpicture}
+\node[and port] (a1) at (4,1.6) {}; \node[and port] (a2) at (4,-0.4) {}; \node[or port] (o) at (6,0.6) {};
+\node[not port,scale=0.6] (nb) at (2.4,0 |- a1.in 2) {}; \node[not port,scale=0.6] (na) at (2.4,0 |- a2.in 1) {};
+\draw (a1.in 1) -- (a1.in 1 -| 0,0) node[circ]{} node[left]{$A$};
+\draw (a2.in 2) -- (a2.in 2 -| 0,0) node[circ]{} node[left]{$B$};
+\draw (nb.out) -- (a1.in 2); \draw (na.out) -- (a2.in 1);
+\draw (0.6,0 |- a1.in 1) coordinate (ja) |- (na.in); \fill (ja) circle (1.4pt);
+\draw (1.1,0 |- a2.in 2) coordinate (jb) |- (nb.in); \fill (jb) circle (1.4pt);
+\draw (a1.out) -| ($(o.in 1)+(-0.3,0)$) -- (o.in 1); \draw (a2.out) -| ($(o.in 2)+(-0.3,0)$) -- (o.in 2);
+\draw (o.out) -- ++(0.3,0) node[circ]{} node[right]{$Y$};
+\end{tikzpicture}
