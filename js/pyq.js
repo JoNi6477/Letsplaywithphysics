@@ -20,7 +20,7 @@
   const text = html => html.replace(/<[^>]+>/g, '').replace(/\\\(|\\\)|\\[a-z]+/gi, '');
   // An answer is 1–4, a list when NTA accepted more than one option, or a number for numerical questions.
   const answers = q => q.a == null ? [] : [].concat(q.a);
-  const ansText = q => q.num ? answers(q).join(' or ') : answers(q).map(n => `(${n})`).join(' or ');
+  const ansText = q => q.val ? q.val : q.num ? answers(q).join(' or ') : answers(q).map(n => `(${n})`).join(' or ');
   const yearSpan = years => years.length ? (Math.min(...years) === Math.max(...years) ? `${years[0]}` : `${Math.min(...years)}–${Math.max(...years)}`) : '';
   const link = extra => 'pyq.html?' + new URLSearchParams({ ...(EXAM === 'jee' ? { exam: 'jee' } : {}), ...extra }).toString();
 
@@ -38,7 +38,7 @@
     });
   }
 
-  fetch(`data/pyq-${EXAM}.json?v=20261205`)
+  fetch(`data/pyq-${EXAM}.json?v=20261206`)
     .then(r => r.json())
     .then(data => {
       const chapter = data.chapters.find(c => c.slug === params.get('ch'));
@@ -145,7 +145,7 @@
       const card = cardOf(id);
       if (card.dataset.done) return;
       const q = byId(id);
-      if (q.a && !answers(q).includes(i)) card.querySelector(`.pyq-opt[data-i="${i}"]`).classList.add('is-wrong');
+      if (q.a && !q.bonus && !answers(q).includes(i)) card.querySelector(`.pyq-opt[data-i="${i}"]`).classList.add('is-wrong');
       reveal(id);
     }
     function checkNumber(id) {
@@ -154,7 +154,7 @@
       const v = parseFloat(input.value);
       if (Number.isNaN(v)) { input.focus(); return; }
       const ok = answers(q).some(a => Math.abs(v - Number(a)) <= Math.max(0.011, Math.abs(Number(a)) * 0.005));
-      input.classList.add(ok ? 'is-right' : 'is-wrong');
+      if (!q.bonus) input.classList.add(ok ? 'is-right' : 'is-wrong');
       reveal(id);
     }
     function reveal(id) {
@@ -164,8 +164,10 @@
       if (!q.num) answers(q).forEach(n => card.querySelector(`.pyq-opt[data-i="${n}"]`).classList.add('is-right'));
       else card.querySelector('.pyq-num-in').disabled = true;
       const ans = card.querySelector('.pyq-ans');
-      ans.innerHTML = q.a != null ? `Correct answer: <b>${ansText(q)}</b>`
+      ans.innerHTML = q.bonus ? `<span class="pyq-bonus-msg">Bonus — full marks to everyone.</span> Answer: <b>${ansText(q)}</b>`
+        : q.a != null ? `Correct answer: <b>${ansText(q)}</b>`
         : `<span class="pyq-soon">${q.pending ? 'Answer is being checked — coming soon.' : 'No single correct option — see note.'}</span>`;
+      renderMath(ans);
       card.querySelector('.pyq-reveal').hidden = true;
       if (q.sol) addBlock(card, 'pyq-sol', `<b>Solution</b><div>${q.sol}</div>`);
       if (q.note) addBlock(card, 'pyq-note', q.note);
@@ -206,7 +208,7 @@
 
   function questionCard(q, n) {
     return `<article class="pyq-q" data-id="${q.id}">
-      <div class="pyq-qtop"><span class="pyq-num">Q${n}.${q.num ? ' <em class="pyq-type">Numerical</em>' : ''}</span><span class="pyq-tag">${q.paper}</span></div>
+      <div class="pyq-qtop"><span class="pyq-num">Q${n}.${q.num ? ' <em class="pyq-type">Numerical</em>' : ''}${q.bonus ? ' <em class="pyq-type pyq-bonus">Bonus</em>' : ''}</span><span class="pyq-tag">${q.paper}</span></div>
       <div class="pyq-text">${q.q}</div>
       ${q.fig ? `<img class="pyq-fig" src="${q.fig}" alt="Figure for question ${n}" loading="lazy">` : ''}
       ${answerArea(q, n)}
@@ -226,7 +228,7 @@
         <div><h1>${ch.name}</h1><p>${CFG.name} Physics · Previous Year Questions ${yearSpan(years)} · ${qs.length} questions</p></div>
       </header>
       ${qs.map((q, i) => `<div class="pp-q">
-        <div class="pp-qtop"><b>Q${i + 1}.${q.num ? ' (Numerical)' : ''}</b><span>${q.paper}</span></div>
+        <div class="pp-qtop"><b>Q${i + 1}.${q.num ? ' (Numerical)' : ''}${q.bonus ? ' (Bonus)' : ''}</b><span>${q.paper}</span></div>
         <div class="pp-text">${q.q}</div>
         ${q.fig ? `<img class="pp-fig" src="${q.fig}" alt="">` : ''}
         ${q.num ? '' : `<div class="pp-opts ${optionsLayout(q) || (q.ofig ? '' : 'two')}">${q.o.map((o, j) =>
@@ -234,12 +236,12 @@
       </div>`).join('')}
       <section class="pp-key">
         <h2>Answer key</h2>
-        <div class="pp-keygrid">${qs.map((q, i) => `<span><b>Q${i + 1}</b> ${q.a != null ? ansText(q) : '—'}</span>`).join('')}</div>
+        <div class="pp-keygrid">${qs.map((q, i) => `<span><b>Q${i + 1}</b> ${q.bonus ? 'Bonus' : q.a != null ? ansText(q) : '—'}</span>`).join('')}</div>
         ${qs.filter(q => q.note).map(q => `<p><b>Q${qs.indexOf(q) + 1}:</b> ${q.note}</p>`).join('')}
       </section>
       <section class="pp-sols">
         <h2>Solutions</h2>
-        ${qs.map((q, i) => q.sol ? `<div class="pp-sol"><b>Q${i + 1}.</b> ${q.a != null ? `<span class="pp-ans">Answer ${ansText(q)}</span>` : ''} ${q.sol}</div>` : '').join('')}
+        ${qs.map((q, i) => q.sol ? `<div class="pp-sol"><b>Q${i + 1}.</b> ${q.bonus ? `<span class="pp-ans">Bonus · ${ansText(q)}</span>` : q.a != null ? `<span class="pp-ans">Answer ${ansText(q)}</span>` : ''} ${q.sol}</div>` : '').join('')}
         <p class="pp-site">More free formula sheets, PYQs and mock tests at <b>letsplaywithphysics.in</b></p>
       </section>`;
     renderMath(document.body);
