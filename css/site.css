@@ -520,3 +520,16 @@ body.pyq-embed .page-hero .eyebrow { display: none; }
 body.pyq-embed #main { padding: 18px 0 40px !important; }
 body.pyq-embed .container { padding: 0 18px; }
 body.pyq-embed .pyq-side { top: 12px; max-height: calc(100vh - 24px); }
+
+/* PYQ: exam tabs as links, shift list, numerical answers */
+a.fs-pill { text-decoration: none; display: inline-flex; align-items: center; gap: 4px; }
+.pyq-years.one-col { grid-template-columns: 1fr; }
+.pyq-type { font-style: normal; font-size: 12px; font-weight: 700; color: #7c3aed; background: #f3e8ff; border-radius: 20px; padding: 2px 8px; margin-left: 6px; vertical-align: middle; }
+.pyq-num-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 14px; }
+.pyq-num-label { font-size: 14px; font-weight: 700; color: var(--muted); width: 100%; }
+.pyq-num-in { width: 160px; border: 1.5px solid #cbd5e1; border-radius: 10px; padding: 10px 12px; font-size: 16px; font-family: inherit; }
+.pyq-num-in:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(31,111,235,0.15); }
+.pyq-num-in.is-right { border-color: var(--green); background: #ecfdf3; }
+.pyq-num-in.is-wrong { border-color: #dc2626; background: #fef2f2; }
+.pyq-check-num { padding: 10px 18px; font-size: 15px; }
+@media (max-width: 899px) { .pyq-years.one-col { display: flex; } }

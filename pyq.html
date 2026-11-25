@@ -4,10 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NEET Physics Previous Year Questions — Let's Play With Physics</title>
-  <meta name="description" content="Chapter-wise NEET physics previous year questions (2018–2026) with answers. Practise online or download each chapter as a PDF — free, no login needed.">
+  <meta name="description" content="Chapter-wise NEET (2018–2026) and JEE Main (2026) physics previous year questions with answers and solutions. Practise online or download each chapter as a PDF — free, no login needed.">
   <link rel="icon" type="image/png" href="images/favicon.png">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/site.css?v=20261203">
+  <link rel="stylesheet" href="css/site.css?v=20261205">
   <link rel="stylesheet" href="js/vendor/katex/katex.min.css">
 </head>
 <body>
@@ -65,8 +65,8 @@
       <div id="view-list">
         <div class="fs-tools">
           <div class="fs-pills" role="tablist">
-            <button class="fs-pill active" role="tab" aria-selected="true">NEET <span id="neet-count"></span></button>
-            <button class="fs-pill" role="tab" disabled title="Coming soon">JEE Mains <span>soon</span></button>
+            <a class="fs-pill" role="tab" data-exam-tab="neet" href="pyq.html">NEET <span></span></a>
+            <a class="fs-pill" role="tab" data-exam-tab="jee" href="pyq.html?exam=jee">JEE Main <span></span></a>
           </div>
           <input type="search" id="ch-search" class="fs-search" placeholder="Search chapter, e.g. Current Electricity" aria-label="Search chapters">
         </div>
@@ -78,7 +78,7 @@
         <aside class="pyq-side">
           <a class="pyq-back" href="pyq.html">← All chapters</a>
           <div class="pyq-side-box">
-            <h4>Year</h4>
+            <h4 id="year-title">Year</h4>
             <div class="pyq-years" id="year-pills"></div>
             <label class="pyq-check"><input type="checkbox" id="show-all"> Show all answers</label>
             <a class="btn btn-outline pyq-pdf" id="ch-pdf" download>Download chapter PDF</a>
@@ -141,7 +141,7 @@
   </script>
   <script src="js/vendor/katex/katex.min.js"></script>
   <script src="js/vendor/katex/auto-render.min.js"></script>
-  <script src="js/pyq.js?v=20261203"></script>
+  <script src="js/pyq.js?v=20261205"></script>
   <script src="js/nav-account.js?v=20261203"></script>
 </body>
 </html>
