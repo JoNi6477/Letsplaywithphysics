@@ -1,0 +1,5 @@
+\begin{tikzpicture}[x=0.018cm,y=0.3cm,font=\scriptsize]
+\draw[->] (0,0) -- (195,0) node[right]{$\theta$ (deg)}; \draw[->] (0,0) -- (0,6.6) node[left]{$N(\theta)$};
+\foreach \x in {0,30,...,180} \node[below] at (\x,0) {\x}; \foreach \k in {1,...,6} { \draw (-2,\k) -- (2,\k); \node[left] at (0,\k) {$10^{\the\numexpr\k+1\relax}$}; } \node[left] at (0,0) {$10$};
+\draw[acc,line width=1.1pt] (5,5.4) .. controls (60,5.8) and (120,4.5) .. (175,2.2);
+\end{tikzpicture}
