@@ -1,0 +1,6 @@
+\begin{tikzpicture}[x=0.7cm,y=0.009cm]
+\draw[->] (0,0) -- (6.5,0) node[right]{$V$ [m$^3$]}; \draw[->] (0,0) -- (0,380) node[left]{$P$ [N/m$^2$]};
+\draw (2,0) node[below]{$2$} -- (2,6) (5,0) node[below]{$5$} -- (5,6) (0,300) node[left]{$300$} -- (0.1,300) (0,100) node[left]{$100$} -- (0.1,100);
+\draw[acc,line width=1.1pt,postaction={decorate},decoration={markings,mark=at position 0.17 with {\arrow{Stealth}},mark=at position 0.42 with {\arrow{Stealth}},mark=at position 0.67 with {\arrow{Stealth}},mark=at position 0.92 with {\arrow{Stealth}}}] (2,300) -- (5,300) -- (5,100) -- (2,100) -- cycle;
+\node[above left] at (2,300) {$a$}; \node[above right] at (5,300) {$b$}; \node[below right] at (5,100) {$c$}; \node[below left] at (2,100) {$d$};
+\end{tikzpicture}

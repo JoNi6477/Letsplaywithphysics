@@ -1,0 +1,7 @@
+\begin{tikzpicture}[scale=0.8]
+\draw[fill=fillb!40] (0,0) circle (1.5); \node at (-0.6,-0.9) {$\rho$};
+\coordinate (O) at (0,0); \coordinate (A) at (28:3); \coordinate (B) at (172:4.5);
+\fill (O) circle (1.5pt) node[below]{$O$}; \fill (A) circle (2pt) node[right]{$A$}; \fill (B) circle (2pt) node[left]{$B$};
+\draw (O) -- node[below]{$2R$} (A); \draw (O) -- node[below]{$3R$} (B);
+\draw[acc,hid,line width=0.9pt,postaction={decorate},decoration={markings,mark=at position 0.2 with {\arrow{Stealth}},mark=at position 0.8 with {\arrow{Stealth}}}] (A) -- (B);
+\end{tikzpicture}
