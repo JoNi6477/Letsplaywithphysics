@@ -1,0 +1,18 @@
+\begin{tikzpicture}[font=\small]
+\begin{scope}
+\draw[->] (-0.3,0) -- (2,0) node[below]{Time}; \draw[->] (0,-0.9) -- (0,1.1) node[above]{Phase}; \node[below left] at (0,0) {$O$};
+\draw[acc,line width=1pt] (0,-0.7) -- (1.5,0.9); \node at (-0.8,0) {(A)};
+\end{scope}
+\begin{scope}[shift={(4.9,0)}]
+\draw[->] (-1,0) -- (1.3,0) node[below]{disp.}; \draw[->] (0,-0.9) -- (0,1.1) node[above]{Velocity}; \node[below left] at (0,0) {$O$};
+\draw[acc,line width=1pt] (0,0) circle (0.6); \draw[acc,->] (60:0.6) arc[start angle=60,end angle=40,radius=0.6]; \node at (-1.5,0) {(B)};
+\end{scope}
+\begin{scope}[shift={(0,-2.6)}]
+\draw[->] (-1,0) -- (1.5,0) node[below]{Time}; \draw[->] (0,-0.9) -- (0,1.1) node[above]{Velocity};
+\draw[acc,line width=1pt] (0,0) circle (0.6); \draw[acc,->] (60:0.6) arc[start angle=60,end angle=40,radius=0.6]; \node at (-1.5,0) {(C)};
+\end{scope}
+\begin{scope}[shift={(4.9,-2.6)}]
+\draw[->] (-0.3,0) -- (2,0) node[below]{Time}; \draw[->] (0,-0.9) -- (0,1.1) node[above]{Total distance}; \node[below left] at (0,0) {$O$};
+\draw[acc,line width=1pt] (0,0) -- (0.2,0.25) -- (0.6,0.3) -- (0.8,0.5) -- (1.3,0.6); \node at (-0.8,0) {(D)};
+\end{scope}
+\end{tikzpicture}

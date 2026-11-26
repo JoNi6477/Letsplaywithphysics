@@ -10,8 +10,10 @@ EXAM = sys.argv[2] if len(sys.argv) > 2 else 'neet'
 # Papers, newest first: (source file stem, filter group key, filter label)
 PAPERS = {
  'neet': [(f'neet{y}', str(y), str(y)) for y in [2026, 2025, 2024, 2023, 2022, 2021, 2020, 2019, 2018]],
- 'jee': [(f'jee2026_{d}{s}', f'2026-{d}{s}', f'{int(d[2:])} Jan · {"Morning" if s == "m" else "Evening"}')
-         for d in ['0128', '0124', '0123', '0122', '0121'] for s in ['e', 'm']],
+ 'jee': [(f'jee{y}_{d}{s}', f'{y}-{d}{s}', f'{int(d[2:])} {mon} {y} · {"Morning" if s == "m" else "Evening"}')
+         for y, mon, shifts in [(2026, 'Jan', [(d, s) for d in ['0128', '0124', '0123', '0122', '0121'] for s in ['e', 'm']]),
+                                (2025, 'Apr', [('0408', 'e')] + [(d, s) for d in ['0407', '0404', '0403', '0402'] for s in ['e', 'm']])]
+         for d, s in shifts],
 }[EXAM]
 
 UNITS = [

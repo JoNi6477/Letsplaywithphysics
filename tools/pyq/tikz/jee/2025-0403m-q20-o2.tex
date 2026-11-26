@@ -1,0 +1,6 @@
+\begin{tikzpicture}
+\node[or port] (o) at (2.1,-0.2) {}; \node[and port] (g) at (5.2,0.25) {};
+\draw (o.in 1) -- (o.in 1 -| 0,0) node[circ]{} node[left]{$A$}; \draw (o.in 2) -- (o.in 2 -| 0,0) node[circ]{} node[left]{$B$};
+\draw (0.6,0 |- o.in 1) coordinate (j) -- (0.6,0.75) -- (2.8,0.75) node[not port,scale=0.5,anchor=in] (n) {}; \draw (n.out) -| ($(g.in 1)+(-0.35,0)$) -- (g.in 1); \fill (j) circle (1.3pt); \draw (o.out) -| ($(g.in 2)+(-0.2,0)$) -- (g.in 2);
+\draw (g.out) -- ++(0.3,0) node[circ]{} node[right]{$Y$};
+\end{tikzpicture}
