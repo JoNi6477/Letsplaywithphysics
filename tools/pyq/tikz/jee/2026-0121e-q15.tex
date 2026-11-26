@@ -1,0 +1,14 @@
+\begin{tikzpicture}
+\def\r{1.1}
+\pgfmathsetmacro{\h}{sqrt(\r*\r-0.35*0.35)}
+\coordinate (O) at (0,\h);
+\draw (-2.4,0) -- (-0.35,0) arc[start angle=251.45,end angle=-71.45,radius=\r] -- (2.4,0);
+\draw[->] (-2.4,0) -- (-1.5,0); \draw[->] (0.35,0) -- (1.6,0);
+\draw[->] ($(O)+(100:\r)$) arc[start angle=100,end angle=80,radius=\r];
+\fill (O) circle (1.5pt) node[below left]{$O$}; \draw (O) -- node[above left=-2pt]{$r$} ++(45:\r);
+\node at ($(O)+(95:\r+0.25)$) {$C$}; \node at ($(O)+(130:\r-0.3)$) {$I$};
+\foreach \x/\l in {-2.4/A,-1.4/I,-0.45/B,0.45/D,1.4/I,2.4/E} \node[below] at (\x,-0.05) {$\l$};
+\begin{scope}[shift={(2.9,1.5)}]
+\draw[->] (0,0) -- (0,0.8) node[right]{$z\,(\hat k)$}; \draw[->] (0,0) -- (1,0) node[right]{$y\,(\hat j)$}; \draw[->] (0,0) -- (-0.5,-0.45) node[below]{$x\,(\hat i)$};
+\end{scope}
+\end{tikzpicture}

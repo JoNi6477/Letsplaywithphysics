@@ -1,0 +1,7 @@
+\begin{tikzpicture}
+\draw (0,1.8) node[circ]{} -- (1.6,1.8) to[R,l=$R_s$] (1.6,0.9) to[zDo,invert] (1.6,0) ;
+\draw (1.6,0.9) -- (3,0.9) to[R,l=$R_L$] (3,0); \draw (3,0.9) -- (4.4,0.9) node[circ]{};
+\draw (0,0) node[circ]{} -- (4.4,0) node[circ]{};
+\draw[hid] (0,1.8) -- node[right]{$V_{in}$} (0,0); \draw[hid] (4.4,0.9) -- node[left]{$V_o$} (4.4,0);
+\node[left,align=center,font=\small] at (-0.1,0.9) {Unregulated\\Voltage}; \node[right,align=center,font=\small] at (4.5,0.45) {Regulated\\Voltage};
+\end{tikzpicture}

@@ -32,7 +32,13 @@ SLUGS = {s for _, chs in UNITS for s, _ in chs}
 
 img_out = os.path.join(REPO, f'images/pyq/{EXAM}'); os.makedirs(img_out, exist_ok=True)
 def put_image(src_dir, src_name, name):
-    """Copy a figure to the site. NEET scans are made greyscale; JEE figures keep their colour."""
+    """Copy a figure to the site. NEET scans are made greyscale; JEE figures keep their colour.
+    A figure redrawn in LaTeX (tools/pyq/tikz/<exam>/<name>.tex, rendered by tikz/render.py) is used instead."""
+    if os.path.exists(os.path.join(ROOT, 'tikz', EXAM, name + '.tex')):
+        svg = os.path.join(img_out, name + '.svg'); assert os.path.exists(svg), f'run tikz/render.py for {name}'
+        old = os.path.join(img_out, name + '.png')
+        if os.path.exists(old): os.remove(old)
+        return f'images/pyq/{EXAM}/{name}.svg'
     src = os.path.join(ROOT, 'figs', src_dir, src_name + '.png')
     if not os.path.exists(src):   # figs/ is not in git: keep the image already on the site
         done = os.path.join(img_out, name + '.png'); assert os.path.exists(done), src
@@ -77,6 +83,8 @@ for stem, g, label in PAPERS:
             if sol.count(r'\(') != sol.count(r'\)'): problems.append(f'{qid}: unbalanced \\( \\) in solution')
         elif q['a'] is not None: problems.append(f'{qid}: no solution')
         if q.get('note'): item['note'] = q['note']
+        if q.get('bonus'): item['bonus'] = True
+        if q.get('val'): item['val'] = q['val']
         if q['a'] is None and q.get('chk'): item['pending'] = True
         fig_dir = str(y) if EXAM == 'neet' else 'jee'
         if q.get('fig'):

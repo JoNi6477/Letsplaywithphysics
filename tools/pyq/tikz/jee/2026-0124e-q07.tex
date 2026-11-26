@@ -1,0 +1,9 @@
+\begin{tikzpicture}[x=0.75cm,y=0.075cm]
+\draw[->] (0,0) -- (5.8,0) node[right]{$V$ (m$^3$)}; \draw[->] (0,0) -- (0,37) node[above]{$P$ (Pa)};
+\foreach \x in {1,...,5} \node[below] at (\x,0) {\small $\x$};
+\draw[hid] (0,30) node[left]{$P_2$} -- (1,30) -- (1,0); \draw[hid] (0,21.7) node[left]{$P_1$} -- (1,21.7);
+\draw[acc,line width=1pt,postaction={decorate},decoration={markings,mark=at position 0.5 with {\arrow{Stealth}}}] (1,21.7) -- (1,30);
+\draw[acc,line width=1pt,postaction={decorate},decoration={markings,mark=at position 0.5 with {\arrow{Stealth}}}] (1,30) .. controls (2,17) and (3,13) .. (5,12);
+\draw[acc,line width=1pt,postaction={decorate},decoration={markings,mark=at position 0.5 with {\arrow{Stealth}}}] (5,12) -- (5,7);
+\draw[acc,line width=1pt,postaction={decorate},decoration={markings,mark=at position 0.5 with {\arrow{Stealth}}}] (5,7) .. controls (3,8) and (2,11) .. (1,21.7);
+\end{tikzpicture}

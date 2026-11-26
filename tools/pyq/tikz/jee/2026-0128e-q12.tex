@@ -1,0 +1,6 @@
+\begin{tikzpicture}
+\coordinate (T) at (1.5,1.5); \coordinate (B) at (1.5,-1.5); \coordinate (a) at (0,0); \coordinate (b) at (3,0);
+\draw (a) to[R,l=$R_1$] (T) to[R,l=$R_3$] (b) to[R,l=$R_4$] (B) to[R,l=$R_2$] (a);
+\fill (a) circle (2pt) node[left]{$V_a$}; \fill (b) circle (2pt) node[right]{$V_b$}; \fill (T) circle (1.5pt); \fill (B) circle (1.5pt);
+\draw (T) -- (4.4,1.5) to[battery1,l=$40\,\mathrm{V}$] (4.4,-1.5) -- (B);
+\end{tikzpicture}

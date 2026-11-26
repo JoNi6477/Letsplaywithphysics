@@ -1,0 +1,6 @@
+\begin{tikzpicture}
+\draw (0,2) to[battery1,l_=$10$ V] (0,0) -- (4,0) to[battery1,invert,l_=$2$ V] (4,2) -- (3.2,2) to[rmeter,t=G] (2.4,2) -- (2,2);
+\draw (0,2) to[R,l=$400\,\Omega$] (2,2) to[R,l_=$R$] (2,0);
+\draw[->] (1.2,0) -- (0.9,0);
+\node[font=\scriptsize] at (0.25,1.25) {$+$}; \node[font=\scriptsize] at (4.25,1.25) {$+$};
+\end{tikzpicture}

@@ -1,0 +1,7 @@
+\begin{tikzpicture}
+\draw[line width=1.4pt] (0,-0.9) -- (0,1.3); \draw[->] (-0.25,0.85) arc[start angle=200,end angle=500,x radius=0.25,y radius=0.08]; \node[above] at (0,1.3) {$\omega$};
+\draw[block] (0,0) rectangle (5,0.7);
+\foreach \x in {0.2,0.55,...,4.8} { \fill (\x,0.18) circle (1.3pt); \fill (\x,0.52) circle (1.3pt); \fill (\x+0.17,0.35) circle (1.3pt); }
+\node[left] at (0,0.2) {$A$}; \node[right] at (5,0.35) {$B$};
+\draw[dim] (0,-0.4) -- node[fill=white]{$l$} (5,-0.4);
+\end{tikzpicture}

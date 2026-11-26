@@ -1,0 +1,6 @@
+\begin{tikzpicture}
+\node[npn,tr circle,scale=1.1] (Q) at (3,0) {};
+\draw (Q.B -| 0,0) node[circ]{} node[left]{$V_i$} to[R,l={$R_B$},a={$500\,\mathrm{k}\Omega$}] (Q.B); \node[below left] at (Q.B) {$B$};
+\draw (Q.C) to[R,l={$R_C=4\,\mathrm{k}\Omega$}] ++(0,1.7) node[circ]{} node[above]{$20$ V}; \node[right] at (Q.C) {$C$};
+\draw (Q.E) -- ++(0,-0.3) node[right]{$E$};
+\end{tikzpicture}

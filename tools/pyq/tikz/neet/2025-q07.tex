@@ -1,0 +1,9 @@
+\begin{tikzpicture}
+\def\r{1.6}
+\draw[hid,line width=1pt] (0,0) circle (\r); \draw[line width=1.3pt] (90:\r) arc[start angle=90,end angle=180,radius=\r];
+\draw[line width=1.3pt] (0,0) -- (0,-\r); \draw[line width=1.3pt] (0,0) -- (40:\r);
+\draw[hid] (0,0) -- (\r,0); \draw (0.55,0) arc[start angle=0,end angle=40,radius=0.55]; \node at (20:0.8) {$\theta$};
+\fill (0,0) circle (2.5pt) node[above left]{$O$}; \fill (40:\r) circle (3pt) node[above right]{$P$}; \fill (0,-\r) circle (3.5pt) node[below left]{$m$};
+\draw[dim] (-0.3,0) -- node[left]{$l$} (-0.3,-\r);
+\draw[vec] (0,-\r) -- (1.4,-\r) node[right,acc]{$v_0$};
+\end{tikzpicture}

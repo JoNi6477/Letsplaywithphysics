@@ -1,0 +1,7 @@
+\begin{tikzpicture}
+\node[nand port] (g) at (4,0) {};
+\node[not port,scale=0.7] (na) at (1.6,0.9) {}; \node[not port,scale=0.7] (nb) at (1.6,-0.9) {};
+\draw (na.in) -- ++(-1,0) node[left]{$A$}; \draw (nb.in) -- ++(-1,0) node[left]{$B$};
+\draw (na.out) -| ($(g.in 1)+(-0.4,0)$) -- (g.in 1); \draw (nb.out) -| ($(g.in 2)+(-0.4,0)$) -- (g.in 2);
+\draw (g.out) -- ++(0.4,0) node[right]{$Y$};
+\end{tikzpicture}

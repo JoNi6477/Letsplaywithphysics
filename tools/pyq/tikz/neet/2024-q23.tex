@@ -1,0 +1,7 @@
+\begin{tikzpicture}
+\node[nand port] (g1) at (1.8,1) {}; \node[nor port] (g2) at (1.8,-0.4) {}; \node[nor port] (g3) at (4,0.3) {};
+\draw (g1.in 1) -- ++(-0.3,0) coordinate (a) |- (g1.in 2); \draw (a |- g1.out) -- (0,1) node[left]{$A$};
+\draw (g2.in 1) -- ++(-0.3,0) coordinate (b) |- (g2.in 2); \draw (b |- g2.out) -- (0,-0.4) node[left]{$B$};
+\draw (g1.out) -| ($(g3.in 1)+(-0.3,0)$) -- (g3.in 1); \draw (g2.out) -| ($(g3.in 2)+(-0.3,0)$) -- (g3.in 2);
+\draw (g3.out) -- ++(0.4,0) node[right]{$Y$};
+\end{tikzpicture}

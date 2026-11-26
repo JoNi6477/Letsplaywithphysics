@@ -1,0 +1,8 @@
+\begin{tikzpicture}
+\node[or port] (o) at (2.7,-0.8) {}; \node[nand port] (g) at (5,0) {};
+\draw (g.in 1) -- (g.in 1 -| 0,0) node[circ]{} node[left]{$n$};
+\draw (0.8,0 |- g.in 1) coordinate (j) |- (o.in 1); \fill (j) circle (1.5pt);
+\draw (o.in 2) -- (o.in 2 -| 0,0) node[circ]{} node[left]{$m$};
+\draw (o.out) -| ($(g.in 2)+(-0.3,0)$) -- (g.in 2);
+\draw (g.out) -- ++(0.4,0) node[right]{$z$};
+\end{tikzpicture}

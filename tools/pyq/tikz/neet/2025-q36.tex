@@ -1,0 +1,5 @@
+\begin{tikzpicture}
+\draw (0,-0.8) -- (0,1.2) node[left]{$A$} -- (0.9,1.2) -- (0.9,2.2) to[R,l=$1\,\Omega$] (2.4,2.2) to[R,l=$2\,\Omega$] (3.9,2.2) -- (3.9,1.2) -- (4.8,1.2) node[right]{$B$} -- (4.8,-0.8) -- (2.7,-0.8) to[battery1,l=$50$ V] (2.1,-0.8) -- (0,-0.8);
+\draw (0.9,1.2) -- (0.9,0.2) to[R,l_=$3\,\Omega$] (2.4,0.2) to[R,l_=$4\,\Omega$] (3.9,0.2) -- (3.9,1.2);
+\fill (2.4,2.2) circle (1.5pt) node[above=6pt]{$C$}; \fill (2.4,0.2) circle (1.5pt) node[below=6pt]{$D$};
+\end{tikzpicture}

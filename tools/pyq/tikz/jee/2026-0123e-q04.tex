@@ -1,0 +1,11 @@
+\begin{tikzpicture}
+\def\r{1.7}
+\draw[line width=1.1pt] (-\r,0) -- (\r,0) arc[start angle=0,end angle=-180,radius=\r];
+\fill (0,0) circle (2pt); \draw[hid] (0,0) -- (225:\r);
+\fill[acc] (-\r,0) circle (3pt); \fill[acc] (225:\r) circle (3pt);
+\node[left] at (-\r,0) {$A$}; \node[right] at (\r,0) {$B$}; \node[above] at (-\r+0.25,0.05) {$Q$};
+\node[below left] at (225:\r) {$P$}; \node[above right] at (225:\r-0.05) {$S$}; \node[below] at (-60:\r) {$C$};
+\draw[vec] (-\r+0.15,0.15) -- (-\r+0.8,0.15);
+\draw[vec] (250:\r+0.12) arc[start angle=250,end angle=280,radius=\r+0.12];
+\coordinate (O) at (0,0); \coordinate (Aa) at (-1,0); \coordinate (Ss) at (225:1); \pic[draw,angle radius=5mm,"$45^\circ$",angle eccentricity=1.8] {angle=Aa--O--Ss};
+\end{tikzpicture}

@@ -1,0 +1,8 @@
+\begin{tikzpicture}[x=0.75cm,y=0.012cm]
+\draw[->] (0,0) -- (6.2,0) node[right]{$V$ (m$^3$)}; \draw[->] (0,0) -- (0,360) node[above]{$P$ (Pa)};
+\draw[hid] (0,300) node[left]{$300$} -- (5,300); \draw[hid] (0,100) node[left]{$100$} -- (2,100); \draw[hid] (2,100) -- (2,0) node[below]{$2$}; \draw[hid] (5,100) -- (5,0) node[below]{$5$};
+\draw[acc,line width=1.1pt,postaction={decorate},decoration={markings,mark=at position 0.55 with {\arrow{Stealth}}}] (2,100) -- (5,300);
+\draw[acc,line width=1.1pt,postaction={decorate},decoration={markings,mark=at position 0.55 with {\arrow{Stealth}}}] (5,300) -- (5,100);
+\draw[acc,line width=1.1pt,postaction={decorate},decoration={markings,mark=at position 0.55 with {\arrow{Stealth}}}] (5,100) -- (2,100);
+\node[above left] at (2,100) {$A$}; \node[above right] at (5,300) {$B$}; \node[right] at (5,100) {$C$};
+\end{tikzpicture}

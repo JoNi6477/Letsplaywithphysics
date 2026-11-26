@@ -1,0 +1,7 @@
+\begin{tikzpicture}[x=0.5cm,y=0.9cm]
+\draw[->] (0,0) -- (9.5,0) node[above]{$t$ (s)}; \draw[->] (0,-1.4) -- (0,1.5) node[left]{$x$ (m)};
+\draw[acc,line width=1.1pt,domain=0:8,samples=60] plot (\x,{sin(45*\x)});
+\draw[hid] (2,0) -- (2,1) (6,0) -- (6,-1) (0,-1) -- (6,-1);
+\node[left] at (0,1) {\small $1$}; \node[left] at (0,-1) {\small $-1$}; \node[below left] at (0,0) {\small $0$};
+\foreach \x in {2,6} \node[below] at (\x,0) {\small $\x$}; \foreach \x in {4,8} \node[above right] at (\x,0) {\small $\x$};
+\end{tikzpicture}

@@ -1,0 +1,8 @@
+\begin{tikzpicture}
+\coordinate (T) at (1.6,1.6); \coordinate (B) at (1.6,-1.6); \coordinate (L) at (0,0); \coordinate (R) at (3.2,0);
+\draw (L) to[R] (T) to[R] (R); \draw (L) to[R] (B);
+\node at (0.35,1.15) {\small $10\,\Omega$}; \node at (2.85,1.15) {\small $10\,\Omega$}; \node at (0.35,-1.15) {\small $15\,\Omega$};
+\draw (T) to[rmeter,t=G] (B);
+\draw (B) to[R] (R); \draw (B) -- (1.95,-1.95) to[empty diode] (3.55,-0.35) -- (R); \node at (3.15,-1.45) {$D$}; \node at (2.2,-0.5) {\small $5\,\Omega$};
+\draw (L) -- (-0.5,0) -- (-0.5,-2.4) -- (0.9,-2.4) to[battery1,l_=$E$] (1.4,-2.4) -- (2.2,-2.4) to[nos,l_=$K$] (2.9,-2.4) -- (3.7,-2.4) -- (3.7,0) -- (R);
+\end{tikzpicture}

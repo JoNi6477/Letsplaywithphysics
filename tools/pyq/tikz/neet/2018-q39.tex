@@ -1,0 +1,7 @@
+\begin{tikzpicture}
+\draw (0,0) ellipse[x radius=2.6,y radius=1.1]; \draw (-2.6,0) -- (2.6,0);
+\coordinate (S) at (-1.9,0); \fill[acc] (S) circle (3pt);
+\draw (-1.9,{1.1*sqrt(1-(1.9/2.6)^2)}) -- (-1.9,{-1.1*sqrt(1-(1.9/2.6)^2)});
+\draw (-1.9,0.18) -- (-1.72,0.18) -- (-1.72,0);
+\node[below right] at (S) {$S$}; \node[left] at (-2.6,0) {$A$}; \node[right] at (2.6,0) {$C$}; \node[above] at (-1.9,{1.1*sqrt(1-(1.9/2.6)^2)}) {$B$};
+\end{tikzpicture}

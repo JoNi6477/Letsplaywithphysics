@@ -1,0 +1,6 @@
+\begin{tikzpicture}
+\draw (0,0) node[circ]{} node[above left]{$A$} -- (0,0.7) to[R,l=$1\,\Omega$] (1.8,0.7) to[R,l=$2\,\Omega$] (3.6,0.7) -- (3.6,0) node[circ]{} node[above right]{$B$};
+\draw (0,0) -- (0,-0.7) to[R,l_=$2\,\Omega$] (1.8,-0.7) to[R,l_=$4\,\Omega$] (3.6,-0.7) -- (3.6,0);
+\draw (1.8,0.7) to[R,l=$1\,\Omega$] (1.8,-0.7);
+\draw (0,0) -- (-1,0) -- (-1,-1.8) -- (1.5,-1.8) to[battery1,l_=$9\,\mathrm{V}$] (2.1,-1.8) -- (4.6,-1.8) -- (4.6,0) -- (3.6,0);
+\end{tikzpicture}

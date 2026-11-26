@@ -1,0 +1,9 @@
+\begin{tikzpicture}
+\foreach \sx/\ax/\l in {0/0/A,3.6/1.35/B} {
+\begin{scope}[shift={(\sx,0)}]
+\draw[fill=fillb!50] (0,0) circle (1); \draw[fill=fillb] (1.25,0) circle (0.25);
+\draw[hid] (0,0) -- (1.25,0);
+\node[left] at (-1,0.3) {$A$}; \node[above right] at (1.3,0.15) {$B$};
+\draw[hid,line width=0.7pt] (\ax-0.08,-1.5) -- (\ax+0.08,1.5) node[above]{$I_\l$};
+\end{scope} }
+\end{tikzpicture}

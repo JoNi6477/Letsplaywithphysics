@@ -1,0 +1,6 @@
+\begin{tikzpicture}
+\def\r{1.6}
+\draw (90:\r) -- (162:\r) -- (234:\r) -- (306:\r) -- (18:\r) -- cycle;
+\foreach \a in {90,162,234,306,18} { \fill[acc] (\a:\r) circle (3pt); \node[acc] at (\a:\r+0.45) {$+q$}; }
+\fill (0,0) circle (1.3pt); \draw[->] (0,0) -- node[above]{$\vec r$} ($(18:\r)+(198:0.12)$);
+\end{tikzpicture}

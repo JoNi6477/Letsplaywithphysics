@@ -1,0 +1,10 @@
+\begin{tikzpicture}
+\coordinate (L) at (0,0); \coordinate (R) at (6.8,0); \coordinate (T) at (3.6,3.6);
+\draw[fill=fillb!50] (L) -- (T) -- (R) -- cycle;
+\coordinate (P) at (2.9,2.9); \coordinate (Q) at ($(T)!0.33!(R)$);
+\draw[acc,line width=1pt] (-1,2.9) -- (P) -- (Q) -- ($(T)!0.75!(R)$);
+\draw[acc,->] (-1,2.9) -- (0.6,2.9); \draw[acc,->] (P) -- ($(P)!0.6!(Q)$); \draw[acc,->] (Q) -- ($(T)!0.62!(R)$);
+\pic[draw,angle radius=6mm,"$45^\circ$",angle eccentricity=1.7] {angle=R--L--T};
+\pic[draw,angle radius=6mm,"$\theta$",angle eccentricity=1.5] {angle=T--R--L};
+\node[below] at (3.4,0) {Base};
+\end{tikzpicture}

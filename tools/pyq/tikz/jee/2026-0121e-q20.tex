@@ -1,0 +1,7 @@
+\begin{tikzpicture}
+\draw (0,0) -- (0,4.2) (6,0) -- (6,4.2);
+\draw (0,4.2) to[battery1,l=$2.5\,\mathrm{V}$] (2.6,4.2) to[short] (3.3,4.2) to[R,l=$1\,\Omega$] (5,4.2) -- (6,4.2);
+\draw (0,2.8) to[C,l={$C=5\,\mu\mathrm{F}$}] (2.6,2.8) to[short] (3.3,2.8) to[R,l=$2\,\Omega$] (5,2.8) -- (6,2.8);
+\draw (0,1.4) to[short] (1.2,1.4) to[empty diode,invert] (2.3,1.4) to[short] (3.3,1.4) to[R,l=$3\,\Omega$] (5,1.4) -- (6,1.4);
+\draw (0,0) to[short] (1.2,0) to[empty diode] (2.3,0) to[short] (3.3,0) to[R,l=$4\,\Omega$] (5,0) -- (6,0);
+\end{tikzpicture}
