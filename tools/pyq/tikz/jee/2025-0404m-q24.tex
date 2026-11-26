@@ -1,0 +1,9 @@
+\begin{tikzpicture}
+\coordinate (C) at (0,0); \coordinate (B) at (45:1.6); \coordinate (D) at (-45:1.6); \coordinate (A) at ($(B)+(1.6,0)$); \coordinate (E) at ($(D)+(1.6,0)$);
+\foreach \x in {-0.5,0.3,1.1,1.9,2.7} \foreach \y in {-1.5,-0.75,0,0.75,1.5} \node[ink!55,font=\scriptsize] at (\x,\y) {$\times$};
+\draw[line width=1.2pt] (A) -- node[above]{\small $10$ cm} (B) -- node[above left]{\small $10$ cm} (C) -- node[below left]{\small $10$ cm} (D) -- node[below]{\small $10$ cm} (E);
+\fill (A) circle (1.5pt);
+\foreach \p/\a in {A/right,B/above,C/left,D/below,E/right} \node[\a] at (\p) {$\p$};
+\pic[draw,angle radius=3mm] {right angle=B--C--D};
+\draw[vec] (0.3,0) -- (1.5,0) node[right,acc]{$v$}; \node[right] at (3.4,0) {$B = \frac{1}{\sqrt2}$ T};
+\end{tikzpicture}
