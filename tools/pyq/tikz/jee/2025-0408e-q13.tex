@@ -1,0 +1,5 @@
+\begin{tikzpicture}
+\draw[hid,line width=0.9pt] (0,0) circle (1);
+\draw[line width=1.3pt,fill=fillb!40] (0,2.0) .. controls (0.3,1.5) and (1.0,0.6) .. (1.0,0) .. controls (1.0,-0.6) and (0.5,-1.15) .. (0,-1.15) .. controls (-0.5,-1.15) and (-1.0,-0.6) .. (-1.0,0) .. controls (-1.0,0.6) and (-0.3,1.5) .. (0,2.0);
+\foreach \p/\l/\a in {(0,2.0)/1/above right,(1.0,0)/2/right,(0,-1.15)/3/below,(-1.0,0)/4/left} { \fill[acc] \p circle (2.5pt); \node[\a] at \p {$\sigma_\l$}; }
+\end{tikzpicture}

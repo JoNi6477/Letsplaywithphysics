@@ -1,0 +1,9 @@
+\begin{tikzpicture}
+\draw[line width=1.2pt] (0,-1.2) -- (0,1.6) (3.2,-1.2) -- (3.2,1.6);
+\draw (-0.9,0.4) node[circ]{} -- (0,0.4) (3.2,0.4) -- (4.1,0.4) node[circ]{};
+\coordinate (C) at (1.6,0); \coordinate (B) at (2.6,0); \coordinate (A) at (1.6,0.75);
+\draw (0,0) -- (3.2,0); \draw (A) -- (C); \draw[hid] (A) -- (B);
+\foreach \p/\a in {A/above,B/below,C/below} { \fill (\p) circle (1.6pt); \node[\a] at (\p) {$\p$}; }
+\node[left,font=\small] at (1.6,0.38) {$3$ cm}; \node[above right,font=\small] at (2.1,0.38) {$5$ cm};
+\draw[dim] (0,-0.9) -- node[below]{$10$ cm} (3.2,-0.9);
+\end{tikzpicture}

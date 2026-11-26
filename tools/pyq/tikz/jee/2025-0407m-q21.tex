@@ -1,0 +1,9 @@
+\begin{tikzpicture}
+\def\r{1}
+\draw[line width=1.2pt] (0,-3.4) node[below]{$Q$} -- (0,2.3) node[above right]{$P$};
+\draw[->] (-0.25,1.75) arc[start angle=200,end angle=500,x radius=0.25,y radius=0.08];
+\draw[fill=fillb,line width=1pt] (0,0) circle (\r); \fill (0,0) circle (2pt) node[above left]{$A$};
+\draw[line width=1pt] (-1,-1.732) circle (\r); \draw[line width=1pt] (1,-1.732) circle (\r);
+\fill (-1,-1.732) circle (2pt) node[left]{$B$}; \fill (1,-1.732) circle (2pt) node[right]{$C$};
+\draw[hid] (0,0) -- (-1,-1.732) -- (1,-1.732) -- cycle;
+\end{tikzpicture}

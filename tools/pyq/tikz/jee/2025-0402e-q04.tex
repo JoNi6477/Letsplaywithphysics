@@ -1,0 +1,9 @@
+\begin{tikzpicture}
+\fill[ground] (-1.6,1.6) rectangle (3,1.78); \draw (-1.6,1.6) -- (3,1.6);
+\coordinate (M) at (0,0); \draw[block] (-0.18,-0.25) rectangle (0.18,0.25);
+\draw (0,0.25) -- ($(0,0.25)+(120:1.55)$) node[pos=0.6,left]{$T_1$}; \draw (0,0.25) -- ($(0,0.25)+(30:2.7)$) node[pos=0.6,above]{$T_2$};
+\draw[hid] (-1.2,0.25) -- (1.6,0.25);
+\draw (-0.5,0.25) arc[start angle=180,end angle=120,radius=0.5]; \node at (-0.75,0.5) {\small $60^\circ$};
+\draw (0.6,0.25) arc[start angle=0,end angle=30,radius=0.6]; \node at (0.95,0.4) {\small $30^\circ$};
+\draw[vec] (0,-0.25) -- (0,-1) node[below,acc]{$mg$};
+\end{tikzpicture}

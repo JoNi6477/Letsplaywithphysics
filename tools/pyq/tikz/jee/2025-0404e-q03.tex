@@ -1,0 +1,9 @@
+\begin{tikzpicture}[x=0.55cm,y=0.12cm,font=\small]
+\draw[->] (0,0) -- (10,0) node[right]{$t$ (s)}; \draw[->] (0,-7) -- (0,13) node[left]{$x$ (m)};
+\foreach \y in {-5,5,10} { \draw (-0.1,\y) -- (0.1,\y); \node[left] at (0,\y) {$\y$}; } \node[left] at (0,0) {$0$};
+\foreach \x in {1,...,9} \draw (\x,-0.4) -- (\x,0.4);
+\draw[acc,line width=1.1pt] (0,0) -- (1,-5) -- (2,0) -- (3,5) -- (5,5) -- (6,10) -- (7,0) -- (8,-5) -- (9,0);
+\foreach \p/\l/\a in {(1,-5)/A/below,(2,0)/B/below right,(3,5)/C/above,(5,5)/D/above,(6,10)/E/above,(7,0)/F/above right,(8,-5)/G/below,(9,0)/H/above} \node[\a] at \p {$\l$};
+\foreach \x in {1,2,3,4,5,6,7,8,9} \node[below,font=\scriptsize] at (\x,-0.4) {};
+\node[font=\scriptsize] at (1,1.8) {1}; \node[font=\scriptsize] at (2.3,1.8) {2}; \node[font=\scriptsize] at (3,-2) {3}; \node[font=\scriptsize] at (4,-2) {4}; \node[font=\scriptsize] at (5,-2) {5}; \node[font=\scriptsize] at (6,-2) {6}; \node[font=\scriptsize] at (7.3,-2) {7}; \node[font=\scriptsize] at (8,1.8) {8}; \node[font=\scriptsize] at (9,-2) {9};
+\end{tikzpicture}

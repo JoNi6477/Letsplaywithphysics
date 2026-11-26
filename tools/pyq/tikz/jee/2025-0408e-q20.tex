@@ -1,0 +1,6 @@
+\begin{tikzpicture}
+\draw (3,2.6) node[circ]{} node[above]{$+5$ V} to[R] (3,1.2);
+\draw (0,1.2) node[ocirc]{} node[above]{$+5$ V} to[empty diode,invert,l=$D_1$] (1.6,1.2) -- (4.2,1.2) node[ocirc]{} node[right]{$V_{out}$};
+\draw (0,0) node[ocirc]{} to[empty diode,invert,l_=$D_2$] (1.6,0) -- (3,0) -- (3,1.2); \fill (3,1.2) circle (1.5pt);
+\draw (0,0) -- (0,-0.3) node[ground]{};
+\end{tikzpicture}

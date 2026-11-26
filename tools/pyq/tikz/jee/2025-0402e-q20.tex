@@ -1,0 +1,12 @@
+\begin{tikzpicture}
+\node[nand port] (g1) at (2.6,1.6) {}; \node[or port] (g2) at (2.6,-0.5) {};
+\node[and port] (g3) at (5.6,1.3) {}; \node[nor port] (g4) at (5.6,-0.3) {};
+\draw (g1.in 1) -- (g1.in 1 -| 0,0) node[circ]{} node[left]{$1$}; \draw (g1.in 2) -- (g1.in 2 -| 0,0) node[circ]{} node[left]{$1$};
+\draw (0.5,0 |- g1.in 1) coordinate (j1) |- (g2.in 2); \fill (j1) circle (1.3pt);
+\draw (0.9,0 |- g1.in 2) coordinate (j2) |- (g2.in 1); \fill (j2) circle (1.3pt);
+\draw (g1.out) -| ($(g3.in 1)+(-0.3,0)$) -- (g3.in 1);
+\draw (3.9,0 |- g1.out) coordinate (jx) |- (g4.in 1); \fill (jx) circle (1.3pt);
+\draw (g2.out) -- (4.3,0 |- g2.out) coordinate (jy) |- (g4.in 2); \draw (jy) |- (g3.in 2); \fill (jy) circle (1.3pt);
+\foreach \p in {g2.in 1,g2.in 2,g4.in 1} \draw[fill=white] ($(\p)+(-0.08,0)$) circle (0.08);
+\draw (g3.out) -- ++(0.3,0) node[circ]{} node[right]{$P$}; \draw (g4.out) -- ++(0.3,0) node[circ]{} node[right]{$Q$};
+\end{tikzpicture}

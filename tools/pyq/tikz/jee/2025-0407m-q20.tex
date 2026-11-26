@@ -1,0 +1,4 @@
+\begin{tikzpicture}
+\draw (0,0) to[battery1,l=$12$ V,invert] (0,2) to[R,l=$100\,\Omega$] (1.8,2) -- (4.4,2) to[R,l=$400\,\Omega$] (4.4,1.0) to[rmeter,t=A] (4.4,0) -- (0,0);
+\draw (1.8,2) to[zDo,invert] (1.8,0); \draw (3.1,2) to[rmeter,t=V] (3.1,0);
+\end{tikzpicture}
