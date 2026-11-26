@@ -38,7 +38,7 @@
     });
   }
 
-  fetch(`data/pyq-${EXAM}.json?v=20261209`)
+  fetch(`data/pyq-${EXAM}.json?v=20261210`)
     .then(r => r.json())
     .then(data => {
       const chapter = data.chapters.find(c => c.slug === params.get('ch'));
@@ -109,8 +109,8 @@
     $('main').style.paddingTop = '28px';
     document.querySelector('.page-hero').classList.add('compact');
     document.querySelector('.pyq-back').setAttribute('href', link({}));
-    $('year-title').textContent = EXAM === 'jee' ? 'Shift' : 'Year';
-    $('year-pills').classList.toggle('one-col', EXAM === 'jee');
+    // JEE has many shifts: no shift list in the sidebar (each question still shows its shift tag).
+    if (EXAM === 'jee') $('year-title').style.display = $('year-pills').style.display = 'none';
     chapterNav(data, ch);
     $('ch-pdf').href = `materials/pyq/${EXAM}/${ch.slug}.pdf`;
     let group = 'all';
