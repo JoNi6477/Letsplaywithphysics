@@ -1,0 +1,10 @@
+\begin{tikzpicture}
+\coordinate (A) at (0,0); \coordinate (B) at (1.4,1.4); \coordinate (C) at (2.8,0); \coordinate (D) at (1.4,-1.4);
+\draw (A) -- (B) -- (C) -- (D) -- cycle; \draw (-1,0) -- (A) (C) -- (3.8,0);
+\draw[->] (-1,0) -- (-0.4,0); \draw[->] (C) -- (3.5,0); \node[above] at (-0.8,0) {$I$}; \node[above] at (3.5,0) {$I$};
+\draw[->] ($(A)!0.4!(B)$) -- ($(A)!0.6!(B)$); \draw[->] ($(A)!0.4!(D)$) -- ($(A)!0.6!(D)$);
+\node[above left] at ($(A)!0.5!(B)$) {$i_1$}; \node[below left] at ($(A)!0.5!(D)$) {$i_2$};
+\fill (1.4,0) circle (1.3pt);
+\foreach \p/\a in {A/above left,B/above,C/above right,D/below} \node[\a] at (\p) {$\p$};
+\draw[dim] ($(B)+(0.25,0.25)$) -- node[above right]{$a$} ($(C)+(0.25,0.25)$);
+\end{tikzpicture}

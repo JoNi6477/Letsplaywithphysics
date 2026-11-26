@@ -1,0 +1,7 @@
+\begin{tikzpicture}
+\def\R{1.8}
+\draw[line width=1pt] (0,0) circle (\R); \draw[hid] (-\R,0) -- (\R,0); \draw[line width=1pt] (0,0) -- (0,\R); \draw[hid] (0,0) -- (0,-\R);
+\node[above] at (0,\R) {$A$}; \node[below] at (0,-\R) {$B$}; \node[below right] at (0,0) {$O$};
+\draw[fill=fillg] (-1.2,0) circle (0.6); \fill (-1.2,0) circle (1.6pt) node[above]{$O'$}; \draw (-1.2,0) -- node[left,font=\small]{$R/3$} (-1.2,-0.6);
+\draw[dim] (-0.25,0) -- node[left]{$R$} (-0.25,-\R);
+\end{tikzpicture}

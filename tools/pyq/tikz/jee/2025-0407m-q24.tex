@@ -1,0 +1,6 @@
+\begin{tikzpicture}
+\draw (0,0) to[sV,l=$V_{in}$] (0,3) -- (3.6,3); \draw (0,0) -- (3.6,0);
+\draw (1.7,3) to[R,l_=$R$] (1.7,1.5) to[C,l_=$C$] (1.7,0);
+\draw (3.6,3) to[C,l=$C$] (3.6,1.5) to[R,l=$R$] (3.6,0);
+\draw (1.7,1.5) -- (2.3,1.5) node[circ]{} node[below]{$V_A$}; \draw (3.0,1.5) node[circ]{} node[below]{$V_B$} -- (3.6,1.5);
+\end{tikzpicture}

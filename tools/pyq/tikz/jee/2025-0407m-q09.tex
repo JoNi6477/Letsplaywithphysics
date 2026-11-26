@@ -1,0 +1,5 @@
+\begin{tikzpicture}
+\coordinate (A) at (0,0); \coordinate (B) at (4,0); \coordinate (T) at (2,3.3); \coordinate (M) at (2,1.6);
+\draw (A) to[R] (B); \draw (A) to[R] (T); \draw (B) to[R] (T); \draw (A) to[R] (M); \draw (B) to[R] (M); \draw (T) to[R] (M);
+\foreach \p in {A,B,T,M} \fill (\p) circle (1.6pt); \node[below left] at (A) {$A$}; \node[below right] at (B) {$B$};
+\end{tikzpicture}

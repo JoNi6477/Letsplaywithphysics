@@ -38,7 +38,7 @@
     });
   }
 
-  fetch(`data/pyq-${EXAM}.json?v=20261208`)
+  fetch(`data/pyq-${EXAM}.json?v=20261209`)
     .then(r => r.json())
     .then(data => {
       const chapter = data.chapters.find(c => c.slug === params.get('ch'));
