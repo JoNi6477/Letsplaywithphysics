@@ -1,0 +1,7 @@
+\begin{tikzpicture}[font=\small]
+\coordinate (TL) at (0,2.4); \coordinate (TR) at (3,2.4); \coordinate (BL) at (0,0); \coordinate (BR) at (3,0); \coordinate (C) at (1.5,1.2);
+\draw (TL) to[R,l=$2\,\Omega$] (TR); \draw (BL) to[R,l_=$2\,\Omega$] (BR); \draw (TL) -- (BL) (TR) -- (BR);
+\begin{scope}\ctikzset{bipoles/length=0.6cm}\draw (TL) to[R] (C) to[R] (BR); \draw (TR) to[R] (C) to[R] (BL);\end{scope} \fill (C) circle (1.4pt);
+\node at (1.0,2.05) {$2\,\Omega$}; \node at (2.0,2.05) {$2\,\Omega$}; \node at (1.0,0.35) {$2\,\Omega$}; \node at (2.0,0.35) {$2\,\Omega$};
+\draw (0,1.2) -- (-0.6,1.2) -- (-0.6,-1) -- (0.9,-1) to[battery1,l_=$2$ V] (1.3,-1) to[R,l_={$\frac23\,\Omega$}] (2.7,-1) -- (3.6,-1) -- (3.6,1.2) -- (3,1.2);
+\end{tikzpicture}

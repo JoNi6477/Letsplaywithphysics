@@ -1,0 +1,7 @@
+\begin{tikzpicture}
+\fill[ground] (-0.4,3.2) rectangle (2.4,3.38); \draw (-0.4,3.2) -- (2.4,3.2);
+\draw[spring] (0,3.2) -- (0,0.6); \node[left] at (-0.2,1.9) {$k$};
+\draw[spring] (1.2,3.2) -- (1.2,2.1); \draw[spring] (1.9,3.2) -- (1.9,2.1); \node[left] at (1.0,2.65) {$k$}; \node[right] at (2.1,2.65) {$k$};
+\draw (1.2,2.1) -- (1.9,2.1); \draw[spring] (1.55,2.1) -- (1.55,0.6); \node[right] at (1.75,1.35) {$k$};
+\draw[block] (-0.3,0) rectangle node{$M$} (1.9,0.6);
+\end{tikzpicture}
