@@ -1,0 +1,7 @@
+\begin{tikzpicture}
+\def\ax#1{\draw[vec] (#1,0) -- ++(1.9,0) node[below left]{\small $X$}; \draw[vec] (#1,0) -- ++(0,1.7) node[below left]{\small $Y$};}
+\ax{0} \draw[thick,acc] (0,0) -- (1.6,1.5); \node at (0.9,-0.5) {I};
+\ax{2.6} \draw[thick,acc] (2.6,1.1) -- (3.6,1.08) .. controls (4.1,1.0) and (4.25,0.6) .. (4.25,0.15); \node at (3.5,-0.5) {II};
+\ax{5.2} \draw[thick,acc] (5.2,0.9) -- (7.0,0.9); \node at (6.1,-0.5) {III};
+\ax{7.8} \draw[thick,acc] (7.92,1.55) .. controls (8.05,0.4) and (8.5,0.12) .. (9.5,0.08); \node at (8.7,-0.5) {IV};
+\end{tikzpicture}
