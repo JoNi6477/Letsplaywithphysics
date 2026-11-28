@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Faraday's &amp; Lenz's Laws | Let's Play With Physics</title>
+<link rel="icon" type="image/png" href="../images/favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#08101f;--panel:#0d1828;--blue:#44aaff;--gold:#f7c948;--green:#1affa0;
+  --red:#ff4d6d;--bdr:rgba(100,180,255,0.14);--muted:#7f93b3;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:#dde6f0;min-height:100vh;overflow-x:hidden;}
+nav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;
+  background:rgba(8,16,31,0.96);border-bottom:1px solid var(--bdr);position:sticky;top:0;z-index:100;}
+.nav-back{color:var(--blue);font-size:13px;font-weight:700;text-decoration:none;
+  border:1px solid rgba(68,170,255,0.3);padding:6px 16px;border-radius:20px;}
+.wrap{max-width:1380px;margin:0 auto;padding:16px 24px 48px;}
+h1{font-size:22px;margin-bottom:12px;}
+h1 span{color:var(--blue);}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:16px;align-items:start;}
+@media(max-width:860px){.grid{grid-template-columns:minmax(0,1fr);}}
+.main,.side{display:flex;flex-direction:column;gap:12px;}
+.card{background:var(--panel);border:1px solid var(--bdr);border-radius:12px;padding:14px;}
+.ctitle{font-size:11px;font-weight:800;color:var(--blue);letter-spacing:1.2px;text-transform:uppercase;margin-bottom:10px;}
+canvas{display:block;width:100%;}
+#scene{touch-action:none;cursor:grab;}
+.stage{padding:0;overflow:hidden;}
+.btns{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;padding:10px;border-top:1px solid var(--bdr);}
+button{font-family:inherit;font-size:13px;font-weight:700;padding:8px 16px;border-radius:20px;cursor:pointer;
+  background:rgba(68,170,255,0.14);color:var(--blue);border:1px solid rgba(68,170,255,0.35);}
+button.primary{background:var(--blue);color:var(--bg);}
+button.reset{background:rgba(255,77,109,0.14);color:var(--red);border-color:rgba(255,77,109,0.3);}
+.row{margin-bottom:10px;}
+.row label{display:flex;justify-content:space-between;font-size:12px;font-weight:600;margin-bottom:4px;}
+.row b{color:var(--gold);}
+input[type=range]{width:100%;accent-color:var(--blue);}
+.res{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.res div{background:rgba(255,255,255,0.04);border:1px solid var(--bdr);border-radius:8px;padding:8px 10px;}
+.res small{display:block;font-size:10px;color:var(--muted);}
+.res strong{font-size:14px;color:var(--gold);}
+.explain{font-size:13px;line-height:1.7;min-height:136px;}
+.explain b{color:var(--green);}
+.formula{font-size:17px;font-weight:800;text-align:center;color:var(--blue);margin-bottom:8px;}
+.note{font-size:12px;color:var(--muted);line-height:1.7;}
+@media(max-width:600px){nav{padding:10px 16px;}.wrap{padding-left:12px;padding-right:12px;}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="../index.html"><img src="../images/logo-nav.png" alt="Let's Play With Physics" style="height:48px;width:auto;display:block;"></a>
+  <a href="../simulations.html" class="nav-back">← All Simulations</a>
+</nav>
+
+<div class="wrap">
+  <h1>Faraday's &amp; <span>Lenz's Laws</span></h1>
+  <div class="grid">
+    <div class="main">
+      <div class="card stage">
+        <canvas id="scene" aria-label="Drag the bar magnet through the coil"></canvas>
+        <div class="btns">
+          <button class="primary" id="bPass">▶ Pass through</button>
+          <button id="bOsc">⇄ Oscillate</button>
+          <button id="bPause">⏸ Pause</button>
+          <button id="bFlip">⟲ Flip magnet</button>
+          <button id="bLines" aria-pressed="true">🧲 Hide field lines</button>
+          <button class="reset" id="bReset">↺ Reset</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="ctitle">Flux linkage NΦ (mWb) against time</div>
+        <canvas id="gFlux"></canvas>
+      </div>
+      <div class="card">
+        <div class="ctitle">Induced emf ε (V) against time</div>
+        <canvas id="gEmf"></canvas>
+      </div>
+    </div>
+
+    <div class="side">
+      <div class="card">
+        <div class="ctitle">Controls</div>
+        <div class="row"><label>Number of turns N <b id="vN"></b></label><input type="range" id="sN" min="10" max="500" step="10" value="100"></div>
+        <div class="row"><label>Magnet strength (field at coil centre) <b id="vB"></b></label><input type="range" id="sB" min="20" max="200" step="10" value="100"></div>
+        <div class="row"><label>Speed for auto motion <b id="vV"></b></label><input type="range" id="sV" min="0.05" max="0.6" step="0.05" value="0.2"></div>
+        <div class="row"><label>Circuit resistance R <b id="vR"></b></label><input type="range" id="sR" min="1" max="50" step="1" value="10"></div>
+      </div>
+      <div class="card">
+        <div class="ctitle">Live values</div>
+        <div class="res">
+          <div><small>Flux linkage NΦ</small><strong id="oFlux"></strong></div>
+          <div><small>Induced emf ε</small><strong id="oEmf"></strong></div>
+          <div><small>Induced current I = ε/R</small><strong id="oI"></strong></div>
+          <div><small>Current seen from left</small><strong id="oDir"></strong></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="ctitle">Lenz's law, step by step</div>
+        <div class="explain" id="explain"></div>
+      </div>
+      <div class="card">
+        <div class="formula">ε = − N dΦ/dt</div>
+        <div class="note">
+          <b>Faraday:</b> an emf is induced only while the flux through the coil is changing. Faster motion, more turns or a stronger magnet give a larger emf.<br>
+          <b>Lenz:</b> the induced current opposes the change that causes it (the minus sign). This follows from conservation of energy.<br>
+          Try: hold the magnet still inside the coil. The flux is large but the emf is zero.<br>
+          Model: the magnet is treated as a point dipole on the coil axis; self-inductance is ignored.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+var $ = function(id){ return document.getElementById(id); };
+var COIL_R = 0.05;      // coil radius, m
+var SPAN = 0.25;        // magnet travels from -SPAN to +SPAN, m
+var WINDOW = 6;         // seconds shown on graphs
+
+// x: magnet position relative to coil centre (m). pole = +1 means N points right.
+var S = {x:-0.18, pole:1, mode:'idle', dir:1, t:0, lastX:-0.18, v:0, flux:0, emf:0,
+         hist:[], maxF:0, maxE:0, drag:false, grab:0, still:0};
+
+function params(){
+  return {N:+$('sN').value, B:+$('sB').value/1000, V:+$('sV').value, R:+$('sR').value};
+}
+// Flux linkage of an on-axis dipole through the coil (Wb). Positive = field towards the right.
+function linkage(x){
+  var p = params();
+  var shape = Math.pow(COIL_R*COIL_R/(COIL_R*COIL_R + x*x), 1.5);
+  return S.pole * p.N * p.B * Math.PI*COIL_R*COIL_R * shape;
+}
+function dLinkage_dx(x){
+  return -3 * linkage(x) * x / (COIL_R*COIL_R + x*x);
+}
+
+/* ───── canvas sizing ───── */
+function fit(cv, h){
+  var w = cv.parentElement.clientWidth - (cv.id === 'scene' ? 0 : 28);
+  var d = window.devicePixelRatio || 1;
+  cv.style.height = h + 'px';
+  cv.width = Math.round(w*d); cv.height = Math.round(h*d);
+  var g = cv.getContext('2d'); g.setTransform(d,0,0,d,0,0);
+  return {g:g, w:w, h:h};
+}
+var scene, gF, gE;
+function resize(){
+  scene = fit($('scene'), 340);
+  gF = fit($('gFlux'), 130);
+  gE = fit($('gEmf'), 130);
+}
+
+function px(x){ return scene.w/2 + x/SPAN * (scene.w/2 - 40); }
+function unpx(p){ return (p - scene.w/2) / (scene.w/2 - 40) * SPAN; }
+
+function arrow(g, x1,y1,x2,y2, col, width){
+  var a = Math.atan2(y2-y1, x2-x1);
+  g.strokeStyle = g.fillStyle = col; g.lineWidth = width || 2;
+  g.beginPath(); g.moveTo(x1,y1); g.lineTo(x2,y2); g.stroke();
+  g.beginPath(); g.moveTo(x2,y2);
+  g.lineTo(x2-9*Math.cos(a-.45), y2-9*Math.sin(a-.45));
+  g.lineTo(x2-9*Math.cos(a+.45), y2-9*Math.sin(a+.45));
+  g.fill();
+}
+function label(g, text, x, y, col, size, align){
+  g.fillStyle = col; g.font = '800 ' + (size||12) + 'px Nunito, sans-serif';
+  g.textAlign = align || 'center'; g.textBaseline = 'middle'; g.fillText(text, x, y);
+}
+
+/* ───── magnet field lines ───── */
+// Traced once, relative to the magnet centre, from two poles at ±POLE pixels.
+var POLE = 31, showLines = true;
+var FIELD = [14, 34, 56, 80, 106, 136].reduce(function(lines, deg){
+  [1, -1].forEach(function(side){          // above and below the axis
+    var a = deg*Math.PI/180*side;
+    var x = POLE + 3*Math.cos(a), y = 3*Math.sin(a), pts = [[x,y]];
+    for(var i=0;i<1500;i++){
+      var r1 = Math.hypot(x-POLE, y), r2 = Math.hypot(x+POLE, y);
+      var bx = (x-POLE)/(r1*r1*r1) - (x+POLE)/(r2*r2*r2);
+      var by = y/(r1*r1*r1) - y/(r2*r2*r2);
+      var b = Math.hypot(bx,by);
+      x += 3*bx/b; y += 3*by/b; pts.push([x,y]);
+      // stop at the midplane (the other half is its mirror image) or far off screen
+      if(x <= 0 || Math.abs(x) > 1500 || Math.abs(y) > 600) break;
+    }
+    lines.push({pts:pts, closed:x <= 0});
+  });
+  return lines;
+}, []);
+
+function drawFieldLines(g){
+  var cx = px(S.x);
+  g.save();
+  g.strokeStyle = g.fillStyle = 'rgba(120,200,255,.55)'; g.lineWidth = 1.2;
+  FIELD.forEach(function(line){
+    [1, -1].forEach(function(half){        // half = 1: right pole side, -1: left pole side
+      g.beginPath();
+      line.pts.forEach(function(p,i){
+        var X = cx + half*p[0], Y = CY + p[1];
+        if(i) g.lineTo(X,Y); else g.moveTo(X,Y);
+      });
+      g.stroke();
+      // arrowhead: field leaves N and returns to S
+      var k = Math.min(line.pts.length-2, line.closed ? Math.floor(line.pts.length*0.6) : 22);
+      var p = line.pts[k], q = line.pts[k+1];
+      var out = Math.atan2(q[1]-p[1], half*(q[0]-p[0]));   // pointing away from this pole
+      var ang = half === S.pole ? out : out + Math.PI;
+      var X = cx + half*p[0], Y = CY + p[1];
+      g.beginPath();
+      g.moveTo(X + 5*Math.cos(ang), Y + 5*Math.sin(ang));
+      g.lineTo(X + 5*Math.cos(ang+2.5), Y + 5*Math.sin(ang+2.5));
+      g.lineTo(X + 5*Math.cos(ang-2.5), Y + 5*Math.sin(ang-2.5));
+      g.fill();
+    });
+  });
+  // the straight line along the axis
+  [1, -1].forEach(function(half){
+    g.beginPath(); g.moveTo(cx + half*39, CY); g.lineTo(cx + half*1500, CY); g.stroke();
+    var X = cx + half*62, ang = S.pole > 0 ? 0 : Math.PI;
+    g.beginPath();
+    g.moveTo(X + 5*Math.cos(ang), CY + 5*Math.sin(ang));
+    g.lineTo(X + 5*Math.cos(ang+2.5), CY + 5*Math.sin(ang+2.5));
+    g.lineTo(X + 5*Math.cos(ang-2.5), CY + 5*Math.sin(ang-2.5));
+    g.fill();
+  });
+  g.restore();
+}
+
+/* ───── coil (induced) field lines ───── */
+// Cross-section model: each turn is a pair of opposite currents above and below the axis.
+// Traced from the coil's middle plane; the other half is the mirror image.
+var coilCache = {spread:0, lines:[]};
+function coilLines(spread){
+  if(coilCache.spread === spread) return coilCache.lines;
+  var lines = [];
+  [-48, -32, -16, 16, 32, 48].forEach(function(y0){
+    var x = 0, y = y0, pts = [[x,y]];
+    for(var i=0;i<2000;i++){
+      var bx = 0, by = 0;
+      for(var n=0;n<LOOPS;n++){
+        var wx = -spread/2 + n*spread/(LOOPS-1);
+        [1, -1].forEach(function(s){
+          var dx = x-wx, dy = y - s*RY, r2 = dx*dx + dy*dy + 4;
+          bx += -s*dy/r2; by += s*dx/r2;
+        });
+      }
+      var b = Math.hypot(bx,by);
+      x += 3*bx/b; y += 3*by/b; pts.push([x,y]);
+      if(x <= 0 || x > 1500 || Math.abs(y) > 600) break;
+    }
+    lines.push({pts:pts, closed:x <= 0});
+  });
+  coilCache = {spread:spread, lines:lines};
+  return lines;
+}
+
+function arrowHead(g, X, Y, ang){
+  g.beginPath();
+  g.moveTo(X + 6*Math.cos(ang), Y + 6*Math.sin(ang));
+  g.lineTo(X + 6*Math.cos(ang+2.5), Y + 6*Math.sin(ang+2.5));
+  g.lineTo(X + 6*Math.cos(ang-2.5), Y + 6*Math.sin(ang-2.5));
+  g.fill();
+}
+
+// bind: +1 if the induced field points right inside the coil, -1 if left
+function drawCoilField(g, spread, bind){
+  var cx = scene.w/2;
+  g.save();
+  g.strokeStyle = g.fillStyle = '#f7c948';
+  g.globalAlpha = Math.min(0.85, 0.3 + Math.abs(S.emf)*3);   // fainter when the emf is small
+  g.lineWidth = 1.3;
+  coilLines(spread).forEach(function(line){
+    [1, -1].forEach(function(half){
+      g.setLineDash([7,4]);
+      g.beginPath();
+      line.pts.forEach(function(p,i){
+        if(i) g.lineTo(cx + half*p[0], CY + p[1]); else g.moveTo(cx + half*p[0], CY + p[1]);
+      });
+      g.stroke(); g.setLineDash([]);
+      // one arrow inside the coil and one on the return path outside
+      var marks = [9];
+      if(line.closed) marks.push(Math.floor(line.pts.length*0.75));
+      marks.forEach(function(k){
+        if(k > line.pts.length-2) return;
+        var p = line.pts[k], q = line.pts[k+1];
+        var ang = Math.atan2(q[1]-p[1], half*(q[0]-p[0]));   // direction of travel from the middle
+        if(half !== bind) ang += Math.PI;
+        arrowHead(g, cx + half*p[0], CY + p[1], ang);
+      });
+    });
+  });
+  g.restore();
+}
+
+/* ───── apparatus ───── */
+var CY = 130, RY = 66, RX = 15, LOOPS = 8;
+function coilHalf(g, front){
+  var spread = Math.min(110, scene.w*0.26);
+  for(var i=0;i<LOOPS;i++){
+    var cx = scene.w/2 - spread/2 + i*spread/(LOOPS-1);
+    g.strokeStyle = front ? '#e8944a' : '#7a4d2a'; g.lineWidth = 4;
+    g.beginPath();
+    // right half of each ellipse is drawn in front of the magnet
+    g.ellipse(cx, CY, RX, RY, 0, front ? -Math.PI/2 : Math.PI/2, front ? Math.PI/2 : 1.5*Math.PI);
+    g.stroke();
+  }
+  return spread;
+}
+
+function drawScene(){
+  var g = scene.g, w = scene.w;
+  g.clearRect(0,0,w,scene.h);
+  var active = Math.abs(S.emf) > 0.002;
+  var bind = active ? Math.sign(S.emf) : 0;   // induced field direction along the axis
+
+  g.setLineDash([4,5]); g.strokeStyle='rgba(100,180,255,.2)'; g.lineWidth=1;
+  g.beginPath(); g.moveTo(0,CY); g.lineTo(w,CY); g.stroke(); g.setLineDash([]);
+
+  var spread = coilHalf(g, false);
+  var left = w/2 - spread/2, right = w/2 + spread/2;
+
+  if(showLines) drawFieldLines(g);
+
+  // magnet
+  var mw = 78, mh = 34, mx = px(S.x) - mw/2, my = CY - mh/2;
+  g.fillStyle = S.pole > 0 ? '#3d7dff' : '#ff4d6d'; g.fillRect(mx, my, mw/2, mh);
+  g.fillStyle = S.pole > 0 ? '#ff4d6d' : '#3d7dff'; g.fillRect(mx+mw/2, my, mw/2, mh);
+  label(g, S.pole>0?'S':'N', mx+mw/4, CY, '#fff', 15);
+  label(g, S.pole>0?'N':'S', mx+3*mw/4, CY, '#fff', 15);
+  if(Math.abs(S.v) > 0.005)
+    arrow(g, px(S.x), my-12, px(S.x) + Math.sign(S.v)*Math.min(60, 15+Math.abs(S.v)*110), my-12, '#1affa0', 3);
+
+  coilHalf(g, true);
+
+  if(showLines && bind){
+    drawCoilField(g, spread, bind);
+    label(g, 'Blue: magnet field', w-12, scene.h-30, '#78c8ff', 11, 'right');
+    label(g, 'Gold dashed: coil field', w-12, scene.h-14, '#f7c948', 11, 'right');
+  }
+
+  // current direction on the front wires
+  if(bind){
+    var up = bind < 0;
+    for(var i=0;i<LOOPS;i+=2){
+      var ax = left + i*spread/(LOOPS-1) + RX;
+      arrow(g, ax, CY+(up?22:-22), ax, CY+(up?-10:10), '#f7c948', 3);
+    }
+    // induced field and the poles it creates on the coil faces
+    arrow(g, w/2 - bind*40, CY-RY-24, w/2 + bind*40, CY-RY-24, '#f7c948', 3);
+    label(g, 'induced field', w/2, CY-RY-40, '#f7c948', 11);
+    label(g, bind>0?'S':'N', left-RX, CY-RY-14, bind>0?'#5b93ff':'#ff4d6d', 18);
+    label(g, bind>0?'N':'S', right+RX, CY-RY-14, bind>0?'#ff4d6d':'#5b93ff', 18);
+  }
+
+  // wires and galvanometer
+  var gy = 275, r = 46;
+  g.strokeStyle='#e8944a'; g.lineWidth=2;
+  g.beginPath(); g.moveTo(left, CY+RY); g.lineTo(left, gy); g.lineTo(w/2-r, gy);
+  g.moveTo(right, CY+RY); g.lineTo(right, gy); g.lineTo(w/2+r, gy); g.stroke();
+  g.fillStyle='#101f36'; g.beginPath(); g.arc(w/2, gy, r, 0, 2*Math.PI); g.fill(); g.stroke();
+  g.strokeStyle='rgba(200,220,255,.4)'; g.beginPath(); g.arc(w/2, gy+14, 40, -Math.PI*0.8, -Math.PI*0.2); g.stroke();
+  label(g, '0', w/2, gy-34, '#9fb3d1', 10);
+  label(g, 'G', w/2, gy+30, '#9fb3d1', 13);
+  var defl = Math.max(-1, Math.min(1, S.emf / params().R / 0.05));   // full scale 50 mA
+  var a = -Math.PI/2 + defl*Math.PI*0.3;
+  arrow(g, w/2, gy+14, w/2+36*Math.cos(a), gy+14+36*Math.sin(a), '#1affa0', 2);
+
+  label(g, 'Drag the magnet', 12, 16, '#7f93b3', 12, 'left');
+}
+
+/* ───── graphs ───── */
+function drawGraph(c, key, max, col){
+  var g=c.g, w=c.w, h=c.h, left=52, mid=h/2;
+  g.clearRect(0,0,w,h);
+  var top = max || 1;
+  g.strokeStyle='rgba(100,180,255,.2)'; g.lineWidth=1;
+  g.beginPath(); g.moveTo(left,6); g.lineTo(left,h-6); g.moveTo(left,mid); g.lineTo(w,mid); g.stroke();
+  var fmt = function(v){ return v>=10 ? v.toFixed(0) : v>=1 ? v.toFixed(1) : v.toFixed(2); };
+  if(max){ label(g,'+'+fmt(top), left-5, 12, '#7f93b3', 10, 'right'); label(g,'−'+fmt(top), left-5, h-12, '#7f93b3', 10, 'right'); }
+  label(g,'0', left-5, mid, '#7f93b3', 10, 'right');
+  g.strokeStyle=col; g.lineWidth=2; g.beginPath();
+  S.hist.forEach(function(p,i){
+    var X = w - (S.t - p.t)/WINDOW*(w-left);
+    var Y = mid - p[key]/top*(mid-8);
+    if(i) g.lineTo(X,Y); else g.moveTo(X,Y);
+  });
+  g.stroke();
+}
+
+/* ───── text ───── */
+function explain(){
+  var moving = Math.abs(S.emf) > 0.002;
+  if(!moving){
+    var still = Math.abs(S.v) < 0.005;
+    $('explain').innerHTML = still
+      ? 'The magnet is not moving, so the flux is <b>constant</b>. No change in flux means <b>no emf and no current</b>, however strong the magnet is.'
+      : 'The rate of change of flux is <b>almost zero</b> here (at the coil centre or far away), so the emf is nearly zero.';
+    return;
+  }
+  var approach = S.x * S.v < 0;
+  var fieldDir = S.pole > 0 ? 'right' : 'left';
+  var indDir = S.emf > 0 ? 'right' : 'left';
+  $('explain').innerHTML =
+    '1. The magnet is <b>' + (approach?'approaching':'moving away from') + '</b> the coil.<br>' +
+    '2. Flux towards the ' + fieldDir + ' is <b>' + (approach?'increasing':'decreasing') + '</b>.<br>' +
+    '3. The induced field points <b>' + indDir + '</b>, to ' + (approach?'oppose the increase':'support the falling flux') + '.<br>' +
+    '4. So the coil <b>' + (approach?'repels':'attracts') + '</b> the magnet, opposing its motion.';
+}
+
+function readouts(){
+  var p = params();
+  $('vN').textContent = p.N;
+  $('vB').textContent = (p.B*1000).toFixed(0)+' mT';
+  $('vV').textContent = p.V.toFixed(2)+' m/s';
+  $('vR').textContent = p.R+' Ω';
+  $('oFlux').textContent = (S.flux*1000).toFixed(2)+' mWb';
+  $('oEmf').textContent = S.emf.toFixed(3)+' V';
+  $('oI').textContent = (S.emf/p.R*1000).toFixed(1)+' mA';
+  $('oDir').textContent = Math.abs(S.emf)<=0.002 ? 'No current' : (S.emf<0 ? 'Anticlockwise' : 'Clockwise');
+}
+
+/* ───── motion ───── */
+var last = null, tick = 0;
+function frame(ts){
+  var dt = last === null ? 0.016 : Math.min((ts-last)/1000, 0.05);
+  last = ts;
+  if(dt > 0 && S.mode !== 'paused'){
+    var p = params();
+    S.lastX = S.x;
+    if(S.mode === 'pass'){
+      S.x += S.dir*p.V*dt;
+      if(Math.abs(S.x) >= SPAN*0.9 && S.x*S.dir > 0){ S.x = S.dir*SPAN*0.9; S.mode='idle'; }
+    } else if(S.mode === 'osc'){
+      var amp = 0.15;
+      S.phase += p.V/amp*dt;
+      S.x = -amp*Math.cos(S.phase);
+    } else if(S.drag){
+      S.x += (S.target - S.x) * Math.min(1, dt*18);   // smooth out pointer jumps
+    }
+    S.v = (S.x - S.lastX)/dt;
+    S.t += dt;
+    S.flux = linkage(S.x);
+    S.emf = -dLinkage_dx((S.x+S.lastX)/2) * S.v;     // Faraday: ε = −d(NΦ)/dt
+
+    // graphs only run while something is happening, so a finished pass stays on screen
+    S.still = Math.abs(S.v) > 0.001 || S.drag ? 0 : S.still + dt;
+    if(S.still < 1.5){
+      S.hist.push({t:S.t, f:S.flux*1000, e:S.emf});
+      while(S.hist.length && S.t - S.hist[0].t > WINDOW) S.hist.shift();
+      S.maxF = Math.max(S.maxF, Math.abs(S.flux*1000));
+      S.maxE = Math.max(S.maxE, Math.abs(S.emf));
+    } else {
+      S.t -= dt;
+    }
+    if(++tick % 8 === 0) explain();
+  }
+  readouts(); drawScene();
+  drawGraph(gF, 'f', S.maxF, '#44aaff');
+  drawGraph(gE, 'e', S.maxE, '#f7c948');
+  requestAnimationFrame(frame);
+}
+
+function clearGraphs(){ S.hist=[]; S.maxF=0; S.maxE=0; S.t=0; S.still=0; }
+function settle(){ S.lastX=S.x; S.v=0; S.emf=0; S.flux=linkage(S.x); explain(); }
+
+$('bPass').onclick = function(){
+  clearGraphs();
+  S.dir = S.x <= 0 ? 1 : -1;
+  S.x = -S.dir*SPAN*0.9; settle(); S.mode='pass';
+};
+$('bOsc').onclick = function(){
+  clearGraphs();
+  S.phase = Math.acos(Math.max(-1, Math.min(1, -S.x/0.15)));
+  S.x = -0.15*Math.cos(S.phase); settle(); S.mode='osc';
+};
+$('bPause').onclick = function(){
+  if(S.mode==='paused'){ S.mode=S.before; this.textContent='⏸ Pause'; }
+  else { S.before=S.mode; S.mode='paused'; this.textContent='▶ Resume'; }
+};
+['bPass','bOsc','bFlip','bReset'].forEach(function(id){
+  $(id).addEventListener('click', function(){ $('bPause').textContent='⏸ Pause'; });
+});
+$('bFlip').onclick = function(){ S.pole*=-1; S.mode='idle'; clearGraphs(); settle(); };
+$('bReset').onclick = function(){ S.x=-0.18; S.pole=1; S.mode='idle'; clearGraphs(); settle(); };
+['sN','sB','sV','sR'].forEach(function(id){
+  $(id).addEventListener('input', function(){
+    if(id==='sN' || id==='sB'){ S.flux = linkage(S.x); }
+  });
+});
+
+$('bLines').onclick = function(){
+  showLines = !showLines;
+  this.textContent = showLines ? '🧲 Hide field lines' : '🧲 Show field lines';
+  this.setAttribute('aria-pressed', showLines);
+};
+
+var cv = $('scene');
+function pointerX(e){ return unpx(e.clientX - cv.getBoundingClientRect().left); }
+function clampX(x){ return Math.max(-SPAN, Math.min(SPAN, x)); }
+cv.addEventListener('pointerdown', function(e){
+  var r = cv.getBoundingClientRect();
+  if(Math.abs(e.clientX - r.left - px(S.x)) > 55 || Math.abs(e.clientY - r.top - CY) > 40) return;
+  cv.setPointerCapture(e.pointerId);
+  S.drag=true; S.mode='idle'; S.grab = S.x - pointerX(e); S.target = S.x;
+  $('bPause').textContent='⏸ Pause';
+});
+cv.addEventListener('pointermove', function(e){
+  if(S.drag) S.target = clampX(pointerX(e) + S.grab);
+});
+['pointerup','pointercancel'].forEach(function(n){
+  cv.addEventListener(n, function(){ S.drag=false; });
+});
+
+window.addEventListener('resize', resize);
+resize(); settle(); requestAnimationFrame(frame);
+</script>
+</body>
+</html>
