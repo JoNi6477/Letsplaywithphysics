@@ -392,10 +392,10 @@ footer { background: var(--navy-950); color: var(--on-dark-muted); padding: 60px
 .pyq-ch:hover { transform: translateY(-3px); border-color: #bcd0f5; box-shadow: 0 16px 34px rgba(15,23,42,0.12); }
 .pyq-ch h4 { font-family: 'Nunito', sans-serif; font-size: 16.5px; line-height: 1.3; color: var(--ink); }
 .pyq-ch-meta { display: flex; justify-content: space-between; align-items: flex-end; gap: 10px; }
-.pyq-ch-meta b { font-size: 14px; color: var(--blue); }
+.pyq-ch-meta b { font-size: 14px; color: var(--blue); white-space: nowrap; }
 .pyq-hot { align-self: flex-start; background: #fff4e5; color: #b45309; font-size: 11.5px; font-weight: 700; padding: 3px 9px; border-radius: 20px; }
-.pyq-bars { display: flex; align-items: flex-end; gap: 3px; height: 26px; }
-.pyq-bars i { width: 9px; background: #c7d7f5; border-radius: 2px 2px 0 0; min-height: 2px; }
+.pyq-bars { display: flex; align-items: flex-end; gap: 3px; height: 26px; min-width: 0; overflow: hidden; }
+.pyq-bars i { width: 9px; flex: 0 1 9px; min-width: 3px; background: #c7d7f5; border-radius: 2px 2px 0 0; min-height: 2px; }
 .pyq-bars i.on { background: var(--blue); }
 .pyq-back { display: inline-flex; align-items: center; gap: 6px; color: var(--blue); font-weight: 700; text-decoration: none; font-size: 15px; background: none; border: 0; cursor: pointer; font-family: inherit; padding: 0; }
 .pyq-head { display: flex; justify-content: space-between; align-items: center; gap: 18px; flex-wrap: wrap; margin-bottom: 22px; }
