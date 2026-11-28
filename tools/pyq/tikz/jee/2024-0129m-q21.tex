@@ -1,0 +1,7 @@
+\begin{tikzpicture}
+\draw[line width=1pt] (0,-0.4) -- (0,3); \draw[hid] (-3,0) -- (3.2,0);
+\coordinate (S1) at (0,2.2); \coordinate (S2) at (0,0); \coordinate (Src) at (-2.6,0); \coordinate (P) at (2.6,0);
+\draw[hid] (Src) -- (S1) -- (P); \node[right] at (S1) {$S_1$}; \node[above right] at (S2) {$S_2$}; \node[left] at (0,1.1) {$d$};
+\node[acc] at (Src) {$*$}; \node[below] at (Src) {Source}; \fill (P) circle (1.5pt) node[below]{$P$};
+\node[below] at (-1.3,0) {$D$}; \node[below] at (1.3,0) {$D$};
+\end{tikzpicture}

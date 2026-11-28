@@ -1,0 +1,6 @@
+\begin{tikzpicture}
+\def\a{2}\def\b{0.85}
+\draw[line width=1pt] (-\a,0) arc[start angle=180,end angle=0,radius=\a] -- (\b,0) arc[start angle=0,end angle=-180,radius=\b] -- cycle;
+\draw[->] (150:\a) arc[start angle=150,end angle=140,radius=\a]; \draw[->] (-60:\b) arc[start angle=-60,end angle=-75,radius=\b]; \draw[->] (1.6,0) -- (1.3,0);
+\fill (0,0) circle (2pt) node[above left]{$O$}; \draw[hid] (0,0) -- node[right]{$R_2$} (60:\a); \draw[hid] (0,0) -- node[right]{$R_1$} (0,-\b);
+\end{tikzpicture}
