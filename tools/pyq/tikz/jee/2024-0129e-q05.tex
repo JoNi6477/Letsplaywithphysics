@@ -1,0 +1,9 @@
+\begin{tikzpicture}
+\node[and port] (a1) at (3.4,1.2) {}; \node[and port] (a2) at (3.4,-0.6) {}; \node[or port] (o) at (5.6,0.3) {};
+\node[not port,rotate=-90,scale=0.5] (n) at (0.9,0.55) {};
+\draw (a1.in 1) -- (a1.in 1 -| 0,0) node[ocirc]{} node[left]{$A$}; \draw (0.9,0 |- a1.in 1) coordinate (j) -- (n.in); \fill (j) circle (1.3pt);
+\draw (n.out) |- (a2.in 1);
+\draw (a2.in 2) -- (a2.in 2 -| 0,0) node[ocirc]{} node[left]{$B$}; \draw (2.0,0 |- a2.in 2) coordinate (jb) -- ($(2.0,0 |- a2.in 1)+(0,-0.1)$) arc[start angle=-90,end angle=90,radius=0.1] -- (2.0,0 |- a1.in 2) -- (a1.in 2); \fill (jb) circle (1.3pt);
+\draw (a1.out) -| ($(o.in 1)+(-0.3,0)$) -- (o.in 1); \draw (a2.out) -| ($(o.in 2)+(-0.3,0)$) -- (o.in 2);
+\draw (o.out) -- ++(0.3,0) node[ocirc]{} node[right]{$Y$};
+\end{tikzpicture}
