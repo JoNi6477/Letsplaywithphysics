@@ -1,0 +1,5 @@
+\begin{tikzpicture}
+\draw[vec] (0,0) -- (3.4,0) node[right]{$x$}; \draw[vec] (0,0) -- (0,3) node[above]{$y$}; \node[below left] at (0,0) {\small $(0,0)$};
+\draw[hid] (0,2) -- (2,2) node[pos=0,left]{\small $2$ m}; \draw[hid] (2,0) node[below]{\small $2$ m} -- (2,2);
+\draw[thick,acc,postaction={decorate},decoration={markings,mark=at position 0.125 with {\arrow{>}},mark=at position 0.375 with {\arrow{>}},mark=at position 0.625 with {\arrow{>}},mark=at position 0.875 with {\arrow{>}}}] (2,2) -- (2.8,2) -- (2.8,2.8) -- (2,2.8) -- cycle;
+\end{tikzpicture}

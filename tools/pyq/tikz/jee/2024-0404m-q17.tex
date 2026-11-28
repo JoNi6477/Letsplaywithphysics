@@ -1,0 +1,5 @@
+\begin{tikzpicture}
+\begin{scope}[font=\small]\draw (0,0) node[ocirc]{} node[below]{$-6$ V} -- (0.8,0); \draw (5.2,0) node[ocirc]{} node[below]{$-8$ V} -- (4.4,0);
+\draw (0.8,1) -- (0.8,-1) (4.4,1) -- (4.4,-1);
+\draw (0.8,1) to[R,l=$15\,\Omega$] (4.4,1); \draw (0.8,0) to[R,l=$10\,\Omega$] (2.8,0) to[empty diode] (4.4,0); \draw (0.8,-1) to[R,l=$5\,\Omega$] (2.8,-1); \draw (4.4,-1) to[empty diode] (2.8,-1);\end{scope}
+\end{tikzpicture}
