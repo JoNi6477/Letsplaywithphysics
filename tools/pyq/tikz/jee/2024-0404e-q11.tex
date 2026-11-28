@@ -1,0 +1,5 @@
+\begin{tikzpicture}
+\draw[line width=0.9pt] (0,0) circle (1.3); \draw (-1.3,0) -- (1.3,0) (0,-1.3) -- (0,1.3);
+\node[above] at (0,1.3) {$P$}; \node[right] at (1.3,0) {$Q$}; \node[below] at (0,-1.3) {$R$}; \node[left] at (-1.3,0) {$S$}; \node[below left] at (0,0) {$O$};
+\foreach \a in {45,-45,-135} \draw[vec] (\a+8:1.3) arc[start angle=\a+8,end angle=\a-2,radius=1.3];
+\end{tikzpicture}
