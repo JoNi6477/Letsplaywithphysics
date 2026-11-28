@@ -67,8 +67,18 @@
 
   // ── Chapter list ──
   function listView(data) {
-    const groups = [...data.groups].reverse();   // oldest → newest for the mini bars
-    const maxBar = Math.max(1, ...data.chapters.flatMap(c => Object.values(c.byGroup)));
+    // Mini bars, oldest → newest. NEET: one bar per year. JEE has dozens of shifts,
+    // so its bars are one per exam session (e.g. "Jan 2024"), summing that session's shifts.
+    const MON = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    // JEE sessions run in January (spilling into early February) and April.
+    const bucketOf = g => EXAM === 'jee' ? `${g.slice(0, 4)}-${+g.slice(5, 7) <= 3 ? '01' : '04'}` : g;   // "2024-0409e" → "2024-04"
+    const bars = [];
+    [...data.groups].reverse().forEach(g => {
+      const k = bucketOf(g.g);
+      if (!bars.some(b => b.k === k)) bars.push({ k, label: EXAM === 'jee' ? `${MON[+k.slice(5, 7)] || ''} ${k.slice(0, 4)}`.trim() : g.label });
+    });
+    const perBar = c => { const m = {}; for (const [g, n] of Object.entries(c.byGroup)) m[bucketOf(g)] = (m[bucketOf(g)] || 0) + n; return m; };
+    const maxBar = Math.max(1, ...data.chapters.flatMap(c => Object.values(perBar(c))));
     const hot = new Set([...data.chapters].sort((a, b) => b.count - a.count).slice(0, 6).map(c => c.slug));
     const units = [...new Set(data.chapters.map(c => c.unit))];
     function render(q) {
@@ -83,8 +93,8 @@
             <h4>${c.name}</h4>
             <div class="pyq-ch-meta">
               <b>${c.count} question${c.count === 1 ? '' : 's'}</b>
-              <span class="pyq-bars" title="Questions per ${EXAM === 'jee' ? 'shift' : 'year'}">${groups.map(g =>
-                `<i class="${c.byGroup[g.g] ? 'on' : ''}" style="height:${Math.max(2, Math.round(26 * c.byGroup[g.g] / maxBar))}px" title="${g.label}: ${c.byGroup[g.g]}"></i>`).join('')}</span>
+              <span class="pyq-bars" title="Questions per ${EXAM === 'jee' ? 'exam session' : 'year'}">${(m => bars.map(b =>
+                `<i class="${m[b.k] ? 'on' : ''}" style="height:${Math.max(2, Math.round(26 * (m[b.k] || 0) / maxBar))}px" title="${b.label}: ${m[b.k] || 0}"></i>`).join(''))(perBar(c))}</span>
             </div>
           </a>`).join('')}</div></div>`;
       }).join('');
