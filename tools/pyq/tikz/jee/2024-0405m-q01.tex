@@ -1,0 +1,16 @@
+\begin{tikzpicture}[font=\small]
+\begin{scope}
+\coordinate (B1) at (0,0); \coordinate (R1) at (3.4,0); \coordinate (T1) at (0,1.96); \draw (B1) -- (R1) -- (T1) -- cycle; \draw[block] (-0.55,0.3) rectangle (-0.15,0.7); \node[left] at (-0.6,0.5) {$50$ kg};
+\draw[vec] (-0.35,0.7) -- (-0.35,1.9); \draw[<->] (0.25,0.05) -- node[pos=0.3,right]{\footnotesize $h = 20$ m} (0.25,1.9);
+\pic[draw,angle radius=5mm,"$30^\circ$",angle eccentricity=1.8] {angle=T1--R1--B1};
+\node[below] at (1.7,-0.1) {Case 1: pulled straight up};
+\end{scope}
+\begin{scope}[xshift=5cm]
+\coordinate (B2) at (0,0); \coordinate (R2) at (3.4,0); \coordinate (T2) at (0,1.96);
+\draw (B2) -- (R2) -- (T2) -- cycle; \draw[<->] (0.25,0.05) -- node[pos=0.3,right]{\footnotesize $h = 20$ m} (0.25,1.9);
+\begin{scope}[shift={($(T2)!0.55!(R2)$)},rotate=-30] \draw[block] (-0.35,0) rectangle (0.35,0.4); \end{scope}
+\draw[vec] ($(T2)!0.55!(R2)+(120:0.5)$) -- ++(150:0.9); \node at (2.3,1.8) {$50$ kg};
+\pic[draw,angle radius=5mm,"$30^\circ$",angle eccentricity=1.8] {angle=T2--R2--B2};
+\node[below] at (1.7,-0.1) {Case 2: along the ramp};
+\end{scope}
+\end{tikzpicture}

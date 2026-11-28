@@ -1,0 +1,6 @@
+\begin{tikzpicture}[font=\small]
+\coordinate (TL) at (0,4); \coordinate (TM) at (2.6,4); \coordinate (TR) at (5.2,4); \coordinate (ML) at (0,2); \coordinate (MR) at (5.2,2); \coordinate (BL) at (0,0); \coordinate (BM) at (2.6,0); \coordinate (BR) at (5.2,0);
+\draw (0.3,4) to[R,l=$6\,\Omega$] (TM) to[R,l=$10\,\Omega$] (TR) to[R,l=$5\,\Omega$] (MR) to[R,l=$7\,\Omega$] (BR) to[R,l=$8\,\Omega$] (BM) to[R,l=$11\,\Omega$] (BL) to[R,l=$4\,\Omega$] (ML) to[R,l=$8\,\Omega$] (0,3.7);
+\draw (TM) -- (BM); \draw (ML) -- (2.3,2) arc[start angle=180,end angle=0,radius=0.3] -- (MR);
+\draw (0.3,4) -- (-0.1,4.5) node[ocirc]{} node[above right]{$A$}; \draw (0,3.7) -- (-0.5,4.3) node[ocirc]{} node[left]{$B$};
+\end{tikzpicture}

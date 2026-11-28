@@ -1,0 +1,8 @@
+\begin{tikzpicture}[font=\small]
+\coordinate (A) at (0,0); \coordinate (B) at (2,2); \coordinate (C) at (4,0); \coordinate (Dd) at (2,-2);
+\draw (A) to[R,l={$0.8$ m$\Omega$}] (B); \draw[line width=2pt] (B) -- (C);
+\draw (A) to[R,l_={$1$ m$\Omega$}] (Dd) to[R,l_={$3$ m$\Omega$}] (C);
+\draw (B) to[rmeter,t=G] (Dd);
+\node[above] at (B) {B}; \node[left=2pt] at (A) {A}; \node[right=2pt] at (C) {C}; \node[below] at (Dd) {D};
+\draw (A) -- (-0.8,0) -- (-0.8,-2.8) -- (1.7,-2.8) to[battery,l_={$V = 5$ mV}] (2.3,-2.8) -- (4.8,-2.8) -- (4.8,0) -- (C);
+\end{tikzpicture}

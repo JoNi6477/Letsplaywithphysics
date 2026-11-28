@@ -1,0 +1,6 @@
+\begin{tikzpicture}[x=0.5cm,y=0.00025cm]
+\draw[->] (0,0) -- (9,0) node[right]{\small $V$ (m$^3$)}; \draw[->] (0,0) -- (0,10000); \node[rotate=90] at (-2.8,5000) {\small $P$ (dyne/cm$^2$)};
+\draw[hid] (0,8000) node[left]{\small 8000} -- (3,8000) (0,4000) node[left]{\small 4000} -- (3,4000) (3,0) node[below]{\small 3} -- (3,8000) (7,0) node[below]{\small 7} -- (7,4000);
+\draw[acc,line width=1.1pt,->] (3,8000) -- (7,4000); \draw[acc,line width=1.1pt,->] (7,4000) -- (3,4000);
+\node[above] at (3,8000) {$A$}; \node[right] at (7,4000) {$B$}; \node[below left] at (3,4000) {$C$};
+\end{tikzpicture}

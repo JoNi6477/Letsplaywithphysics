@@ -1,0 +1,6 @@
+\begin{tikzpicture}
+\draw (0,0) to[battery1,l={$V = 10$ V},invert] (0,2) to[R,l=$1\,\mathrm{k}\Omega$] (2.4,2) -- (4.2,2) node[ocirc]{};
+\draw (2.4,2) to[zDo,invert] (2.4,0); \draw[->] (2.6,1.7) -- (2.6,1.3) node[right]{$I_z$};
+\draw (3.4,2) to[R,l=$2\,\mathrm{k}\Omega$] (3.4,0); \draw (0,0) -- (4.2,0) node[ocirc]{};
+\node[above] at (2.4,2) {$A$}; \node[above] at (3.4,2) {$C$}; \node[below] at (2.4,0) {$B$}; \node[below] at (3.4,0) {$D$};
+\end{tikzpicture}

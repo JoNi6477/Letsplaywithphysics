@@ -1,0 +1,6 @@
+\begin{tikzpicture}
+\draw (1.2,3.6) node[circ]{} node[above]{$9$ V} -- (1.2,3.2); \draw (0,3.2) -- (2.4,3.2);
+\draw (0,3.2) to[R,l_=$6\,\Omega$] (0,1.8) node[circ]{} node[left]{$A$} to[C,l_=$3\,\mu\mathrm{F}$] (0,0);
+\draw (2.4,3.2) to[C,l=$6\,\mu\mathrm{F}$] (2.4,1.8) node[circ]{} node[right]{$B$} to[R,l=$3\,\Omega$] (2.4,0);
+\draw (0,0) -- (2.4,0); \draw (1.2,0) -- (1.2,-0.2) node[ground]{};
+\end{tikzpicture}

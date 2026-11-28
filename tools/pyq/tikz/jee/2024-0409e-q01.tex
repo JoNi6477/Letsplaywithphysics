@@ -1,0 +1,7 @@
+\begin{tikzpicture}[font=\scriptsize]
+\ctikzset{bipoles/length=0.6cm}
+\coordinate (L) at (1.2,0); \coordinate (Rr) at (4.8,0); \coordinate (T) at (3,1.6); \coordinate (Bt) at (3,-1.6); \coordinate (M) at (3,0);
+\draw (0,0) node[circ]{} node[below]{\small $A$} to[R,l=$R$] (L); \draw (Rr) to[R,l=$R$] (6,0) node[circ]{} node[below]{\small $B$};
+\draw (L) to[R,l=$R$] (T) to[R,l=$R$] (Rr); \draw (L) to[R,l_=$R$] (Bt) to[R,l_=$R$] (Rr);
+\draw (L) to[R,l=$R$] (M) to[R,l=$R$] (Rr); \draw (T) to[R,l=$R$] (M) to[R,l=$R$] (Bt);
+\end{tikzpicture}

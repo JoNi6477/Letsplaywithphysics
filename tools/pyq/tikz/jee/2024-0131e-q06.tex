@@ -1,0 +1,7 @@
+\begin{tikzpicture}
+\coordinate (L) at (0,0); \coordinate (R) at (3.4,0); \coordinate (T) at (3.4,1.96);
+\draw[line width=1pt,fill=fillb!30] (L) -- (R) -- (T) -- cycle;
+\begin{scope}[shift={($(L)!0.55!(T)$)},rotate=30] \draw[block] (-0.4,0) rectangle node[rotate=30]{\small $5$ kg} (0.4,0.45); \end{scope}
+\node[rotate=30] at ($(L)!0.85!(T)+(120:0.3)$) {\small $\mu = 0.1$};
+\pic[draw,angle radius=6mm,"$30^\circ$",angle eccentricity=1.6] {angle=R--L--T};
+\end{tikzpicture}

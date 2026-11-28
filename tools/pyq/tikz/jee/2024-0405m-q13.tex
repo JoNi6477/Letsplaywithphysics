@@ -1,0 +1,10 @@
+\begin{tikzpicture}
+\node[nor port,scale=0.7] (g1) at (1.4,1.4) {}; \node[and port,scale=0.7] (g2) at (1.4,0.4) {}; \node[nor port,scale=0.7] (g3) at (1.4,-0.7) {};
+\node[nor port,scale=0.7] (g4) at (3.2,0.9) {};
+\draw (g1.in 1) -- (g1.in 2); \draw ($(g1.in 1)!0.5!(g1.in 2)$) -- ++(-0.5,0) node[circ]{} node[left]{$A$};
+\draw (g2.in 1) -- ++(-0.5,0) node[circ]{} node[left]{$B$}; \draw (g2.in 2) -- ++(-0.5,0) node[circ]{} node[left]{$C$};
+\draw (g3.in 1) -- (g3.in 2); \draw ($(g3.in 1)!0.5!(g3.in 2)$) -- ++(-0.5,0) node[circ]{} node[left]{$D$};
+\draw (g1.out) -| ($(g4.in 1)+(-0.3,0)$) -- (g4.in 1); \draw (g2.out) -| ($(g4.in 2)+(-0.3,0)$) -- (g4.in 2);
+\draw (g4.out) -- ++(0.3,0) |- (4.2,0.3) to[R,l=$R$] (5.4,0.3) to[lamp,l={DC bulb}] (6.4,0.3) -- (6.6,0.3) |- (g3.out);
+\fill (4.2,0.3) circle (1.3pt);
+\end{tikzpicture}

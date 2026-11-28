@@ -1,0 +1,6 @@
+\begin{tikzpicture}
+\draw (0,0) to[sV,l=$220$ V] (0,1.6); \draw (0,1.6) -- (0.8,1.6) to[L] (0.8,0) -- (0,0);
+\draw[line width=1pt] (1.05,0.1) -- (1.05,1.5) (1.15,0.1) -- (1.15,1.5);
+\draw (1.4,1.6) to[L] (1.4,0); \draw (1.4,1.6) to[R,l=$15\,\mathrm{k}\Omega$] (3.4,1.6) -- (4.4,1.6) node[circ]{} node[above]{$V_0$};
+\draw (3.4,1.6) to[R,l=$7\,\mathrm{k}\Omega$] (3.4,0); \draw (1.4,0) -- (4.4,0) node[circ]{};
+\end{tikzpicture}

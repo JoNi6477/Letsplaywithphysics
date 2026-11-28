@@ -1,0 +1,8 @@
+\begin{tikzpicture}
+\node[and port] (a1) at (2,1) {}; \node[and port] (a2) at (4.4,-0.6) {}; \node[nor port] (n) at (6.2,0.6) {};
+\draw (a1.in 1) -- (0,0 |- a1.in 1) node[left]{$A$}; \draw (a1.in 2) -- (0,0 |- a1.in 2) node[left]{$B$};
+\node[not port,scale=0.5] (na) at (1.4,0 |- a2.in 1) {}; \node[not port,scale=0.5] (nb) at (2.5,0 |- a2.in 2) {};
+\draw (na.out) -- (a2.in 1); \draw (nb.out) -- (a2.in 2);
+\draw (0.4,0 |- a1.in 1) coordinate (ja) |- (na.in); \fill (ja) circle (1.3pt); \draw (0.8,0 |- a1.in 2) coordinate (jb) |- (nb.in); \fill (jb) circle (1.3pt);
+\draw (a1.out) -| ($(n.in 1)+(-0.3,0)$) -- (n.in 1); \draw (a2.out) -| ($(n.in 2)+(-0.3,0)$) -- (n.in 2); \draw (n.out) -- ++(0.4,0) node[right]{$E$};
+\end{tikzpicture}

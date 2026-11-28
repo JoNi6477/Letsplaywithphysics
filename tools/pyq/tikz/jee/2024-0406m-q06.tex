@@ -1,0 +1,15 @@
+\begin{tikzpicture}[font=\scriptsize]
+\ctikzset{bipoles/length=0.6cm}
+\coordinate (A) at (0,0); \coordinate (B) at (2.2,2.2); \coordinate (C) at (4.4,0); \coordinate (Dd) at (2.2,-2.2);
+\coordinate (a1) at (0.5,0.5); \coordinate (b1) at (1.7,1.7);
+\draw (A) -- (a1); \draw (b1) -- (B);
+\draw (a1) -- ++(135:0.35) coordinate (u1) to[R,l=$24\,\Omega$] ($(b1)+(135:0.35)$) -- (b1);
+\draw (a1) -- ++(-45:0.35) coordinate (v1) to[R,l_=$12\,\Omega$] ($(v1)!0.5!($(b1)+(-45:0.35)$)$) to[R,l_=$12\,\Omega$] ($(b1)+(-45:0.35)$) -- (b1);
+\coordinate (b2) at (2.7,1.7); \coordinate (c2) at (3.9,0.5); \draw (B) -- (b2); \draw (c2) -- (C);
+\draw (b2) -- ++(45:0.35) to[R,l=$1\,\Omega$] ($(c2)+(45:0.35)$) -- (c2); \draw (b2) -- ++(-135:0.35) to[R,l_=$1\,\Omega$] ($(c2)+(-135:0.35)$) -- (c2);
+\coordinate (a3) at (0.9,-0.9); \coordinate (d3) at (1.9,-1.9);
+\draw (A) to[R,l_=$x\,\Omega$] (a3); \draw (a3) -- ++(-135:0.3) to[R,l_=$12\,\Omega$] ($(d3)+(-135:0.3)$) -- (d3); \draw (a3) -- ++(45:0.3) to[R,l=$12\,\Omega$] ($(d3)+(45:0.3)$) -- (d3); \draw (d3) -- (Dd);
+\draw (Dd) to[R,l_=$0.5\,\Omega$] (C);
+\foreach \p/\pos/\l in {A/left/A,B/above/B,C/right/C,Dd/below/D} \fill (\p) circle (1.3pt) node[\pos]{\small $\l$};
+\draw (A) -- (-0.6,0) -- (-0.6,-2.9) -- (2.0,-2.9) to[battery1,l_={$14.5$ V}] (2.4,-2.9) -- (5.0,-2.9) -- (5.0,0) -- (C);
+\end{tikzpicture}

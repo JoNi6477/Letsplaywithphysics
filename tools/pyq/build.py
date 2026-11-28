@@ -8,11 +8,13 @@ REPO = sys.argv[1]
 EXAM = sys.argv[2] if len(sys.argv) > 2 else 'neet'
 
 # Papers, newest first: (source file stem, filter group key, filter label)
+MONTHS = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 PAPERS = {
  'neet': [(f'neet{y}', str(y), str(y)) for y in [2026, 2025, 2024, 2023, 2022, 2021, 2020, 2019, 2018]],
- 'jee': [(f'jee{y}_{d}{s}', f'{y}-{d}{s}', f'{int(d[2:])} {mon} {y} · {"Morning" if s == "m" else "Evening"}')
-         for y, mon, shifts in [(2026, 'Jan', [(d, s) for d in ['0128', '0124', '0123', '0122', '0121'] for s in ['e', 'm']]),
-                                (2025, 'Apr', [('0408', 'e')] + [(d, s) for d in ['0407', '0404', '0403', '0402'] for s in ['e', 'm']])]
+ 'jee': [(f'jee{y}_{d}{s}', f'{y}-{d}{s}', f'{int(d[2:])} {MONTHS[int(d[:2])]} {y} · {"Morning" if s == "m" else "Evening"}')
+         for y, shifts in [(2026, [(d, s) for d in ['0128', '0124', '0123', '0122', '0121'] for s in ['e', 'm']]),
+                           (2025, [('0408', 'e')] + [(d, s) for d in ['0407', '0404', '0403', '0402'] for s in ['e', 'm']]),
+                           (2024, [(d, s) for d in ['0409', '0408', '0406', '0405', '0404', '0201', '0131', '0130', '0129', '0127'] for s in ['e', 'm']])]
          for d, s in shifts],
 }[EXAM]
 
@@ -67,7 +69,7 @@ for stem, g, label in PAPERS:
         if q['ch'] not in SLUGS: problems.append(f'{qid}: unknown chapter {q["ch"]}')
         if num:
             if q['o']: problems.append(f'{qid}: numerical question with options')
-            nums = q['a'] if isinstance(q['a'], list) else [q['a']]
+            nums = [] if q['a'] is None else q['a'] if isinstance(q['a'], list) else [q['a']]
             if not all(isinstance(x, (int, float)) for x in nums): problems.append(f'{qid}: numerical answer must be a number (or a list of accepted numbers)')
         else:
             if len(q['o']) != 4: problems.append(f'{qid}: {len(q["o"])} options')

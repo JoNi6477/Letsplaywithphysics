@@ -1,0 +1,7 @@
+\begin{tikzpicture}[x=0.055cm,y=0.055cm]
+\draw[->] (0,0) -- (48,0) node[right]{$x$ (cm)}; \draw[->] (0,0) -- (0,46) node[left]{$y$ (cm)};
+\foreach \v in {10,20,30,40} { \node[below] at (\v,0) {\small \v}; \node[left] at (0,\v) {\small \v}; }
+\draw (0,42) -- (42,0); \draw[hid] (10,0) -- (10,30) -- (0,30) (20,0) -- (20,20) -- (0,20) (30,0) -- (30,10) -- (0,10);
+\draw[acc,line width=1pt,domain=11.5:40,samples=40] plot (\x,{400/\x});
+\foreach \p/\l in {(11.8,33.9)/A,(15,26.7)/B,(20,20)/C,(28,14.3)/D,(37,10.8)/E} { \draw[fill=white] \p circle (1); \node[above right] at \p {\small $\l$}; }
+\end{tikzpicture}

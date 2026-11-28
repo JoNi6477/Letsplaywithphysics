@@ -1,0 +1,6 @@
+\begin{tikzpicture}
+\coordinate (T) at (2,1.4); \coordinate (Bm) at (2,-1.4); \coordinate (A) at (0.6,0); \coordinate (B) at (3.4,0);
+\draw (T) to[R,l_={$R_1 = 1\,\Omega$}] (A) to[R,l_={$R_2 = 2\,\Omega$}] (Bm) to[R,l_={$R_4 = 4\,\Omega$}] (B) to[R,l_={$R_3 = 6\,\Omega$}] (T);
+\draw (A) to[C,l=$C$] (B); \node[left] at (A) {$A$}; \node[right] at (B) {$B$};
+\draw (T) -- (-0.8,1.4) to[battery1,l_=$10$ V] (-0.8,-1.4) -- (Bm);
+\end{tikzpicture}
