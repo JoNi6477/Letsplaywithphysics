@@ -1,0 +1,7 @@
+\begin{tikzpicture}[font=\small]
+\coordinate (L) at (0,0); \coordinate (T) at (2,2); \coordinate (R) at (4,0); \coordinate (B) at (2,-2);
+\draw (L) to[R,l=$4\,\Omega$] (T) to[C,l={$6\,\mu$F},a=$C_2$] (R);
+\draw (L) to[C,l_={$C_1$},a^={$4\,\mu$F}] (B) to[R,l_=$6\,\Omega$] (R);
+\draw (T) to[rmeter,t=G] (B);
+\draw (L) -- (-0.8,0) -- (-0.8,-2.8) -- (1.8,-2.8) to[battery1,l_=$6$ V] (2.2,-2.8) -- (4.8,-2.8) -- (4.8,0) -- (R);
+\end{tikzpicture}
