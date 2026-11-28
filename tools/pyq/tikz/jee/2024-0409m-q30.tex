@@ -1,0 +1,8 @@
+\begin{tikzpicture}[font=\small]
+\coordinate (A) at (0,0); \coordinate (B) at (3,2.2); \coordinate (C) at (3,0); \coordinate (Dd) at (3,-2.2); \coordinate (E) at (5,0);
+\draw (A) to[R,l={$4\,\Omega$}] (B); \draw (A) to[R,l_={$4\,\Omega$}] (Dd);
+\draw (B) to[R,l={$2\,\Omega$}] (C) to[R,l={$2\,\Omega$}] (Dd);
+\draw (A) to[battery1,l={$10$ V}] (1.0,0) to[R,l_={$1\,\Omega$}] (C); \draw[vec] (1.5,0.25) -- (1.1,0.25) node[above]{\scriptsize $I_1$};
+\draw (B) -- (E) to[battery1,l_={$5$ V}] ($(E)+(0,-0.4)$) -- (Dd);
+\foreach \p/\pos/\l in {A/left/A,B/above/B,C/right/C,Dd/below/D,E/right/E} \node[\pos] at (\p) {$\l$}; \fill (C) circle (1.8pt);
+\end{tikzpicture}
