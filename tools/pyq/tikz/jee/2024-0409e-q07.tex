@@ -1,0 +1,8 @@
+\begin{tikzpicture}[font=\small,x=1cm,y=0.12cm]
+\draw[vec] (0,0) -- (5,0) node[right]{$V$ (m$^3$)}; \draw[vec] (0,0) -- (0,25) node[left]{$P$ (N/m$^2$)};
+\draw[thick,acc,postaction={decorate},decoration={markings,mark=at position 0.5 with {\arrow{>}}}] (2,20) .. controls (2.6,13) and (3.2,10.5) .. (4,10);
+\draw[thick,acc,postaction={decorate},decoration={markings,mark=at position 0.5 with {\arrow{>}}}] (4,10) -- (2,10);
+\draw[thick,acc,postaction={decorate},decoration={markings,mark=at position 0.5 with {\arrow{>}}}] (2,10) -- (2,20);
+\draw[hid] (0,20) node[left]{$20$} -- (2,20); \draw[hid] (0,10) node[left]{$10$} -- (2,10); \draw[hid] (2,0) node[below]{$2$} -- (2,10); \draw[hid] (4,0) node[below]{$4$} -- (4,10);
+\node[above right] at (2,20) {$A$}; \node[right] at (4,10) {$B$}; \node[below right] at (2,10) {$C$};
+\end{tikzpicture}
