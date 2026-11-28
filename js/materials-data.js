@@ -337,5 +337,6 @@ window.STUDY_MATERIALS = [
 window.SIMULATIONS = [
   { title: 'Centre of Mass', icon: '⚙️', file: 'simulations/center-of-mass.html', desc: 'Visualize how the centre of mass of a system shifts as individual masses and positions change.' },
   { title: 'Circular Motion', icon: '🔴', file: 'simulations/circularmotion.html', desc: 'See centripetal force in action. Experiment with mass, radius and velocity.' },
-  { title: 'Rotational Motion', icon: '🌀', file: 'simulations/moment-of-inertia.html', desc: 'Experiment with mass, radius and moment of inertia to understand rotation.' }
+  { title: 'Rotational Motion', icon: '🌀', file: 'simulations/moment-of-inertia.html', desc: 'Experiment with mass, radius and moment of inertia to understand rotation.' },
+  { title: 'Electromagnetic Induction', icon: '🧲', file: 'simulations/electromagnetic-induction.html', desc: "Move a magnet through a coil to see Faraday's and Lenz's laws, with live flux and emf graphs." }
 ];
