@@ -1,0 +1,7 @@
+\begin{tikzpicture}
+\coordinate (L) at (0,0); \coordinate (T) at (2.4,3.2); \coordinate (R) at (6.67,0);
+\draw[fill=fillg] (L) -- (T) -- (R) -- cycle; \draw (T) circle (0.15);
+\begin{scope}[shift={($(L)!0.55!(T)$)},rotate=53.13] \draw[block] (-0.35,0) rectangle node[rotate=53]{\small $M$} (0.35,0.45); \end{scope}
+\begin{scope}[shift={($(R)!0.6!(T)$)},rotate=-36.87] \draw[block] (-0.35,0) rectangle node[rotate=-37]{\small $m$} (0.35,0.45); \end{scope}
+\pic[draw,angle radius=5mm,"$53^\circ$",angle eccentricity=1.6] {angle=R--L--T}; \pic[draw,angle radius=5mm,"$37^\circ$",angle eccentricity=1.7] {angle=T--R--L};
+\end{tikzpicture}

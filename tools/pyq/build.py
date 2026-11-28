@@ -69,7 +69,7 @@ for stem, g, label in PAPERS:
         if q['ch'] not in SLUGS: problems.append(f'{qid}: unknown chapter {q["ch"]}')
         if num:
             if q['o']: problems.append(f'{qid}: numerical question with options')
-            nums = q['a'] if isinstance(q['a'], list) else [q['a']]
+            nums = [] if q['a'] is None else q['a'] if isinstance(q['a'], list) else [q['a']]
             if not all(isinstance(x, (int, float)) for x in nums): problems.append(f'{qid}: numerical answer must be a number (or a list of accepted numbers)')
         else:
             if len(q['o']) != 4: problems.append(f'{qid}: {len(q["o"])} options')

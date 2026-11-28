@@ -1,0 +1,7 @@
+\begin{tikzpicture}
+\foreach \x in {0,0.5,...,2.5} \foreach \y in {0,0.5,...,3} { \draw (\x,\y) circle (0.09); \fill (\x,\y) circle (0.025); }
+\draw[line width=1.2pt] (0.8,-1) -- (0.8,2.6) arc[start angle=180,end angle=0,radius=0.5] -- (1.8,-1);
+\draw[->,line width=1pt] (0.8,1) -- (0.8,1.3); \draw[->,line width=1pt] (1.8,1.3) -- (1.8,1);
+\draw[hid] (0.8,-1) -- (0.8,-1.4) (1.8,-1) -- (1.8,-1.4);
+\begin{scope}[shift={(3.6,1)}] \draw[->] (0,0) -- (1,0) node[right]{$x$}; \draw[->] (0,0) -- (0,1) node[left]{$y$}; \draw (0,0) circle (0.1); \fill (0,0) circle (0.03); \node[below left] at (0,0) {$z$}; \end{scope}
+\end{tikzpicture}
