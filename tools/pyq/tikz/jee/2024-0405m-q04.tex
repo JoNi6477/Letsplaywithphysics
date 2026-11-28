@@ -1,0 +1,9 @@
+\begin{tikzpicture}[font=\small]
+\draw[line width=0.9pt] (0,0) circle (1.2); \draw[hid] (0,-1.8) node[below]{$B$} -- (0,1.8) node[above]{$A$}; \draw (0,0) -- (220:1.2) node[pos=0.5,below right]{$R$}; \fill (0,0) circle (1.3pt);
+\node at (-0.2,-2.4) {hollow sphere, $M$};
+\begin{scope}[xshift=3.2cm]
+\draw (0,-0.6) -- (3.2,-0.6) (0,0.6) -- (3.2,0.6); \draw (0,0) ellipse (0.2 and 0.6); \draw (3.2,0) ellipse (0.2 and 0.6);
+\draw (0,-1.4) node[below]{$B$} -- (0,1.4) node[above]{$A$}; \draw[<->] (-0.5,-0.6) -- node[left]{$2R$} (-0.5,0.6); \draw[<->] (0,-0.95) -- node[below]{$4R$} (3.2,-0.95);
+\node at (1.6,1.2) {solid cylinder, $M$};
+\end{scope}
+\end{tikzpicture}

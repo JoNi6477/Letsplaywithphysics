@@ -1,0 +1,6 @@
+\begin{tikzpicture}[font=\small,x=0.009cm,y=0.009cm]
+\draw[vec] (0,0) -- (420,0) node[right]{$V$ (in kPa)}; \draw[vec] (0,0) -- (0,400) node[above]{$P$ (in cc)}; \node[below left] at (0,0) {$0$};
+\draw[thick,acc] (200,200) circle[radius=140]; \fill[acc] (200,200) circle (1.5pt);
+\draw[vec,acc] (115,311) arc[start angle=127,end angle=60,radius=140];
+\draw[hid] (0,340) node[left]{$340$} -- (200,340); \draw[hid] (0,60) node[left]{$60$} -- (200,60); \draw[hid] (60,0) node[below]{$60$} -- (60,200); \draw[hid] (340,0) node[below]{$340$} -- (340,200);
+\end{tikzpicture}
