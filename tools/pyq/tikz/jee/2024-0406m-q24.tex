@@ -1,0 +1,6 @@
+\begin{tikzpicture}[font=\small]
+\draw[hid] (-3,0) node[left]{$-X$} -- (4.2,0) node[right]{$X$}; \draw[hid] (0,-1.6) -- (0,2.2) node[above]{$Y$}; \draw[hid] (0,0) -- (-1.4,-1.4) node[below left]{$Z$};
+\node[below right] at (0,0) {$O$};
+\foreach \x/\s/\l in {-1/-\sigma/X = -a,1/-2\sigma/X = a,3/\sigma/X = 3a} { \draw[thick] (\x,-1.6) node[below]{\scriptsize $\l$} -- (\x,2) node[above]{$\s$}; }
+\fill (2,0.9) circle (1.4pt) node[above]{$P$};
+\end{tikzpicture}
