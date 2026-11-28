@@ -1,0 +1,7 @@
+\begin{tikzpicture}[font=\small,x=0.16cm]
+\draw (-2,0) -- (60,0); \draw[vec] (0,0) -- (0,1.1);
+\draw (30,0) ellipse (0.25 and 0.95); \node[above left] at (30,1.0) {$f_1 = 10$ cm};
+\draw (35,0.95) -- (37,0.95) (35,-0.95) -- (37,-0.95); \draw (35,0.95) .. controls (36.5,0.3) and (36.5,-0.3) .. (35,-0.95); \draw (37,0.95) .. controls (35.5,0.3) and (35.5,-0.3) .. (37,-0.95); \node[above] at (36,1.5) {$f_2 = -10$ cm};
+\draw (45,0) ellipse (0.25 and 0.95); \node[above right] at (45,1.0) {$f_3 = 30$ cm};
+\draw[<->] (0,-1.3) -- node[fill=white]{$30$ cm} (30,-1.3); \draw[<->] (30,-1.3) -- node[below]{$5$ cm} (35,-1.3); \draw[<->] (35,-1.3) -- node[below]{$10$ cm} (45,-1.3);
+\end{tikzpicture}
